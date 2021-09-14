@@ -22,7 +22,7 @@ spec:
       containers:
         - name: akash-provider
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: { { .Values.image.pullPolicy } }
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/bin/sh", "/boot/run.sh"]
           env:
             ##
