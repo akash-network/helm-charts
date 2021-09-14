@@ -331,6 +331,12 @@ spec:
             - name: keys
               mountPath: /boot-keys
               readOnly: true
+            - name: run-script
+              mountPath: /boot/run.sh
+              subPath: run.sh
+            - name: run-script
+              configMap:
+                name: run-script
       volumes:
         - name: boot
           configMap:
