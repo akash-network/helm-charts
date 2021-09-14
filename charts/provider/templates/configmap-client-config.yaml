@@ -6,6 +6,6 @@ data:
   home: "/home"
   from: "main"
   node: "http://akash-node:26657"
-  chainid: "local"
+  chain-id: "local"
   keyring-backend: "test"
   trust-node: "true"
