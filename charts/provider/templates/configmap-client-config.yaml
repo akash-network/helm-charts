@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: akash-client-config
+data:
+  home: /home
+  from: main
+  node: http://akash-node:26657
+  chainid: local
+  keyring-backend: test
+  trust-node: true
