@@ -5,7 +5,9 @@ Helm's [documentation](https://helm.sh/docs) to get started.
 
 Once Helm has been set up correctly, add the repo as follows:
 
-  helm repo add akash https://ovrclk.github.io/helm-charts
+```
+helm repo add akash https://ovrclk.github.io/helm-charts
+```
 
 If you had already added this repo earlier, run `helm repo update` to retrieve
 the latest versions of the packages.  You can then run `helm search repo
@@ -15,8 +17,12 @@ akash` to see the charts.
 
 To install the provider chart:
 
-    helm install provider akash/provider
+```
+helm install provider akash/provider
+```
 
 To uninstall the chart:
 
-    helm delete provider
+```
+helm delete provider
+```
