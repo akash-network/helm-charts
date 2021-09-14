@@ -11,6 +11,9 @@ image:
 
 imagePullSecrets: []
 
+service:
+  port: 8443
+
 autoscaling:
   enabled: false
   minReplicas: 1

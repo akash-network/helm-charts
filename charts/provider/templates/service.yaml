@@ -7,4 +7,4 @@ spec:
     app: akash-provider
   ports:
     - name: gateway
-      port: 8443
+      port: { { .Values.service.port } }
