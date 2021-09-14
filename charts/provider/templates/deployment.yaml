@@ -341,13 +341,13 @@ spec:
             - name: run-script
               mountPath: /boot/run.sh
               subPath: run.sh
-            - name: run-script
-              configMap:
-                name: run-script
       volumes:
         - name: boot
           configMap:
             name: akash-provider-boot
+        - name: run-script
+          configMap:
+            name: run-script
         - name: keys
           secret:
             secretName: akash-provider-keys
