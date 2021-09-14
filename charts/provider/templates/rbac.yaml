@@ -5,6 +5,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: akash-provider
+    namespace: default
 roleRef:
   kind: ClusterRole
   name: cluster-admin
