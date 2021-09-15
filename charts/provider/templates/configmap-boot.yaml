@@ -13,6 +13,8 @@ data:
     cat $AKASH_BOOT_KEYS/key.txt
     cat $AKASH_BOOT_KEYS/key-pass.txt
 
+    sleep 5
+
     ##
     # Import key
     ##
