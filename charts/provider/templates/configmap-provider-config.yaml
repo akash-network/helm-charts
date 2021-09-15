@@ -3,33 +3,6 @@ kind: ConfigMap
 metadata:
   name: akash-provider-config
 data:
-  ##
-  #  override-able defaults
-  ##
-  # ingress-static-hosts: false
-  # ingress-domain:
-  # ingress-expose-lb-hosts: false
-  # network-policies-enabled: false
-  # max-unit-cpu: 500
-  # max-unit-memory: 1073741824
-  # max-unit-storage: 1073741824
-  # max-unit-count: 10
-  # max-unit-price: 10000
-  # min-unit-cpu: 10
-  # min-unit-memory: 1024
-  # min-unit-storage: 1024
-  # min-unit-count: 1
-  # min-unit-price: 1
-  # max-group-count: 10
-  # max-group-units: 10
-  # max-group-cpu: 1000
-  # max-group-memory: 1073741824
-  # max-group-storage: 5368709120
-  # mem-price-min: 50
-  # mem-price-max: 1048576
-  # bid-price-strategy:
-  # bid-cpu-scale:
-  # bid-storage-scale:
-  # bid-script-path:
-  # bid-script-process-limit:
-  # bid-script-process-timeout:
+  {{- range $key, $val := .Values.akash_provider }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
