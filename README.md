@@ -17,9 +17,11 @@ the latest versions of the packages. You can then run `helm search repo akash` t
 To install the provider chart make sure you have your [provider-cert.pem](https://docs.akash.network/operations/provider#creating-the-provider-on-the-blockchain) in the current directory and then set the env vars below and install the chart.
 
 ```
-akash_key=<AkashPublicAddress>
-akash_password=<mypassword>
-helm install provider akash/provider --set akash_provider.key=$akash_key --set akash_provider.keysecret=$akash_password --set-file akash_provider.providercert=provider-cert.pem
+export AKASH_KEY_NAME=<mykeyname>
+
+export AKASH_ACCOUNT_ADDRESS="$(akash keys show $AKASH_KEY_NAME -a)"
+
+helm install provider akash/provider --set akash_client.from=$AKASH_ACCOUNT_ADDRESS --set-file akash_provider.providercert=provider-cert.pem --set-file akash_provider.key=key.pem
 ```
 
 To uninstall the chart:

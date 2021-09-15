@@ -16,16 +16,15 @@ service:
 
 akash_client:
   home: "/home"
-  from: "main"
+  from:
   node: "http://135.181.60.250:26657"
   chain-id: "akashnet-2"
   keyring-backend: "test"
   trust-node: "true"
 
 akash_provider:
-  key:
-  keysecret:
   providercert:
+  key:
   ingress-static-hosts: false
   ingress-domain: "example.com"
   ingress-expose-lb-hosts: false
