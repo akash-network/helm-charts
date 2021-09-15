@@ -10,19 +10,13 @@ data:
 
     env | sort
 
-    sed 's/\"//g' $AKASH_BOOT_KEYS/key.txt > /tmp/key.txt
-    sed 's/\"//g' $AKASH_BOOT_KEYS/key-pass.txt > /tmp/key-pass.txt
-
     cat $AKASH_BOOT_KEYS/key.txt
     cat $AKASH_BOOT_KEYS/key-pass.txt
-
-    cat /tmp/key.txt
-    cat /tmp/key-pass.txt
 
     ##
     # Import key
     ##
-    /bin/akash --home="$AKASH_HOME" keys import --keyring-backend="$AKASH_KEYRING_BACKEND"  "$AKASH_FROM" "/tmp/key.txt" < "/tmp/key-pass.txt"
+    /bin/akash --home="$AKASH_HOME" keys import --keyring-backend="$AKASH_KEYRING_BACKEND"  "$AKASH_FROM" "$AKASH_BOOT_KEYS/key.txt" < "$AKASH_BOOT_KEYS/key-pass.txt"
 
     ##
     # Run daemon
