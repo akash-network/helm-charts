@@ -27,7 +27,7 @@ akash_provider:
   keysecret:
   providercert:
   ingress-static-hosts: false
-  ingress-domain:
+  ingress-domain: "example.com"
   ingress-expose-lb-hosts: false
   network-policies-enabled: false
   max-unit-cpu: 500
@@ -47,16 +47,9 @@ akash_provider:
   max-group-storage: 5368709120
   mem-price-min: 50
   mem-price-max: 1048576
-  bid-price-strategy:
-  bid-cpu-scale:
-  bid-storage-scale:
-  bid-script-path:
-  bid-script-process-limit:
-  bid-script-process-timeout:
 
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
