@@ -8,6 +8,11 @@ data:
 
     set -e
 
+    env | sort
+
+    cat $AKASH_BOOT_KEYS/key.txt
+    cat $AKASH_BOOT_KEYS/key-pass.txt
+
     ##
     # Import key
     ##
