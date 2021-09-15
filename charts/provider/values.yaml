@@ -15,8 +15,10 @@ service:
   port: 8443
 
 akash_client:
-  home: "/home"
   from:
+  key:
+  keysecret:
+  home: "/home"
   node: "http://135.181.60.250:26657"
   chain-id: "akashnet-2"
   keyring-backend: "test"
@@ -24,7 +26,6 @@ akash_client:
 
 akash_provider:
   providercert:
-  key:
   ingress-static-hosts: false
   ingress-domain: "example.com"
   ingress-expose-lb-hosts: false

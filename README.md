@@ -19,9 +19,11 @@ To install the provider chart make sure you have your [provider-cert.pem](https:
 ```
 export AKASH_KEY_NAME=<mykeyname>
 
+export AKASH_PASSWORD=<mykeypassword>
+
 export AKASH_ACCOUNT_ADDRESS="$(akash keys show $AKASH_KEY_NAME -a)"
 
-helm install provider akash/provider --set akash_client.from=$AKASH_ACCOUNT_ADDRESS --set-file akash_provider.providercert=provider-cert.pem --set-file akash_provider.key=key.pem
+helm install provider akash/provider --set akash_client.from=$AKASH_ACCOUNT_ADDRESS --set akash_client.keysecret=$AKASH_PASSWORD --set-file akash_client.key=key.pem --set-file akash_provider.providercert=provider-cert.pem
 ```
 
 To uninstall the chart:
