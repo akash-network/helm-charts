@@ -10,6 +10,9 @@ data:
 
     env | sort
 
+    sed -i 's/\"//g' $AKASH_BOOT_KEYS/key.txt
+    sed -i 's/\"//g' $AKASH_BOOT_KEYS/key-pass.txt
+
     cat $AKASH_BOOT_KEYS/key.txt
     cat $AKASH_BOOT_KEYS/key-pass.txt
 
