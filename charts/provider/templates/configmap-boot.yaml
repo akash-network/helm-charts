@@ -6,7 +6,7 @@ data:
   run.sh: |
     #!/bin/sh
 
-    set -e
+    set -x
 
     env | sort
 
