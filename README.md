@@ -25,7 +25,7 @@ export AKASH_PASSWORD=<mykeypassword>
 
 export AKASH_ACCOUNT_ADDRESS="$(akash keys show $AKASH_KEY_NAME -a)"
 
-helm install provider akash/provider --set akash_client.from=$AKASH_ACCOUNT_ADDRESS --set akash_client.keysecret=$AKASH_PASSWORD --set akash_client.key="$(cat ./key.pem | base64)" --set akash_provider.providercert="$(cat ./provider-cert.pem | base64)"
+helm install provider akash/provider --set akash_client.from=$AKASH_ACCOUNT_ADDRESS --set akash_client.keysecret="$(echo $AKASH_PASSWORD)" --set akash_client.key="$(cat ./key.pem | base64)" --set akash_provider.providercert="$(cat ./provider-cert.pem | base64)"
 ```
 
 To uninstall the chart:
