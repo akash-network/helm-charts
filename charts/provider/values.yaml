@@ -30,7 +30,7 @@ akash_provider:
   ingress-domain: "example.com"
   ingress-expose-lb-hosts: false
   network-policies-enabled: false
-  bid_price_strategy: "randomRange"
+  bid-price-strategy: "randomRange"
   max-unit-cpu: 500
   max-unit-memory: 1073741824
   max-unit-storage: 1073741824
