@@ -14,9 +14,13 @@ the latest versions of the packages. You can then run `helm search repo akash` t
 
 ### Example
 
-To install the provider chart make sure you have your [provider-cert.pem](https://docs.akash.network/operations/provider#creating-the-provider-on-the-blockchain) in the current directory and then set the env vars below and install the chart.
+To install the provider chart make sure you have the following setup:
 
-You will also need your Akash private key in a file named `key.pem` in the current directory.
+- Place a [provider-cert.pem](https://docs.akash.network/operations/provider#creating-the-provider-on-the-blockchain) in the current directory
+- Place your private key in a file named `key.pem` in the current directory
+- Set the `AKASH_KEY_NAME` and `AKASH_PASSWORD` env vars
+- Install the [Akash network CRD](https://github.com/ovrclk/akash/blob/master/pkg/apis/akash.network/v1/crd.yaml)
+- Install the [Provider host CRD](https://github.com/ovrclk/akash/blob/troian/storage/pkg/apis/akash.network/v1/provider_hosts_crd.yaml)
 
 ```
 export AKASH_KEY_NAME=<mykeyname>
