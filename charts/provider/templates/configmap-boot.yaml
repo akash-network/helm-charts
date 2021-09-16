@@ -4,7 +4,7 @@ metadata:
   name: akash-provider-boot
 data:
   run.sh: |
-    #!/bin/sh
+    #!/bin/bash
 
     set -x
 
