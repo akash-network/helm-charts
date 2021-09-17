@@ -1,0 +1,239 @@
+apiVersion: v1
+clusters:
+- cluster:
+    server: https://k8s-master.provider-0.test1.ewr1.aksh.pw:6443
+    insecure-skip-tls-verify: true
+  name: testnet-1
+contexts:
+- context:
+    cluster: testnet-1
+    user: kubernetes-admin
+  name: kubernetes-admin@testnet-1
+current-context: kubernetes-admin@testnet-1
+kind: Config
+preferences: {}
+users:
+- name: kubernetes-admin
+  user:
+    client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURFekNDQWZ1Z0F3SUJBZ0lJZGU5NVdhZUFZTTR3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TVRBNU1EY3hPVE0xTkRCYUZ3MHlNakE1TURjeE9UTTFORE5hTURReApGekFWQmdOVkJBb1REbk41YzNSbGJUcHRZWE4wWlhKek1Sa3dGd1lEVlFRREV4QnJkV0psY201bGRHVnpMV0ZrCmJXbHVNSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQTRNOTRhbzF0N1pMcm05ZU0KWXBrT1d0ODVKVzFEMStSMm9nTTdoZmZ2TVRDeW5ONGEycVc4aDNrVDFXSUNDRXVuS1JMVnBLNWN0Ky9KdmpNUgpWTmk2T0dQVkdmV0dYQXB6cXcrK0F0M2syTnFJUVZlelI4bG9sdTFOelZRckF1NXVtcWF5YWdpTUVpTXVPTnhUCmF5eFY4Z1FPQjRESDFUaWZhVWVoN3lGY0dPRjN4SUNTb0hmVk1xSFdOREwranhEN1QvTnVOcDNmMlh1N3IxaHMKdEkzM2JmSWp2WXZMZzdVbmdZaUZLbmRPekJvWUE0SDY1bi84NUNaakZtMERuZm5ocHBPWjViOEZjWTBTVkMyUApZMGd5bWJoanEvMjNQVmk2UFJIQ0JSeFQ2Q1grUVdFcWlHdDJ5NzhBR21iSWlMbnkxN3JtZWVYMkk1RURhMXVyCk90RGd4d0lEQVFBQm8wZ3dSakFPQmdOVkhROEJBZjhFQkFNQ0JhQXdFd1lEVlIwbEJBd3dDZ1lJS3dZQkJRVUgKQXdJd0h3WURWUjBqQkJnd0ZvQVVjNDFDR0M4RldXZ2ZJTzBaVkVlSzM0V0IvTzB3RFFZSktvWklodmNOQVFFTApCUUFEZ2dFQkFKZnM4V2x2R2ZTQzE0bWdVVGVFY0xoNVlOY2lJcjFuQUJFUnRiOEhEdFFYTHE1THhXd1pvT0NCCnVMcFNWVzRSdE9MOFUzK0ZQL2pjWXdHcnR6TlFENUo4TmM2YTFDYTNWUnoyb2FjZjRMMTlaOHh3dkF3ZUtOejcKTEVOWFV1NzFTVitJelhXR3o4d0gzVGoyVC9LQ1NWS05mOVAycUtZVm0yVkIwVmRMV3pBSXBtNDJNSFNuenEraQpRZXpuanZvZnNHNVc2QUNWS0pRZ3NHU2VhRmxUS29Fc1dPR3dEbkJlQzRNeXlMS3Y2dy83d0RBeW5FZzVhNmppCkxaTEJqL0EwM21XK0FYVUZsQms1cWRpUFZic3Rzb3RzdkhURDFNcm5UbXp5U0hyVGlSbHR2dkRFb2M0M01uTDIKNTJtMDkxNDdFbVRPZWNoYWVOQkU5ZGZuSG94K2Z6Yz0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+    client-key-data: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcFFJQkFBS0NBUUVBNE05NGFvMXQ3WkxybTllTVlwa09XdDg1SlcxRDErUjJvZ003aGZmdk1UQ3luTjRhCjJxVzhoM2tUMVdJQ0NFdW5LUkxWcEs1Y3QrL0p2ak1SVk5pNk9HUFZHZldHWEFwenF3KytBdDNrMk5xSVFWZXoKUjhsb2x1MU56VlFyQXU1dW1xYXlhZ2lNRWlNdU9OeFRheXhWOGdRT0I0REgxVGlmYVVlaDd5RmNHT0YzeElDUwpvSGZWTXFIV05ETCtqeEQ3VC9OdU5wM2YyWHU3cjFoc3RJMzNiZklqdll2TGc3VW5nWWlGS25kT3pCb1lBNEg2CjVuLzg1Q1pqRm0wRG5mbmhwcE9aNWI4RmNZMFNWQzJQWTBneW1iaGpxLzIzUFZpNlBSSENCUnhUNkNYK1FXRXEKaUd0Mnk3OEFHbWJJaUxueTE3cm1lZVgySTVFRGExdXJPdERneHdJREFRQUJBb0lCQVFESFdCRTk0cFVrZ2cvOApDOEZIT05NYXp5KzhPVXhjWnhDdkR0QzhOYUxhNm9TblJ1ZG5GR205Y3lhY0l5RU1QQkZKQVpPQ1NMNmN0N3NiCnRlcmJZcWFXRkNoRnNZcG5tVGtCNlo2aXFpSWdESCtmK1dWVzlZaVJ0SEUxN2ptSml1VjJxdlF2dzg1NDBzdE0KemtvR0ViVlFPam82ZXY0MzJ0SzRKelczZHN4VW5nZjdsOWF4bVY5NDZZR0c4T09HZElGNjAwcmF0UitsRWxJUwpDYVgrWVdtM3lkWVIwYTh6MVUrY3MxbnhQRXFwUm5zWVhRbGZTZCtCVnZFZ3pMOFJ4YllCZnNTc3FMNTFrcWZkClFOdndxbjBzeGoyczU2NHpBSWFER3lnc3c1VVptWGpUUG90Qm1sdkkwbzVLVEVEU0tmR25JSXp3MTRHMEtJL3kKMGVFT216Q3BBb0dCQU8wcnlJMkRrME5hWFAyc1ErMzFyMDJEOTdqb1lSY0JPcEl0bFpVaEIxeDdqQ0U1ZjNDWQpuSWhTdXgrbHJDQnp6dis5Qi9ZemQ4aE0yaXlyalR4TmQ1S2FLYUt4ZURTeGZTUXFsRURwMkxxb1NlWkxKMEc2CnBqVEpROGJWazUvalZZYUludXhhclhkbXVldnh3cW1tZHA3eVA5eVJyV3h4SUVBaWFpQmh6bzVsQW9HQkFQS28KZVA5dG4xaU54S0ozNFNJdHg1Mmg5RUdLaExoWGl4SjNUd3Z0ZTVuQnJ1ZEo2ZTJuVkJ5NkU5OW9oMkJobFZOTgpLS1JlZ2hrNGNuaENScmw1dGtCb3VNR3BVUnNBeVpoRkpWYXBUUER4dXJUc1JSZE5WcGRTVHhEYThqc0pwelBDClptK2p4YzV1RGExZVEybWJpdlB0dDZ2MXVhcFlkRDRTOTUwQSt4bTdBb0dCQUpUdmNNTEZSSDRBU2ZNVzhaV0cKT2k3QVY1anJmTVRZaGJKMEk4SUJlc0R0Nk1LWWU5bjJUQjRqYmRUaTBlT1ROZ05NN3FvQ0NnOWppNEtQdkdLSQo5elM5MExXVklycGNWd3lXSElGakdER25LcmtPcXJsUS83eVlReEtpM2xDQ2p4dXJ3YmtFL0hmRnI2MW1KV3NwCjJNWFp0SmJMZUk5bnZ1dm5jS09qSi9ZdEFvR0JBSk56N0pMS2VsbkZUQWV0OFJCajRUallnU1NTbDdPcy9zVnAKMm83VThKYXVLeXBBci9YS0NFS3NrQWJoN2VHVGFyb0QyUDZJcjJYRDkwczhldDJhS0RWYmJXbkJDWmZ2RXBHRQo4dnVHUlVya21SLzNzc1JHS3FncFRBSmlDVy8ybmJQR0haa1pXOG5rOWtxelRTT1BjUkJwRTROYS9rZVZHSTNmCjJMZC9NUmFoQW9HQWJNaTB1bFR1TkhXUitYZ1liOTI2bmpINFY5K1Rtb2x6MUlIUCtBQkpDemJHQ080T0loNXMKZ1gxV1NHQTh0RHFGU1RTSWtSQVNINHFlMDhwUURLVWpEZVZrSWs1SGFkR2VFY0greDBIWlh1Y0c1WFRDY3VYTwphRXRLUmFCSGRSeFJLSUM2NWtvdGtlbFB1OWo1bkJtdkU0aEdyR1NJcTRPTHlFQ21IWnV0V2E4PQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
+stevensmacbook:infra-ops sacreman$ history | grep export
+  230  export AKASH_ACCOUNT_ADDRESS="$(akash keys show $AKASH_KEY_NAME -a)"
+  234  export AKASH_NODE="$(curl -s "$AKASH_NET/rpc-nodes.txt" | head -1)"
+  304  akash   --keyring-backend "$AKASH_KEYRING_BACKEND"   keys export "$AKASH_KEY_NAME"
+  305  akash   --keyring-backend "$AKASH_KEYRING_BACKEND"   keys export "$AKASH_KEY_NAME"
+  312  vi mykey.export
+  313  vi mykey.export
+  314  vi mykey.export
+  315  akash keys import steven ./mykey.export
+  325  export AKASH_CHAIN_ID="$(curl -s "$AKASH_NET/chain-id.txt")"
+  346  export | grep chain
+  347  export | grep -i chain
+  367  akash keys export
+  368  akash keys export
+  370  history | grep export
+  371  akash   --keyring-backend "$AKASH_KEYRING_BACKEND"   keys export "$AKASH_KEY_NAME"
+  525  export KUBECONFIG=testnet-1.conf
+  533  history | grep export
+stevensmacbook:infra-ops sacreman$ kubectl get pods
+NAME                              READY   STATUS    RESTARTS   AGE
+akash-provider-7fcd75b566-mkg6p   1/1     Running   0          12m
+stevensmacbook:infra-ops sacreman$ ls
+README.md                 env.sh                    play                      playbook-dns-cluster.yml  playbook-kubespray.yml    playbook-test.yml         requirements.yml
+bringup.yml               eqmbox                    playbook-base.yml         playbook-dns-priv.yml     playbook-node.yml         priv                      roles
+defaults.yml              kubespray                 playbook-cluster-init.yml playbook-dns-svc.yml      playbook-provider.yml     requirements.txt          testnet-1.conf
+stevensmacbook:infra-ops sacreman$ ssh root@k8s-master.provider-0.test1.ewr1.aksh.pw
+Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.4.0-84-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Fri 17 Sep 2021 12:50:21 PM UTC
+
+  System load:  0.17               Processes:              589
+  Usage of /:   1.4% of 437.99GB   Users logged in:        0
+  Memory usage: 1%                 IPv4 address for bond0: 147.75.67.27
+  Swap usage:   0%                 IPv6 address for bond0: 2604:1380:0:c800::77
+  Temperature:  30.0 C             IPv4 address for tunl0: 10.233.248.0
+
+ * Super-optimized for small spaces - read how we shrank the memory
+   footprint of MicroK8s to make it the smallest full K8s around.
+
+   https://ubuntu.com/blog/microk8s-memory-optimisation
+
+5 updates can be applied immediately.
+1 of these updates is a standard security update.
+To see these additional updates run: apt list --upgradable
+
+
+Last login: Fri Sep 17 09:39:51 2021 from 125.25.75.216
+root@k8s-master:~# ls
+crd.yaml  genesis.json  key.pem  kube-manifests  password.txt  provider-cert.pem  provider_hosts_crd.yaml  provider.yaml
+root@k8s-master:~# kubectl get pods
+NAME                              READY   STATUS    RESTARTS   AGE
+akash-provider-7fcd75b566-mkg6p   1/1     Running   0          46m
+root@k8s-master:~# ls
+crd.yaml  genesis.json  key.pem  kube-manifests  password.txt  provider-cert.pem  provider_hosts_crd.yaml  provider.yaml
+root@k8s-master:~# cat crd.yaml
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: manifests.akash.network
+spec:
+  group: akash.network
+  scope: Namespaced
+  names:
+    plural: manifests
+    singular: manifest
+    kind: Manifest
+    shortNames:
+      - mani
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                lease_id:
+                  type: object
+                  properties:
+                    owner:
+                      type: string
+                    dseq:
+                      type: string
+                      format: uint64
+                    gseq:
+                      type: integer
+                    oseq:
+                      type: integer
+                    provider:
+                      type: string
+                group:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    services:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          image:
+                            type: string
+                          args:
+                            type: array
+                            items:
+                              type: string
+                          env:
+                            type: array
+                            items:
+                              type: string
+                          unit:
+                            type: object
+                            properties:
+                              cpu:
+                                type: number
+                                format: uint32
+                              memory:
+                                type: string
+                                format: uint64
+                              storage:
+                                type: array
+                                items:
+                                  type: string
+                                  format: uint64
+                          count:
+                            type: number
+                            format: uint64
+                          expose:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                port:
+                                  type: integer
+                                  format: uint16
+                                external_port:
+                                  type: integer
+                                  format: uint16
+                                proto:
+                                  type: string
+                                service:
+                                  type: string
+                                global:
+                                  type: boolean
+                                http_options:
+                                  type: object
+                                  properties:
+                                    max_body_size:
+                                      type: integer
+                                    read_timeout:
+                                      type: integer
+                                    send_timeout:
+                                      type: integer
+                                    next_tries:
+                                      type: integer
+                                    next_timeout:
+                                      type: integer
+                                    next_cases:
+                                      type: array
+                                      items:
+                                        type: string
+
+                                hosts:
+                                  type: array
+                                  items:
+                                    type: string
+                          params:
+                            type: object
+                            nullable: true
+                            properties:
+                              storage:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    name:
+                                      type: string
+                                    readOnly:
+                                      type: boolean
+                                    mount:
+                                      type: string
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: storageclassinfos.akash.network
+spec:
+  group: akash.network
+  scope: Cluster
+  names:
+    plural: storageclassinfos
+    singular: storageclassinfo
+    kind: StorageClassInfo
+    shortNames:
+      - sci
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                capacity:
+                  type: integer
+                  format: int64
+                  default: -1
+                  minimum: -1
