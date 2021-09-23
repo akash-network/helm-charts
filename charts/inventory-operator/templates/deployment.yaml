@@ -4,6 +4,9 @@ metadata:
   name: {{ include "inventory-operator.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
+    akash.network: "true"
+    operator: akash
+    storage-backend : ceph
     {{- include "inventory-operator.labels" . | nindent 4 }}
 spec:
 {{- if not .Values.autoscaling.enabled }}
@@ -22,9 +25,10 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
-        akash.network: "true"
-        operator: akash
-        storage-backend : ceph
+        app: inventory-operator
+        app.kubernetes.io/name: akash
+        app.kubernetes.io/instance: inventory
+        app.kubernetes.io/component: operator
         {{- include "inventory-operator.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
