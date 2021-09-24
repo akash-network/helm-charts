@@ -1,11 +1,12 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: akash-provider-admin
+  name: {{ include "inventory-operator.fullname" . }}-admin
+  namespace: {{ .Release.Namespace }}
 subjects:
   - kind: ServiceAccount
-    name: akash-provider
-    namespace: default
+    name: {{ include "inventory-operator.fullname" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: cluster-admin

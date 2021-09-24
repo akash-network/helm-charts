@@ -27,13 +27,13 @@ export AKASH_KEY_NAME=<mykeyname>
 export AKASH_PASSWORD=<mykeypassword>
 export AKASH_ACCOUNT_ADDRESS="$(akash keys show $AKASH_KEY_NAME -a)"
 
-helm install provider akash/provider --set akash_client.from=$AKASH_ACCOUNT_ADDRESS --set akash_client.keysecret="$(echo $AKASH_PASSWORD | base64)" --set akash_client.key="$(cat ./key.pem | base64)" --set akash_provider.providercert="$(cat ./provider-cert.pem | base64)"
+helm install akash-provider akash/akash-provider --set akash_client.from=$AKASH_ACCOUNT_ADDRESS --set akash_client.keysecret="$(echo $AKASH_PASSWORD | base64)" --set akash_client.key="$(cat ./key.pem | base64)" --set akash_provider.providercert="$(cat ./provider-cert.pem | base64)"
 ```
 
 To uninstall the chart:
 
 ```
-helm delete provider
+helm delete akash-provider
 ```
 
 ### Connecting to a Testnet
@@ -52,7 +52,7 @@ key.pem provider-cert.pem
 Then run the helm install and pass in the relevant options.
 
 ```
-helm install provider akash/provider \
+helm install akash-provider akash/akash-provider \
      --set akash_client.from="$AKASH_ACCOUNT_ADDRESS" \
      --set akash_client.keysecret="$(echo -n $AKASH_PASSWORD | base64)" \
      --set akash_client.key="$(cat ./key.pem | base64)" \
