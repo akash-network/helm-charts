@@ -10,7 +10,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
 spec:
   rules:
-    - host: {{ include "inventory-operator.fullname" . }}.localhost
+    - host: {{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
