@@ -19,6 +19,7 @@ ingress:
   # Pubicly routable FQDN of the the Provider
   #
   domain: ""
+  classname: nginx
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -69,16 +70,16 @@ akash_client:
   from:
   key:
   keysecret:
-  home: "/home"
-  node: "http://135.181.60.250:26657"
-  chain-id: "akashnet-2"
+  home: "/root/.akash"
+  node:
+  chain-id:
   keyring-backend: "test"
   trust-node: "true"
 
 akash_provider:
   providercert:
   ingress-static-hosts: false
-  ingress-domain: "example.com"
+  ingress-domain: "localhost.local"
   ingress-expose-lb-hosts: false
   network-policies-enabled: false
   bid-price-strategy: "randomRange"
