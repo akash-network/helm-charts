@@ -5,9 +5,14 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/ovrclk/akash
+  repository: ovrclk/akashd
+  tag: latest
   pullPolicy: IfNotPresent
-  tag: stable
+
+akashd:
+  ports:
+    p2p: 26656
+    rpc: 26657
 
 installCRDs: true
 
