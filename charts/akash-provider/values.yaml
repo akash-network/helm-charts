@@ -4,6 +4,11 @@
 
 replicaCount: 1
 
+image:
+  repository: ghcr.io/ovrclk/akash
+  pullPolicy: IfNotPresent
+  tag: stable
+
 installCRDs: true
 
 imagePullSecrets: []
