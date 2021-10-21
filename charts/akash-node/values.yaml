@@ -5,10 +5,14 @@
 replicaCount: 1
 
 image:
-  repository: nginx
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  repository: ovrclk/akashd
   tag: latest
+  pullPolicy: IfNotPresent
+
+akashd:
+  ports:
+    p2p: 26656
+    rpc: 26657
 
 imagePullSecrets: []
 nameOverride: ""

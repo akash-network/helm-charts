@@ -4,27 +4,11 @@
 
 replicaCount: 1
 
-image:
-  repository: ovrclk/akashd
-  tag: latest
-  pullPolicy: IfNotPresent
-
-akashd:
-  ports:
-    p2p: 26656
-    rpc: 26657
-
 installCRDs: true
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-
-ingress:
-  # Pubicly routable FQDN of the the Provider
-  #
-  domain: ""
-  classname: nginx
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -84,7 +68,7 @@ akash_client:
 akash_provider:
   providercert:
   ingress-static-hosts: false
-  ingress-domain: "localhost.local"
+  ingress-domain:
   ingress-expose-lb-hosts: false
   network-policies-enabled: false
   bid-price-strategy: "randomRange"
