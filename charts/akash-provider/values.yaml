@@ -76,6 +76,7 @@ akash_provider:
   ingress-domain:
   ingress-expose-lb-hosts: false
   network-policies-enabled: false
+  k8s-manifest-ns: "lease"
   bid-price-strategy: "randomRange"
   max-unit-cpu: 500
   max-unit-memory: 1073741824
