@@ -47,15 +47,15 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: akash-hostname-operator.localhost
-    http:
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: akash-hostname-operator
-              port:
-                name: status
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: akash-hostname-operator
+                port:
+                  name: status
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

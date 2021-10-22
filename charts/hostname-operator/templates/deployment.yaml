@@ -49,10 +49,10 @@ spec:
               readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-        volumes:
-          - name: boot
-            configMap:
-              name: akash-hostname-operator-boot
+      volumes:
+        - name: boot
+          configMap:
+            name: akash-hostname-operator-boot
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

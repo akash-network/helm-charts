@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "inventory-operator.fullname" . }}-boot
+  name: {{ include "hostname-operator.fullname" . }}-boot
   namespace: {{ .Release.Namespace }}
 data:
   run.sh: |
