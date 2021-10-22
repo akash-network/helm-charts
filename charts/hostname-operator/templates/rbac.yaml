@@ -5,6 +5,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: {{ include "hostname-operator.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: manage-ingress
@@ -17,6 +18,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: {{ include "hostname-operator.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: watch-providerhosts
@@ -29,6 +31,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: {{ include "hostname-operator.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: watch-manifests
