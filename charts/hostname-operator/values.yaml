@@ -41,21 +41,20 @@ service:
 
 ingress:
   enabled: true
-  className: ""
+  className: "akash-ingress-class"
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: akash-hostname-operator.localhost
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: akash-hostname-operator
-                port:
-                  name: status
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: akash-hostname-operator
+              port:
+                number: 8188
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
