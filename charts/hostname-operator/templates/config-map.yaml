@@ -7,12 +7,3 @@ data:
   run.sh: |
     #!/bin/sh
     exec /bin/akash provider hostname-operator
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: akash-provider-config
-  namespace: {{ .Release.Namespace }}
-data:
-  - k8s-manifest-ns=lease
