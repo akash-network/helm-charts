@@ -4,7 +4,7 @@ metadata:
   name: akash-operator-manage-hostnames
 subjects:
   - kind: ServiceAccount
-    name: akash-operator
+    name: {{ include "hostname-operator.serviceAccountName" . }}
 roleRef:
   kind: ClusterRole
   name: manage-ingress
@@ -16,7 +16,7 @@ metadata:
   name: akash-operator-watch-providerhosts
 subjects:
   - kind: ServiceAccount
-    name: akash-operator
+    name: {{ include "hostname-operator.serviceAccountName" . }}
 roleRef:
   kind: ClusterRole
   name: watch-providerhosts
@@ -28,7 +28,7 @@ metadata:
   name: akash-operator-watch-manifests
 subjects:
   - kind: ServiceAccount
-    name: akash-operator
+    name: {{ include "hostname-operator.serviceAccountName" . }}
 roleRef:
   kind: ClusterRole
   name: watch-manifests
