@@ -9,12 +9,16 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
-node:
-  genesis:
-  priv_validator_key:
-  priv_validator_state:
-  node_key:
-  peers: []
+akash_node:
+  moniker:
+  net:
+  from:
+  key:
+  keysecret:
+  home: "/root/.akash"
+  node:
+  chain-id:
+  keyring-backend: "test"
 
 akashd:
   ports:

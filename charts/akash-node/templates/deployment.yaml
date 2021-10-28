@@ -35,22 +35,29 @@ spec:
           command: [ "/bin/sh" , "/config/run.sh" ]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: AKASHD_DATA
-              value: /data
-            - name: AKASHD_RPC_LADDR
-              value: "tcp://0.0.0.0:{{ .Values.akashd.ports.rpc }}"
-            - name: AKASHD_P2P_SEEDS
-              value: "{{- range $i,$p := .Values.node.peers }}{{if $i}},{{end}}{{ $p.id }}@{{ $p.name }}:{{ $.Values.akashd.ports.p2p }}{{- end }}"
+            - name: AKASH_MONIKER
+              value: {{ .Values.akash_node.moniker }}
+            - name: AKASH_NET
+              value: {{ .Values.akash_node.net }}
+            - name: AKASH_HOME
+              value: {{ .Values.akash_node.home }}
+            - name: AKASH_FROM
+              value: {{ .Values.akash_node.from }}
+            - name: AKASH_NODE
+              value: {{ .Values.akash_node.node }}
+            - name: AKASH_CHAIN_ID
+              value: {{ .Values.akash_node.chain-id }}
+            - name: AKASH_KEYRING_BACKEND
+              value: {{ .Values.akash_node.keyring-backend }}
           ports:
             - containerPort: {{ .Values.akashd.ports.p2p }}
               name: akashd-p2p
             - containerPort: {{ .Values.akashd.ports.rpc }}
               name: akashd-rpc
           volumeMounts:
-            - name: config
-              mountPath: /config
-            - name: data
-              mountPath: /data
+            - name: keys
+              mountPath: /boot-keys
+              readOnly: true
           livenessProbe:
             httpGet:
               path: /
@@ -74,9 +81,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        - name: config
-          configMap:
-            name: {{ template "akash-node.fullname" . }}
-        - name: data
-          persistentVolumeClaim:
-            claimName: {{ template "akash-node.fullname" . }}
+        - name: keys
+          secret:
+            secretName: {{ include "akash-node.fullname" . }}-keys

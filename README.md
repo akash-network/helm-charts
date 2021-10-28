@@ -12,7 +12,7 @@ helm repo add akash https://ovrclk.github.io/helm-charts
 If you had already added this repo earlier, run `helm repo update` to retrieve
 the latest versions of the packages. You can then run `helm search repo akash` to see the charts.
 
-### Example
+## Example Provider Install
 
 To install the provider chart make sure you have the following setup:
 

@@ -5,27 +5,30 @@ metadata:
   labels:
     {{- include "akash-node.labels" . | nindent 4 }}
 data:
-  genesis.json: |
-{{ .Values.node.genesis | indent 4 }}
-  priv_validator_key.json: |
-{{ .Values.node.priv_validator_key | indent 4 }}
-  priv_validator_state.json: |
-{{ .Values.node.priv_validator_state | indent 4 }}
-  node_key.json: |
-{{ .Values.node.node_key | indent 4 }}
-  peers.txt: |
-    {{- range $item := .Values.node.peers }}
-    {{ $item.name }} {{ $item.id }}
-    {{- end }}
   run.sh: |
+    #!/bin/bash
+
     set -x
-    env
-    echo "found seeds: $AKASHD_P2P_SEEDS"
-    mkdir -p "$AKASHD_DATA/config"
-    cp /config/genesis.json        "$AKASHD_DATA/config"
-    cp /config/priv_validator_key.json "$AKASHD_DATA/config"
-    cp /config/node_key.json       "$AKASHD_DATA/config"
-    mkdir -p "$AKASHD_DATA/data"
-    cp /config/priv_validator_state.json "$AKASHD_DATA/data"
-    rm -rf "$AKASHD_DATA/config/addrbook.json"
-    /akashd start
+
+    ##
+    # Import key
+    ##
+    cat "$AKASH_BOOT_KEYS/key-pass.txt" | { cat ; echo ; } | /bin/akash --home="$AKASH_HOME" keys import --keyring-backend="$AKASH_KEYRING_BACKEND"  "$AKASH_FROM" "$AKASH_BOOT_KEYS/key.txt"
+
+    ##
+    # Run daemon
+    ##
+    /bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
+    curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME"/config/genesis.json
+    akash tx staking create-validator \
+      --amount=1000000uakt \
+      --pubkey="$(/bin/akash tendermint show-validator)" \
+      --moniker="$AKASH_MONIKER" \
+      --chain-id="$AKASH_CHAIN_ID" \
+      --commission-rate="0.10" \
+      --commission-max-rate="0.20" \
+      --commission-max-change-rate="0.01" \
+      --min-self-delegation="1" \
+      --gas="auto" \
+      --gas-prices="0.025uakt" \
+      --from="$AKASH_FROM"
