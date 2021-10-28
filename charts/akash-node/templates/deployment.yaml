@@ -55,6 +55,9 @@ spec:
             - containerPort: {{ .Values.akashd.ports.rpc }}
               name: akashd-rpc
           volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
             - name: keys
               mountPath: /boot-keys
               readOnly: true
@@ -81,6 +84,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
+        - name: config
+          configMap:
+            name: {{ include "akash-node.fullname" . }}-config
         - name: keys
           secret:
             secretName: {{ include "akash-node.fullname" . }}-keys
