@@ -19,7 +19,11 @@ data:
     # Run daemon
     ##
     /bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
+
+    apt update
+    apt -y install curl
     curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME"/config/genesis.json
+    
     akash tx staking create-validator \
       --amount=1000000uakt \
       --pubkey="$(/bin/akash tendermint show-validator)" \
