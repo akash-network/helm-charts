@@ -17,8 +17,8 @@ akash_node:
   keysecret:
   home: "/root/.akash"
   node:
-  chain-id:
-  keyring-backend: "test"
+  chain_id:
+  keyring_backend: "test"
 
 akashd:
   ports:
