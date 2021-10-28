@@ -5,9 +5,9 @@
 replicaCount: 1
 
 image:
-  repository: ovrclk/akashd
-  tag: latest
+  repository: ghcr.io/ovrclk/akash
   pullPolicy: IfNotPresent
+  tag: stable
 
 akash_node:
   moniker:
