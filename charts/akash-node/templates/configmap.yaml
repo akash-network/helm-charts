@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "akash-node.fullname" . }}
+  labels:
+    {{- include "akash-node.labels" . | nindent 4 }}
+data:
+  genesis.json: |
+{{ .Values.node.genesis | indent 4 }}
+  priv_validator_key.json: |
+{{ .Values.node.priv_validator_key | indent 4 }}
+  priv_validator_state.json: |
+{{ .Values.node.priv_validator_state | indent 4 }}
+  node_key.json: |
+{{ .Values.node.node_key | indent 4 }}
+  peers.txt: |
+    {{- range $item := .Values.node.peers }}
+    {{ $item.name }} {{ $item.id }}
+    {{- end }}
+  run.sh: |
+    set -x
+    env
+    echo "found seeds: $AKASHD_P2P_SEEDS"
+    mkdir -p "$AKASHD_DATA/config"
+    cp /config/genesis.json        "$AKASHD_DATA/config"
+    cp /config/priv_validator_key.json "$AKASHD_DATA/config"
+    cp /config/node_key.json       "$AKASHD_DATA/config"
+    mkdir -p "$AKASHD_DATA/data"
+    cp /config/priv_validator_state.json "$AKASHD_DATA/data"
+    rm -rf "$AKASHD_DATA/config/addrbook.json"
+    /akashd start
