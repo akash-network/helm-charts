@@ -7,9 +7,9 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.akashd.ports.p2p }}-1
+    - port: 26651
       name: akashd-p2p
-    - port: {{ .Values.akashd.ports.rpc }}-1
+    - port: 26661
       name: akashd-rpc
   selector:
     {{- include "akash-node.selectorLabels" . | nindent 4 }}
