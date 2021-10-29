@@ -37,7 +37,7 @@ spec:
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           env:   
             - name: NODE
-              value: {{ . }}
+              value: "{{ . }}"
             - name: AKASH_BOOT_KEYS
               value: /boot-keys
             - name: AKASH_MONIKER
