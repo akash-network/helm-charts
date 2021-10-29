@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "akash-node.fullname" . }}
+  name: {{ include "akash-node.fullname" . }}-validator
   labels:
     {{- include "akash-node.labels" . | nindent 4 }}
 spec:
@@ -32,7 +32,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: [ "/bin/sh" , "/config/run.sh" ]
+          command: [ "/bin/sh" , "/config/validator.sh" ]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: AKASH_BOOT_KEYS
@@ -51,11 +51,6 @@ spec:
               value: {{ .Values.akash_node.chain_id }}
             - name: AKASH_KEYRING_BACKEND
               value: {{ .Values.akash_node.keyring_backend }}
-          ports:
-            - containerPort: {{ .Values.akashd.ports.p2p }}
-              name: akashd-p2p
-            - containerPort: {{ .Values.akashd.ports.rpc }}
-              name: akashd-rpc
           volumeMounts:
             - name: config
               mountPath: /config
