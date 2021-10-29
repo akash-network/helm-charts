@@ -18,7 +18,7 @@ data:
     for i in $(seq 1 4); do 
       while [ ! -f /data/node-${i}.id ]; do sleep 1; done
       ID=$(cat /data/node-${i}.id)
-      ADDRESS="${ID}@127.0.0.1:2665${i}"
+      ADDRESS="${ID}@0.0.0.0:2665${i}"
       SEEDS="${ADDRESS},${SEEDS}"
     done
     export AKASH_P2P_PERSISTENT_PEERS=${SEEDS%?}
