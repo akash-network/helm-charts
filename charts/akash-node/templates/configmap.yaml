@@ -13,25 +13,12 @@ data:
     apt update && apt -y install curl > /dev/null 2>&1
     curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME"/config/genesis.json
     /bin/akash validate-genesis
+    /bin/akash tendermint show-node-id > /data/node-$NODE.id
+    SEEDS=""
+    for i in $(seq 1 4); do 
+      while [ ! -f /data/node-$i.id ]; do sleep 1; done
+      ID=$(cat /data/node-$i.id)
+      SEEDS+="$ID@127.0.0.1:2665${i},"
+    done
+    export AKASH_P2P_PERSISTENT_PEERS=${SEEDS%?}
     /bin/akash start
-  validator.sh: |
-    #!/bin/bash
-    set -x
-    cat "$AKASH_BOOT_KEYS/key-pass.txt" | { cat ; echo ; } | /bin/akash --home="$AKASH_HOME" keys import --keyring-backend="$AKASH_KEYRING_BACKEND"  "$AKASH_FROM" "$AKASH_BOOT_KEYS/key.txt"
-    /bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
-    apt update
-    apt -y install curl
-    curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME"/config/genesis.json
-    akash tx staking create-validator \
-      --node=http://{{ include "akash-node.fullname" . }}:{{ .Values.akashd.ports.rpc }} \
-      --amount=1000000uakt \
-      --pubkey="$(/bin/akash tendermint show-validator)" \
-      --moniker="$AKASH_MONIKER" \
-      --chain-id="$AKASH_CHAIN_ID" \
-      --commission-rate="0.10" \
-      --commission-max-rate="0.20" \
-      --commission-max-change-rate="0.01" \
-      --min-self-delegation="1" \
-      --gas="auto" \
-      --gas-prices="0.025uakt" \
-      --from="$AKASH_FROM"

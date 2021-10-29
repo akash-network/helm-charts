@@ -27,33 +27,36 @@ spec:
       serviceAccountName: {{ include "akash-node.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- range untilStep 1 5 1 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ $.Chart.Name }}-{{ . }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+            {{- toYaml $.Values.securityContext | nindent 12 }}
+          image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
           command: [ "/bin/sh" , "/config/node.sh" ]
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          env:   
+            - name: NODE
+              value: {{ . }}
             - name: AKASH_BOOT_KEYS
               value: /boot-keys
             - name: AKASH_MONIKER
-              value: {{ .Values.akash_node.moniker }}
+              value: {{ $.Values.akash_node.moniker }}-{{ . }}
             - name: AKASH_NET
-              value: {{ .Values.akash_node.net }}
+              value: {{ $.Values.akash_node.net }}
             - name: AKASH_HOME
-              value: {{ .Values.akash_node.home }}
+              value: {{ $.Values.akash_node.home }}
             - name: AKASH_FROM
-              value: {{ .Values.akash_node.from }}
+              value: {{ $.Values.akash_node.from }}
             - name: AKASH_CHAIN_ID
-              value: {{ .Values.akash_node.chain_id }}
+              value: {{ $.Values.akash_node.chain_id }}
             - name: AKASH_KEYRING_BACKEND
-              value: {{ .Values.akash_node.keyring_backend }}
+              value: {{ $.Values.akash_node.keyring_backend }}
           ports:
-            - containerPort: {{ .Values.akashd.ports.p2p }}
-              name: akashd-p2p
-            - containerPort: {{ .Values.akashd.ports.rpc }}
-              name: akashd-rpc
+            - containerPort: {{ $.Values.akashd.ports.p2p }}{{ . }}
+              name: akashd-p2p-{{ . }}
+            - containerPort: {{ $.Values.akashd.ports.rpc }}{{ . }}
+              name: akashd-rpc-{{ . }}
           volumeMounts:
             - name: config
               mountPath: /config
@@ -61,6 +64,8 @@ spec:
             - name: keys
               mountPath: /boot-keys
               readOnly: true
+            - name: shared-data
+              mountPath: /data
           livenessProbe:
             httpGet:
               path: /
@@ -70,7 +75,8 @@ spec:
               path: /
               port: http
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml $.Values.resources | nindent 12 }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -90,3 +96,5 @@ spec:
         - name: keys
           secret:
             secretName: {{ include "akash-node.fullname" . }}-keys
+        - name: shared-data
+          emptyDir: {}

@@ -22,8 +22,8 @@ akash_node:
 
 akashd:
   ports:
-    p2p: 26656
-    rpc: 26657
+    p2p: 2665
+    rpc: 2666
 
 imagePullSecrets: []
 nameOverride: ""
