@@ -22,4 +22,4 @@ data:
       SEEDS="${ADDRESS},${SEEDS}"
     done
     export AKASH_P2P_PERSISTENT_PEERS=${SEEDS%?}
-    /bin/akash start --rpc.laddr=tcp://0.0.0.0:2666${i}
+    /bin/akash start --rpc.laddr=tcp://0.0.0.0:2666${NODE}
