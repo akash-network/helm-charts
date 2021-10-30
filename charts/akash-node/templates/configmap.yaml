@@ -18,11 +18,11 @@ data:
     for i in $(seq 1 4); do 
       while [ ! -f /data/node-${i}.id ]; do sleep 1; done
       ID=$(cat /data/node-${i}.id)
-      ADDRESS="${ID}@0.0.0.0:2665${i}"
+      ADDRESS="${ID}@127.0.0.1:2665${i}"
       SEEDS="${ADDRESS},${SEEDS}"
     done
     export AKASH_P2P_PERSISTENT_PEERS=${SEEDS%?}
-    export AKASH_RPC_LADDR=tcp://0.0.0.0:2666${NODE}
-    export AKASH_P2P_LADDR=tcp://0.0.0.0:2665${NODE}
-    export AKASH_PROF_LADDR=tcp://0.0.0.0:606${NODE}
+    export AKASH_RPC_LADDR=tcp://127.0.0.1:2666${NODE}
+    export AKASH_P2P_LADDR=tcp://127.0.0.1:2665${NODE}
+    export AKASH_PROF_LADDR=tcp://127.0.0.1:606${NODE}
     /bin/akash start
