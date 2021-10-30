@@ -21,7 +21,7 @@ data:
       ADDRESS="${ID}@127.0.0.1:2665${i}"
       SEEDS="${ADDRESS},${SEEDS}"
     done
-    export AKASH_P2P_PERSISTENT_PEERS=${SEEDS%?}
+    export AKASH_P2P_PRIVATE_PEER_IDS=${SEEDS%?}
     export AKASH_RPC_LADDR=tcp://127.0.0.1:2666${NODE}
     export AKASH_P2P_LADDR=tcp://127.0.0.1:2665${NODE}
     export AKASH_PROF_LADDR=tcp://127.0.0.1:606${NODE}
