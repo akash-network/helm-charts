@@ -71,11 +71,15 @@ spec:
           livenessProbe:
             exec:
               command:
-              - /bin/akash status --node tcp://127.0.0.1:2666${{ . }}
+              - /bin/bash
+              - -c
+              - /bin/akash status --node tcp://127.0.0.1:2666{{ . }}
           readinessProbe:
             exec:
               command:
-              - /bin/akash status --node tcp://127.0.0.1:2666${{ . }}
+              - /bin/bash
+              - -c
+              - /bin/akash status --node tcp://127.0.0.1:2666{{ . }}
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
       {{- end }}
