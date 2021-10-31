@@ -69,13 +69,13 @@ spec:
             - name: shared-data
               mountPath: /data
           livenessProbe:
-            httpGet:
-              path: /status
-              port: akashd-rpc-{{ . }}
+            exec:
+              command:
+              - /bin/akash status --node tcp://127.0.0.1:2666${{ . }}
           readinessProbe:
-            httpGet:
-              path: /status
-              port: akashd-rpc-{{ . }}
+            exec:
+              command:
+              - /bin/akash status --node tcp://127.0.0.1:2666${{ . }}
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
       {{- end }}
