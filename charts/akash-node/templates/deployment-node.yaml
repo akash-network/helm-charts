@@ -52,6 +52,8 @@ spec:
               value: {{ $.Values.akash_node.chain_id }}
             - name: AKASH_KEYRING_BACKEND
               value: {{ $.Values.akash_node.keyring_backend }}
+            - name: AKASH_P2P_PERSISTENT_PEERS
+              value: {{ $.Values.akash_node.peers }}
           ports:
             - containerPort: {{ $.Values.akashd.ports.p2p }}{{ . }}
               name: akashd-p2p-{{ . }}

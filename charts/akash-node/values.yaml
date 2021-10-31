@@ -19,6 +19,7 @@ akash_node:
   node:
   chain_id:
   keyring_backend: "test"
+  peers:
 
 akashd:
   ports:
