@@ -74,7 +74,7 @@ spec:
               - /bin/bash
               - -c
               - /bin/akash status --node tcp://127.0.0.1:2666{{ . }}
-            initialDelaySeconds: 30
+            initialDelaySeconds: 90
             periodSeconds: 15
           readinessProbe:
             exec:
@@ -82,7 +82,7 @@ spec:
               - /bin/bash
               - -c
               - /bin/akash status --node tcp://127.0.0.1:2666{{ . }}
-            initialDelaySeconds: 30
+            initialDelaySeconds: 90
             periodSeconds: 15
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
