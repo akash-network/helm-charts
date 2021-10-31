@@ -70,12 +70,12 @@ spec:
               mountPath: /data
           livenessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /status
+              port: akashd-rpc-{{ . }}
           readinessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /status
+              port: akashd-rpc-{{ . }}
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
       {{- end }}
