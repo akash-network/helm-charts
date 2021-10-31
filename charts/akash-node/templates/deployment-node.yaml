@@ -68,22 +68,6 @@ spec:
               readOnly: true
             - name: shared-data
               mountPath: /data
-          livenessProbe:
-            exec:
-              command:
-              - /bin/bash
-              - -c
-              - /bin/akash status --node tcp://127.0.0.1:2666{{ . }}
-            initialDelaySeconds: 90
-            periodSeconds: 15
-          readinessProbe:
-            exec:
-              command:
-              - /bin/bash
-              - -c
-              - /bin/akash status --node tcp://127.0.0.1:2666{{ . }}
-            initialDelaySeconds: 90
-            periodSeconds: 15
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
       {{- end }}
