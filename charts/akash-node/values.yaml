@@ -56,8 +56,11 @@ service:
   type: NodePort
 
 ingress:
-  enabled: true
-  hosts: []
+  enabled: false
+  classname: nginx
+  domain:
+  annotations:
+    nginx.ingress.kubernetes.io/limit-rps: '10'
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
