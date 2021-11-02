@@ -12,7 +12,7 @@ helm repo add akash https://ovrclk.github.io/helm-charts
 If you had already added this repo earlier, run `helm repo update` to retrieve
 the latest versions of the packages. You can then run `helm search repo akash` to see the charts.
 
-### Setting up a new TestNet Full-Node and Provider
+## Setting up a new TestNet Full-Node and Provider
 
 Firstly, you need a funded wallet. Once you have that export your private key with a password.
 
@@ -20,7 +20,7 @@ Put your private key into a file named key.pem in the current directory.
 
 You also need to put a copy of your Provider cert into provider-cert.pem in the current directory.
 
-## Setup some variables used by the Helm Charts
+### Setup some variables used by the Helm Charts
 
 AKASH_ACCOUNT_ADDRESS=myaccountaddress
 AKASH_KEY=$(cat ./key.pem)
@@ -31,7 +31,7 @@ AKASH_PEERS=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/{{ ne
 DOMAIN=my.domain.com
 PROVIDER_CERT=$(cat ./provider-cert.pem)
 
-### Akash Node Install
+#### Akash Node Install
 
 helm install akash-node akash/akash-node \
      --set akash_node.from=$AKASH_ACCOUNT_ADDRESS \
@@ -44,7 +44,7 @@ helm install akash-node akash/akash-node \
      --set ingress.enabled=true \
      --set ingress.domain=$DOMAIN
 
-### Akash Provider Install
+#### Akash Provider Install
 ```
 helm install akash-provider akash/akash-provider \
      --set akash_client.from=$AKASH_ACCOUNT_ADDRESS \
@@ -54,13 +54,13 @@ helm install akash-provider akash/akash-provider \
      --set akash_provider.providercert=$PROVIDER_CERT
 ```
 
-### Akash Inventory Operator
+#### Akash Inventory Operator
 
 ```
 helm install akash-provider akash/inventory-operator
 ```
 
-### Akash HostName Operator
+#### Akash HostName Operator
 
 ```
 helm install akash-provider akash/hostname-operator
