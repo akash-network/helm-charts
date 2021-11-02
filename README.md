@@ -20,7 +20,7 @@ Put your private key into a file named `key.pem` in the current directory.
 
 You also need to put a copy of your Provider cert into `provider-cert.pem` in the current directory.
 
-### Setup some variables used by the Helm Charts
+#### Setup some variables used by the Helm Charts
 
 Set your KUBECONFIGto the cluster you want to install on.
 
