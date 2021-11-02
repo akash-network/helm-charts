@@ -16,21 +16,17 @@ the latest versions of the packages. You can then run `helm search repo akash` t
 
 Firstly, you need a funded wallet. Once you have that export your private key with a password.
 
-Put your private key into a file named key.pem in the current directory.
+Put your private key into a file named `key.pem` in the current directory.
 
-You also need to put a copy of your Provider cert into provider-cert.pem in the current directory.
+You also need to put a copy of your Provider cert into `provider-cert.pem` in the current directory.
 
 ### Setup some variables used by the Helm Charts
 
 ```
-AKASH_ACCOUNT_ADDRESS=myaccountaddress
-AKASH_KEY=$(cat ./key.pem)
-AKASH_KEY_SECRET=mysecret
-AKASH_NET=testnet
-AKASH_CHAIN_ID=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET/chain-id.txt)
-AKASH_PEERS=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/{{ net }}/peer-nodes.txt" | sed "N;s/\n/,/")
-DOMAIN=my.domain.com
-PROVIDER_CERT=$(cat ./provider-cert.pem)
+AKASH_ACCOUNT_ADDRESS=  # Your Akash public wallet address
+AKASH_KEY_SECRET=       # The password you used when you exported your private key
+AKASH_NET=testnet       # mainnet, testnet or edgenet
+DOMAIN=my.domain.com    # A top level domain to create rpc.my.domain.com and other Akash endpoints
 ```
 
 #### Akash Node Install
@@ -38,12 +34,12 @@ PROVIDER_CERT=$(cat ./provider-cert.pem)
 ```
 helm install akash-node akash/akash-node \
      --set akash_node.from=$AKASH_ACCOUNT_ADDRESS \
-     --set akash_node.key=$AKASH_KEY \
+     --set akash_node.key=$(cat ./key.pem) \
      --set akash_node.keysecret=$AKASH_KEY_SECRET \
-     --set akash_node.chain_id=$AKASH_CHAIN_ID \
+     --set akash_node.chain_id=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET/chain-id.txt) \
      --set akash_node.moniker=$DOMAIN \
      --set akash_node.net=$AKASH_NET \
-     --set akash_node.peers=$AKASH_PEERS \
+     --set akash_node.peers=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET/peer-nodes.txt" | sed "N;s/\n/,/") \
      --set ingress.enabled=true \
      --set ingress.domain=$DOMAIN
 ```
@@ -52,10 +48,10 @@ helm install akash-node akash/akash-node \
 ```
 helm install akash-provider akash/akash-provider \
      --set akash_client.from=$AKASH_ACCOUNT_ADDRESS \
-     --set akash_client.key=$AKASH_KEY \
+     --set akash_client.key=$(cat ./key.pem) \
      --set akash_client.keysecret=$AKASH_KEY_SECRET \
-     --set akash_client.chain_id=$AKASH_CHAIN_ID \
-     --set akash_provider.providercert=$PROVIDER_CERT
+     --set akash_client.chain_id=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET/chain-id.txt) \
+     --set akash_provider.providercert=$(cat ./provider-cert.pem)
 ```
 
 #### Akash Inventory Operator
