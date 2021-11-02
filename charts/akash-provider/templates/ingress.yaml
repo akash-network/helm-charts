@@ -13,7 +13,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: {{ .Values.akash_provider.ingress-domain }}
+    - host: {{ .Values.akash_provider.ingressdomain }}
       http:
         paths:
           - path: /

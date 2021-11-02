@@ -73,7 +73,7 @@ akash_client:
 akash_provider:
   providercert:
   ingress-static-hosts: false
-  ingress-domain:
+  ingressdomain: 
   ingress-expose-lb-hosts: false
   network-policies-enabled: false
   k8s-manifest-ns: "lease"
