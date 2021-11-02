@@ -22,7 +22,7 @@ You also need to put a copy of your Provider cert into `provider-cert.pem` in th
 
 #### Setup some variables used by the Helm Charts
 
-Set your KUBECONFIGto the cluster you want to install on.
+Set your KUBECONFIG to the cluster you want to install on. Also verify you have Helm 3 installed.
 
 ```
 AKASH_ACCOUNT_ADDRESS=  # Your Akash public wallet address
