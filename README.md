@@ -22,6 +22,7 @@ You also need to put a copy of your Provider cert into provider-cert.pem in the 
 
 ### Setup some variables used by the Helm Charts
 
+```
 AKASH_ACCOUNT_ADDRESS=myaccountaddress
 AKASH_KEY=$(cat ./key.pem)
 AKASH_KEY_SECRET=mysecret
@@ -30,9 +31,11 @@ AKASH_CHAIN_ID=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$A
 AKASH_PEERS=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/{{ net }}/peer-nodes.txt" | sed "N;s/\n/,/")
 DOMAIN=my.domain.com
 PROVIDER_CERT=$(cat ./provider-cert.pem)
+```
 
 #### Akash Node Install
 
+```
 helm install akash-node akash/akash-node \
      --set akash_node.from=$AKASH_ACCOUNT_ADDRESS \
      --set akash_node.key=$AKASH_KEY \
@@ -43,6 +46,7 @@ helm install akash-node akash/akash-node \
      --set akash_node.peers=$AKASH_PEERS \
      --set ingress.enabled=true \
      --set ingress.domain=$DOMAIN
+```
 
 #### Akash Provider Install
 ```
