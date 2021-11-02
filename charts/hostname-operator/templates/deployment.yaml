@@ -39,10 +39,7 @@ spec:
               containerPort: 8188
           env:
             - name: AKASH_K8S_MANIFEST_NS
-              valueFrom:
-                configMapKeyRef:
-                  name: akash-provider-config
-                  key: k8s-manifest-ns
+              value: lease
           volumeMounts:
             - name: boot
               mountPath: /boot
