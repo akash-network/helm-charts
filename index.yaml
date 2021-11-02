@@ -3,6 +3,16 @@ entries:
   akash-node:
   - apiVersion: v2
     appVersion: 0.14.0
+    created: "2021-11-02T14:09:14.368327067Z"
+    description: A Helm chart for Kubernetes
+    digest: 016814b54ad0d7e979529b4f4987418d73fc9dbdc90bf1ddeb72a45dc3ec8ab3
+    name: akash-node
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-node-0.41.0/akash-node-0.41.0.tgz
+    version: 0.41.0
+  - apiVersion: v2
+    appVersion: 0.14.0
     created: "2021-11-01T15:39:22.100977253Z"
     description: A Helm chart for Kubernetes
     digest: 86749abe74b42ee3c8de294adc2a86e72b3883232c9e0ecc96f76022e02e56ab
@@ -392,6 +402,16 @@ entries:
     - https://github.com/ovrclk/helm-charts/releases/download/akash-node-0.2.0/akash-node-0.2.0.tgz
     version: 0.2.0
   hostname-operator:
+  - apiVersion: v2
+    appVersion: 0.14.0
+    created: "2021-11-02T14:09:14.622903322Z"
+    description: A Helm chart for Kubernetes
+    digest: de2c4f9416113ea6f116779457ad5331a4e88adcfe17b90b749ffa804e638f17
+    name: hostname-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/hostname-operator-0.7.0/hostname-operator-0.7.0.tgz
+    version: 0.7.0
   - apiVersion: v2
     appVersion: 0.14.0
     created: "2021-10-22T17:30:34.626931155Z"
