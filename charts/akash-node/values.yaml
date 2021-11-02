@@ -53,7 +53,7 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: NodePort
+  type: ClusterIP
 
 ingress:
   enabled: false
