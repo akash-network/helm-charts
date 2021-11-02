@@ -12,7 +12,7 @@ helm repo add akash https://ovrclk.github.io/helm-charts
 If you had already added this repo earlier, run `helm repo update` to retrieve
 the latest versions of the packages. You can then run `helm search repo akash` to see the charts.
 
-## Setting up a new TestNet Full-Node and Provider
+## Setting up a Full-Node and Provider
 
 Firstly, you need a funded wallet. Once you have that export your private key with a password.
 
@@ -21,6 +21,8 @@ Put your private key into a file named `key.pem` in the current directory.
 You also need to put a copy of your Provider cert into `provider-cert.pem` in the current directory.
 
 ### Setup some variables used by the Helm Charts
+
+Set your KUBECONFIGto the cluster you want to install on.
 
 ```
 AKASH_ACCOUNT_ADDRESS=  # Your Akash public wallet address
@@ -32,7 +34,7 @@ DOMAIN=my.domain.com    # A top level domain to create rpc.my.domain.com and oth
 #### Akash Node Install
 
 ```
-helm install akash-node akash/akash-node \
+helm install akash-node akash/akash-node -n akash-services \
      --set akash_node.from=$AKASH_ACCOUNT_ADDRESS \
      --set akash_node.key=$(cat ./key.pem) \
      --set akash_node.keysecret=$AKASH_KEY_SECRET \
@@ -46,7 +48,7 @@ helm install akash-node akash/akash-node \
 
 #### Akash Provider Install
 ```
-helm install akash-provider akash/akash-provider \
+helm install akash-provider akash/akash-provider -n akash-services \
      --set akash_client.from=$AKASH_ACCOUNT_ADDRESS \
      --set akash_client.key=$(cat ./key.pem) \
      --set akash_client.keysecret=$AKASH_KEY_SECRET \
@@ -57,13 +59,13 @@ helm install akash-provider akash/akash-provider \
 #### Akash Inventory Operator
 
 ```
-helm install akash-provider akash/inventory-operator
+helm install akash-provider akash/inventory-operator -n akash-services
 ```
 
 #### Akash HostName Operator
 
 ```
-helm install akash-provider akash/hostname-operator
+helm install akash-provider akash/hostname-operator -n akash-services \
      --set ingress.enabled=true \
      --set ingress.domain=$DOMAIN
 ```
