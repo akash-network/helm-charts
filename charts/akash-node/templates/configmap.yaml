@@ -22,8 +22,8 @@ data:
       SEEDS="${ADDRESS},${SEEDS}"
     done
     export AKASH_P2P_PRIVATE_PEER_IDS=${SEEDS%?}
-    export AKASH_RPC_LADDR=tcp://127.0.0.1:2666${NODE}
     export AKASH_P2P_LADDR=tcp://127.0.0.1:2665${NODE}
+    export AKASH_RPC_LADDR=tcp://0.0.0.0:2666${NODE}
     export AKASH_RPC_PPROF_LADDR=127.0.0.1:606${NODE}
     export AKASH_GRPC_ADDRESS=127.0.0.1:909${NODE}
     /bin/akash start
