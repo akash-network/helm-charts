@@ -130,7 +130,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: {{ include "inventory-operator.fullname" . }}-config
-                  key: ingress-domain
+                  key: ingressdomain
                   optional: true
 
             # return load balancer host in lease status command
