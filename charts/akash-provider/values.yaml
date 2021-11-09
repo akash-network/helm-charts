@@ -65,7 +65,7 @@ akash_client:
   key:
   keysecret:
   home: "/root/.akash"
-  node:
+  node: "http://akash-node:26661"
   chain-id:
   keyring-backend: "test"
   trust-node: "true"

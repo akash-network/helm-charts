@@ -289,7 +289,7 @@ spec:
 ---
 # Source: ingress-nginx/templates/controller-deployment.yaml
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.0.1
@@ -301,6 +301,9 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
 spec:
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: ingress-nginx
