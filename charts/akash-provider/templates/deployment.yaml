@@ -347,6 +347,8 @@ spec:
           ports:
             - name: gateway
               containerPort: 8443
+              protocol: TCP
+              hostPort: 8443
           volumeMounts:
             - name: boot
               mountPath: /boot
