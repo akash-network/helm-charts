@@ -8,6 +8,7 @@ data:
   node.sh: |
     #!/bin/bash
     set -x
+    if [ $NODE != 1 ]; then sleep 60 ; fi
     cat "$AKASH_BOOT_KEYS/key-pass.txt" | { cat ; echo ; } | /bin/akash --home="$AKASH_HOME" keys import --keyring-backend="$AKASH_KEYRING_BACKEND"  "$AKASH_FROM" "$AKASH_BOOT_KEYS/key.txt"
     /bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
     apt update && apt -y install curl > /dev/null 2>&1
