@@ -444,6 +444,16 @@ entries:
   hostname-operator:
   - apiVersion: v2
     appVersion: 0.14.0
+    created: "2021-11-10T13:24:03.929046647Z"
+    description: A Helm chart for Kubernetes
+    digest: 0c86fb8265104fda89eabd665ea2777862d5ea6447616b3596e1281e18c472af
+    name: hostname-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/hostname-operator-0.8.0/hostname-operator-0.8.0.tgz
+    version: 0.8.0
+  - apiVersion: v2
+    appVersion: 0.14.0
     created: "2021-11-02T14:09:14.622903322Z"
     description: A Helm chart for Kubernetes
     digest: de2c4f9416113ea6f116779457ad5331a4e88adcfe17b90b749ffa804e638f17
