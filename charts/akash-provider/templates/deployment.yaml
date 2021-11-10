@@ -341,7 +341,7 @@ spec:
                   key: bid-script-process-timeout
                   optional: true
           ports:
-            - name: gateway
+            - name: api
               containerPort: 8443
               protocol: TCP
               hostPort: 8443
