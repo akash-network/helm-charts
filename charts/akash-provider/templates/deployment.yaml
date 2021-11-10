@@ -127,11 +127,7 @@ spec:
             # domain to host unique app hostnames on
             # (required if AKASH_DEPLOYMENT_INGRESS_STATIC_HOSTS is "true")
             - name: AKASH_DEPLOYMENT_INGRESS_DOMAIN
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: ingressdomain
-                  optional: true
+              value: ingress.{{ .Values.akash_provider.domain }}
 
             # return load balancer host in lease status command
             - name: AKASH_DEPLOYMENT_INGRESS_EXPOSE_LB_HOSTS

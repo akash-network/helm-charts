@@ -13,13 +13,13 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: {{ .Values.akash_provider.ingressdomain }}
+    - host: provider.{{ .Values.akash_provider.domain }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: akash-provider
+                name: {{ include "provider.fullname" . }}
                 port:
-                  name: gateway
+                  name: api

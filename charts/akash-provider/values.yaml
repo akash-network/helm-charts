@@ -68,9 +68,9 @@ akash_client:
   trust-node: "true"
 
 akash_provider:
+  domain:
   providercert:
   ingress-static-hosts: false
-  ingressdomain: 
   ingress-expose-lb-hosts: false
   network-policies-enabled: false
   k8s-manifest-ns: "lease"
