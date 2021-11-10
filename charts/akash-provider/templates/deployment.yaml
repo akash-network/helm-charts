@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "inventory-operator.fullname" . }}
+  name: {{ include "provider.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ include "inventory-operator.fullname" . }}
-    {{- include "inventory-operator.labels" . | nindent 4 }}
+    app: {{ include "provider.fullname" . }}
+    {{- include "provider.labels" . | nindent 4 }}
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
 {{- end }}
   selector:
     matchLabels:
-      app: {{ include "inventory-operator.fullname" . }}
-      {{- include "inventory-operator.selectorLabels" . | nindent 6 }}
+      app: {{ include "provider.fullname" . }}
+      {{- include "provider.selectorLabels" . | nindent 6 }}
   template:
     metadata:
     {{- with .Values.podAnnotations }}
@@ -21,14 +21,14 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
-        app: {{ include "inventory-operator.fullname" . }}
-        {{- include "inventory-operator.selectorLabels" . | nindent 8 }}
+        app: {{ include "provider.fullname" . }}
+        {{- include "provider.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "inventory-operator.serviceAccountName" . }}
+      serviceAccountName: {{ include "provider.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -60,42 +60,42 @@ spec:
             - name: AKASH_HOME
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-client-config
+                  name: {{ include "provider.fullname" . }}-client-config
                   key: home
 
             # --from
             - name: AKASH_FROM
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-client-config
+                  name: {{ include "provider.fullname" . }}-client-config
                   key: from
 
             # --node
             - name: AKASH_NODE
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-client-config
+                  name: {{ include "provider.fullname" . }}-client-config
                   key: node
 
             # --chain-id
             - name: AKASH_CHAIN_ID
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-client-config
+                  name: {{ include "provider.fullname" . }}-client-config
                   key: chain-id
 
             # --keyring-backend
             - name: AKASH_KEYRING_BACKEND
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-client-config
+                  name: {{ include "provider.fullname" . }}-client-config
                   key: keyring-backend
 
             # --trust-node
             - name: AKASH_TRUST_NODE
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-client-config
+                  name: {{ include "provider.fullname" . }}-client-config
                   key: trust-node
 
             ##
@@ -105,14 +105,14 @@ spec:
             - name: AKASH_AUTH_PEM
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-keys
+                  name: {{ include "provider.fullname" . }}-keys
                   key: provider-cert.pem
 
             # include unique hostnames for apps
             - name: AKASH_DEPLOYMENT_RUNTIME_CLASS
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: deployment-runtime-class
                   optional: true
 
@@ -120,7 +120,7 @@ spec:
             - name: AKASH_DEPLOYMENT_INGRESS_STATIC_HOSTS
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: ingress-static-hosts
                   optional: true
 
@@ -129,7 +129,7 @@ spec:
             - name: AKASH_DEPLOYMENT_INGRESS_DOMAIN
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: ingressdomain
                   optional: true
 
@@ -137,7 +137,7 @@ spec:
             - name: AKASH_DEPLOYMENT_INGRESS_EXPOSE_LB_HOSTS
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: ingress-expose-lb-hosts
                   optional: true
 
@@ -145,203 +145,203 @@ spec:
             - name: AKASH_DEPLOYMENT_NETWORK_POLICIES_ENABLED
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: network-policies-enabled
                   optional: true
 
             - name: AKASH_MAX_UNIT_CPU
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: max-unit-cpu
                   optional: true
 
             - name: AKASH_MAX_UNIT_MEMORY
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: max-unit-memory
                   optional: true
 
             - name: AKASH_MAX_UNIT_STORAGE
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: max-unit-storage
                   optional: true
 
             - name: AKASH_MAX_UNIT_COUNT
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: max-unit-count
                   optional: true
 
             - name: AKASH_MAX_UNIT_PRICE
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: max-unit-price
                   optional: true
 
             - name: AKASH_MIN_UNIT_CPU
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: min-unit-cpu
                   optional: true
 
             - name: AKASH_MIN_UNIT_MEMORY
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: min-unit-memory
                   optional: true
 
             - name: AKASH_MIN_UNIT_STORAGE
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: min-unit-storage
                   optional: true
 
             - name: AKASH_MIN_UNIT_COUNT
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: min-unit-count
                   optional: true
 
             - name: AKASH_MIN_UNIT_PRICE
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: min-unit-price
                   optional: true
 
             - name: AKASH_MAX_GROUP_COUNT
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: max-group-count
                   optional: true
 
             - name: AKASH_MAX_GROUP_UNITS
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: max-group-units
                   optional: true
 
             - name: AKASH_MAX_GROUP_CPU
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: max-group-cpu
                   optional: true
 
             - name: AKASH_MAX_GROUP_MEMORY
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: max-group-memory
                   optional: true
 
             - name: AKASH_MAX_GROUP_STORAGE
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: max-group-storage
                   optional: true
 
             - name: AKASH_MEM_PRICE_MIN
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: mem-price-min
                   optional: true
 
             - name: AKASH_CLUSTER_PUBLIC_HOSTNAME
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: cluster-public-hostname
                   optional: true
 
             - name: AKASH_CLUSTER_NODE_PORT_QUANTITY
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: cluster-node-port-quantity
                   optional: true
 
             - name: AKASH_CLUSTER_WAIT_READY_DURATION
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: cluster_wait-ready-duration
                   optional: true
 
             - name: AKASH_INVENTORY_RESOURCE_POLL_PERIOD
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: inventory-resource-poll-period
                   optional: true
 
             - name: AKASH_INVENTORY_RESOURCE_DEBUG_FREQUENCY
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: inventory-resource-debug-freq
                   optional: true
 
             - name: AKASH_BID_PRICE_STRATEGY
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: bid-price-strategy
                   optional: true
 
             - name: AKASH_BID_PRICE_CPU_SCALE
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: bid-cpu-scale
                   optional: true
 
             - name: AKASH_BID_PRICE_MEMORY_SCALE
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: bid-memory-scale
                   optional: true
 
             - name: AKASH_BID_PRICE_STORAGE_SCALE
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: bid-storage-scale
                   optional: true
 
             - name: AKASH_BID_PRICE_SCRIPT_PATH
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: bid-script-path
                   optional: true
 
             - name: AKASH_BID_PRICE_SCRIPT_PROCESS_LIMIT
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: bid-script-process-limit
                   optional: true
 
             - name: AKASH_BID_PRICE_SCRIPT_PROCESS_TIMEOUT
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "inventory-operator.fullname" . }}-config
+                  name: {{ include "provider.fullname" . }}-config
                   key: bid-script-process-timeout
                   optional: true
           ports:
@@ -359,10 +359,10 @@ spec:
       volumes:
         - name: boot
           configMap:
-            name: {{ include "inventory-operator.fullname" . }}-boot
+            name: {{ include "provider.fullname" . }}-boot
         - name: keys
           secret:
-            secretName: {{ include "inventory-operator.fullname" . }}-keys
+            secretName: {{ include "provider.fullname" . }}-keys
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -37,9 +37,6 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-service:
-  port: 8443
-
 resources:
   limits:
     cpu: 500m

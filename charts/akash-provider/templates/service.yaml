@@ -1,19 +1,22 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "inventory-operator.fullname" . }}
+  name: {{ include "provider.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     akash.network: "true"
     app.kubernetes.io/name: akash
     app.kubernetes.io/instance: inventory
     app.kubernetes.io/component: operator
-    {{- include "inventory-operator.labels" . | nindent 4 }}
+    {{- include "provider.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: ClusterIP
+  clusterIP: None
   ports:
-    - port: {{ .Values.service.port }}
-      name: gateway
+  - name: api
+    protocol: TCP
+    port: 8443
+    targetPort: api
   selector:
-    app: {{ include "inventory-operator.fullname" . }}
-    {{- include "inventory-operator.selectorLabels" . | nindent 4 }}
+    app: {{ include "provider.fullname" . }}
+    {{- include "provider.selectorLabels" . | nindent 4 }}

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp
+  namespace: 
+data:
+  8443: "{{ .Release.Namespace }}/{{ include "provider.fullname" . }}:8443"
