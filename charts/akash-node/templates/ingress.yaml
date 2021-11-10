@@ -14,7 +14,17 @@ metadata:
 spec:
   ingressClassName: {{ .Values.ingress.classname }}
   rules:
-    - host: {{ .Values.ingress.domain }}
+    - host: p2p.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: akash-node
+                port:
+                  number: 26651
+    - host: rpc.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /

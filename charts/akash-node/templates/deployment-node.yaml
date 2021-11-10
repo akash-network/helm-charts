@@ -55,9 +55,9 @@ spec:
             - name: AKASH_P2P_PERSISTENT_PEERS
               value: {{ $.Values.akash_node.peers }}
           ports:
-            - containerPort: {{ $.Values.akashd.ports.p2p }}{{ . }}
+            - containerPort: 2665{{ . }}
               name: akashd-p2p-{{ . }}
-            - containerPort: {{ $.Values.akashd.ports.rpc }}{{ . }}
+            - containerPort: 2666{{ . }}
               name: akashd-rpc-{{ . }}
           volumeMounts:
             - name: config
