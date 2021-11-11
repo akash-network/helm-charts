@@ -571,6 +571,17 @@ entries:
     urls:
     - https://github.com/ovrclk/helm-charts/releases/download/akash-node-0.2.0/akash-node-0.2.0.tgz
     version: 0.2.0
+  akash-rook:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2021-11-11T17:07:02.303113923Z"
+    description: A Helm chart for Kubernetes
+    digest: 10cd93ba4a21321739a64108b210017820ef3d37a3ff245cc461ac21876b935b
+    name: akash-rook
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-rook-0.1.0/akash-rook-0.1.0.tgz
+    version: 0.1.0
   hostname-operator:
   - apiVersion: v2
     appVersion: 0.14.0
