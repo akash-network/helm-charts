@@ -21,9 +21,9 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: akash-node
+                name: akash-node-1
                 port:
-                  number: 26651
+                  number: 26656
     - host: rpc.{{ .Values.ingress.domain }}
       http:
         paths:
@@ -31,7 +31,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: akash-node
+                name: akash-node-1
                 port:
-                  number: 26661
+                  number: 26657
 {{- end }}

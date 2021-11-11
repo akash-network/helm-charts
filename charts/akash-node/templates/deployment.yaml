@@ -1,35 +1,30 @@
+{{- range untilStep 1 5 1 }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "akash-node.fullname" . }}
-  labels:
-    {{- include "akash-node.labels" . | nindent 4 }}
+  name: akash-node-{{ . }}
 spec:
-{{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+{{- if not $.Values.autoscaling.enabled }}
+  replicas: {{ $.Values.replicaCount }}
 {{- end }}
-  selector:
-    matchLabels:
-      {{- include "akash-node.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
+    {{- with $.Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
-        {{- include "akash-node.selectorLabels" . | nindent 8 }}
+        akash.network/node: {{ . }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- with $.Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "akash-node.serviceAccountName" . }}
+      serviceAccountName: akash-node
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml $.Values.podSecurityContext | nindent 8 }}
       containers:
-        {{- range untilStep 1 5 1 }}
-        - name: {{ $.Chart.Name }}-{{ . }}
+        - name: {{ $.Chart.Name }}
           securityContext:
             {{- toYaml $.Values.securityContext | nindent 12 }}
           image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
@@ -55,10 +50,10 @@ spec:
             - name: AKASH_P2P_PERSISTENT_PEERS
               value: {{ $.Values.akash_node.peers }}
           ports:
-            - containerPort: 2665{{ . }}
-              name: akashd-p2p-{{ . }}
-            - containerPort: 2666{{ . }}
-              name: akashd-rpc-{{ . }}
+            - containerPort: 26656
+              name: akashd-p2p
+            - containerPort: 26657
+              name: akashd-rpc
           volumeMounts:
             - name: config
               mountPath: /config
@@ -66,29 +61,25 @@ spec:
             - name: keys
               mountPath: /boot-keys
               readOnly: true
-            - name: shared-data
-              mountPath: /data
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
-      {{- end }}
-      {{- with .Values.nodeSelector }}
+      {{- with $.Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with $.Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with $.Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
         - name: config
           configMap:
-            name: {{ include "akash-node.fullname" . }}-config
+            name: akash-node-config
         - name: keys
           secret:
-            secretName: {{ include "akash-node.fullname" . }}-keys
-        - name: shared-data
-          emptyDir: {}
+            secretName: akash-node-keys
+{{- end }}

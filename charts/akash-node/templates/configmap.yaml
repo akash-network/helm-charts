@@ -1,30 +1,29 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "akash-node.fullname" . }}-config
+  name: akash-node-config
   labels:
     {{- include "akash-node.labels" . | nindent 4 }}
 data:
   node.sh: |
     #!/bin/bash
     set -x
-    if [ $NODE != 1 ]; then sleep 60 ; fi
     cat "$AKASH_BOOT_KEYS/key-pass.txt" | { cat ; echo ; } | /bin/akash --home="$AKASH_HOME" keys import --keyring-backend="$AKASH_KEYRING_BACKEND"  "$AKASH_FROM" "$AKASH_BOOT_KEYS/key.txt"
     /bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
-    apt update && apt -y install curl > /dev/null 2>&1
+
+    apt update && apt -y install curl jq > /dev/null 2>&1
     curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME"/config/genesis.json
     /bin/akash validate-genesis
-    /bin/akash tendermint show-node-id > /data/node-$NODE.id
-    SEEDS=""
+
     for i in $(seq 1 4); do 
-      while [ ! -f /data/node-${i}.id ]; do sleep 1; done
-      ID=$(cat /data/node-${i}.id)
-      ADDRESS="${ID}@127.0.0.1:2665${i}"
-      SEEDS="${ADDRESS},${SEEDS}"
+      while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' http://akash-node-$i:26657/status)" != "200" ]]; do sleep 5; done
+      ID$i=$(curl http://akash-node-$i:26657/status | jq -r .result.node_info.id)
     done
-    export AKASH_P2P_PRIVATE_PEER_IDS=${SEEDS%?}
-    export AKASH_P2P_LADDR=tcp://0.0.0.0:2665${NODE}
-    export AKASH_RPC_LADDR=tcp://0.0.0.0:2666${NODE}
-    export AKASH_RPC_PPROF_LADDR=0.0.0.0:606${NODE}
-    export AKASH_GRPC_ADDRESS=0.0.0.0:909${NODE}
+
+    SEEDS="$ID1@akash-node-1:26657,$ID2@akash-node-2:26657,$ID3@akash-node-3:26657,$ID4@akash-node-4:26657"
+    export AKASH_P2P_PRIVATE_PEER_IDS=$SEEDS
+    export AKASH_P2P_LADDR=tcp://0.0.0.0:26656
+    export AKASH_RPC_LADDR=tcp://0.0.0.0:26657
+    export AKASH_RPC_PPROF_LADDR=0.0.0.0:6060
+    export AKASH_GRPC_ADDRESS=0.0.0.0:9090
     /bin/akash start
