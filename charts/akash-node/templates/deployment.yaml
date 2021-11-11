@@ -3,6 +3,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: akash-node-{{ . }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    app: akash-node
 spec:
 {{- if not $.Values.autoscaling.enabled }}
   replicas: {{ $.Values.replicaCount }}
