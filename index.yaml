@@ -573,6 +573,20 @@ entries:
     version: 0.2.0
   akash-rook:
   - apiVersion: v2
+    appVersion: 16.2.5
+    created: "2021-11-11T17:40:10.909719889Z"
+    dependencies:
+    - name: rook-ceph
+      repository: https://charts.rook.io/release
+      version: v1.7.7
+    description: A Helm chart for Kubernetes
+    digest: 5dd193d29e00ae56f0282efdb2e5daa57b574166ac17e9fa570b7b059c175190
+    name: akash-rook
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-rook-0.2.0/akash-rook-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     appVersion: 1.16.0
     created: "2021-11-11T17:07:02.303113923Z"
     description: A Helm chart for Kubernetes
