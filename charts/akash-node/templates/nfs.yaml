@@ -26,6 +26,29 @@ provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
 ---
 apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-share
+  namespace: {{ .Release.Namespace }}
+spec:
+  capacity:
+    storage: 20M
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /tmp
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: akash.network/role
+          operator: In
+          values:
+          - ingress
+---
+apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
@@ -35,7 +58,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   accessModes:
-  - ReadWriteOnce
+  - ReadWriteMany
   resources:
     requests:
       storage: 10M
