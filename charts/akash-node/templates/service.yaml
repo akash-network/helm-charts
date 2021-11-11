@@ -11,5 +11,5 @@ spec:
     - port: 26661
       name: akashd-rpc
   selector:
-    akash.network/node: {{ . }}
+    akash.network/node: "{{ . }}"
 {{- end }}
