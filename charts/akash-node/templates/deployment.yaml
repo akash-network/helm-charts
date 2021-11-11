@@ -71,6 +71,8 @@ spec:
             - name: keys
               mountPath: /boot-keys
               readOnly: true
+            - mountPath: /data
+              name: nfs-vol
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
       {{- with $.Values.nodeSelector }}
@@ -92,4 +94,8 @@ spec:
         - name: keys
           secret:
             secretName: akash-node-keys
+        - name: nfs-vol
+          nfs: 
+            server: nfs-share
+            path: /
 {{- end }}
