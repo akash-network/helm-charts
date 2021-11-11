@@ -55,7 +55,7 @@ PEERS=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET/
 
 #### Akash Node Install
 
-Install an Akash node.
+Install an Akash node. You can copy and paste all of these helm commands.
 
 ```
 helm install akash-node akash/akash-node -n akash-services \
