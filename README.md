@@ -102,6 +102,14 @@ Install an Inventory Operator that is used for persistent storage. Specifically 
 helm install inventory-operator akash/inventory-operator -n akash-services
 ```
 
+#### Akash Rook (Optional - for Persistent Storage)
+
+Install Rook-Ceph on your cluster.
+
+```
+helm install akash-rook akash/akash-rook -n rook-ceph
+```
+
 ### Setup DNS
 
 We defined a $DOMAIN which all of the charts will use for their ingress routes. For our example lets define ours as `myenvironment.example.com`.
