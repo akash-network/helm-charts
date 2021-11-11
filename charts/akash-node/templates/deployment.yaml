@@ -7,6 +7,9 @@ spec:
 {{- if not $.Values.autoscaling.enabled }}
   replicas: {{ $.Values.replicaCount }}
 {{- end }}
+  selector:
+    matchLabels:
+      app: akash-node
   template:
     metadata:
     {{- with $.Values.podAnnotations }}
