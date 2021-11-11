@@ -26,7 +26,7 @@ You also need to put a copy of your Provider cert into `provider-cert.pem` in th
 
 ### Setup some variables used by the Helm Charts
 
-Set your KUBECONFIG to the cluster you want to install on. Also verify you have Helm 3 installed.
+Set your KUBECONFIG to the cluster you want to install on.
 
 Decide what Net you would like to run. Either mainnet, testnet or edgenet.
 
