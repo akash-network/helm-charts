@@ -111,7 +111,7 @@ The Provider chart creates an ingress-nginx controller that runs on every Kubern
 Therefore the DNS structure should look something like this:
 
 ```
-an a record for myenvironment.example.com which contains the ip addresses of all Kubernetes worker nodes
+an a record for myenvironment.example.com which contains the ip addresses of all Kubernetes workers
 a cname record for rpc.myenvironment.example.com pointing to myenvironment.example.com
 a cname record for p2p.myenvironment.example.com pointing to myenvironment.example.com
 a cname record for provider.myenvironment.example.com pointing to myenvironment.example.com
