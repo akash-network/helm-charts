@@ -7,9 +7,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 26651
+    - port: 26656
       name: akashd-p2p
-    - port: 26661
+    - port: 26657
       name: akashd-rpc
   selector:
     akash.network/node: "{{ . }}"
