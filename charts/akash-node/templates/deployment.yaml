@@ -1,64 +1,63 @@
-{{- range untilStep 1 5 1 }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: akash-node-{{ . }}
-  namespace: {{ $.Release.Namespace }}
+  name: akash-node-1
+  namespace: {{ .Release.Namespace }}
   labels:
     app: akash-node
-    akash.network/node: "{{ . }}"
+    akash.network/node: 1
 spec:
-{{- if not $.Values.autoscaling.enabled }}
-  replicas: {{ $.Values.replicaCount }}
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
 {{- end }}
   selector:
     matchLabels:
       app: akash-node
-      akash.network/node: "{{ . }}"
+      akash.network/node: "1"
   template:
     metadata:
-    {{- with $.Values.podAnnotations }}
+    {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
         app: akash-node
-        akash.network/node: "{{ . }}"
+        akash.network/node: "1"
     spec:
-      {{- with $.Values.imagePullSecrets }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: akash-node
       securityContext:
-        {{- toYaml $.Values.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ $.Chart.Name }}
+        - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml $.Values.securityContext | nindent 12 }}
-          image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: [ "/bin/sh" , "/config/node.sh" ]
-          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:   
             - name: NODE
-              value: "{{ . }}"
+              value: "1"
             - name: AKASH_BOOT_KEYS
               value: /boot-keys
             - name: AKASH_MONIKER
-              value: {{ $.Values.akash_node.moniker }}-{{ . }}
+              value: {{ .Values.akash_node.moniker }}-1
             - name: AKASH_NET
-              value: {{ $.Values.akash_node.net }}
+              value: {{ .Values.akash_node.net }}
             - name: AKASH_HOME
-              value: {{ $.Values.akash_node.home }}
+              value: {{ .Values.akash_node.home }}
             - name: AKASH_FROM
-              value: {{ $.Values.akash_node.from }}
+              value: {{ .Values.akash_node.from }}
             - name: AKASH_CHAIN_ID
-              value: {{ $.Values.akash_node.chain_id }}
+              value: {{ .Values.akash_node.chain_id }}
             - name: AKASH_KEYRING_BACKEND
-              value: {{ $.Values.akash_node.keyring_backend }}
+              value: {{ .Values.akash_node.keyring_backend }}
             - name: AKASH_P2P_PERSISTENT_PEERS
-              value: {{ $.Values.akash_node.peers }}
+              value: {{ .Values.akash_node.peers }}
           ports:
             - containerPort: 26656
               name: akashd-p2p
@@ -71,19 +70,17 @@ spec:
             - name: keys
               mountPath: /boot-keys
               readOnly: true
-            - mountPath: /data
-              name: nfs-vol
           resources:
-            {{- toYaml $.Values.resources | nindent 12 }}
-      {{- with $.Values.nodeSelector }}
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with $.Values.affinity }}
+      {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with $.Values.tolerations }}
+      {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -94,8 +91,3 @@ spec:
         - name: keys
           secret:
             secretName: akash-node-keys
-        - name: nfs-vol
-          nfs: 
-            server: nfs-share
-            path: /
-{{- end }}

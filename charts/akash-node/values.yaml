@@ -21,6 +21,21 @@ akash_node:
   keyring_backend: "test"
   peers:
 
+bootstrap:
+  enabled: true
+  validator-1: dummy_id_1
+  validator-2: dummy_id_2
+  validator-3: dummy_id_3
+  validator-4: dummy_id_4
+  priv_key_1: |
+    dummy_priv_key_1
+  priv_key_2: |
+    dummy_priv_key_2
+  priv_key_3: |
+    dummy_priv_key_3
+  priv_key_4: |
+    dummy_priv_key_4
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
