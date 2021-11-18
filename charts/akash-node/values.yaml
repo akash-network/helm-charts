@@ -22,11 +22,11 @@ akash_node:
   peers:
 
 bootstrap:
-  enabled: true
-  validator-1: dummy_id_1
-  validator-2: dummy_id_2
-  validator-3: dummy_id_3
-  validator-4: dummy_id_4
+  enabled: false
+  validator1: dummy_id_1
+  validator2: dummy_id_2
+  validator3: dummy_id_3
+  validator4: dummy_id_4
   priv_key_1: |
     dummy_priv_key_1
   priv_key_2: |
@@ -35,6 +35,8 @@ bootstrap:
     dummy_priv_key_3
   priv_key_4: |
     dummy_priv_key_4
+  genesis: |
+    dummy_genesis
 
 imagePullSecrets: []
 nameOverride: ""

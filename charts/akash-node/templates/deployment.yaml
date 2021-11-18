@@ -1,3 +1,4 @@
+ {{if not (default .Values.bootstrap.enabled true)}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -91,3 +92,4 @@ spec:
         - name: keys
           secret:
             secretName: akash-node-keys
+{{ end }}

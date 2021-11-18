@@ -1,3 +1,4 @@
+ {{if not (default .Values.bootstrap.enabled true)}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -28,3 +29,4 @@ data:
     export AKASH_RPC_PPROF_LADDR=0.0.0.0:6060
     export AKASH_GRPC_ADDRESS=0.0.0.0:9090
     /bin/akash start
+{{ end }}
