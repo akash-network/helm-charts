@@ -51,6 +51,13 @@ CHAIN_ID=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_N
 PEERS=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET/peer-nodes.txt" | sed "N;s/\n/,/")
 ```
 
+We also need some namespaces to exist.
+
+```
+kubectl create ns akash-services
+kubectl create ns ingress-nginx
+```
+
 #### Akash Node Install
 
 Install an Akash node. You can copy and paste all of these helm commands.

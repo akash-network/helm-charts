@@ -19,6 +19,7 @@ data:
     ##
     cat <<EOT >> provider.yaml
     host: https://provider.{{ .Values.akash_provider.domain }}
+    attributes:
       - key: host
         value: akash
       - key: tier
