@@ -17,8 +17,8 @@ keysecret:
 home: "/root/.akash"
 node: "http://akash-node-1:26657"
 chainid:
-keyring-backend: "test"
-trust-node: "true"
+keyringbackend: "test"
+trustnode: "true"
 domain:
 
 imagePullSecrets: []

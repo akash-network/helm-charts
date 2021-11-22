@@ -74,11 +74,11 @@ spec:
 
             # --keyring-backend
             - name: AKASH_KEYRING_BACKEND
-              value: {{ .Values.keyring-backend }}
+              value: {{ .Values.keyringbackend }}
 
             # --trust-node
             - name: AKASH_TRUST_NODE
-              value: {{ .Values.trust-node }}
+              value: {{ .Values.trustnode }}
 
             ##
             # akash-provider config
