@@ -50,7 +50,7 @@ spec:
             # key.txt:      exported wallet key
             # key-pass.txt: password used to encrypt exported key
             - name: AKASH_BOOT_KEYS
-              value: /boot-keys
+              value: "/boot-keys"
 
             ##
             # cosmos-sdk client config
@@ -58,52 +58,52 @@ spec:
 
             # --home
             - name: AKASH_HOME
-              value: {{ .Values.home }}
+              value: "{{ .Values.home }}"
 
             # --from
             - name: AKASH_FROM
-              value: {{ .Values.from }}
+              value: "{{ .Values.from }}"
 
             # --node
             - name: AKASH_NODE
-              value: {{ .Values.node }}
+              value: "{{ .Values.node }}"
 
             # --chain-id
             - name: AKASH_CHAIN_ID
-              value: {{ .Values.chainid }}
+              value: "{{ .Values.chainid }}"
 
             # --keyring-backend
             - name: AKASH_KEYRING_BACKEND
-              value: {{ .Values.keyringbackend }}
+              value: "{{ .Values.keyringbackend }}"
 
             # --trust-node
             - name: AKASH_TRUST_NODE
-              value: {{ .Values.trustnode }}
+              value: "{{ .Values.trustnode }}"
 
             ##
             # akash-provider config
             ##
 
             - name: AKASH_DEPLOYMENT_INGRESS_DOMAIN
-              value: ingress.{{ .Values.domain }}
+              value: "ingress.{{ .Values.domain }}"
 
             - name: AKASH_FEES
-              value: 5123uakt
+              value: "5123uakt"
 
             - name: AKASH_DEPLOYMENT_INGRESS_STATIC_HOSTS
-              value: true
+              value: "true"
     
             - name: AKASH_DEPLOYMENT_BLOCKED_HOSTNAMES
-              value:
+              value: ""
 
             - name: AKASH_CLUSTER_NODE_PORT_QUANTITY
-              value: 2500
+              value: "2500"
 
             - name: AKASH_CLUSTER_PUBLIC_HOSTNAME
-              value: provider.{{ .Values.domain }}
+              value: "provider.{{ .Values.domain }}"
     
             - name: AKASH_BID_PRICE_STRATEGY
-              value: scale
+              value: "scale"
 
             - name: AKASH_BID_PRICE_CPU_SCALE
               value: "0.004"
@@ -118,28 +118,28 @@ spec:
               value: "0.00016"  
     
             - name: AKASH_OVERCOMMIT_PCT_CPU
-              value: 0
+              value: "0"
 
             - name: AKASH_OVERCOMMIT_PCT_MEM
-              value: 0
+              value: "0"
 
             - name: AKASH_OVERCOMMIT_PCT_STORAGE
-              value: 0
+              value: "0"
 
             - name: AKASH_LOG_LEVEL
-              value: info
+              value: "info"
 
             - name: AKASH_CLUSTER_K8S
-              value: true
+              value: "true"
     
             - name: KUBE_CONFIG
               value: "{{ .Values.home }}/.kube/config"
 
             - name: AKASH_DEPLOYMENT_RUNTIME_CLASS
-              value: none
+              value: "none"
 
             - name: AKASH_WITHDRAWAL_PERIOD
-              value: 24h
+              value: "24h"
 
           ports:
             - name: api
