@@ -77,7 +77,7 @@ Install an Akash provider that connects to your Akash node.
 helm install akash-provider akash/provider -n akash-services \
      --set akash_client.from=$ACCOUNT_ADDRESS \
      --set akash_client.key=$(cat ./key.pem | base64) \
-     --set akash_client.keysecret=$KEY_SECRET \
+     --set akash_client.keysecret=$(echo $KEY_SECRET | base64) \
      --set akash_client.node=$NODE \
      --set akash_client.chain-id=$CHAIN_ID \
      --set akash_provider.domain=$DOMAIN
