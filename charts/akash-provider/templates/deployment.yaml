@@ -102,12 +102,6 @@ spec:
             # akash-provider config
             ##
 
-            - name: AKASH_AUTH_PEM
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "provider.fullname" . }}-keys
-                  key: provider-cert.pem
-
             # include unique hostnames for apps
             - name: AKASH_DEPLOYMENT_RUNTIME_CLASS
               valueFrom:
