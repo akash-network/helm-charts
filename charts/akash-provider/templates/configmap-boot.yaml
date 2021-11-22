@@ -18,7 +18,7 @@ data:
     # Create Provider
     ##
     cat <<EOT >> provider.yaml
-    host: https://provider.{{ .Values.domain }}
+    host: https://provider.{{ .Values.domain }}:8443
     attributes:
       - key: host
         value: akash
