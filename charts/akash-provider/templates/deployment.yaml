@@ -58,282 +58,89 @@ spec:
 
             # --home
             - name: AKASH_HOME
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-client-config
-                  key: home
+              value: {{ .Values.home }}
 
             # --from
             - name: AKASH_FROM
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-client-config
-                  key: from
+              value: {{ .Values.from }}
 
             # --node
             - name: AKASH_NODE
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-client-config
-                  key: node
+              value: {{ .Values.node }}
 
             # --chain-id
             - name: AKASH_CHAIN_ID
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-client-config
-                  key: chain-id
+              value: {{ .Values.chainid }}
 
             # --keyring-backend
             - name: AKASH_KEYRING_BACKEND
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-client-config
-                  key: keyring-backend
+              value: {{ .Values.keyring-backend }}
 
             # --trust-node
             - name: AKASH_TRUST_NODE
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-client-config
-                  key: trust-node
+              value: {{ .Values.trust-node }}
 
             ##
             # akash-provider config
             ##
 
-            # include unique hostnames for apps
-            - name: AKASH_DEPLOYMENT_RUNTIME_CLASS
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: deployment-runtime-class
-                  optional: true
-
-            # include unique hostnames for apps
-            - name: AKASH_DEPLOYMENT_INGRESS_STATIC_HOSTS
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: ingress-static-hosts
-                  optional: true
-
-            # domain to host unique app hostnames on
-            # (required if AKASH_DEPLOYMENT_INGRESS_STATIC_HOSTS is "true")
             - name: AKASH_DEPLOYMENT_INGRESS_DOMAIN
-              value: ingress.{{ .Values.akash_provider.domain }}
+              value: ingress.{{ .Values.domain }}
 
-            # return load balancer host in lease status command
-            - name: AKASH_DEPLOYMENT_INGRESS_EXPOSE_LB_HOSTS
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: ingress-expose-lb-hosts
-                  optional: true
+            - name: AKASH_FEES
+              value: 5123uakt
 
-            # return load balancer host in lease status command
-            - name: AKASH_DEPLOYMENT_NETWORK_POLICIES_ENABLED
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: network-policies-enabled
-                  optional: true
-
-            - name: AKASH_MAX_UNIT_CPU
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: max-unit-cpu
-                  optional: true
-
-            - name: AKASH_MAX_UNIT_MEMORY
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: max-unit-memory
-                  optional: true
-
-            - name: AKASH_MAX_UNIT_STORAGE
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: max-unit-storage
-                  optional: true
-
-            - name: AKASH_MAX_UNIT_COUNT
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: max-unit-count
-                  optional: true
-
-            - name: AKASH_MAX_UNIT_PRICE
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: max-unit-price
-                  optional: true
-
-            - name: AKASH_MIN_UNIT_CPU
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: min-unit-cpu
-                  optional: true
-
-            - name: AKASH_MIN_UNIT_MEMORY
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: min-unit-memory
-                  optional: true
-
-            - name: AKASH_MIN_UNIT_STORAGE
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: min-unit-storage
-                  optional: true
-
-            - name: AKASH_MIN_UNIT_COUNT
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: min-unit-count
-                  optional: true
-
-            - name: AKASH_MIN_UNIT_PRICE
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: min-unit-price
-                  optional: true
-
-            - name: AKASH_MAX_GROUP_COUNT
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: max-group-count
-                  optional: true
-
-            - name: AKASH_MAX_GROUP_UNITS
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: max-group-units
-                  optional: true
-
-            - name: AKASH_MAX_GROUP_CPU
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: max-group-cpu
-                  optional: true
-
-            - name: AKASH_MAX_GROUP_MEMORY
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: max-group-memory
-                  optional: true
-
-            - name: AKASH_MAX_GROUP_STORAGE
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: max-group-storage
-                  optional: true
-
-            - name: AKASH_MEM_PRICE_MIN
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: mem-price-min
-                  optional: true
-
-            - name: AKASH_CLUSTER_PUBLIC_HOSTNAME
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: cluster-public-hostname
-                  optional: true
+            - name: AKASH_DEPLOYMENT_INGRESS_STATIC_HOSTS
+              value: true
+    
+            - name: AKASH_DEPLOYMENT_BLOCKED_HOSTNAMES
+              value:
 
             - name: AKASH_CLUSTER_NODE_PORT_QUANTITY
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: cluster-node-port-quantity
-                  optional: true
+              value: 2500
 
-            - name: AKASH_CLUSTER_WAIT_READY_DURATION
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: cluster_wait-ready-duration
-                  optional: true
-
-            - name: AKASH_INVENTORY_RESOURCE_POLL_PERIOD
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: inventory-resource-poll-period
-                  optional: true
-
-            - name: AKASH_INVENTORY_RESOURCE_DEBUG_FREQUENCY
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: inventory-resource-debug-freq
-                  optional: true
-
+            - name: AKASH_CLUSTER_PUBLIC_HOSTNAME
+              value: provider.{{ .Values.domain }}
+    
             - name: AKASH_BID_PRICE_STRATEGY
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: bid-price-strategy
-                  optional: true
+              value: scale
 
             - name: AKASH_BID_PRICE_CPU_SCALE
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: bid-cpu-scale
-                  optional: true
+              value: "0.004"
 
             - name: AKASH_BID_PRICE_MEMORY_SCALE
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: bid-memory-scale
-                  optional: true
+              value: "0.0016"
+    
+            - name: AKASH_BID_PRICE_ENDPOINT_SCALE
+              value: "0"
 
             - name: AKASH_BID_PRICE_STORAGE_SCALE
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: bid-storage-scale
-                  optional: true
+              value: "0.00016"  
+    
+            - name: AKASH_OVERCOMMIT_PCT_CPU
+              value: 0
 
-            - name: AKASH_BID_PRICE_SCRIPT_PATH
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: bid-script-path
-                  optional: true
+            - name: AKASH_OVERCOMMIT_PCT_MEM
+              value: 0
 
-            - name: AKASH_BID_PRICE_SCRIPT_PROCESS_LIMIT
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: bid-script-process-limit
-                  optional: true
+            - name: AKASH_OVERCOMMIT_PCT_STORAGE
+              value: 0
 
-            - name: AKASH_BID_PRICE_SCRIPT_PROCESS_TIMEOUT
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ include "provider.fullname" . }}-config
-                  key: bid-script-process-timeout
-                  optional: true
+            - name: AKASH_LOG_LEVEL
+              value: info
+
+            - name: AKASH_CLUSTER_K8S
+              value: true
+    
+            - name: KUBE_CONFIG
+              value: "{{ .Values.home }}/.kube/config"
+
+            - name: AKASH_DEPLOYMENT_RUNTIME_CLASS
+              value: none
+
+            - name: AKASH_WITHDRAWAL_PERIOD
+              value: 24h
+
           ports:
             - name: api
               containerPort: 8443

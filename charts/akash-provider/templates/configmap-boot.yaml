@@ -18,7 +18,7 @@ data:
     # Create Provider
     ##
     cat <<EOT >> provider.yaml
-    host: https://provider.{{ .Values.akash_provider.domain }}
+    host: https://provider.{{ .Values.domain }}
     attributes:
       - key: host
         value: akash
@@ -26,10 +26,12 @@ data:
         value: community
       - key: organization
         value: akash.network
+      - key: chia-plotting
+        value: true
     EOT
     yes | /bin/akash tx provider create provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --fees 5000uakt || true
     yes | /bin/akash tx provider update provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --fees 5000uakt || true
-    yes | akash tx cert create server provider.{{ .Values.akash_provider.domain }} --chain-id $AKASH_CHAIN_ID --keyring-backend $AKASH_KEYRING_BACKEND --from $AKASH_FROM --home=$AKASH_HOME --node=$AKASH_NODE --fees 5000uakt
+    yes | akash tx cert create server provider.{{ .Values.domain }} --chain-id $AKASH_CHAIN_ID --keyring-backend $AKASH_KEYRING_BACKEND --from $AKASH_FROM --home=$AKASH_HOME --node=$AKASH_NODE --fees 5000uakt
 
     ##
     # Run daemon
