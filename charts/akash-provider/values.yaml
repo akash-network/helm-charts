@@ -62,14 +62,13 @@ akash_client:
   key:
   keysecret:
   home: "/root/.akash"
-  node: "http://akash-node:26661"
+  node: "http://akash-node-1:26657"
   chain-id:
   keyring-backend: "test"
   trust-node: "true"
 
 akash_provider:
   domain:
-  providercert:
   ingress-static-hosts: false
   ingress-expose-lb-hosts: false
   network-policies-enabled: false

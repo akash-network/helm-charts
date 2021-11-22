@@ -15,7 +15,22 @@ data:
     cat "$AKASH_BOOT_KEYS/key-pass.txt" | { cat ; echo ; } | /bin/akash --home="$AKASH_HOME" keys import --keyring-backend="$AKASH_KEYRING_BACKEND"  "$AKASH_FROM" "$AKASH_BOOT_KEYS/key.txt"
 
     ##
+    # Create Provider
+    ##
+    cat <<EOT >> provider.yaml
+    host: https://provider.{{ .Values.akash_provider.domain }}
+      - key: host
+        value: akash
+      - key: tier
+        value: community
+      - key: organization
+        value: akash.network
+    EOT
+    yes | /bin/akash tx provider create provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --fees 5000uakt || true
+    yes | /bin/akash tx provider update provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --fees 5000uakt || true
+    yes | akash tx cert create server provider.{{ .Values.akash_provider.domain }} --chain-id $AKASH_CHAIN_ID --keyring-backend $AKASH_KEYRING_BACKEND --from $AKASH_FROM --home=$AKASH_HOME --node=$AKASH_NODE --fees 5000uakt
+
+    ##
     # Run daemon
     ##
-    #/akash --home=$AKASH_HOME provider run --cluster-k8s
     /bin/akash --home="$AKASH_HOME" --node="$AKASH_NODE" --chain-id="$AKASH_CHAIN_ID" --keyring-backend="$AKASH_KEYRING_BACKEND" --from="$AKASH_FROM" provider run --cluster-k8s
