@@ -48,8 +48,8 @@ Use these variables to construct some Akash variables. You can copy and paste th
 
 ```
 NET_URL=https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET
-NODE=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET/rpc-nodes.txt | head -1)
-CHAIN_ID=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET/chain-id.txt)
+NODE=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET/rpc-nodes.txt" | head -1)
+CHAIN_ID=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET/chain-id.txt")
 PEERS=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET/peer-nodes.txt" | sed "N;s/\n/,/")
 ```
 
@@ -82,7 +82,6 @@ helm install akash-provider akash/akash-provider -n akash-services \
      --set akash_client.keysecret=$KEY_SECRET \
      --set akash_client.node=$NODE \
      --set akash_client.chain-id=$CHAIN_ID \
-     --set akash_provider.providercert=$(cat ./provider-cert.pem) \
      --set akash_provider.domain=$DOMAIN
 ```
 
