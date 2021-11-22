@@ -58,6 +58,13 @@ kubectl create ns akash-services
 kubectl create ns ingress-nginx
 ```
 
+And we need to label our nodes so that our Ingress runs.
+
+```
+kubectl label nodes k8s-node-0 akash.network/role=ingress
+kubectl label nodes k8s-node-1 akash.network/role=ingress
+```
+
 #### Akash Node Install
 
 Install an Akash node. You can copy and paste all of these helm commands.
@@ -65,8 +72,8 @@ Install an Akash node. You can copy and paste all of these helm commands.
 ```
 helm install akash-node akash/akash-node -n akash-services \
      --set akash_node.from=$ACCOUNT_ADDRESS \
-     --set akash_node.key=$(cat ./key.pem) \
-     --set akash_node.keysecret=$KEY_SECRET \
+     --set akash_node.key=$(cat ./key.pem | base64) \
+     --set akash_node.keysecret=$(echo $KEY_SECRET | base64) \
      --set akash_node.node=$NODE \
      --set akash_node.chain_id=$CHAIN_ID \
      --set akash_node.moniker=$DOMAIN \
