@@ -9,8 +9,6 @@ image:
   pullPolicy: IfNotPresent
   tag: stable
 
-installCRDs: true
-
 from:
 key:
 keysecret:
