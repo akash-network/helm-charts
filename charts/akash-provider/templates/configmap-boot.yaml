@@ -31,12 +31,12 @@ data:
       - key: chia-plotting
         value: true
     EOT
-    yes | /bin/akash tx provider create provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --fees 25000uakt --gas auto --broadcast-mode block || true
-    sleep 10
-    yes | /bin/akash tx provider update provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --fees 25000uakt --gas auto --broadcast-mode block || true
-    sleep 10
-    yes | akash tx cert create server provider.{{ .Values.domain }} --chain-id $AKASH_CHAIN_ID --keyring-backend $AKASH_KEYRING_BACKEND --from $AKASH_FROM --home=$AKASH_HOME --node=$AKASH_NODE --fees 25000uakt --gas auto --broadcast-mode block
-    sleep 10
+    yes | /bin/akash tx provider create provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --fees 25000uakt --gas auto --broadcast-mode async || true
+    sleep 15
+    yes | /bin/akash tx provider update provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --fees 25000uakt --gas auto --broadcast-mode async || true
+    sleep 15
+    yes | akash tx cert create server provider.{{ .Values.domain }} --chain-id $AKASH_CHAIN_ID --keyring-backend $AKASH_KEYRING_BACKEND --from $AKASH_FROM --home=$AKASH_HOME --node=$AKASH_NODE --fees 25000uakt --gas auto --broadcast-mode async
+    sleep 15
     ##
     # Run daemon
     ##
