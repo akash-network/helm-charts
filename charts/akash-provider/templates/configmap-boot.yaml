@@ -20,14 +20,14 @@ data:
     cat <<EOT >> provider.yaml
     host: https://provider.{{ .Values.domain }}:8443
     attributes:
+      - key: region
+        value: russia
       - key: host
         value: akash
       - key: tier
         value: community
       - key: organization
         value: akash.network
-      - key: chia-plotting
-        value: true
     EOT
     yes | /bin/akash tx provider create provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --fees 5000uakt || true
     yes | /bin/akash tx provider update provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --fees 5000uakt || true
