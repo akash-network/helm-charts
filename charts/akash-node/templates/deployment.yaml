@@ -41,24 +41,28 @@ spec:
           command: [ "/bin/sh" , "/config/node.sh" ]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:   
-            - name: NODE
-              value: "1"
-            - name: AKASH_BOOT_KEYS
-              value: /boot-keys
             - name: AKASH_MONIKER
               value: {{ .Values.akash_node.moniker }}-1
             - name: AKASH_NET
               value: {{ .Values.akash_node.net }}
             - name: AKASH_HOME
-              value: {{ .Values.akash_node.home }}
+              value: {{ .Values.home }}
             - name: AKASH_FROM
-              value: {{ .Values.akash_node.from }}
+              value: {{ .Values.from }}
             - name: AKASH_CHAIN_ID
-              value: {{ .Values.akash_node.chain_id }}
+              value: {{ .Values.chainid }}
             - name: AKASH_KEYRING_BACKEND
-              value: {{ .Values.akash_node.keyring_backend }}
+              value: {{ .Values.keyring_backend }}
             - name: AKASH_P2P_PERSISTENT_PEERS
               value: {{ .Values.akash_node.peers }}
+            - name: AKASH_P2P_LADDR
+              value: tcp://0.0.0.0:26656
+            - name: AKASH_RPC_LADDR
+              value: tcp://0.0.0.0:26657
+            - name: AKASH_RPC_PPROF_LADDR
+              value: 0.0.0.0:6060
+            - name: AKASH_GRPC_ADDRESS
+              value: 0.0.0.0:9090
           ports:
             - containerPort: 26656
               name: akashd-p2p

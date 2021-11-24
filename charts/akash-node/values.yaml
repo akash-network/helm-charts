@@ -9,34 +9,33 @@ image:
   pullPolicy: IfNotPresent
   tag: stable
 
+# Mandatory Values
+from:
+key:
+keysecret:
+chainid:
+keyring_backend: "test"
+home: "/root/.akash"
+
+# Set Values to run a single Akash node connected to an existing network
 akash_node:
   moniker:
-  net:
-  from:
-  key:
-  keysecret:
-  home: "/root/.akash"
   node:
-  chain_id:
-  keyring_backend: "test"
+  net:
   peers:
 
+# Enable to run a 4 node Akash network from bootstrap
 bootstrap:
   enabled: false
-  validator1: dummy_id_1
-  validator2: dummy_id_2
-  validator3: dummy_id_3
-  validator4: dummy_id_4
-  priv_key_1: |
-    dummy_priv_key_1
-  priv_key_2: |
-    dummy_priv_key_2
-  priv_key_3: |
-    dummy_priv_key_3
-  priv_key_4: |
-    dummy_priv_key_4
-  genesis: |
-    dummy_genesis
+  validator1:
+  validator2:
+  validator3:
+  validator4:
+  priv_key_1:
+  priv_key_2:
+  priv_key_3:
+  priv_key_4:
+  genesis:
 
 imagePullSecrets: []
 nameOverride: ""

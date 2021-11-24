@@ -44,25 +44,14 @@ spec:
           env:   
             - name: NODE
               value: "{{ . }}"
-            - name: GENESIS
-              value: |+
-{{ $.Values.bootstrap.genesis | indent 16 }}
-            - name: AKASH_BOOT_KEYS
-              value: /boot-keys
-            - name: AKASH_MONIKER
-              value: {{ $.Values.akash_node.moniker }}-{{ . }}
-            - name: AKASH_NET
-              value: {{ $.Values.akash_node.net }}
             - name: AKASH_HOME
-              value: {{ $.Values.akash_node.home }}
+              value: {{ $.Values.home }}
             - name: AKASH_FROM
-              value: {{ $.Values.akash_node.from }}
+              value: {{ $.Values.from }}
             - name: AKASH_CHAIN_ID
-              value: {{ $.Values.akash_node.chain_id }}
+              value: {{ $.Values.chainid }}
             - name: AKASH_KEYRING_BACKEND
-              value: {{ $.Values.akash_node.keyring_backend }}
-            - name: AKASH_P2P_PERSISTENT_PEERS
-              value: {{ $.Values.akash_node.peers }}
+              value: {{ $.Values.keyring_backend }}
             - name: AKASH_P2P_PRIVATE_PEER_IDS
               value: "{{ $.Values.bootstrap.validator1 }}@akash-node-1:26656,{{ $.Values.bootstrap.validator2 }}@akash-node-2:26656,{{ $.Values.bootstrap.validator3 }}@akash-node-3:26656,{{ $.Values.bootstrap.validator4 }}@akash-node-4:26656"  
             - name: AKASH_P2P_LADDR
@@ -85,6 +74,9 @@ spec:
             - name: keys
               mountPath: /boot-keys
               readOnly: true
+            - name: bootstrap
+              mountPath: /bootstrap
+              readOnly: true
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
       {{- with $.Values.nodeSelector }}
@@ -102,9 +94,12 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: akash-node-config
+            name: akash-node-config-bootstrap
         - name: keys
           secret:
             secretName: akash-node-keys
+        - name: bootstrap
+          secret:
+            secretName: akash-node-bootstrap
 {{- end }}
 {{ end }}
