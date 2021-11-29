@@ -31,6 +31,10 @@ bootstrap:
   validator2:
   validator3:
   validator4:
+  node_key_1:
+  node_key_2:
+  node_key_3:
+  node_key_4:
   priv_key_1:
   priv_key_2:
   priv_key_3:

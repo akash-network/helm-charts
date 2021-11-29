@@ -10,8 +10,9 @@ data:
   node.sh: |
     #!/bin/bash
     set -x
-    cat "/boot-keys/key-pass.txt" | { cat ; echo ; } | /bin/akash --home="$AKASH_HOME" keys import --keyring-backend="$AKASH_KEYRING_BACKEND"  "$AKASH_FROM" "/boot-keys/key.txt"
     cp /bootstrap/genesis.json $AKASH_HOME/config/genesis.json
+    cp /bootstrap/priv_validator_key_$NODE.json $AKASH_HOME/config/priv_validator_key.json
+    cp /bootstrap/node_key_$NODE.json $AKASH_HOME/config/node_key.json
     /bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
     /bin/akash validate-genesis
     /bin/akash start
