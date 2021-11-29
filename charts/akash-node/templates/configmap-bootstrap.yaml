@@ -21,7 +21,5 @@ data:
       "step": 0
     }
     EOT
-    /bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
-    /bin/akash validate-genesis
     /bin/akash start
 {{ end }}
