@@ -71,9 +71,6 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
-            - name: keys
-              mountPath: /boot-keys
-              readOnly: true
             - name: bootstrap
               mountPath: /bootstrap
               readOnly: true
@@ -95,9 +92,6 @@ spec:
         - name: config
           configMap:
             name: akash-node-config-bootstrap
-        - name: keys
-          secret:
-            secretName: akash-node-keys
         - name: bootstrap
           secret:
             secretName: akash-node-bootstrap
