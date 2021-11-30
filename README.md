@@ -41,10 +41,10 @@ Install an Akash node. You can copy and paste all of these helm commands.
 
 ```
 helm install akash-node akash/akash-node -n akash-services \
-     --set akash_node.from=$ACCOUNT_ADDRESS \
-     --set akash_node.key=$(cat ./key.pem | base64) \
-     --set akash_node.keysecret=$(echo $KEY_SECRET | base64) \
-     --set akash_node.moniker=$MONIKER
+     --set akash_node.from="$ACCOUNT_ADDRESS" \
+     --set akash_node.key="$(cat ./key.pem | base64)" \
+     --set akash_node.keysecret="$(echo $KEY_SECRET | base64)" \
+     --set akash_node.moniker="$MONIKER"
 ```
 
 #### Akash Provider Install
@@ -75,11 +75,11 @@ Now install the Provider.
 
 ```
 helm install akash-provider akash/provider -n akash-services \
-     --set from=$ACCOUNT_ADDRESS \
-     --set key=$(cat ./key.pem | base64) \
-     --set keysecret=$(echo $KEY_SECRET | base64) \
-     --set chainid=$CHAIN_ID \
-     --set domain=$DOMAIN
+     --set from="$ACCOUNT_ADDRESS" \
+     --set key="$(cat ./key.pem | base64)" \
+     --set keysecret="$(echo $KEY_SECRET | base64)" \
+     --set chainid="$CHAIN_ID" \
+     --set domain="$DOMAIN"
 ```
 
 #### Akash HostName Operator
