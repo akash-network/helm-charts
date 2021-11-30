@@ -14,12 +14,5 @@ data:
     cp /bootstrap/genesis.json $AKASH_HOME/config/genesis.json
     cp /bootstrap/priv_validator_key_$NODE.json $AKASH_HOME/config/priv_validator_key.json
     cp /bootstrap/node_key_$NODE.json $AKASH_HOME/config/node_key.json
-    cat <<EOT >> $AKASH_HOME/data/priv_validator_state.json
-    {
-      "height": "0",
-      "round": 0,
-      "step": 0
-    }
-    EOT
     /bin/akash start
 {{- end }}
