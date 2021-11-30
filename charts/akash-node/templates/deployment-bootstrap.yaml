@@ -96,4 +96,4 @@ spec:
           secret:
             secretName: akash-node-bootstrap
 {{- end }}
-{{ end }}
+{{- end }}
