@@ -24,7 +24,7 @@ akash_node:
   moniker:
   chainid: akashnet-2
   net: https://raw.githubusercontent.com/ovrclk/net/master/mainnet
-  peers: 27eb432ccd5e895c5c659659120d68b393dd8c60@35.247.65.183:26656,4acf579e2744268f834c713e894850995bbf0ffa@50.18.31.225:26656,6fbc3808f7d6c961e84944ae2d8c800a8bbffbb4@138.201.159.100:26656
+  peers: fae0fdad70bc02e91baaa905e114008cd57f8be9@147.75.32.107:26656
 
 # Enable to run a 4 node Akash network from bootstrap
 bootstrap:
