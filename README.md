@@ -16,7 +16,7 @@ the latest versions of the packages. You can then run `helm search repo akash` t
 
 You'll need a Kubernetes cluster. We recommend using Kubespray or Rancher Kubernetes Engine when deploying to bare metal. But really any Kubernetes cluster will work.
 
-Then, you need a funded wallet on the network that you would like to setup. In this documentation we'll use the `testnet`. But in production environments you will want to use `mainnet`.
+Then, you need a funded wallet on the network that you would like to setup. In this documentation we'll use the `mainnet` which is the default in the chart. But you can override values to point to any other net.
 
 Once you have a funded wallet export your private key with a password.
 
@@ -26,32 +26,32 @@ Put your private key into a file named `key.pem` in the current directory.
 
 Set your KUBECONFIG to the cluster you want to install on.
 
-Decide what Net you would like to run. Either mainnet, testnet or edgenet.
-
-```
-AKASH_NET=testnet
-```
-
 Now manually set your public wallet address and the password that can unlock your private key.
-
-Also, set the public DNS zone you would like to use.
 
 ```
 ACCOUNT_ADDRESS=        # Your Akash public wallet address
 KEY_SECRET=             # The password you used when you exported your private key
 DOMAIN=my.domain.com    # A top level domain
+MONIKER=mynode          # A unique name for your Akash node
 ```
 
-Use these variables to construct some Akash variables. You can copy and paste this block.
+#### Akash Node Install
+
+Install an Akash node. You can copy and paste all of these helm commands.
 
 ```
-NET_URL=https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET
-NODE=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET/rpc-nodes.txt" | head -1)
-CHAIN_ID=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET/chain-id.txt")
-PEERS=$(curl -s "https://raw.githubusercontent.com/ovrclk/net/master/$AKASH_NET/peer-nodes.txt" | sed "N;s/\n/,/")
+helm install akash-node akash/akash-node -n akash-services \
+     --set akash_node.from=$ACCOUNT_ADDRESS \
+     --set akash_node.key=$(cat ./key.pem | base64) \
+     --set akash_node.keysecret=$(echo $KEY_SECRET | base64) \
+     --set akash_node.moniker=$MONIKER
 ```
 
-We also need some namespaces to exist.
+#### Akash Provider Install
+
+Install an Akash provider that connects to your Akash node.
+
+We need some namespaces to exist for the provider.
 
 ```
 kubectl create ns akash-services
@@ -65,28 +65,19 @@ kubectl label nodes k8s-node-0 akash.network/role=ingress
 kubectl label nodes k8s-node-1 akash.network/role=ingress
 ```
 
-#### Akash Node Install
-
-Install an Akash node. You can copy and paste all of these helm commands.
+We also need to set our top level domain.
 
 ```
-helm install akash-node akash/akash-node -n akash-services \
-     --set akash_node.from=$ACCOUNT_ADDRESS \
-     --set akash_node.key=$(cat ./key.pem | base64) \
-     --set akash_node.keysecret=$(echo $KEY_SECRET | base64) \
-     --set akash_node.moniker=myuniquename
+DOMAIN=my.domain.com
 ```
 
-#### Akash Provider Install
-
-Install an Akash provider that connects to your Akash node.
+Now install the Provider.
 
 ```
 helm install akash-provider akash/provider -n akash-services \
      --set from=$ACCOUNT_ADDRESS \
      --set key=$(cat ./key.pem | base64) \
      --set keysecret=$(echo $KEY_SECRET | base64) \
-     --set node=$NODE \
      --set chainid=$CHAIN_ID \
      --set domain=$DOMAIN
 ```
