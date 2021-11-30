@@ -15,4 +15,5 @@ data:
     cp /bootstrap/priv_validator_key_$NODE.json $AKASH_HOME/config/priv_validator_key.json
     cp /bootstrap/node_key_$NODE.json $AKASH_HOME/config/node_key.json
     /bin/akash start
+    sleep 5000
 {{- end }}
