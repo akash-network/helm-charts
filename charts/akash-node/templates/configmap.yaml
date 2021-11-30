@@ -1,4 +1,4 @@
- {{if not (default .Values.bootstrap.enabled true)}}
+{{if (default .Values.akash_node.enabled true)}}
 apiVersion: v1
 kind: ConfigMap
 metadata:

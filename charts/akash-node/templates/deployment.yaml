@@ -1,4 +1,4 @@
- {{if not (default .Values.bootstrap.enabled true)}}
+{{if (default .Values.akash_node.enabled true)}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -48,9 +48,9 @@ spec:
             - name: AKASH_HOME
               value: {{ .Values.home }}
             - name: AKASH_FROM
-              value: {{ .Values.from }}
+              value: {{ .Values.akash_node.from }}
             - name: AKASH_CHAIN_ID
-              value: {{ .Values.chainid }}
+              value: {{ .Values.akash_node.chainid }}
             - name: AKASH_KEYRING_BACKEND
               value: {{ .Values.keyring_backend }}
             - name: AKASH_P2P_PERSISTENT_PEERS

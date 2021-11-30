@@ -9,20 +9,22 @@ image:
   pullPolicy: IfNotPresent
   tag: stable
 
-# Mandatory Values
-from:
-key:
-keysecret:
-chainid:
+# Common Values
+
 keyring_backend: "test"
 home: "/root/.akash"
 
 # Set Values to run a single Akash node connected to an existing network
+# Defaults to mainnet
 akash_node:
+  enabled: true
+  from:
+  key:
+  keysecret:
   moniker:
-  node:
-  net:
-  peers:
+  chainid: akashnet-2
+  net: https://raw.githubusercontent.com/ovrclk/net/master/mainnet
+  peers: https://rpc.prod.ewr1.akash.farm:443/token/XOH4NEIK/
 
 # Enable to run a 4 node Akash network from bootstrap
 bootstrap:

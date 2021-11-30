@@ -74,13 +74,7 @@ helm install akash-node akash/akash-node -n akash-services \
      --set akash_node.from=$ACCOUNT_ADDRESS \
      --set akash_node.key=$(cat ./key.pem | base64) \
      --set akash_node.keysecret=$(echo $KEY_SECRET | base64) \
-     --set akash_node.node=$NODE \
-     --set akash_node.chain_id=$CHAIN_ID \
-     --set akash_node.moniker=$DOMAIN \
-     --set akash_node.net=$NET_URL \
-     --set akash_node.peers=$PEERS \
-     --set ingress.enabled=true \
-     --set ingress.domain=$DOMAIN
+     --set akash_node.moniker=myuniquename
 ```
 
 #### Akash Provider Install
