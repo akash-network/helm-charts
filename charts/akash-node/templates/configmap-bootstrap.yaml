@@ -10,10 +10,12 @@ data:
   node.sh: |
     #!/bin/bash
     set -x
-    akash init temp --home $AKASH_HOME
+    akash init akash-node-1 --home $AKASH_HOME
     cp /bootstrap/genesis.json $AKASH_HOME/config/genesis.json
     cp /bootstrap/priv_validator_key_$NODE.json $AKASH_HOME/config/priv_validator_key.json
     cp /bootstrap/node_key_$NODE.json $AKASH_HOME/config/node_key.json
+    rm -fr $AKASH_HOME/data/*.db
+    rm -fr $AKASH_HOME/data/snapshots/*.db
     /bin/akash start
     sleep 5000
 {{- end }}
