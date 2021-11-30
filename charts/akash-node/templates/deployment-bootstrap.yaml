@@ -46,10 +46,6 @@ spec:
               value: "{{ . }}"
             - name: AKASH_HOME
               value: {{ $.Values.home }}
-            - name: AKASH_FROM
-              value: {{ $.Values.from }}
-            - name: AKASH_CHAIN_ID
-              value: {{ $.Values.chainid }}
             - name: AKASH_KEYRING_BACKEND
               value: {{ $.Values.keyring_backend }}
             - name: AKASH_P2P_PRIVATE_PEER_IDS
