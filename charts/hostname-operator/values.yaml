@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/ovrclk/akash
   pullPolicy: IfNotPresent
-  tag: stable
+  tag: 0.14.1-rc3
 
 imagePullSecrets: []
 nameOverride: ""
