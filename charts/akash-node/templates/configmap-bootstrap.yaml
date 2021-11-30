@@ -16,4 +16,5 @@ data:
     cp /bootstrap/node_key_$NODE.json $AKASH_HOME/config/node_key.json
     sed -i "/addr_book_strict = true/c\addr_book_strict = false" $AKASH_HOME/config/config.toml
     /bin/akash start --p2p.persistent_peers="$AKASH_P2P_PRIVATE_PEER_IDS"
+    [[ "$AKASH_DEBUG" == "true" ]] && sleep 5000
 {{- end }}

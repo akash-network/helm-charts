@@ -13,6 +13,7 @@ image:
 
 keyring_backend: "test"
 home: "/root/.akash"
+debug: "false"
 
 # Set Values to run a single Akash node connected to an existing network
 # Defaults to mainnet
