@@ -14,6 +14,5 @@ data:
     cp /bootstrap/genesis.json $AKASH_HOME/config/genesis.json
     cp /bootstrap/priv_validator_key_$NODE.json $AKASH_HOME/config/priv_validator_key.json
     cp /bootstrap/node_key_$NODE.json $AKASH_HOME/config/node_key.json
-    sed -i "/persistent_peers/c\persistent_peers = \"$AKASH_P2P_PRIVATE_PEER_IDS\"" $AKASH_HOME/config/config.toml
-    /bin/akash start
+    /bin/akash start --p2p.persistent_peers="$AKASH_P2P_PRIVATE_PEER_IDS"
 {{- end }}
