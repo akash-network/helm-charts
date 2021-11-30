@@ -1,4 +1,4 @@
-{{if (default .Values.akash_node.enabled true)}}
+{{- if .Values.akash_node.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -16,4 +16,4 @@ data:
     curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME"/config/genesis.json
     /bin/akash validate-genesis
     /bin/akash start
-{{ end }}
+{{- end }}

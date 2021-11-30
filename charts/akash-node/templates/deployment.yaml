@@ -1,4 +1,4 @@
-{{if (default .Values.akash_node.enabled true)}}
+{{- if .Values.akash_node.enabled -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -96,4 +96,4 @@ spec:
         - name: keys
           secret:
             secretName: akash-node-keys
-{{ end }}
+{{- end }}

@@ -1,4 +1,4 @@
-{{if (default .Values.bootstrap.enabled true)}}
+{{- if .Values.bootstrap.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:

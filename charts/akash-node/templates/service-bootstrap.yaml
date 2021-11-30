@@ -1,4 +1,4 @@
-{{if (default .Values.bootstrap.enabled true)}}
+{{- if .Values.bootstrap.enabled -}}
 {{- range untilStep 1 5 1 }}
 ---
 apiVersion: v1
@@ -16,4 +16,4 @@ spec:
   selector:
     akash.network/node: "{{ . }}"
 {{- end }}
-{{ end }}
+{{- end }}
