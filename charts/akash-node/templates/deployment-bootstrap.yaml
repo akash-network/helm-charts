@@ -47,7 +47,7 @@ spec:
             - name: AKASH_HOME
               value: {{ $.Values.home }}
             - name: AKASH_DEBUG
-              value: {{ $.Values.debug }}
+              value: "{{ $.Values.debug }}"
             - name: AKASH_KEYRING_BACKEND
               value: {{ $.Values.keyring_backend }}
             - name: AKASH_P2P_PRIVATE_PEER_IDS
