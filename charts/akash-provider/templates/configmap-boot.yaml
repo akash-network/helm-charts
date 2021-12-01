@@ -20,16 +20,10 @@ data:
     cat <<EOT >> provider.yaml
     host: https://provider.{{ .Values.domain }}:8443
     attributes:
-      - key: region
-        value: russia
-      - key: host
-        value: akash
-      - key: tier
-        value: community
-      - key: organization
-        value: akash.network
-      - key: chia-plotting
-        value: true
+    {{- range $key, $val := .Values.attributes }}
+      - key: {{ $val.key }}
+        value: {{ $val.value }}
+    {{- end }}
     EOT
     yes | /bin/akash tx provider create provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --fees 25000uakt --gas auto --broadcast-mode async || true
     sleep 15
@@ -41,3 +35,4 @@ data:
     # Run daemon
     ##
     /bin/akash --home="$AKASH_HOME" --node="$AKASH_NODE" --chain-id="$AKASH_CHAIN_ID" --keyring-backend="$AKASH_KEYRING_BACKEND" --from="$AKASH_FROM" provider run --cluster-k8s --deployment-network-policies-enabled false
+    if $AKASH_DEBUG == "true"; then sleep 5000; fi

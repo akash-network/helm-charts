@@ -12,12 +12,24 @@ image:
 from:
 key:
 keysecret:
+chainid:
+domain:
 home: "/root/.akash"
 node: "http://akash-node-1:26657"
-chainid:
 keyringbackend: "test"
 trustnode: "true"
-domain:
+
+attributes:
+  - key: region
+    value: us-west
+  - key: host
+    value: akash
+  - key: tier
+    value: community
+  - key: organization
+    value: akash.network
+
+debug: "false"
 
 imagePullSecrets: []
 nameOverride: ""

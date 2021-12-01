@@ -41,6 +41,8 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
+            - name: AKASH_DEBUG
+              value: "{{ $.Values.debug }}"
             ##
             # boot config
             ##
