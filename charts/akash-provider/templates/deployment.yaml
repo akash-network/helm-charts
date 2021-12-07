@@ -88,6 +88,18 @@ spec:
 
             - name: AKASH_DEPLOYMENT_INGRESS_DOMAIN
               value: "ingress.{{ .Values.domain }}"
+            
+            - name: AKASH_YES
+              value: "true"     
+
+            - name: AKASH_GAS
+              value: "auto"
+
+            - name: AKASH_GAS_ADJUSTMENT
+              value: "1.5"            
+
+            - name: AKASH_GAS_PRICES
+              value: "0.025uakt"
 
             - name: AKASH_FEES
               value: "5123uakt"
