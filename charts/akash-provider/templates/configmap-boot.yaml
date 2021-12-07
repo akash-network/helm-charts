@@ -25,6 +25,12 @@ data:
         value: {{ $val.value }}
     {{- end }}
     EOT
+
+    CPU_VENDOR=$(grep -m 1 'vendor' /proc/cpuinfo |sed 's/.*: //')
+    CPU_MODEL=$(grep -m 1 'model name' /proc/cpuinfo |sed 's/.*: //')
+    echo "Found CPU $CPU_VENDOR / $CPU_MODEL on Provider"
+    sed -i "s/cpuvalue/$(grep -m 1 'model name' /proc/cpuinfo |sed 's/.*: //')/g" provider.yaml
+
     yes | /bin/akash tx provider create provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --fees 25000uakt --gas auto --broadcast-mode block || true
     sleep 15
     yes | /bin/akash tx provider update provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --fees 25000uakt --gas auto --broadcast-mode block || true

@@ -28,6 +28,8 @@ attributes:
     value: community
   - key: organization
     value: akash.network
+  - key: cpu
+    value: cpuvalue
 
 debug: "false"
 
