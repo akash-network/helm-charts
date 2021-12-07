@@ -12,8 +12,13 @@ data:
     set -x
     cat "/boot-keys/key-pass.txt" | { cat ; echo ; } | /bin/akash --home="$AKASH_HOME" keys import --keyring-backend="$AKASH_KEYRING_BACKEND"  "$AKASH_FROM" "/boot-keys/key.txt"
     /bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
-    apt update && apt -y install curl > /dev/null 2>&1
+    apt update && apt -y install jq aria2 curl > /dev/null 2>&1
     curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME"/config/genesis.json
+    rm -rf $AKASH_HOME/data ; mkdir -p $AKASH_HOME/data ; cd $AKASH_HOME/data
+    SNAPSHOT_URL=$(curl https://cosmos-snapshots.s3.filebase.com/akash/snapshot.json | jq -r .latest)
+    echo "Using latest blockchain snapshot, $SNAPSHOT_URL" ; aria2c --out=snapshot.tar.gz --summary-interval 15 --max-connection-per-server=5 $SNAPSHOT_URL
+    tar -zxvf snapshot.tar.gz
+    rm -f snapshot.tar.gz
     /bin/akash validate-genesis
     /bin/akash start
 {{- end }}
