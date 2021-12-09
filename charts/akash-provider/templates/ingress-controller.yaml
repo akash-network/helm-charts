@@ -380,6 +380,12 @@ spec:
             - name: webhook            
               containerPort: 8443
               protocol: TCP
+            - name: p2p            
+              containerPort: 26656
+              protocol: TCP
+            - name: rpc           
+              containerPort: 26657
+              protocol: TCP
           volumeMounts:
             - name: webhook-cert
               mountPath: /usr/local/certificates/
