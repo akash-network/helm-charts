@@ -56,7 +56,6 @@ helm install akash-provider akash/provider -n akash-services \
      --set from="$ACCOUNT_ADDRESS" \
      --set key="$(cat ./key.pem | base64)" \
      --set keysecret="$(echo $KEY_SECRET | base64)" \
-     --set chainid="$CHAIN_ID" \
      --set domain="$DOMAIN"
 ```
 
