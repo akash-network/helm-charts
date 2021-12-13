@@ -35,14 +35,6 @@ DOMAIN=my.domain.com    # A top level domain
 MONIKER=mynode          # A unique name for your Akash node
 ```
 
-#### Ingress Install
-
-Install the Ingress configuration for Akash.
-
-```
-helm install akash-ingress akash/akash-ingress -n ingress-nginx --set domain=$DOMAIN
-```
-
 #### Akash Node Install
 
 Install an Akash node. You can copy and paste all of these helm commands.
@@ -76,6 +68,14 @@ Install a Hostname Operator that automates exposing Akash deployments.
 helm install hostname-operator akash/hostname-operator -n akash-services
 ```
 
+#### Ingress Install
+
+Install the Ingress configuration for Akash.
+
+```
+helm install akash-ingress akash/akash-ingress -n ingress-nginx --set domain=$DOMAIN
+```
+
 #### Akash Inventory Operator (Optional - for Persistent Storage)
 
 Install an Inventory Operator that is used for persistent storage. Specifically it reports the free space available to the Akash Provider. You will also need to install and configure the Rook Ceph helm chart on your cluster.
@@ -101,18 +101,18 @@ The Provider chart creates an ingress-nginx controller that runs on every Kubern
 Therefore the DNS structure should look something like this:
 
 ```
-an a record for myenvironment.example.com which contains the ip addresses of all Kubernetes workers
-a cname record for rpc.myenvironment.example.com pointing to myenvironment.example.com
-a cname record for p2p.myenvironment.example.com pointing to myenvironment.example.com
-a cname record for provider.myenvironment.example.com pointing to myenvironment.example.com
-a cname record for *.ingress.myenvironment.example.com pointing to myenvironment.example.com
+an A record for nodes.example.com which contains the ip addresses of all Kubernetes worker nodes
+a CNAME record for rpc.myenvironment.example.com pointing to nodes.example.com
+a CNAME record for p2p.myenvironment.example.com pointing to nodes.example.com
+a CNAME record for provider.myenvironment.example.com pointing to nodes.example.com
+a CNAME record for *.ingress.myenvironment.example.com pointing to nodes.example.com
 ```
 
 Once setup you should be able to curl the following endpoints:
 
 ```
-curl http://rpc.myenvironment.example.com/status
-curl -k https://provider.myenvironment.example.com/status
+curl http://rpc.myenvironment.example.com:26657/status
+curl -k https://provider.myenvironment.example.com:8443/status
 ```
 
 You can put the rpc endpoint behind an SSL load balancer if you wish (although http is also fine).
