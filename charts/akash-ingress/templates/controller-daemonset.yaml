@@ -97,16 +97,13 @@ spec:
               protocol: TCP
               hostPort: 443
             - name: webhook          
-              port: 8443
-              targetPort: 8443
+              containerPort: 8443
               protocol: TCP
             - name: p2p
-              port: 26656
-              targetPort: 26656
+              containerPort: 26656
               protocol: TCP
-            - name: rcp
-              port: 26657
-              targetPort: 26657
+            - name: rpc
+              containerPort: 26657
               protocol: TCP
           volumeMounts:
             - name: webhook-cert
