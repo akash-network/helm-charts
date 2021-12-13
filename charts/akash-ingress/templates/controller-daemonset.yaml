@@ -113,8 +113,7 @@ spec:
             requests:
               cpu: 100m
               memory: 90Mi
-      nodeSelector:
-        kubernetes.io/role: node
+      nodeSelector: {}
       serviceAccountName: ingress-nginx
       terminationGracePeriodSeconds: 300
       volumes:
