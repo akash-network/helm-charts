@@ -35,6 +35,14 @@ DOMAIN=my.domain.com    # A top level domain
 MONIKER=mynode          # A unique name for your Akash node
 ```
 
+#### Ingress Install
+
+Install the Ingress configuration for Akash.
+
+```
+helm install akash-ingress akash/akash-ingress -n ingress-nginx --set domain=$DOMAIN
+```
+
 #### Akash Node Install
 
 Install an Akash node. You can copy and paste all of these helm commands.
@@ -50,28 +58,6 @@ helm install akash-node akash/akash-node -n akash-services \
 #### Akash Provider Install
 
 Install an Akash provider that connects to your Akash node.
-
-We need some namespaces to exist for the provider.
-
-```
-kubectl create ns akash-services
-kubectl create ns ingress-nginx
-```
-
-And we need to label our nodes so that our Ingress runs.
-
-```
-kubectl label nodes k8s-node-0 akash.network/role=ingress
-kubectl label nodes k8s-node-1 akash.network/role=ingress
-```
-
-We also need to set our top level domain.
-
-```
-DOMAIN=my.domain.com
-```
-
-Now install the Provider.
 
 ```
 helm install akash-provider akash/provider -n akash-services \
