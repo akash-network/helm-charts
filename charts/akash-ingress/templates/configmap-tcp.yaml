@@ -4,5 +4,6 @@ metadata:
   name: tcp-services
   namespace: ingress-nginx
 data:
-  8443: "{{ .Release.Namespace }}/akash-provider:8443"
-  26656: "{{ .Release.Namespace }}/akash-node-1:26656"
+  8443: "akash-services/akash-provider:8443"
+  26656: "akash-services/akash-node-1:26656"
+  26657: "akash-services/akash-node-1:26657"
