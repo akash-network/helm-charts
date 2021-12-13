@@ -44,7 +44,7 @@ spec:
             - --controller-class=k8s.io/ingress-nginx
             - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller
             - --tcp-services-configmap=ingress-nginx/tcp-services
-            - --validating-webhook=:9443
+            - --validating-webhook=:443
             - --validating-webhook-certificate=/usr/local/certificates/cert
             - --validating-webhook-key=/usr/local/certificates/key
             - --enable-ssl-passthrough
