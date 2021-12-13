@@ -150,7 +150,6 @@ spec:
             - name: api
               containerPort: 8443
               protocol: TCP
-              hostPort: 8443
           volumeMounts:
             - name: boot
               mountPath: /boot
