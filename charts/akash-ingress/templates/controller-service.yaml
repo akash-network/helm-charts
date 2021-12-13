@@ -24,6 +24,15 @@ spec:
       protocol: TCP
       targetPort: https
       appProtocol: https
+    - name: provider
+      port: 8443
+      protocol: TCP
+    - name: node-p2p
+      port: 26656
+      protocol: TCP
+    - name: node-rpc
+      port: 26657
+      protocol: TCP
   selector:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx

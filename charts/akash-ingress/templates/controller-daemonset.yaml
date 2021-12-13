@@ -96,13 +96,13 @@ spec:
               containerPort: 443
               protocol: TCP
               hostPort: 443
-            - name: webhook          
+            - name: provider
               containerPort: 8443
               protocol: TCP
-            - name: p2p
+            - name: node-p2p
               containerPort: 26656
               protocol: TCP
-            - name: rpc
+            - name: node-rpc
               containerPort: 26657
               protocol: TCP
           volumeMounts:
