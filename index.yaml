@@ -1247,6 +1247,16 @@ entries:
   inventory-operator:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2022-01-10T12:43:37.32662136Z"
+    description: A Helm chart for the Akash Inventory Operator
+    digest: 9f264b5c1fb9465b094976ce0d31629911dc14464039f02af452a9ed08352f8e
+    name: inventory-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/inventory-operator-0.3.0/inventory-operator-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2021-09-23T14:42:43.894651989Z"
     description: A Helm chart for the Akash Inventory Operator
     digest: b1d0ac7823a5321a44e11c39193b06697b2a14ede7d20f8dc394a346678c8765
