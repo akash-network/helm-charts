@@ -24,7 +24,6 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
-        app: inventory-operator
         app.kubernetes.io/name: akash
         app.kubernetes.io/instance: inventory
         app.kubernetes.io/component: operator
