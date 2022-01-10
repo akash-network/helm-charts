@@ -20,4 +20,3 @@ spec:
     app.kubernetes.io/name: akash
     app.kubernetes.io/instance: inventory
     app.kubernetes.io/component: operator
-    {{- include "inventory-operator.selectorLabels" . | nindent 4 }}

@@ -17,7 +17,6 @@ spec:
       app.kubernetes.io/name: akash
       app.kubernetes.io/instance: inventory
       app.kubernetes.io/component: operator
-      {{- include "inventory-operator.selectorLabels" . | nindent 6 }}
   template:
     metadata:
     {{- with .Values.podAnnotations }}
@@ -29,7 +28,6 @@ spec:
         app.kubernetes.io/name: akash
         app.kubernetes.io/instance: inventory
         app.kubernetes.io/component: operator
-        {{- include "inventory-operator.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
