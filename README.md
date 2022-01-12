@@ -32,6 +32,7 @@ Now manually set your public wallet address and the password that can unlock you
 ACCOUNT_ADDRESS=        # Your Akash public wallet address
 KEY_SECRET=             # The password you used when you exported your private key
 DOMAIN=my.domain.com    # A top level domain
+CHAINID=                # The chain ID of the network you are connecting to
 MONIKER=mynode          # A unique name for your Akash node
 ```
 
@@ -56,7 +57,8 @@ helm install akash-provider akash/provider -n akash-services \
      --set from="$ACCOUNT_ADDRESS" \
      --set key="$(cat ./key.pem | base64)" \
      --set keysecret="$(echo $KEY_SECRET | base64)" \
-     --set domain="$DOMAIN"
+     --set domain="$DOMAIN" \
+     --set chainid="$CHAINID"
 ```
 
 #### Akash HostName Operator
