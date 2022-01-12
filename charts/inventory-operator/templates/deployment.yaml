@@ -1,61 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "inventory-operator.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  name: inventory-operator
+  namespace: akash-services
   labels:
     akash.network: "true"
-    operator: akash
-    storage-backend : ceph
-    {{- include "inventory-operator.labels" . | nindent 4 }}
+    app.kubernetes.io/name: akash
+    app.kubernetes.io/instance: inventory
+    app.kubernetes.io/component: operator
 spec:
-{{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-{{- end }}
   selector:
     matchLabels:
       app.kubernetes.io/name: akash
       app.kubernetes.io/instance: inventory
       app.kubernetes.io/component: operator
+  replicas: 1
+  revisionHistoryLimit: 1
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
       labels:
+        app: inventory-operator
         app.kubernetes.io/name: akash
         app.kubernetes.io/instance: inventory
         app.kubernetes.io/component: operator
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "inventory-operator.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      serviceAccountName: inventory-operator
       containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: api
-              containerPort: 8080
-              protocol: TCP
+        - name: inventory-operator
+          image: ghcr.io/ovrclk/k8s-inventory-operator
+          imagePullPolicy: Always
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          ports:
+            - containerPort: 8080
+              name: api
+              protocol: TCP
