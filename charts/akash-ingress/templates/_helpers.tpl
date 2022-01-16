@@ -1,8 +1,7 @@
-{{/* vim: set filetype=mustache: */}}
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "inventory-operator.name" -}}
+{{- define "akash-ingress.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -11,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "inventory-operator.fullname" -}}
+{{- define "akash-ingress.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -27,15 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "inventory-operator.chart" -}}
+{{- define "akash-ingress.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "inventory-operator.labels" -}}
-helm.sh/chart: {{ include "inventory-operator.chart" . }}
+{{- define "akash-ingress.labels" -}}
+helm.sh/chart: {{ include "akash-ingress.chart" . }}
+{{ include "akash-ingress.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "inventory-operator.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "inventory-operator.name" . }}
+{{- define "akash-ingress.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "akash-ingress.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "inventory-operator.serviceAccountName" -}}
+{{- define "akash-ingress.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "inventory-operator.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "akash-ingress.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

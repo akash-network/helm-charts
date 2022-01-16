@@ -1,15 +1,12 @@
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "inventory-operator.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  name: inventory-operator
   labels:
     akash.network: "true"
     app.kubernetes.io/name: akash
     app.kubernetes.io/instance: inventory
     app.kubernetes.io/component: operator
-    {{- include "inventory-operator.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ''
@@ -18,6 +15,8 @@ rules:
       - nodes
       - pods
       - events
+      - persistentvolumes
+      - persistentvolumeclaims
     verbs:
       - get
       - list
@@ -63,23 +62,3 @@ rules:
       - get
       - list
       - watch
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: {{ include "inventory-operator.fullname" . }}
-  namespace: {{ .Release.Namespace }}
-  labels:
-    akash.network: "true"
-    app.kubernetes.io/name: akash
-    app.kubernetes.io/instance: inventory
-    app.kubernetes.io/component: operator
-    {{- include "inventory-operator.labels" . | nindent 4 }}
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: inventory-operator
-subjects:
-  - kind: ServiceAccount
-    name: inventory-operator
-    namespace: {{ .Release.Namespace }}

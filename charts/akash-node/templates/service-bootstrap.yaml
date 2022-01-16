@@ -9,6 +9,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
+    - port: 1317
+      name: akashd-api
     - port: 26656
       name: akashd-p2p
     - port: 26657

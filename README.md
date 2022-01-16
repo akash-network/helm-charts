@@ -32,6 +32,7 @@ Now manually set your public wallet address and the password that can unlock you
 ACCOUNT_ADDRESS=        # Your Akash public wallet address
 KEY_SECRET=             # The password you used when you exported your private key
 DOMAIN=my.domain.com    # A top level domain
+CHAINID=                # The chain ID of the network you are connecting to
 MONIKER=mynode          # A unique name for your Akash node
 ```
 
@@ -51,35 +52,13 @@ helm install akash-node akash/akash-node -n akash-services \
 
 Install an Akash provider that connects to your Akash node.
 
-We need some namespaces to exist for the provider.
-
-```
-kubectl create ns akash-services
-kubectl create ns ingress-nginx
-```
-
-And we need to label our nodes so that our Ingress runs.
-
-```
-kubectl label nodes k8s-node-0 akash.network/role=ingress
-kubectl label nodes k8s-node-1 akash.network/role=ingress
-```
-
-We also need to set our top level domain.
-
-```
-DOMAIN=my.domain.com
-```
-
-Now install the Provider.
-
 ```
 helm install akash-provider akash/provider -n akash-services \
      --set from="$ACCOUNT_ADDRESS" \
      --set key="$(cat ./key.pem | base64)" \
      --set keysecret="$(echo $KEY_SECRET | base64)" \
-     --set chainid="$CHAIN_ID" \
-     --set domain="$DOMAIN"
+     --set domain="$DOMAIN" \
+     --set chainid="$CHAINID"
 ```
 
 #### Akash HostName Operator
@@ -88,6 +67,14 @@ Install a Hostname Operator that automates exposing Akash deployments.
 
 ```
 helm install hostname-operator akash/hostname-operator -n akash-services
+```
+
+#### Ingress Install
+
+Install the Ingress configuration for Akash.
+
+```
+helm install akash-ingress akash/akash-ingress -n ingress-nginx --set domain=$DOMAIN
 ```
 
 #### Akash Inventory Operator (Optional - for Persistent Storage)
@@ -115,18 +102,18 @@ The Provider chart creates an ingress-nginx controller that runs on every Kubern
 Therefore the DNS structure should look something like this:
 
 ```
-an a record for myenvironment.example.com which contains the ip addresses of all Kubernetes workers
-a cname record for rpc.myenvironment.example.com pointing to myenvironment.example.com
-a cname record for p2p.myenvironment.example.com pointing to myenvironment.example.com
-a cname record for provider.myenvironment.example.com pointing to myenvironment.example.com
-a cname record for *.ingress.myenvironment.example.com pointing to myenvironment.example.com
+an A record for nodes.example.com which contains the ip addresses of all Kubernetes worker nodes
+a CNAME record for rpc.myenvironment.example.com pointing to nodes.example.com
+a CNAME record for p2p.myenvironment.example.com pointing to nodes.example.com
+a CNAME record for provider.myenvironment.example.com pointing to nodes.example.com
+a CNAME record for *.ingress.myenvironment.example.com pointing to nodes.example.com
 ```
 
 Once setup you should be able to curl the following endpoints:
 
 ```
-curl http://rpc.myenvironment.example.com/status
-curl -k https://provider.myenvironment.example.com/status
+curl http://rpc.myenvironment.example.com:26657/status
+curl -k https://provider.myenvironment.example.com:8443/status
 ```
 
 You can put the rpc endpoint behind an SSL load balancer if you wish (although http is also fine).

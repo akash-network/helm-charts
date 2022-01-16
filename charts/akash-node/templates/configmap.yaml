@@ -25,6 +25,7 @@ data:
       rm -f snapshot.tar.gz
     fi
 
+    sed -i "/enable = false/c\enable = true" $AKASH_HOME/config/app.toml
     /bin/akash validate-genesis
     /bin/akash start
 {{- end }}

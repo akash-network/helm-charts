@@ -25,7 +25,7 @@ akash_node:
   moniker:
   chainid: akashnet-2
   net: https://raw.githubusercontent.com/ovrclk/net/master/mainnet
-  peers: fae0fdad70bc02e91baaa905e114008cd57f8be9@147.75.32.107:26656
+  peers: 27eb432ccd5e895c5c659659120d68b393dd8c60@35.247.65.183:26656,ab7b55588ea3f4f7a477e852aa262959e54117cd@3.235.249.94:26656
 
 # Enable to run a 4 node Akash network from bootstrap
 bootstrap:
@@ -66,13 +66,6 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-
-ingress:
-  enabled: false
-  classname: nginx
-  domain:
-  annotations:
-    nginx.ingress.kubernetes.io/limit-rps: '10'
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

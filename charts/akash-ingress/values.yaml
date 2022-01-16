@@ -1,3 +1,5 @@
-# Default values for inventory-operator.
+# Default values for akash-ingress.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+
+domain: example.local
