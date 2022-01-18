@@ -15,12 +15,12 @@ data:
     apt update && apt -y install curl > /dev/null 2>&1
     curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME"/config/genesis.json
 
-    if $AKASH_NET == "https://raw.githubusercontent.com/ovrclk/net/master/mainnet"
+    if [[ $AKASH_NET == "https://raw.githubusercontent.com/ovrclk/net/master/mainnet" ]]
     then
       apt -y install jq aria2 > /dev/null 2>&1
       rm -rf $AKASH_HOME/data ; mkdir -p $AKASH_HOME/data ; cd $AKASH_HOME/data
       SNAPSHOT_URL=$(curl https://cosmos-snapshots.s3.filebase.com/akash/snapshot.json | jq -r .latest)
-      echo "Using latest blockchain snapshot, $SNAPSHOT_URL" ; aria2c --out=snapshot.tar.gz --summary-interval 15 --max-connection-per-server=5 $SNAPSHOT_URL
+      echo "Using latest blockchain snapshot, $SNAPSHOT_URL" ; aria2c --out=snapshot.tar.gz --summary-interval 15 -k 1M -s 16 -x 16 $SNAPSHOT_URL
       tar -zxvf snapshot.tar.gz
       rm -f snapshot.tar.gz
     fi
