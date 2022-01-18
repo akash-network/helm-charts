@@ -15,7 +15,7 @@ keysecret:
 chainid:
 domain:
 home: "/root/.akash"
-node: "http://akash.c29r3.xyz/rpc"
+node: "http://akash.c29r3.xyz:80/rpc"
 keyringbackend: "test"
 trustnode: "true"
 
