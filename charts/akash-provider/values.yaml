@@ -18,6 +18,7 @@ home: "/root/.akash"
 node: "http://akash.c29r3.xyz:80/rpc"
 keyringbackend: "test"
 trustnode: "true"
+fees: "5123uakt"
 
 attributes:
   - key: region

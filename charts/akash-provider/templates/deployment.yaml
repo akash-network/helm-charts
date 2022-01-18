@@ -93,7 +93,7 @@ spec:
               value: "true"
 
             - name: AKASH_FEES
-              value: "5123uakt"
+              value: "{{ .Values.fees }}"
 
             - name: AKASH_DEPLOYMENT_INGRESS_STATIC_HOSTS
               value: "true"

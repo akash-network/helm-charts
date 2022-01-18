@@ -25,7 +25,7 @@ data:
         value: {{ $val.value }}
     {{- end }}
     EOT
-    POPTS="--from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --broadcast-mode=block --gas=auto --gas-adjustment=1.15 --fees=auto"
+    POPTS="--from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --broadcast-mode=block --gas=auto --gas-adjustment=1.15 --fees=$AKASH_FEES"
     /bin/akash tx provider create provider.yaml $POPTS || true
     /bin/akash tx provider update provider.yaml $POPTS
     /bin/akash tx cert create server provider.{{ .Values.domain }} $POPTS
