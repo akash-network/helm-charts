@@ -25,9 +25,10 @@ data:
         value: {{ $val.value }}
     {{- end }}
     EOT
-    /bin/akash tx provider create provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --broadcast-mode block || true
-    /bin/akash tx provider update provider.yaml --from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --broadcast-mode block
-    akash tx cert create server provider.{{ .Values.domain }} --chain-id $AKASH_CHAIN_ID --keyring-backend $AKASH_KEYRING_BACKEND --from $AKASH_FROM --home=$AKASH_HOME --node=$AKASH_NODE --broadcast-mode block
+    POPTS="--from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --broadcast-mode=block --gas=auto --gas-adjustment=1.15 --fees=auto"
+    /bin/akash tx provider create provider.yaml $POPTS || true
+    /bin/akash tx provider update provider.yaml $POPTS
+    /bin/akash tx cert create server provider.{{ .Values.domain }} $POPTS
     ##
     # Run daemon
     ##
