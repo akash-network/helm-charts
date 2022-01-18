@@ -38,7 +38,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: [ "/bin/sh" , "/config/node.sh" ]
+          command: [ "/bin/bash" , "/config/node.sh" ]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:   
             - name: AKASH_MONIKER
