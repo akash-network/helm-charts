@@ -106,7 +106,7 @@ spec:
   - metadata:
       name: akash-storage
     spec:
-      accessModes: [ "ReadWriteMany" ]
+      accessModes: [ "ReadWriteOnce" ]
       storageClassName: "akash-nodes"
       resources:
         requests:
