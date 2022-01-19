@@ -30,6 +30,9 @@ spec:
     - name: node-api
       port: 1317
       protocol: TCP
+    - name: node-grpc
+      port: 9090
+      protocol: TCP
     - name: node-p2p
       port: 26656
       protocol: TCP

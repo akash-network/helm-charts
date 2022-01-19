@@ -104,6 +104,10 @@ spec:
               containerPort: 1317
               protocol: TCP
               hostPort: 1317
+            - name: node-grpc
+              containerPort: 9090
+              protocol: TCP
+              hostPort: 9090
             - name: node-p2p
               containerPort: 26656
               protocol: TCP
