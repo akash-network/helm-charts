@@ -16,6 +16,8 @@ the latest versions of the packages. You can then run `helm search repo akash` t
 
 You'll need a Kubernetes cluster. We recommend using Kubespray or Rancher Kubernetes Engine when deploying to bare metal. But really any Kubernetes cluster will work.
 
+You can try a lightweight Kubernetes [k3s](https://k3s.io/), it brings you a fully fledged Kubernetes in under 30 seconds! Quick hint on k3s to save your time: run k3s with `--disable traefik` or delete traefik LoadBalancer after k3s installation `kubectl -n kube-system delete svc traefik` so to not interfere with `ingress-nginx-controller`.
+
 Then, you need a funded wallet on the network that you would like to setup. In this documentation we'll use the `mainnet` which is the default in the chart. But you can override values to point to any other net.
 
 Once you have a funded wallet export your private key with a password.
@@ -34,6 +36,42 @@ KEY_SECRET=             # The password you used when you exported your private k
 DOMAIN=my.domain.com    # A top level domain
 CHAINID=                # The chain ID of the network you are connecting to
 MONIKER=mynode          # A unique name for your Akash node
+```
+
+### (Optional) Serving Helm Charts repo by yourself
+
+You might want to modify Helm Charts and test your changes locally, here is a quick how-to create your own Helm Charts repo.
+
+```
+cd charts
+helm package $(find . -xdev -mindepth 1 -maxdepth 1 -type d)
+helm repo index --url http://localhost:8000 .
+
+$ python3 -m http.server
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+```
+
+```
+helm repo add local http://localhost:8000
+helm repo update
+
+$ helm search repo local
+NAME                    	CHART VERSION	APP VERSION	DESCRIPTION
+local/akash-ingress     	0.13.0       	1.16.0     	A Helm chart for Kubernetes
+local/akash-node        	0.102.0      	0.14.1     	A Helm chart for Kubernetes
+local/akash-rook        	0.8.0        	16.2.5     	A Helm chart for Kubernetes
+local/hostname-operator 	0.11.0       	0.14.0     	A Helm chart for Kubernetes
+local/inventory-operator	0.6.0        	0.1.0      	A Helm chart for the Akash Inventory Operator
+local/provider          	0.120.0      	0.14.0     	A Helm chart for Kubernetes
+```
+
+#### namespace
+
+Make sure to create these namespaces used by Helm Charts first.
+
+```
+kubectl create ns akash-services
+kubectl create ns ingress-nginx
 ```
 
 #### Akash Node Install
