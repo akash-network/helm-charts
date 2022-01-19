@@ -66,6 +66,8 @@ spec:
           ports:
             - containerPort: 1317
               name: akashd-api
+            - containerPort: 9090
+              name: akashd-grpc
             - containerPort: 26656
               name: akashd-p2p
             - containerPort: 26657

@@ -2,7 +2,7 @@
 {{- range untilStep 1 5 1 }}
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: akash-node-{{ . }}
   namespace: {{ $.Release.Namespace }}
@@ -63,6 +63,8 @@ spec:
           ports:
             - containerPort: 1317
               name: akashd-api
+            - containerPort: 9090
+              name: akashd-grpc
             - containerPort: 26656
               name: akashd-p2p
             - containerPort: 26657
@@ -74,6 +76,8 @@ spec:
             - name: bootstrap
               mountPath: /bootstrap
               readOnly: true
+            - name: akash-storage
+              mountPath: /root/.akash
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
       {{- with $.Values.nodeSelector }}
@@ -95,5 +99,14 @@ spec:
         - name: bootstrap
           secret:
             secretName: akash-node-bootstrap
+  volumeClaimTemplates:
+  - metadata:
+      name: akash-storage
+    spec:
+      accessModes: [ "ReadWriteMany" ]
+      storageClassName: "akash-nodes"
+      resources:
+        requests:
+          storage: 50Gi
 {{- end }}
 {{- end }}
