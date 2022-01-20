@@ -88,7 +88,7 @@ spec:
 
             - name: AKASH_DEPLOYMENT_INGRESS_DOMAIN
               value: "ingress.{{ .Values.domain }}"
-            
+
             - name: AKASH_YES
               value: "true"
 
@@ -97,7 +97,7 @@ spec:
 
             - name: AKASH_DEPLOYMENT_INGRESS_STATIC_HOSTS
               value: "true"
-    
+
             - name: AKASH_DEPLOYMENT_BLOCKED_HOSTNAMES
               value: ""
 
@@ -106,7 +106,7 @@ spec:
 
             - name: AKASH_CLUSTER_PUBLIC_HOSTNAME
               value: "provider.{{ .Values.domain }}"
-    
+
             - name: AKASH_BID_PRICE_STRATEGY
               value: "scale"
 
@@ -115,13 +115,18 @@ spec:
 
             - name: AKASH_BID_PRICE_MEMORY_SCALE
               value: "0.0016"
-    
+
             - name: AKASH_BID_PRICE_ENDPOINT_SCALE
               value: "0"
 
             - name: AKASH_BID_PRICE_STORAGE_SCALE
-              value: "0.00016"  
-    
+              value: "0.00016"
+
+          {{- if .Values.bids.enabled }}
+            - name: AKASH_BID_PRICE_SCRIPT_PATH
+              value: "/bids/bid_on_storage.sh"
+          {{- end }}
+
             - name: AKASH_OVERCOMMIT_PCT_CPU
               value: "0"
 
@@ -136,7 +141,7 @@ spec:
 
             - name: AKASH_CLUSTER_K8S
               value: "true"
-    
+
             - name: KUBE_CONFIG
               value: "{{ .Values.home }}/.kube/config"
 
@@ -154,6 +159,11 @@ spec:
             - name: boot
               mountPath: /boot
               readOnly: true
+          {{- if .Values.bids.enabled }}
+            - name: bids
+              mountPath: /bids
+              readOnly: true
+          {{- end }}
             - name: keys
               mountPath: /boot-keys
               readOnly: true
@@ -161,6 +171,11 @@ spec:
         - name: boot
           configMap:
             name: {{ include "provider.fullname" . }}-boot
+      {{- if .Values.bids.enabled }}
+        - name: bids
+          configMap:
+            name: {{ include "provider.fullname" . }}-bids
+      {{- end }}
         - name: keys
           secret:
             secretName: {{ include "provider.fullname" . }}-keys
