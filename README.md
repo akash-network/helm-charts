@@ -138,3 +138,14 @@ You can put the rpc endpoint behind an SSL load balancer if you wish (although h
 The provider endpoint uses TLS that matches a certficate stored on the blockchain so better to leave this alone.
 
 Your deployments should also be available under <id>.ingress.myenvironment.example.com
+
+# Firewall Rules
+
+Open the following ports (TCP) to every Kubernetes worker node.
+
+80 # so people can connect to their deployments
+8443 # the provider port that clients post the Akash SDL files to
+1317 # the Akash node API port
+9090 # The Akash node GRPC port
+26656 # The Akash node P2P port
+26657 # The Akash node RPC port
