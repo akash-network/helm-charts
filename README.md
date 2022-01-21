@@ -124,6 +124,7 @@ Therefore the DNS structure should look something like this:
 
 ```
 an A record for nodes.example.com which contains the ip addresses of all Kubernetes worker nodes
+a CNAME record for api.myenvironment.example.com pointing to nodes.example.com
 a CNAME record for rpc.myenvironment.example.com pointing to nodes.example.com
 a CNAME record for grpc.myenvironment.example.com pointing to nodes.example.com
 a CNAME record for p2p.myenvironment.example.com pointing to nodes.example.com
