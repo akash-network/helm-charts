@@ -22,19 +22,18 @@ Then, you need a funded wallet on the network that you would like to setup. In t
 
 Once you have a funded wallet export your private key with a password.
 
-Put your private key into a file named `key.pem` in the current directory.
-
 ### Setup some variables used by the Helm Charts
 
-Set your KUBECONFIG to the cluster you want to install on.
+Set your KUBECONFIG to the cluster you want to install on. Ensure you can run commands like `kubectl get nodes` before you continue.
+
+Put your private key into a file named `key.pem` in the current directory. You can do this by running `akash keys export default > key.pem`.
 
 Now manually set your public wallet address and the password that can unlock your private key.
 
 ```
-ACCOUNT_ADDRESS=        # Your Akash public wallet address
-KEY_SECRET=             # The password you used when you exported your private key
-DOMAIN=my.domain.com    # A top level domain
-CHAINID=                # The chain ID of the network you are connecting to
+ACCOUNT_ADDRESS=        # Your Akash public wallet e.g. akash keys show default -a
+KEY_SECRET=             # The password you used when you exported your key
+DOMAIN=my.domain.com    # A top level domain you own
 MONIKER=mynode          # A unique name for your Akash node
 ```
 
@@ -78,8 +77,7 @@ helm install akash-provider akash/provider -n akash-services \
      --set from="$ACCOUNT_ADDRESS" \
      --set key="$(cat ./key.pem | base64)" \
      --set keysecret="$(echo $KEY_SECRET | base64)" \
-     --set domain="$DOMAIN" \
-     --set chainid="$CHAINID"
+     --set domain="$DOMAIN"
 ```
 
 #### Akash HostName Operator
