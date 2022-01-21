@@ -65,14 +65,24 @@ local/inventory-operator	0.6.0        	0.1.0      	A Helm chart for the Akash In
 local/provider          	0.120.0      	0.14.0     	A Helm chart for Kubernetes
 ```
 
-#### namespace
+#### Create namespace
 
 Make sure to create these namespaces used by Helm Charts first.
 
+> Note that `ingress-nginx` namespace **must** have `app.kubernetes.io/name=ingress-nginx` label which is used by [akash-deployment-restrictions netpol](https://github.com/ovrclk/akash/blob/4a188686a68b3f7fbdc51b14dd8bff4b6689d94e/provider/cluster/kube/builder/netpol.go#L73)
+
 ```
 kubectl create ns akash-services
+kubectl label ns akash-services akash.network/name=akash-services akash.network=true
+
 kubectl create ns ingress-nginx
+kubectl label ns ingress-nginx app.kubernetes.io/name=ingress-nginx app.kubernetes.io/instance=ingress-nginx
 ```
+
+Namespace references:
+
+- [akash-services](https://raw.githubusercontent.com/ovrclk/akash/master/_docs/kustomize/networking/namespace.yaml)
+- [ingress-nginx](https://raw.githubusercontent.com/ovrclk/akash/mainnet/main/_run/ingress-nginx.yaml)
 
 #### Akash Node Install
 
