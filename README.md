@@ -20,11 +20,10 @@ You can try a lightweight Kubernetes [k3s](https://k3s.io/), it brings you a ful
 
 Then, you need a funded wallet on the network that you would like to setup. In this documentation we'll use the `mainnet` which is the default in the chart. But you can override values to point to any other net.
 
-Once you have a funded wallet export your private key with a password.
 
-### Setup some variables used by the Helm Charts
+### Setup some configuration used by the Helm Charts
 
-Set your KUBECONFIG to the cluster you want to install on. Ensure you can run commands like `kubectl get nodes` before you continue.
+Set your KUBECONFIG environment variable to the cluster you want to install on. Ensure you can run commands like `kubectl get nodes` before you continue.
 
 Put your private key into a file named `key.pem` in the current directory. You can do this by running `akash keys export default > key.pem`.
 
