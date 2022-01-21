@@ -138,7 +138,7 @@ The provider endpoint uses TLS that matches a certficate stored on the blockchai
 
 Your deployments should also be available under <id>.ingress.myenvironment.example.com
 
-# Firewall Rules
+### Firewall Rules
 
 Open the following ports (TCP) to every Kubernetes worker node.
 
@@ -150,3 +150,19 @@ Open the following ports (TCP) to every Kubernetes worker node.
 | 9090 | The Akash node GRPC port |
 | 26656 | The Akash node P2P port |
 | 26657 | The Akash node RPC port |
+
+## Troubleshooting
+
+To troubleshoot you'll need to know the following.
+
+* We run an ingress-nginx pod on every Kubernetes worker node
+* This ingress-nginx pod binds all of the ports listed above to 0.0.0.0 on every Kubernetes worker node
+* The DNS A record config above should therefore include all Kubernetes worker nodes so that connections are balanced
+* Similarly the firewall ports need to be opened to all Kubernetes worker nodes
+* There are Kubernetes Ingress resources (kubectl get ingresses -A) that map the DNS CNAMES to backend services
+* Therefore connections from outside can hit ANY Kubernetes worker node and ingress-nginx will proxy to the correct service
+* Services (kubectl get services -A) are creates in the akash-services namespace pointing to the pods. These map the Ingress to the Pods.
+* The pods in the akash-services namespace created by the Helm charts can run on any Kubernetes worker node and are found by the service by label
+
+For troubleshooting the pods in the akash-services namespace you can tail the logs with `kubectl logs -n akash-services <pod name>`. For the Akash Node and Akash Provider Helm charts you can add `--set debug=true` which will add a long sleep to any failing containers. You can then exec into the pod using `kubectl exec -ti -n akash-services <pod name> -- bash` to debug.
+
