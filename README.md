@@ -38,33 +38,6 @@ CHAINID=                # The chain ID of the network you are connecting to
 MONIKER=mynode          # A unique name for your Akash node
 ```
 
-### (Optional) Serving Helm Charts repo by yourself
-
-You might want to modify Helm Charts and test your changes locally, here is a quick how-to create your own Helm Charts repo.
-
-```
-cd charts
-helm package $(find . -xdev -mindepth 1 -maxdepth 1 -type d)
-helm repo index --url http://localhost:8000 .
-
-$ python3 -m http.server
-Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
-```
-
-```
-helm repo add local http://localhost:8000
-helm repo update
-
-$ helm search repo local
-NAME                    	CHART VERSION	APP VERSION	DESCRIPTION
-local/akash-ingress     	0.13.0       	1.16.0     	A Helm chart for Kubernetes
-local/akash-node        	0.102.0      	0.14.1     	A Helm chart for Kubernetes
-local/akash-rook        	0.8.0        	16.2.5     	A Helm chart for Kubernetes
-local/hostname-operator 	0.11.0       	0.14.0     	A Helm chart for Kubernetes
-local/inventory-operator	0.6.0        	0.1.0      	A Helm chart for the Akash Inventory Operator
-local/provider          	0.120.0      	0.14.0     	A Helm chart for Kubernetes
-```
-
 #### Create namespace
 
 Make sure to create these namespaces used by Helm Charts first.
@@ -152,6 +125,7 @@ Therefore the DNS structure should look something like this:
 ```
 an A record for nodes.example.com which contains the ip addresses of all Kubernetes worker nodes
 a CNAME record for rpc.myenvironment.example.com pointing to nodes.example.com
+a CNAME record for grpc.myenvironment.example.com pointing to nodes.example.com
 a CNAME record for p2p.myenvironment.example.com pointing to nodes.example.com
 a CNAME record for provider.myenvironment.example.com pointing to nodes.example.com
 a CNAME record for *.ingress.myenvironment.example.com pointing to nodes.example.com
