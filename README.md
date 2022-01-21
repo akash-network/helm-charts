@@ -51,10 +51,6 @@ kubectl create ns ingress-nginx
 kubectl label ns ingress-nginx app.kubernetes.io/name=ingress-nginx app.kubernetes.io/instance=ingress-nginx
 ```
 
-Namespace references:
-
-- [akash-services](https://raw.githubusercontent.com/ovrclk/akash/master/_docs/kustomize/networking/namespace.yaml)
-- [ingress-nginx](https://raw.githubusercontent.com/ovrclk/akash/mainnet/main/_run/ingress-nginx.yaml)
 
 #### Akash Node Install
 
