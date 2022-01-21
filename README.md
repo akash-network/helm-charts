@@ -143,9 +143,11 @@ Your deployments should also be available under <id>.ingress.myenvironment.examp
 
 Open the following ports (TCP) to every Kubernetes worker node.
 
-80 # so people can connect to their deployments
-8443 # the provider port that clients post the Akash SDL files to
-1317 # the Akash node API port
-9090 # The Akash node GRPC port
-26656 # The Akash node P2P port
-26657 # The Akash node RPC port
+| Port | Description |
+| -----| ----------- |
+| 80 | So people can connect to their deployments |
+| 8443 | the provider port that clients post the Akash SDL files to |
+| 1317 | the Akash node API port |
+| 9090 | The Akash node GRPC port |
+| 26656 | The Akash node P2P port |
+| 26657 | The Akash node RPC port |
