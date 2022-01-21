@@ -146,8 +146,8 @@ Open the following ports (TCP) to every Kubernetes worker node.
 | Port | Description |
 | -----| ----------- |
 | 80 | So people can connect to their deployments |
-| 8443 | the provider port that clients post the Akash SDL files to |
-| 1317 | the Akash node API port |
+| 1317 | The Akash node API port |
+| 8443 | The provider port that clients post the Akash SDL files to |
 | 9090 | The Akash node GRPC port |
 | 26656 | The Akash node P2P port |
 | 26657 | The Akash node RPC port |
