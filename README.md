@@ -89,7 +89,8 @@ helm install akash-provider akash/provider -n akash-services \
      --set from="$ACCOUNT_ADDRESS" \
      --set key="$(cat ./key.pem | base64)" \
      --set keysecret="$(echo $KEY_SECRET | base64)" \
-     --set domain="$DOMAIN"
+     --set domain="$DOMAIN" \
+     --set node=http://akash-node-1:26657
 ```
 
 > You can also add `--set node="http://any-akash-other-rpc:<port>"` here if you aren't planning on deploying your own Akash RPC node. List of Akash RPC nodes is [here](https://github.com/ovrclk/net/blob/master/mainnet/rpc-nodes.txt)
