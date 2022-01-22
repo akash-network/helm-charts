@@ -134,6 +134,16 @@ entries:
   akash-node:
   - apiVersion: v2
     appVersion: 0.14.1
+    created: "2022-01-22T17:58:04.893942587Z"
+    description: A Helm chart for Kubernetes
+    digest: a48340fb8e902abacd705e682d161ee6a52ae3ae302737f3273406094e250be4
+    name: akash-node
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-node-0.103.0/akash-node-0.103.0.tgz
+    version: 0.103.0
+  - apiVersion: v2
+    appVersion: 0.14.1
     created: "2022-01-19T14:14:13.976092165Z"
     description: A Helm chart for Kubernetes
     digest: 70562cfda71651128dc449e4f5de22ac78606f58509ae42f594dda2d6a4ea3eb
