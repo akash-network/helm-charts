@@ -12,11 +12,25 @@ helm repo add akash https://ovrclk.github.io/helm-charts
 If you had already added this repo earlier, run `helm repo update` to retrieve
 the latest versions of the packages. You can then run `helm search repo akash` to see the charts.
 
+> If you want to use local charts from this github checkout, specify `./charts/akash-provider` instead of `akash/akash-node` on `helm install`.
+
 ## Setting up a Full-Node and Provider
 
 You'll need a Kubernetes cluster. We recommend using Kubespray or Rancher Kubernetes Engine when deploying to bare metal. But really any Kubernetes cluster will work.
 
-You can try a lightweight Kubernetes [k3s](https://k3s.io/), it brings you a fully fledged Kubernetes in under 30 seconds! Quick hint on k3s to save your time: run k3s with `--disable traefik` or delete traefik LoadBalancer after k3s installation `kubectl -n kube-system delete svc traefik` so to not interfere with `ingress-nginx-controller`.
+### k3s - lightweight Kubernetes option
+
+You can try a lightweight Kubernetes [k3s](https://k3s.io/), it brings you a fully fledged Kubernetes in under 30 seconds! Quick hint on k3s to save your time: install k3s using `curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable=traefik" sh -s -` command OR delete traefik LoadBalancer after k3s installation with `kubectl -n kube-system delete svc traefik` command so to not interfere with `ingress-nginx-controller` used for Akash deployments.
+
+After installing k3s you will want configure the client:
+
+```
+sudo chmod 644 /etc/rancher/k3s/k3s.yaml
+cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+
+alias kubectl="k3s kubectl"
+kubectl get nodes
+```
 
 Then, you need a funded wallet on the network that you would like to setup. In this documentation we'll use the `mainnet` which is the default in the chart. But you can override values to point to any other net.
 
@@ -30,10 +44,11 @@ Put your private key into a file named `key.pem` in the current directory. You c
 Now manually set your public wallet address and the password that can unlock your private key.
 
 ```
-ACCOUNT_ADDRESS=        # Your Akash public wallet e.g. akash keys show default -a
-KEY_SECRET=             # The password you used when you exported your key
-DOMAIN=my.domain.com    # A top level domain you own
-MONIKER=mynode          # A unique name for your Akash node
+export AKASH_KEYRING_BACKEND=     # Set this to "file" or "os" depending on what works for you. Check with "akash keys list" command.
+ACCOUNT_ADDRESS=                  # Your Akash public wallet e.g. akash keys show default -a
+KEY_SECRET=                       # The password you used when you exported your key
+DOMAIN=mydomain.com               # A top level domain you own. Helm Chart is gonna get set you `<provider|ingress|api|rpc|grpc|p2p>.mydomain.com` names automatically.
+MONIKER=mynode                    # A unique name for your Akash node
 ```
 
 #### Create namespace
@@ -51,9 +66,11 @@ kubectl label ns ingress-nginx app.kubernetes.io/name=ingress-nginx app.kubernet
 ```
 
 
-#### Akash Node Install
+#### Akash Node Install (Optional)
 
 Install an Akash node. You can copy and paste all of these helm commands.
+
+This is optional but highly desirable.
 
 ```
 helm install akash-node akash/akash-node -n akash-services \
@@ -75,7 +92,9 @@ helm install akash-provider akash/provider -n akash-services \
      --set domain="$DOMAIN"
 ```
 
-#### Akash HostName Operator
+> You can also add `--set node="http://any-akash-other-rpc:<port>"` here if you aren't planning on deploying your own Akash RPC node. List of Akash RPC nodes is [here](https://github.com/ovrclk/net/blob/master/mainnet/rpc-nodes.txt)
+
+#### Akash Hostname Operator
 
 Install a Hostname Operator that automates exposing Akash deployments.
 
