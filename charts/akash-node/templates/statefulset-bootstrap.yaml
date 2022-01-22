@@ -6,6 +6,8 @@ kind: StatefulSet
 metadata:
   name: akash-node-{{ . }}
   namespace: {{ $.Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-options: Replace=true
   labels:
     app: akash-node
     akash.network/node: "{{ . }}"
@@ -13,6 +15,8 @@ spec:
 {{- if not $.Values.autoscaling.enabled }}
   replicas: {{ $.Values.replicaCount }}
 {{- end }}
+  updateStrategy:
+    type: RollingUpdate
   selector:
     matchLabels:
       app: akash-node
