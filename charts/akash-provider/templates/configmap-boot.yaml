@@ -14,6 +14,10 @@ data:
     ##
     cat "$AKASH_BOOT_KEYS/key-pass.txt" | { cat ; echo ; } | /bin/akash --home="$AKASH_HOME" keys import --keyring-backend="$AKASH_KEYRING_BACKEND"  "$AKASH_FROM" "$AKASH_BOOT_KEYS/key.txt"
 
+    # Check the Akash Node is working
+    apt update && apt -y install curl jq > /dev/null 2>&1
+    while [[ $(curl -s $AKASH_NODE/status | jq -r .result.sync_info.catching_up) == "true" ]]; do sleep 15; echo "Akash node not ready. Retrying";  done
+
     ##
     # Create Provider
     ##
