@@ -22,7 +22,6 @@ spec:
       app: akash-node
       akash.network/node: "{{ . }}"
   serviceName: "akash-node-{{ . }}"
-  minReadySeconds: 10
   template:
     metadata:
     {{- with $.Values.podAnnotations }}
