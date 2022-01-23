@@ -27,6 +27,7 @@ bidpricecpuscale: "0.004"
 bidpricememoryscale: "0.0016"
 bidpriceendpointscale: "0"
 bidpricestoragescale: "0.00016"
+withdrawalperiod: "24h"
 
 attributes:
   - key: region
