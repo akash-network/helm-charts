@@ -149,7 +149,7 @@ spec:
               value: "none"
 
             - name: AKASH_WITHDRAWAL_PERIOD
-              value: "24h"
+              value: "{{ .Values.withdrawalperiod }}"
 
           ports:
             - name: api
