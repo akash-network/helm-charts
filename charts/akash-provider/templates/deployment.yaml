@@ -108,19 +108,19 @@ spec:
               value: "provider.{{ .Values.domain }}"
 
             - name: AKASH_BID_PRICE_STRATEGY
-              value: "scale"
+              value: "{{ .Values.bidpricestrategy }}"
 
             - name: AKASH_BID_PRICE_CPU_SCALE
-              value: "0.004"
+              value: "{{ .Values.bidpricecpuscale }}"
 
             - name: AKASH_BID_PRICE_MEMORY_SCALE
-              value: "0.0016"
+              value: "{{ .Values.bidpricememoryscale }}"
 
             - name: AKASH_BID_PRICE_ENDPOINT_SCALE
-              value: "0"
+              value: "{{ .Values.bidpricendpointscale }}"
 
             - name: AKASH_BID_PRICE_STORAGE_SCALE
-              value: "0.00016"
+              value: "{{ .Values.bidpricestoragescale }}"
 
           {{- if .Values.bids.enabled }}
             - name: AKASH_BID_PRICE_SCRIPT_PATH

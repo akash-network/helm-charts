@@ -18,9 +18,15 @@ home: "/root/.akash"
 node: "http://akash.c29r3.xyz:80/rpc"
 keyringbackend: "test"
 trustnode: "true"
+
 fees: "40000uakt"
 bids:
   enabled: false
+bidpricestrategy: "scale"
+bidpricecpuscale: "0.004"
+bidpricememoryscale: "0.0016"
+bidpriceendpointscale: "0"
+bidpricestoragescale: "0.00016"
 
 attributes:
   - key: region
