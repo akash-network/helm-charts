@@ -129,20 +129,26 @@ helm install akash-rook akash/akash-rook -n rook-ceph
 
 ### Setup DNS
 
-We defined a $DOMAIN which all of the charts will use for their ingress routes. For our example lets define ours as `myenvironment.example.com`.
+We defined a $DOMAIN which all of the charts will use for their ingress routes. For our example lets define ours as `nodes.yourdomain.com`.
 
 The Provider chart creates an ingress-nginx controller that runs on every Kubernetes worker node and binds to port 80 and 443.
 
 Therefore the DNS structure should look something like this:
 
+Add an A record for nodes.yourdomain.com and replace x.x.x.x with the ip addresses of all Kubernetes worker nodes.
+
+To get the external IP of your worker nodes, run `kubectl get nodes -A -o wide`.  If you are using a network at home, use your IP address or dynamic dns.
+
 ```
-an A record for nodes.example.com which contains the ip addresses of all Kubernetes worker nodes
-a CNAME record for api.myenvironment.example.com pointing to nodes.example.com
-a CNAME record for rpc.myenvironment.example.com pointing to nodes.example.com
-a CNAME record for grpc.myenvironment.example.com pointing to nodes.example.com
-a CNAME record for p2p.myenvironment.example.com pointing to nodes.example.com
-a CNAME record for provider.myenvironment.example.com pointing to nodes.example.com
-a CNAME record for *.ingress.myenvironment.example.com pointing to nodes.example.com
+*.ingress 300 IN CNAME nodes.yourdomain.com.
+api 300 IN CNAME nodes.yourdomain.com.
+grpc 300 IN CNAME nodes.yourdomain.com.
+nodes 300 IN A x.x.x.x
+nodes 300 IN A x.x.x.x
+nodes 300 IN A x.x.x.x
+p2p 300 IN CNAME nodes.yourdomain.com.
+provider 300 IN CNAME nodes.yourdomain.com.
+rpc 300 IN CNAME nodes.yourdomain.com.
 ```
 
 Once setup you should be able to curl the following endpoints:
