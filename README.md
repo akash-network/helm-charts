@@ -108,13 +108,13 @@ helm install inventory-operator akash/inventory-operator -n akash-services
 
 ### Setup DNS
 
-We defined a $DOMAIN which all of the charts will use for their ingress routes. For our example lets define ours as `yourdomain.com`.
+We define a $DOMAIN which all of the charts will use for their ingress routes. For our example lets define ours as `yourdomain.com`.
 
-Therefore the DNS structure should look something like this:
-
-Add a A records with the ip addresses of all Kubernetes worker nodes pointing to nodes.yourdomain.com.
+Add A records with the ip addresses of all Kubernetes worker nodes pointing to nodes.yourdomain.com.
 
 To get the external IP of your worker nodes, run `kubectl get nodes -A -o wide`.  If you are using a network at home, use your IP address or dynamic dns.
+
+Therefore the DNS structure should look something like this:
 
 ```
 *.ingress 300 IN CNAME nodes.yourdomain.com.
