@@ -129,13 +129,11 @@ helm install akash-rook akash/akash-rook -n rook-ceph
 
 ### Setup DNS
 
-We defined a $DOMAIN which all of the charts will use for their ingress routes. For our example lets define ours as `nodes.yourdomain.com`.
-
-The Provider chart creates an ingress-nginx controller that runs on every Kubernetes worker node and binds to port 80 and 443.
+We defined a $DOMAIN which all of the charts will use for their ingress routes. For our example lets define ours as `yourdomain.com`.
 
 Therefore the DNS structure should look something like this:
 
-Add an A record for nodes.yourdomain.com and replace x.x.x.x with the ip addresses of all Kubernetes worker nodes.
+Add a A records with the ip addresses of all Kubernetes worker nodes pointing to nodes.yourdomain.com.
 
 To get the external IP of your worker nodes, run `kubectl get nodes -A -o wide`.  If you are using a network at home, use your IP address or dynamic dns.
 
