@@ -14,25 +14,11 @@ the latest versions of the packages. You can then run `helm search repo akash` t
 
 > If you want to use local charts from this github checkout, specify `./charts/akash-provider` instead of `akash/akash-node` on `helm install`.
 
-## Setting up a Full-Node and Provider
+### Kubernetes (Dependency)
 
-You'll need a Kubernetes cluster. We recommend using Kubespray or Rancher Kubernetes Engine when deploying to bare metal. But really any Kubernetes cluster will work.
+[Kubernetes](https://kubernetes.io/) is an open-source system for automating deployment, scaling, and management of containerized applications. It is a hard dependency for running an Akash Provider.
 
-### k3s - lightweight Kubernetes option
-
-You can try a lightweight Kubernetes [k3s](https://k3s.io/), it brings you a fully fledged Kubernetes in under 30 seconds! Quick hint on k3s to save your time: install k3s using `curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable=traefik" sh -s -` command OR delete traefik LoadBalancer after k3s installation with `kubectl -n kube-system delete svc traefik` command so to not interfere with `ingress-nginx-controller` used for Akash deployments.
-
-After installing k3s you will want configure the client:
-
-```
-sudo chmod 644 /etc/rancher/k3s/k3s.yaml
-cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
-
-alias kubectl="k3s kubectl"
-kubectl get nodes
-```
-
-Then, you need a funded wallet on the network that you would like to setup. In this documentation we'll use the `mainnet` which is the default in the chart. But you can override values to point to any other net.
+There are many ways to setup a Kubernetes cluster. Scroll to the bottom of this README for some recommendations on what options we recommend. 
 
 
 ### Setup some configuration used by the Helm Charts
@@ -65,12 +51,13 @@ kubectl create ns ingress-nginx
 kubectl label ns ingress-nginx app.kubernetes.io/name=ingress-nginx app.kubernetes.io/instance=ingress-nginx
 ```
 
+#### Akash Node Install (Experimental)
 
-#### Akash Node Install (Optional)
+Experimental: It is recommended to run Akash nodes outside of Kubernetes. For example on a virtual machine or server using [Cosmos Omnibus](https://github.com/ovrclk/cosmos-omnibus).
 
-Install an Akash node. You can copy and paste all of these helm commands.
+Be aware that there is no persistent storage on this Helm chart so a pod restart will lose the blockchain data and the entire snapshot will need to be downloaded again (approx. 30GB).
 
-This is optional but highly desirable.
+This chart will create an Akash node that downloads a snapshot into the pod, extracts it and then starts. This may take some time depending on your internet connection.
 
 ```
 helm install akash-node akash/akash-node -n akash-services \
@@ -82,18 +69,17 @@ helm install akash-node akash/akash-node -n akash-services \
 
 #### Akash Provider Install
 
-Install an Akash provider that connects to your Akash node.
+Install an Akash provider that connects to a public Akash node.
 
 ```
 helm install akash-provider akash/provider -n akash-services \
      --set from="$ACCOUNT_ADDRESS" \
      --set key="$(cat ./key.pem | base64)" \
      --set keysecret="$(echo $KEY_SECRET | base64)" \
-     --set domain="$DOMAIN" \
-     --set node=http://akash-node-1:26657
+     --set domain="$DOMAIN"
 ```
 
-> You can also add `--set node="http://any-akash-other-rpc:<port>"` here if you aren't planning on deploying your own Akash RPC node. List of Akash RPC nodes is [here](https://github.com/ovrclk/net/blob/master/mainnet/rpc-nodes.txt)
+> You can add `--set node="http://akash-node-1:26657"` if you are using the experimental Akash node running inside Kubernetes. Or, if you are running your Akash on your own server `--set node="http://internal-ip:26657"`.
 
 #### Akash Hostname Operator
 
@@ -113,19 +99,12 @@ helm install akash-ingress akash/akash-ingress -n ingress-nginx --set domain=$DO
 
 #### Akash Inventory Operator (Optional - for Persistent Storage)
 
-Install an Inventory Operator that is used for persistent storage. Specifically it reports the free space available to the Akash Provider. You will also need to install and configure the Rook Ceph helm chart on your cluster.
+Install an Inventory Operator that is used for persistent storage. Specifically it reports the free space available to the Akash Provider.
 
 ```
 helm install inventory-operator akash/inventory-operator -n akash-services
 ```
 
-#### Akash Rook (Optional - for Persistent Storage)
-
-Install Rook-Ceph on your cluster.
-
-```
-helm install akash-rook akash/akash-rook -n rook-ceph
-```
 
 ### Setup DNS
 
@@ -190,3 +169,23 @@ To troubleshoot you'll need to know the following.
 
 For troubleshooting the pods in the akash-services namespace you can tail the logs with `kubectl logs -n akash-services <pod name>`. For the Akash Node and Akash Provider Helm charts you can add `--set debug=true` which will add a long sleep to any failing containers. You can then exec into the pod using `kubectl exec -ti -n akash-services <pod name> -- bash` to debug.
 
+### Setting up Kubernetes on your laptop to test
+
+You can try a lightweight Kubernetes [k3s](https://k3s.io/), it brings you a fully fledged Kubernetes in under 30 seconds! Quick hint on k3s to save your time: install k3s using `curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable=traefik" sh -s -` command OR delete traefik LoadBalancer after k3s installation with `kubectl -n kube-system delete svc traefik` command so to not interfere with `ingress-nginx-controller` used for Akash deployments.
+
+After installing k3s you will want configure the client:
+
+```
+sudo chmod 644 /etc/rancher/k3s/k3s.yaml
+cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+
+alias kubectl="k3s kubectl"
+kubectl get nodes
+```
+
+Then, you need a funded wallet on the network that you would like to setup. In this documentation we'll use the `mainnet` which is the default in the chart. But you can override values to point to any other net.
+
+     
+### Setting up Kubernetes on Bare Metal
+
+We recommend using Kubespray or Rancher Kubernetes Engine when deploying to bare metal.
