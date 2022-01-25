@@ -23,7 +23,7 @@ There are many ways to setup a Kubernetes cluster. Scroll to the bottom of this 
 
 ### Setup some configuration used by the Helm Charts
 
-Set your KUBECONFIG environment variable to the cluster you want to install on. Ensure you can run commands like `kubectl get nodes` before you continue.
+Set your KUBECONFIG environment variable to the Kubernetes cluster you want to install on. Ensure you can run commands like `kubectl get nodes` before you continue.
 
 Put your private key into a file named `key.pem` in the current directory. You can do this by running `akash keys export default > key.pem`.
 
