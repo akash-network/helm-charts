@@ -27,10 +27,11 @@ Set your KUBECONFIG environment variable to the Kubernetes cluster you want to i
 
 Put your private key into a file named `key.pem` in the current directory. You can do this by running `akash keys export default > key.pem`.
 
+> Note that you may need to `export AKASH_KEYRING_BACKEND=` and set this to "file" or "os" depending on what works for you. Check with "akash keys list" command.
+
 Now manually set your public wallet address and the password that can unlock your private key.
 
 ```
-export AKASH_KEYRING_BACKEND=     # Set this to "file" or "os" depending on what works for you. Check with "akash keys list" command.
 ACCOUNT_ADDRESS=                  # Your Akash public wallet e.g. akash keys show default -a
 KEY_SECRET=                       # The password you used when you exported your key
 DOMAIN=mydomain.com               # A top level domain you own. Helm Chart is gonna get set you `<provider|ingress|api|rpc|grpc|p2p>.mydomain.com` names automatically.
