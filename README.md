@@ -34,7 +34,6 @@ Now manually set your public wallet address and the password that can unlock you
 ACCOUNT_ADDRESS=                  # Your Akash public wallet e.g. akash keys show default -a
 KEY_SECRET=                       # The password you used when you exported your key
 DOMAIN=mydomain.com               # A top level domain you own. Helm Chart is gonna get set you `<provider|ingress|api|rpc|grpc|p2p>.mydomain.com` names automatically.
-MONIKER=mynode                    # A unique name for your Akash node
 ```
 
 #### Create namespace
@@ -60,7 +59,7 @@ Be aware that there is no persistent storage on this Helm chart so a pod restart
 This chart will create an Akash node that downloads a snapshot into the pod, extracts it and then starts. This may take some time depending on your internet connection.
 
 ```
-helm install akash-node akash/akash-node -n akash-services --set akash_node.moniker="$MONIKER"
+helm install akash-node akash/akash-node -n akash-services"
 ```
 
 #### Akash Provider Install
