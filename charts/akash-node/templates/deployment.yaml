@@ -47,8 +47,6 @@ spec:
               value: {{ .Values.akash_node.net }}
             - name: AKASH_HOME
               value: {{ .Values.home }}
-            - name: AKASH_FROM
-              value: {{ .Values.akash_node.from }}
             - name: AKASH_CHAIN_ID
               value: {{ .Values.akash_node.chainid }}
             - name: AKASH_KEYRING_BACKEND
@@ -76,9 +74,6 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
-            - name: keys
-              mountPath: /boot-keys
-              readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -97,7 +92,4 @@ spec:
         - name: config
           configMap:
             name: akash-node-config
-        - name: keys
-          secret:
-            secretName: akash-node-keys
 {{- end }}
