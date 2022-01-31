@@ -59,7 +59,7 @@ Be aware that there is no persistent storage on this Helm chart so a pod restart
 This chart will create an Akash node that downloads a snapshot into the pod, extracts it and then starts. This may take some time depending on your internet connection.
 
 ```
-helm install akash-node akash/akash-node -n akash-services"
+helm install akash-node akash/akash-node -n akash-services
 ```
 
 #### Akash Provider Install
