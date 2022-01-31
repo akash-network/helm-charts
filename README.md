@@ -18,8 +18,7 @@ the latest versions of the packages. You can then run `helm search repo akash` t
 
 [Kubernetes](https://kubernetes.io/) is an open-source system for automating deployment, scaling, and management of containerized applications. It is a hard dependency for running an Akash Provider.
 
-There are many ways to setup a Kubernetes cluster. Scroll to the bottom of this README for some recommendations on what options we recommend. 
-
+There are many ways to setup a Kubernetes cluster. Scroll to the bottom of this README for some recommendations on what options we recommend.
 
 ### Setup some configuration used by the Helm Charts
 
@@ -61,11 +60,7 @@ Be aware that there is no persistent storage on this Helm chart so a pod restart
 This chart will create an Akash node that downloads a snapshot into the pod, extracts it and then starts. This may take some time depending on your internet connection.
 
 ```
-helm install akash-node akash/akash-node -n akash-services \
-     --set akash_node.from="$ACCOUNT_ADDRESS" \
-     --set akash_node.key="$(cat ./key.pem | base64)" \
-     --set akash_node.keysecret="$(echo $KEY_SECRET | base64)" \
-     --set akash_node.moniker="$MONIKER"
+helm install akash-node akash/akash-node -n akash-services --set akash_node.moniker="$MONIKER"
 ```
 
 #### Akash Provider Install
@@ -106,14 +101,13 @@ Install an Inventory Operator that is used for persistent storage. Specifically 
 helm install inventory-operator akash/inventory-operator -n akash-services
 ```
 
-
 ### Setup DNS
 
 We define a $DOMAIN which all of the charts will use for their ingress routes. For our example lets define ours as `yourdomain.com`.
 
 Add A records with the ip addresses of all Kubernetes worker nodes pointing to nodes.yourdomain.com.
 
-To get the external IP of your worker nodes, run `kubectl get nodes -A -o wide`.  If you are using a network at home, use your IP address or dynamic dns.
+To get the external IP of your worker nodes, run `kubectl get nodes -A -o wide`. If you are using a network at home, use your IP address or dynamic dns.
 
 Therefore the DNS structure should look something like this:
 
@@ -146,27 +140,27 @@ Your deployments should also be available under <id>.ingress.myenvironment.examp
 
 Open the following ports (TCP) to every Kubernetes worker node.
 
-| Domain      | Port  | Description                                                |
-| ----------- | ----- | ---------------------------------------------------------- |
-| *.ingress   | 80    | So people can connect to their deployments                 |
-| api         | 1317  | The Akash node API port                                    |
-| provider    | 8443  | The provider port that clients post the Akash SDL files to |
-| grpc        | 9090  | The Akash node GRPC port                                   |
-| p2p         | 26656 | The Akash node P2P port                                    |
-| rpc         | 26657 | The Akash node RPC port                                    |
+| Domain     | Port  | Description                                                |
+| ---------- | ----- | ---------------------------------------------------------- |
+| \*.ingress | 80    | So people can connect to their deployments                 |
+| api        | 1317  | The Akash node API port                                    |
+| provider   | 8443  | The provider port that clients post the Akash SDL files to |
+| grpc       | 9090  | The Akash node GRPC port                                   |
+| p2p        | 26656 | The Akash node P2P port                                    |
+| rpc        | 26657 | The Akash node RPC port                                    |
 
 ## Troubleshooting
 
 To troubleshoot you'll need to know the following.
 
-* We run an ingress-nginx pod on every Kubernetes worker node
-* This ingress-nginx pod binds all of the ports listed above to 0.0.0.0 on every Kubernetes worker node
-* The DNS A record config above should therefore include all Kubernetes worker nodes so that connections are balanced
-* Similarly the firewall ports need to be opened to all Kubernetes worker nodes
-* There are Kubernetes Ingress resources (kubectl get ingresses -A) that map the DNS CNAMES to backend services
-* Therefore connections from outside can hit ANY Kubernetes worker node and ingress-nginx will proxy to the correct service
-* Services (kubectl get services -A) are creates in the akash-services namespace pointing to the pods. These map the Ingress to the Pods.
-* The pods in the akash-services namespace created by the Helm charts can run on any Kubernetes worker node and are found by the service by label
+- We run an ingress-nginx pod on every Kubernetes worker node
+- This ingress-nginx pod binds all of the ports listed above to 0.0.0.0 on every Kubernetes worker node
+- The DNS A record config above should therefore include all Kubernetes worker nodes so that connections are balanced
+- Similarly the firewall ports need to be opened to all Kubernetes worker nodes
+- There are Kubernetes Ingress resources (kubectl get ingresses -A) that map the DNS CNAMES to backend services
+- Therefore connections from outside can hit ANY Kubernetes worker node and ingress-nginx will proxy to the correct service
+- Services (kubectl get services -A) are creates in the akash-services namespace pointing to the pods. These map the Ingress to the Pods.
+- The pods in the akash-services namespace created by the Helm charts can run on any Kubernetes worker node and are found by the service by label
 
 For troubleshooting the pods in the akash-services namespace you can tail the logs with `kubectl logs -n akash-services <pod name>`. For the Akash Node and Akash Provider Helm charts you can add `--set debug=true` which will add a long sleep to any failing containers. You can then exec into the pod using `kubectl exec -ti -n akash-services <pod name> -- bash` to debug.
 
@@ -186,7 +180,6 @@ kubectl get nodes
 
 Then, you need a funded wallet on the network that you would like to setup. In this documentation we'll use the `mainnet` which is the default in the chart. But you can override values to point to any other net.
 
-     
 ### Setting up Kubernetes on Bare Metal
 
 We recommend using Kubespray or Rancher Kubernetes Engine when deploying to bare metal.
