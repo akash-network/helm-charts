@@ -15,9 +15,13 @@ data:
     cat "$AKASH_BOOT_KEYS/key-pass.txt" | { cat ; echo ; } | /bin/akash --home="$AKASH_HOME" keys import --keyring-backend="$AKASH_KEYRING_BACKEND"  "$AKASH_FROM" "$AKASH_BOOT_KEYS/key.txt"
 
     # Check the Akash Node is working
-    apt update && apt -y install curl jq > /dev/null 2>&1
+    apt update || exit 1
+    apt -yqq install curl jq netcat || exit 1
+    solo_ip=$(echo $AKASH_NODE | cut -d":" -f2 | cut -d "/" -f3) ; port=$(echo $AKASH_NODE | cut -d":" -f3-)
+    if [[ $AKASH_NODE != "http://akash-node-1:26657" ]]; then
+    nc -z -v -w5 $solo_ip $port || exit 1
+    fi
     while [[ $(curl -s $AKASH_NODE/status | jq -r .result.sync_info.catching_up) == "true" ]]; do sleep 15; echo "Akash node not ready. Retrying";  done
-
     ##
     # Create Provider
     ##
@@ -29,12 +33,33 @@ data:
         value: {{ $val.value }}
     {{- end }}
     EOT
-    POPTS="--from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --broadcast-mode=block --gas=auto --gas-adjustment=1.15 --fees=$AKASH_FEES"
-    /bin/akash tx provider create provider.yaml $POPTS || true
-    /bin/akash tx provider update provider.yaml $POPTS
-    /bin/akash tx cert create server provider.{{ .Values.domain }} $POPTS
+    POPTS="--from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --broadcast-mode=block --gas=auto --gas-adjustment=1.15 --fees=$AKASH_FEES -y"
+
+    /bin/akash tx provider create provider.yaml $POPTS >deploy.log 2>&1 ; DEPLOY=$(cat deploy.log)
+    if [[ $DEPLOY == *"already exists"* ]]; then
+    echo "Provider already exists, continue..."
+    elif [[ $DEPLOY == *"incorrect account sequence"* ]]; then
+    echo "Provider has issue talking to the node, check NODE is synced." ; exit 1
+    elif [[ $DEPLOY == *"Error"* ]]; then
+    echo "Error creating provider : $DEPLOY" ; exit 1
+    else
+    echo "No issue found...continue"
+    fi
+
+    /bin/akash tx provider update provider.yaml $POPTS >deploy.log 2>&1 ; DEPLOY=$(cat deploy.log)
+    if [[ $DEPLOY == *"already exists"* ]]; then
+    echo "Provider already exists, continue..."
+    elif [[ $DEPLOY == *"incorrect account sequence"* ]]; then
+    echo "Provider has issue talking to the node, check NODE is synced." ; exit 1
+    elif [[ $DEPLOY == *"Error"* ]]; then
+    echo "Error creating provider : $DEPLOY" ; exit 1
+    else
+    echo "No issue found...continue"
+    fi
+
+    /bin/akash tx cert create server provider.{{ .Values.domain }} $POPTS || exit 1
     ##
     # Run daemon
     ##
-    /bin/akash --home="$AKASH_HOME" --node="$AKASH_NODE" --chain-id="$AKASH_CHAIN_ID" --keyring-backend="$AKASH_KEYRING_BACKEND" --from="$AKASH_FROM" provider run --cluster-k8s --deployment-network-policies-enabled false
+    /bin/akash --home="$AKASH_HOME" --node="$AKASH_NODE" --chain-id="$AKASH_CHAIN_ID" --keyring-backend="$AKASH_KEYRING_BACKEND" --from="$AKASH_FROM" provider run --cluster-k8s --deployment-network-policies-enabled false || exit 1
     if $AKASH_DEBUG == "true"; then sleep 5000; fi
