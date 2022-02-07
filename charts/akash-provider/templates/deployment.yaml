@@ -92,8 +92,14 @@ spec:
             - name: AKASH_YES
               value: "true"
 
-            - name: AKASH_FEES
-              value: "{{ .Values.fees }}"
+            - name: AKASH_MINIMUM_GAS_PRICES
+              value: "{{ .Value.minimum_gas_prices }}"
+
+            - name: AKASH_GAS
+              value: "{{ .Values.gas }}"
+
+            - name: AKASH_GAS_ADJUSTMENT
+              value: "{{ .Values.gasadjustment }}"
 
             - name: AKASH_DEPLOYMENT_INGRESS_STATIC_HOSTS
               value: "true"
