@@ -38,7 +38,7 @@ trustnode: "true"
 # Anything you set here will get globally exposed via AKASH_MINIMUM_GAS_PRICES,
 # AKASH_GAS, AKASH_GAS_ADJUSTMENT environment variables in
 # charts/akash-provider/templates/deployment.yaml
-mingasprices: "0.25uakt"
+minimumgasprices: "0.25uakt"
 gas: "auto"
 gasadjustment: "1.3"
 bidpricestrategy: "scale"

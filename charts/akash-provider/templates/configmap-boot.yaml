@@ -33,7 +33,7 @@ data:
         value: {{ $val.value }}
     {{- end }}
     EOT
-    POPTS="--from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --broadcast-mode=block --min-gas-prices=$MINIMUM_GAS_PRICES --gas=$AKASH_GAS --gas-adjustment=$AKASH_GAS_ADJUSTMENT -y"
+    POPTS="--from $AKASH_FROM --home=$AKASH_HOME --keyring-backend=$AKASH_KEYRING_BACKEND --node=$AKASH_NODE --chain-id=$AKASH_CHAIN_ID --broadcast-mode=block -y"
 
     /bin/akash tx provider create provider.yaml $POPTS >deploy.log 2>&1 ; DEPLOY=$(cat deploy.log)
     if [[ $DEPLOY == *"already exists"* ]]; then
