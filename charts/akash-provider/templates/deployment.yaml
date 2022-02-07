@@ -92,8 +92,8 @@ spec:
             - name: AKASH_YES
               value: "true"
 
-            - name: AKASH_MINIMUM_GAS_PRICES
-              value: "{{ .Values.minimumgasprices }}"
+            - name: AKASH_GAS_PRICES
+              value: "{{ .Values.gasprices }}"
 
             - name: AKASH_GAS
               value: "{{ .Values.gas }}"
