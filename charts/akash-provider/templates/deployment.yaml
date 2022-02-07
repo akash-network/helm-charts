@@ -93,7 +93,7 @@ spec:
               value: "true"
 
             - name: AKASH_MINIMUM_GAS_PRICES
-              value: "{{ .Value.minimum_gas_prices }}"
+              value: "{{ .Values.minimumgasprices }}"
 
             - name: AKASH_GAS
               value: "{{ .Values.gas }}"
@@ -128,11 +128,6 @@ spec:
             - name: AKASH_BID_PRICE_STORAGE_SCALE
               value: "{{ .Values.bidpricestoragescale }}"
 
-          {{- if .Values.bids.enabled }}
-            - name: AKASH_BID_PRICE_SCRIPT_PATH
-              value: "/bids/bid_on_storage.sh"
-          {{- end }}
-
             - name: AKASH_OVERCOMMIT_PCT_CPU
               value: "0"
 
@@ -165,11 +160,6 @@ spec:
             - name: boot
               mountPath: /boot
               readOnly: true
-          {{- if .Values.bids.enabled }}
-            - name: bids
-              mountPath: /bids
-              readOnly: true
-          {{- end }}
             - name: keys
               mountPath: /boot-keys
               readOnly: true
@@ -177,11 +167,6 @@ spec:
         - name: boot
           configMap:
             name: {{ include "provider.fullname" . }}-boot
-      {{- if .Values.bids.enabled }}
-        - name: bids
-          configMap:
-            name: {{ include "provider.fullname" . }}-bids
-      {{- end }}
         - name: keys
           secret:
             secretName: {{ include "provider.fullname" . }}-keys
