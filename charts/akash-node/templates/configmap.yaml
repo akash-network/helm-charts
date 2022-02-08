@@ -12,7 +12,7 @@ data:
     set -x
     /bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
     apt update && apt -y install curl > /dev/null 2>&1
-    curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME"/config/genesis.json
+    curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME/config/genesis.json"
     if [[ $AKASH_NET == "https://raw.githubusercontent.com/ovrclk/net/master/mainnet" ]]
     then
       apt -y install jq aria2 wget nmap > /dev/null 2>&1
