@@ -24,23 +24,26 @@ trustnode: "true"
 # fees = (gas * gas-prices) as per Cosmos SDK docs.
 # (200000 * 0.025uakt) = 5000uakt floor fee for most of RPC nodes.
 #
-# Akash RPC nodes set --minimum-gas-prices=0.25uakt which gives
+# Akash RPC nodes set --minimum-gas-prices=0.025uakt which gives
 # 5000uakt minimum fee when multiplied by the gas price (200000 default).
 #
-# Akash clients should respect this and set --minimum-gas-prices to 0.25uakt
+# Akash clients should respect this and set --gas-prices to 0.025uakt
 #
 # Note that RPC node running without minimum-gas-prices set will accept
 # 0uakt fee transactions which is not desirable as per Cosmos SDK docs.
 #
-# --gas argument works only when --minimum-gas-prices is set!
+# --gas argument works only when --gas-prices is set!
 # Note that the clients cannot provide both fees and gas prices!
 #
-# Anything you set here will get globally exposed via AKASH_MINIMUM_GAS_PRICES,
+# Anything you set here will get globally exposed via AKASH_GAS_PRICES,
 # AKASH_GAS, AKASH_GAS_ADJUSTMENT environment variables in
 # charts/akash-provider/templates/deployment.yaml
-minimumgasprices: "0.25uakt"
-gas: "auto"
-gasadjustment: "1.3"
+gasprices: "0.025uakt"
+# set --gas to 200000 (or higher) so to meet Akash RPC's minimum fees, (--minimum-gas-prices X 200000) = 5000uakt.
+# setting gas by 1.05x higher to tackle https://github.com/ovrclk/akash/issues/1508
+gas: "210000"
+# --gas-adjustment is ignored when --gas is not "auto"
+gasadjustment: "1.05"
 bidpricestrategy: "scale"
 bidpricecpuscale: "0.004"
 bidpricememoryscale: "0.0016"

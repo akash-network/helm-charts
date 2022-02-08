@@ -12,7 +12,7 @@ helm repo add akash https://ovrclk.github.io/helm-charts
 If you had already added this repo earlier, run `helm repo update` to retrieve
 the latest versions of the packages. You can then run `helm search repo akash` to see the charts.
 
-> If you want to use local charts from this github checkout, specify `./charts/akash-provider` instead of `akash/akash-node` on `helm install`.
+> If you want to use local charts from this github checkout, specify `./charts/akash-node` instead of `akash/akash-node` on `helm install`.
 
 ### Kubernetes (Dependency)
 
@@ -170,10 +170,9 @@ You can try a lightweight Kubernetes [k3s](https://k3s.io/), it brings you a ful
 After installing k3s you will want configure the client:
 
 ```
-sudo chmod 644 /etc/rancher/k3s/k3s.yaml
-cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+mkdir ~/.kube
+sudo cat /etc/rancher/k3s/k3s.yaml | tee ~/.kube/config >/dev/null
 
-alias kubectl="k3s kubectl"
 kubectl get nodes
 ```
 
