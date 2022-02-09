@@ -21,7 +21,7 @@ data:
     if [[ $AKASH_NODE != "http://akash-node-1:26657" ]]; then
     nc -z -v -w5 $solo_ip $port || exit 1
     fi
-    until [[ $(curl -s $AKASH_NODE/status | jq -r .result.sync_info.catching_up) == "true" ]]; do sleep 15; echo "Akash node not ready. Retrying";  done
+    until [[ $(curl -s $AKASH_NODE/status | jq -r .result.sync_info.catching_up) == "false" ]]; do sleep 15; echo "Akash node not ready. Retrying";  done
     ##
     # Create Provider
     ##
