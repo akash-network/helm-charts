@@ -49,6 +49,8 @@ data:
     /bin/akash tx provider update provider.yaml $POPTS >deploy.log 2>&1 ; DEPLOY=$(cat deploy.log)
     if [[ $DEPLOY == *"already exists"* ]]; then
     echo "Provider already exists, continue..."
+    elif [[ $DEPLOY == *"insufficient fees"* ]]; then
+    echo "Insufficient fees!  Change the fee settings." ; exit 1
     elif [[ $DEPLOY == *"out of gas in location"* ]]; then
     echo "Out of gas!  Change gas/fee settings." ; exit 1
     elif [[ $DEPLOY == *"incorrect account sequence"* ]]; then
