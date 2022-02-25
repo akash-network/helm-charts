@@ -65,5 +65,5 @@ data:
     ##
     # Run daemon
     ##
-    /bin/akash --home="$AKASH_HOME" --node="$AKASH_NODE" --chain-id="$AKASH_CHAIN_ID" --keyring-backend="$AKASH_KEYRING_BACKEND" --from="$AKASH_FROM" provider run --cluster-k8s --deployment-network-policies-enabled false || exit 1
+    /bin/akash --home="$AKASH_HOME" --node="$AKASH_NODE" --chain-id="$AKASH_CHAIN_ID" --keyring-backend="$AKASH_KEYRING_BACKEND" --from="$AKASH_FROM" provider run --cluster-k8s --deployment-network-policies-enabled $DEPLOYMENT_NETWORK_POLICIES_ENABLED || exit 1
     if $AKASH_DEBUG == "true"; then sleep 5000; fi

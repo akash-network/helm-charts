@@ -51,6 +51,8 @@ bidpriceendpointscale: "0"
 bidpricestoragescale: "0.00016"
 withdrawalperiod: "24h"
 
+deploymentnetworkpoliciesenabled: "false"
+
 attributes:
   - key: region
     value: us-west
