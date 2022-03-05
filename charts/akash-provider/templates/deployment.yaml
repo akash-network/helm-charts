@@ -85,6 +85,9 @@ spec:
             - name: AKASH_BROADCAST_MODE
               value: "block"
 
+            - name: AKASH_VERSION
+              value: "{{ .Values.image.tag }}"
+
             ##
             # akash-provider config
             ##

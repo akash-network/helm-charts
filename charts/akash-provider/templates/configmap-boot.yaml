@@ -38,41 +38,58 @@ data:
     EOT
 
     /bin/akash tx provider create provider.yaml >deploy.log 2>&1 ; DEPLOY=$(cat deploy.log)
-    if [[ $DEPLOY == *"already exists"* ]]; then
-      echo "Provider already exists, continue..."
-    elif [[ $DEPLOY == *"incorrect account sequence"* ]]; then
+
+    if [[ $DEPLOY == *"incorrect account sequence"* ]]; then
       echo "Provider has issue talking to the node, check NODE is synced."
       exit 1
-    elif [[ $DEPLOY == *"Error"* ]]; then
+    fi
+
+    if [[ $DEPLOY == *"Error"* ]]; then
       echo "Error creating provider : $DEPLOY"
       exit 1
-    else
-      echo "No issue found...continue"
+    fi
+
+    if [[ $DEPLOY == *"already exists"* ]]; then
+      echo "Provider already exists, continue..."
     fi
 
     /bin/akash tx provider update provider.yaml >deploy.log 2>&1 ; DEPLOY=$(cat deploy.log)
-    if [[ $DEPLOY == *"already exists"* ]]; then
-      echo "Provider already exists, continue..."
-    elif [[ $DEPLOY == *"insufficient fees"* ]]; then
+
+    if [[ $DEPLOY == *"insufficient fees"* ]]; then
       echo "Insufficient fees!  Change the fee settings."
       exit 1
-    elif [[ $DEPLOY == *"out of gas in location"* ]]; then
-      echo "Out of gas!  Change gas/fee settings."
-      exit 1
-    elif [[ $DEPLOY == *"incorrect account sequence"* ]]; then
-      echo "Provider has issue talking to the node, check NODE is synced."
-      exit 1
-    elif [[ $DEPLOY == *"Error"* ]]; then
-      echo "Error creating provider : $DEPLOY"
-      exit 1
-    else
-      echo "No issue found...continue"
     fi
 
-    /bin/akash tx cert create server provider.{{ .Values.domain }}
+    if [[ $DEPLOY == *"out of gas in location"* ]]; then
+      echo "Out of gas!  Change gas/fee settings."
+      exit 1
+    fi
+
+    if [[ $DEPLOY == *"incorrect account sequence"* ]]; then
+      echo "Provider has issue talking to the node, check NODE is synced."
+      exit 1
+    fi
+
+    if [[ $DEPLOY == *"Error"* ]]; then
+      echo "Error creating provider : $DEPLOY"
+      exit 1
+    fi
+
+    # For older versions of Akash
+
+    if [[ $AKASH_VERSION = 0.14* ]]; then
+      /bin/akash tx cert create server 
+    fi
+
+    # For Akash 0.15-rc14 and later
+    if [[ $AKASH_VERSION = 0.15* ]]; then
+      /bin/akash tx cert generate server provider.{{ .Values.domain }}
+      /bin/akash tx cert publish server
+    fi
 
     ##
     # Run daemon
     ##
     /bin/akash provider run --cluster-k8s
+
     if $AKASH_DEBUG == "true"; then sleep 5000; fi
