@@ -1,0 +1,24 @@
+{{- if .Values.persistent_storage.enabled -}}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-storage
+spec:
+  capacity:
+    storage: {{ $.Values.persistent_storage.capacity }}
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: local-storage
+  local:
+    path: {{ $.Values.persistent_storage.path }}
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - {{ $.Values.persistent_storage.host }}
+{{- end }}
