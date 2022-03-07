@@ -19,6 +19,7 @@ data:
       sed -i "/enable = false/c\enable = true" $AKASH_HOME/config/app.toml
       sed -i -E 's#^(minimum-gas-prices[[:space:]]+=[[:space:]]+)""$#\1"0.025uakt"#' $AKASH_HOME/config/app.toml
       sed -i "/addr_book_strict = true/c\addr_book_strict = false" $AKASH_HOME/config/config.toml
+      sed -i "/snapshot-interval = 0/c\snapshot-interval = 500" $AKASH_HOME/config/app.toml
     fi
     /bin/akash start --p2p.persistent_peers="$AKASH_P2P_PRIVATE_PEER_IDS"
     if $AKASH_DEBUG == "true"; then sleep 5000; fi
