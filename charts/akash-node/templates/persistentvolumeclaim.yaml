@@ -1,0 +1,11 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: akash-node-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: local-storage
+  resources:
+    requests:
+      storage: {{ $.Values.persistent_storage.capacity }}

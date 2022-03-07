@@ -33,6 +33,10 @@ spec:
       serviceAccountName: akash-node
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.persistent_storage.enabled }}
+      nodeSelector:
+        kubernetes.io/hostname: {{ $.Values.persistent_storage.host }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -74,6 +78,10 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
+          {{- if .Values.persistent_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: {{ .Values.home }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -92,4 +100,9 @@ spec:
         - name: config
           configMap:
             name: akash-node-config
+      {{- if .Values.persistent_storage.enabled }}
+        - name: local-persistent-storage
+          persistentVolumeClaim:
+            claimName: akash-node-pvc
+      {{- end }}
 {{- end }}
