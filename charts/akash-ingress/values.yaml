@@ -3,3 +3,5 @@
 # Declare variables to be passed into your templates.
 
 domain: example.local
+bootstrap:
+  enabled: false

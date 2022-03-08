@@ -39,6 +39,26 @@ spec:
     - name: node-rpc
       port: 26657
       protocol: TCP
+    {{- if .Values.bootstrap.enabled }}
+    - name: node-2-p2p
+      port: 26652
+      protocol: TCP
+    - name: node-2-rpc
+      port: 26662
+      protocol: TCP
+    - name: node-3-p2p
+      port: 26653
+      protocol: TCP
+    - name: node-3-rpc
+      port: 26663
+      protocol: TCP
+    - name: node-4-p2p
+      port: 26654
+      protocol: TCP
+    - name: node-4-rpc
+      port: 26664
+      protocol: TCP
+    {{- end }}
   selector:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx

@@ -119,6 +119,32 @@ spec:
               containerPort: 26657
               protocol: TCP
               hostPort: 26657
+            {{- if .Values.bootstrap.enabled }}
+            - name: node-2-p2p
+              containerPort: 26652
+              protocol: TCP
+              hostPort: 26652
+            - name: node-2-rpc
+              containerPort: 26662
+              protocol: TCP
+              hostPort: 26662
+            - name: node-3-p2p
+              containerPort: 26653
+              protocol: TCP
+              hostPort: 26653
+            - name: node-3-rpc
+              containerPort: 26663
+              protocol: TCP
+              hostPort: 26663
+            - name: node-4-p2p
+              containerPort: 26654
+              protocol: TCP
+              hostPort: 26654
+            - name: node-4-rpc
+              containerPort: 26664
+              protocol: TCP
+              hostPort: 26664
+            {{- end }}
           volumeMounts:
             - name: webhook-cert
               mountPath: /usr/local/certificates/
