@@ -7,7 +7,7 @@ data:
   run.sh: |
     #!/bin/bash
 
-    set -ex
+    set -x
 
     ##
     # Import key
@@ -44,13 +44,11 @@ data:
       exit 1
     fi
 
-    if [[ $DEPLOY == *"Error"* ]]; then
-      echo "Error creating provider : $DEPLOY"
-      exit 1
-    fi
-
     if [[ $DEPLOY == *"already exists"* ]]; then
       echo "Provider already exists, continue..."
+    elif [[ $DEPLOY == *"Error"* ]]; then
+      echo "Error creating provider : $DEPLOY"
+      exit 1
     fi
 
     /bin/akash tx provider update provider.yaml >deploy.log 2>&1 ; DEPLOY=$(cat deploy.log)
