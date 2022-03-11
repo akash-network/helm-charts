@@ -19,6 +19,8 @@ node: "http://akash.c29r3.xyz:80/rpc"
 keyringbackend: "test"
 trustnode: "true"
 
+waitready: 30s
+
 # Important to know about the gas and fees:
 #
 # fees = (gas * gas-prices) as per Cosmos SDK docs.
