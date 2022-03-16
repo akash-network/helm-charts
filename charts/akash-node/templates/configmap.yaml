@@ -14,7 +14,6 @@ data:
     if [ ! -d "$AKASH_HOME/data" ]
     then
       /bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
-      sed -i "/enable = false/c\enable = true" $AKASH_HOME/config/app.toml
       sed -i -E 's#^(minimum-gas-prices[[:space:]]+=[[:space:]]+)""$#\1"0.025uakt"#' $AKASH_HOME/config/app.toml
     fi
 

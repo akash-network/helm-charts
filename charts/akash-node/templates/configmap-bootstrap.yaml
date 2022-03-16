@@ -16,7 +16,6 @@ data:
       cp /bootstrap/genesis.json $AKASH_HOME/config/genesis.json
       cp /bootstrap/priv_validator_key_$NODE.json $AKASH_HOME/config/priv_validator_key.json
       cp /bootstrap/node_key_$NODE.json $AKASH_HOME/config/node_key.json
-      sed -i "/enable = false/c\enable = true" $AKASH_HOME/config/app.toml
       sed -i -E 's#^(minimum-gas-prices[[:space:]]+=[[:space:]]+)""$#\1"0.025uakt"#' $AKASH_HOME/config/app.toml
       sed -i "/snapshot-interval = 0/c\snapshot-interval = 500" $AKASH_HOME/config/app.toml
     fi
