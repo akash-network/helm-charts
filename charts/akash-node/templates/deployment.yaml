@@ -67,6 +67,8 @@ spec:
               value: 0.0.0.0:9090
             - name: AKASH_ADDR_BOOK_STRICT
               value: "false"
+            - name: AKASH_DEBUG
+              value: "{{ $.Values.debug }}"
           ports:
             - containerPort: 1317
               name: akashd-api
