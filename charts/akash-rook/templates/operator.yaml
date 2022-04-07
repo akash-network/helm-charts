@@ -1,9 +1,26 @@
+#################################################################################################################
+# The deployment for the rook operator
+# Contains the common settings for most Kubernetes deployments.
+# For example, to create the rook-ceph cluster:
+#   kubectl create -f crds.yaml -f common.yaml -f operator.yaml
+#   kubectl create -f cluster.yaml
+#
+# Also see other operator sample files for variations of operator.yaml:
+# - operator-openshift.yaml: Common settings for running in OpenShift
+###############################################################################################################
+
+# Rook Ceph Operator Config ConfigMap
+# Use this ConfigMap to override Rook-Ceph Operator configurations.
+# NOTE! Precedence will be given to this config if the same Env Var config also exists in the
+#       Operator Deployment.
+# To move a configuration(s) from the Operator Deployment to this ConfigMap, add the config
+# here. It is recommended to then remove it from the Deployment to eliminate any future confusion.
 kind: ConfigMap
 apiVersion: v1
 metadata:
   name: rook-ceph-operator-config
   # should be in the namespace of the operator
-  namespace: {{ .Release.Namespace }}
+  namespace: rook-ceph # namespace:operator
 data:
   # The logging level for the operator: INFO | DEBUG
   ROOK_LOG_LEVEL: "INFO"
@@ -329,7 +346,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rook-ceph-operator
-  namespace: {{ .Release.Namespace }}
+  namespace: rook-ceph # namespace:operator
   labels:
     operator: rook
     storage-backend: ceph

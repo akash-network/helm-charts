@@ -1,7 +1,3 @@
-# Default values for akash-rook.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-ceph:
-  nodes:
-    - name: "" # add the names of the nodes that ceph should use for storage
+nodes:
+  - name: "node-a" # add the names of the nodes that ceph should use for storage
+    config: ""
