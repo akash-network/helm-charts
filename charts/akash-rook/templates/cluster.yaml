@@ -1,3 +1,18 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: rook-config-override
+  namespace: rook-ceph # namespace:cluster
+data:
+  config: |
+    [global]
+    osd pool default size = 1
+    osd pool default min size = 1
+    mon warn on pool no redundancy = false
+    bdev flock retry = 20
+    bluefs buffered io = false
+
+---
 apiVersion: ceph.rook.io/v1
 kind: CephCluster
 metadata:
@@ -88,4 +103,4 @@ spec:
     confirmation: ""
   # allowUninstallWithVolumes defines how the uninstall should be performed
   # If set to true, cephCluster deletion does not wait for the PVs to be deleted.
-  allowUninstallWithVolumes: false
+  # allowUninstallWithVolumes: false
