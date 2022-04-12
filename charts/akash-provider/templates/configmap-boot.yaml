@@ -85,6 +85,11 @@ data:
       /bin/akash tx cert publish server
     fi
 
+    if [[ $AKASH_VERSION = 0.16* ]]; then
+      /bin/akash tx cert generate server provider.{{ .Values.domain }}
+      /bin/akash tx cert publish server
+    fi
+
     ##
     # Run daemon
     ##
