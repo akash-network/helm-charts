@@ -65,7 +65,7 @@ spec:
               value: 0.0.0.0:6060
             - name: AKASH_GRPC_ADDRESS
               value: 0.0.0.0:9090
-            - name: AKASH_ADDR_BOOK_STRICT
+            - name: AKASH_P2P_ADDR_BOOK_STRICT
               value: "false"
             - name: AKASH_DEBUG
               value: "{{ $.Values.debug }}"
