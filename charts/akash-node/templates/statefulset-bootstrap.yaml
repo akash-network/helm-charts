@@ -56,8 +56,8 @@ spec:
               value: "{{ $.Values.debug }}"
             - name: AKASH_KEYRING_BACKEND
               value: {{ $.Values.keyring_backend }}
-            - name: AKASH_P2P_PRIVATE_PEER_IDS
-              value: "{{ $.Values.bootstrap.validator1 }}@akash-node-1:26656,{{ $.Values.bootstrap.validator2 }}@akash-node-2:26656,{{ $.Values.bootstrap.validator3 }}@akash-node-3:26656,{{ $.Values.bootstrap.validator4 }}@akash-node-4:26656"  
+            - name: AKASH_P2P_PERSISTENT_PEERS
+              value: "{{ $.Values.bootstrap.validator1 }}@akash-node-1:26656,{{ $.Values.bootstrap.validator2 }}@akash-node-2:26656,{{ $.Values.bootstrap.validator3 }}@akash-node-3:26656,{{ $.Values.bootstrap.validator4 }}@akash-node-4:26656"
             - name: AKASH_P2P_LADDR
               value: tcp://0.0.0.0:26656
             - name: AKASH_RPC_LADDR
