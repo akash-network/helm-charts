@@ -22,7 +22,6 @@ akash_node:
   moniker: mynode
   chainid: akashnet-2
   net: https://raw.githubusercontent.com/ovrclk/net/master/mainnet
-  peers: 3b623841a46e7c3fa464dc3d5891d288aa398983@135.181.181.120:28956,0c1d3aae7dfe1cfcf5ecf3258bf6283cee9b1159@35.181.181.119:28956,e0d21ebb42665cc4ea32f67240c779fe6d45ac4b@135.181.181.121:28956,416fc5ccbf57a2e3f0e63c70e92dfd82f1ea8cb4@35.181.181.122:28956,d28fcf241dc785a33a40045a237f91db6c3106f0@62.171.139.205:29656
 
 persistent_storage:
   enabled: false

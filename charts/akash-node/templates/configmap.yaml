@@ -28,9 +28,24 @@ data:
       export AKASH_P2P_SEED_MODE=true
       #SNAPSHOT_URL=$(curl https://cosmos-snapshots.s3.filebase.com/akash/pruned/snapshot.json | jq -r .latest)
       SNAPSHOT_URL="https://link.us1.storjshare.io/s/jv6za6wwm7d3rd62dkwioewcuuqq/akashnet/akashnet-2_2022-04-27.tar?download=1"
-      echo "Using latest blockchain snapshot, $SNAPSHOT_URL" ; aria2c --out=snapshot.tar --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 16 -x 16 -k 1M -j 1 --async-dns=false $SNAPSHOT_URL
+      echo "Using latest blockchain snapshot, $SNAPSHOT_URL" ; aria2c --out=snapshot.tar --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 16 -x 16 -k 64M -j 1 --async-dns=false $SNAPSHOT_URL
       tar -xvf snapshot.tar
       rm -f snapshot.tar
+      wget https://raw.githubusercontent.com/ovrclk/net/master/mainnet/peer-nodes.txt
+      ip=$(cat peer-nodes.txt)
+      for i in $ip; do
+        original=$i ; i=$(echo $i | cut -d@ -f2-)
+        solo_ip=$(echo $i | cut -f1 -d":")
+        port=$(echo $i | cut -d":" -f2-)
+        nmap -p $port $solo_ip | grep "down" &> /dev/null
+        if [ $? == 0 ]; then
+          echo "$solo_ip is unreachable"
+        else
+          echo "$original" >> good-nodes.txt
+        fi
+      done
+      export AKASH_P2P_PRIVATE_PEER_IDS=$(awk '{print $1}' good-nodes.txt | paste -s -d, | rev | cut -c2- | rev)
+      export AKASH_P2P_PERSISTENT_PEERS=$(awk '{print $1}' good-nodes.txt | paste -s -d, | rev | cut -c2- | rev)
     fi
 
     /bin/akash validate-genesis
