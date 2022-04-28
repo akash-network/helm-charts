@@ -67,6 +67,10 @@ spec:
               value: 0.0.0.0:9090
             - name: AKASH_P2P_ADDR_BOOK_STRICT
               value: "false"
+            - name: AKASH_ROSETTA_ENABLE
+              value: "false"
+            - name: AKASH_P2P_SEED_MODE
+              value: "true"
             - name: AKASH_DEBUG
               value: "{{ $.Values.debug }}"
           ports:
