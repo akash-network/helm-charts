@@ -26,8 +26,9 @@ data:
       rm -rf $AKASH_HOME/data ; mkdir -p $AKASH_HOME/data ; cd $AKASH_HOME/data
       export AKASH_ROSETTA_ENABLE=false
       export AKASH_P2P_SEED_MODE=true
-      #SNAPSHOT_URL=$(curl https://cosmos-snapshots.s3.filebase.com/akash/pruned/snapshot.json | jq -r .latest)
-      SNAPSHOT_URL="https://link.us1.storjshare.io/s/jv6za6wwm7d3rd62dkwioewcuuqq/akashnet/akashnet-2_2022-04-27.tar?download=1"
+      if [[ $SNAPSHOT_URL == *"cosmos-snapshots"* ]]; then
+        SNAPSHOT_URL=$(curl $SNAPSHOT_URL | jq -r .latest)
+      fi 
       echo "Using latest blockchain snapshot, $SNAPSHOT_URL" ; aria2c --out=snapshot.tar --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 16 -x 16 -k 64M -j 1 --async-dns=false $SNAPSHOT_URL
       tar -xvf snapshot.tar
       rm -f snapshot.tar

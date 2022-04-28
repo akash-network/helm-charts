@@ -14,6 +14,8 @@ image:
 keyring_backend: "test"
 home: "/root/.akash"
 debug: "false"
+snapshot_url: "https://link.us1.storjshare.io/s/jv6za6wwm7d3rd62dkwioewcuuqq/akashnet/akashnet-2_2022-04-27.tar?download=1"
+#For a nightly snapshot use: https://cosmos-snapshots.s3.filebase.com/akash/pruned/snapshot.json
 
 # Set Values to run a single Akash node connected to an existing network
 # Defaults to mainnet
