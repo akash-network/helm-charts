@@ -43,9 +43,9 @@ waitready: 30s
 gasprices: "0.025uakt"
 # set --gas to 200000 (or higher) so to meet Akash RPC's minimum fees, (--minimum-gas-prices X 200000) = 5000uakt.
 # setting gas by 1.05x higher to tackle https://github.com/ovrclk/akash/issues/1508
-gas: "210000"
+gas: "auto"
 # --gas-adjustment is ignored when --gas is not "auto"
-gasadjustment: "1.05"
+gasadjustment: "1.5"
 bidpricestrategy: "scale"
 bidpricecpuscale: "0.004"
 bidpricememoryscale: "0.0016"
