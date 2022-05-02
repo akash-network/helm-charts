@@ -41,10 +41,11 @@ waitready: 30s
 # AKASH_GAS, AKASH_GAS_ADJUSTMENT environment variables in
 # charts/akash-provider/templates/deployment.yaml
 gasprices: "0.025uakt"
-# set --gas to 200000 (or higher) so to meet Akash RPC's minimum fees, (--minimum-gas-prices X 200000) = 5000uakt.
-# setting gas by 1.05x higher to tackle https://github.com/ovrclk/akash/issues/1508
+# set --gas to 200000 (or higher) to meet Akash RPC's minimum fees, (--minimum-gas-prices X 200000) = 5000uakt.
+# or set --gas to "auto" to leverage the gasadjustment setting;
+# increase gasadjustment to tackle "out of gas" issues, i.e. https://github.com/ovrclk/akash/issues/1508
 gas: "auto"
-# --gas-adjustment is ignored when --gas is not "auto"
+# Note that --gas-adjustment is working only when --gas is "auto"!
 gasadjustment: "1.5"
 bidpricestrategy: "scale"
 bidpricecpuscale: "0.004"
