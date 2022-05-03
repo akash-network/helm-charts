@@ -92,6 +92,24 @@ Install the Ingress configuration for Akash.
 helm install akash-ingress akash/akash-ingress -n ingress-nginx --set domain=$DOMAIN
 ```
 
+#### Akash Rook (Optional - for Persistent Storage)
+
+Installs the Rook Ceph operator which sets up persistent storage.
+
+Before you install this chart you need to install the CRD's manually.
+
+```
+kubectl create -f https://raw.githubusercontent.com/ovrclk/helm-charts/main/charts/akash-rook/crds.yaml
+```
+
+Then need to set which nodes to use the disks on. We recommend you use all of the Kubernetes worker nodes.
+
+```
+helm install akash-rook akash/akash-rook -n akash-services --set nodes[0].name="mynodename",nodes[0].config=""
+```
+
+To set multiple nodes use a comma separated list and increase the decimal index from 0 upwards.
+
 #### Akash Inventory Operator (Optional - for Persistent Storage)
 
 Install an Inventory Operator that is used for persistent storage. Specifically it reports the free space available to the Akash Provider.

@@ -73,22 +73,8 @@ data:
       exit 1
     fi
 
-    # For older versions of Akash
-
-    if [[ $AKASH_VERSION = 0.14* ]]; then
-      /bin/akash tx cert create server 
-    fi
-
-    # For Akash 0.15-rc14 and later
-    if [[ $AKASH_VERSION = 0.15* ]]; then
-      /bin/akash tx cert generate server provider.{{ .Values.domain }}
-      /bin/akash tx cert publish server
-    fi
-
-    if [[ $AKASH_VERSION = 0.16* ]]; then
-      /bin/akash tx cert generate server provider.{{ .Values.domain }}
-      /bin/akash tx cert publish server
-    fi
+    /bin/akash tx cert generate server provider.{{ .Values.domain }}
+    /bin/akash tx cert publish server
 
     ##
     # Run daemon
