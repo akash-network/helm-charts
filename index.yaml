@@ -1355,6 +1355,16 @@ entries:
   akash-rook:
   - apiVersion: v2
     appVersion: 1.8.0
+    created: "2022-05-04T15:17:07.700158534Z"
+    description: A Helm chart for Kubernetes
+    digest: 8cc76f932306cb01a48e100afa650e914820fb876fed347061d34f14468036dc
+    name: akash-rook
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-rook-0.17.0/akash-rook-0.17.0.tgz
+    version: 0.17.0
+  - apiVersion: v2
+    appVersion: 1.8.0
     created: "2022-05-03T14:05:49.670187028Z"
     description: A Helm chart for Kubernetes
     digest: 0dc15187e7eef78023822ade68aa6b751ceb0314cf379900147b3dd4e6e52a00
@@ -1750,6 +1760,16 @@ entries:
     - https://github.com/ovrclk/helm-charts/releases/download/inventory-operator-0.1.0/inventory-operator-0.1.0.tgz
     version: 0.1.0
   provider:
+  - apiVersion: v2
+    appVersion: 0.14.0
+    created: "2022-05-04T15:17:07.851195033Z"
+    description: A Helm chart for Kubernetes
+    digest: 4f4f299948413f4eb50d0e8be5041f28807443ddb06c4f77408822f0e96ef134
+    name: provider
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/provider-0.149.0/provider-0.149.0.tgz
+    version: 0.149.0
   - apiVersion: v2
     appVersion: 0.14.0
     created: "2022-05-03T13:09:44.185068012Z"
