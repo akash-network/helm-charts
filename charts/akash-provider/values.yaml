@@ -51,8 +51,18 @@ bidpricestrategy: "scale"
 bidpricecpuscale: "0.004"
 bidpricememoryscale: "0.0016"
 bidpriceendpointscale: "0"
-bidpricestoragescale: "0.00016"
+# set storage pricing for your StorageClass you are using
+# here is an example for beta2 StorageClass:
+bidpricestoragescale: "0.00016,beta2=0.00016"
 withdrawalperiod: "24h"
+
+persistent_storage:
+  # persistent Storage Class can be either:
+  # - beta1 - HDD
+  # - beta2 - SSD
+  # - beta3 - NVME
+  # Make sure to update provider attributes when changing this parameter
+  class: beta2
 
 deploymentnetworkpoliciesenabled: "false"
 
@@ -65,6 +75,14 @@ attributes:
     value: community
   - key: organization
     value: akash.network
+  - key: capabilities/storage/1/class
+    value: default
+  - key: capabilities/storage/1/persistent
+    value: true
+  - key: capabilities/storage/2/class
+    value: beta2
+  - key: capabilities/storage/2/persistent
+    value: true
 
 debug: "false"
 
