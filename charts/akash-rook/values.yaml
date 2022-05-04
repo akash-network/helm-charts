@@ -1,5 +1,11 @@
 persistent_storage:
+  # persistent Storage Class can be either:
+  # - beta1 - HDD
+  # - beta2 - SSD
+  # - beta3 - NVME
+  # Make sure to update provider attributes when changing this parameter
   class: beta2
+
 nodes:
   - name: "node-a" # add the names of the nodes that ceph should use for storage
     config: ""
