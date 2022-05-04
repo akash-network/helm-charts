@@ -56,14 +56,6 @@ bidpriceendpointscale: "0"
 bidpricestoragescale: "0.00016,beta2=0.00016"
 withdrawalperiod: "24h"
 
-persistent_storage:
-  # persistent Storage Class can be either:
-  # - beta1 - HDD
-  # - beta2 - SSD
-  # - beta3 - NVME
-  # Make sure to update provider attributes when changing this parameter
-  class: beta2
-
 deploymentnetworkpoliciesenabled: "false"
 
 attributes:
