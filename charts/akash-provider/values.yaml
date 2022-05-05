@@ -54,7 +54,7 @@ bidpriceendpointscale: "0"
 # set storage pricing for your StorageClass you are using
 # here is an example for beta2 StorageClass:
 bidpricestoragescale: "0.00016,beta2=0.00016"
-withdrawalperiod: "24h"
+withdrawalperiod: "1h"
 
 deploymentnetworkpoliciesenabled: "false"
 
