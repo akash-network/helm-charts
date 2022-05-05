@@ -46,7 +46,7 @@ gasprices: "0.025uakt"
 # increase gasadjustment to tackle "out of gas" issues, i.e. https://github.com/ovrclk/akash/issues/1508
 gas: "auto"
 # Note that --gas-adjustment is working only when --gas is "auto"!
-gasadjustment: "1.5"
+gasadjustment: "1.25"
 bidpricestrategy: "scale"
 bidpricecpuscale: "0.004"
 bidpricememoryscale: "0.0016"
