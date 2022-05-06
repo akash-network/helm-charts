@@ -14,6 +14,18 @@ the latest versions of the packages. You can then run `helm search repo akash` t
 
 > If you want to use local charts from this github checkout, specify `./charts/akash-node` instead of `akash/akash-node` on `helm install`.
 
+## Charts
+
+| Chart              | Description                                                        |
+| ------------------ | ------------------------------------------------------------------ |
+| akash-e2e          | End to end tests to check if a provider is healthy (optional)      |
+| akash-ingress      | Installs the Akash Ingress resources (required)                    |
+| akash-node         | Installs an Akash RPC node (required)                              |
+| akash-provider     | Installs an Akash provider (required)                              |
+| akash-rook         | Sets up Rook-Ceph for persistent storage (optional)                |
+| akash-operator     | An operator to map Ingress objects to Akash deployments (required) |
+| inventory-operator | An operator to required for persistent storage (optional)          |
+
 ### Kubernetes (Dependency)
 
 [Kubernetes](https://kubernetes.io/) is an open-source system for automating deployment, scaling, and management of containerized applications. It is a hard dependency for running an Akash Provider.
