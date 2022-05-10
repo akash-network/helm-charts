@@ -1366,6 +1366,16 @@ entries:
   akash-rook:
   - apiVersion: v2
     appVersion: 1.8.0
+    created: "2022-05-10T08:45:40.681432121Z"
+    description: A Helm chart for Kubernetes
+    digest: 27a325e0bb2b5ef03c504a889a86cfe507a608f7399ef939bbb740c31e77272a
+    name: akash-rook
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-rook-0.20.0/akash-rook-0.20.0.tgz
+    version: 0.20.0
+  - apiVersion: v2
+    appVersion: 1.8.0
     created: "2022-05-04T15:54:30.080443992Z"
     description: A Helm chart for Kubernetes
     digest: 789cb543bcbaefcff8798665307fb89e876ac18f5f47f4d52b4769804fc48eba
