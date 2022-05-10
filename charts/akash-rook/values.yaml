@@ -1,3 +1,10 @@
+
+useAllNodes: false
+useAllDevices: true
+
+# Device filter only used when useAllDevices: false
+deviceFilter: sd[a-z]
+
 persistent_storage:
   # persistent Storage Class can be either:
   # - beta1 - HDD
