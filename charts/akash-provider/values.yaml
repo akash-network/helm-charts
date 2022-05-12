@@ -87,8 +87,6 @@ serviceAccount:
   annotations: {}
   name:
 
-podAnnotations: {}
-
 podSecurityContext: {}
 
 securityContext: {}

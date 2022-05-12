@@ -16,10 +16,8 @@ spec:
       {{- include "provider.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap-boot.yaml") . | sha256sum }}
       labels:
         app: {{ include "provider.fullname" . }}
         {{- include "provider.selectorLabels" . | nindent 8 }}
