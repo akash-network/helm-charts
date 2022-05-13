@@ -1,4 +1,11 @@
-debug: true
+debug: false
+
+node: "tcp://rpc.mainnet-1.ca.aksh.pw:26657"
+chainid: "akashnet-2"
+criticalproviders: "akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf"
+gasprices: "0.02501uakt"
+gas: "500000"
+minuaktbalance: "52000000"
 
 keysecret:
 primarykey:

@@ -33,19 +33,19 @@ spec:
             - name: POSTGRES_URL
               value: "postgres://akashnines:password@{{ .Release.Name }}-postgresql.{{ .Release.Namespace }}.svc:5432/akashnines"
             - name: CHAIN_ID
-              value: "akashnet-2"
+              value: "{{ $.Values.chainid }}"
             - name: RPC_NODE
-              value: "tcp://rpc.mainnet-1.ca.aksh.pw:26657"
+              value: "{{ $.Values.node }}"
             - name: WALLET_HOME
               value: "/root/.akash"
             - name: GAS_PRICES
-              value: "0.02501uakt"
+              value: "{{ $.Values.gasprices }}"
             - name: GAS
-              value: "500000"
+              value: "{{ $.Values.gas }}"
             - name: MINIMUM_UAKT_BALANCE
-              value: "52000000"
+              value: "{{ $.Values.minuaktbalance }}"
             - name: CRITICAL_PROVIDERS
-              value: "akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf"
+              value: "{{ $.Values.criticalproviders }}"
             - name: BUCKET_NAME
               value: "none"
           ports:
