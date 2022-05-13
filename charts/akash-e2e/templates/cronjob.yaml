@@ -21,29 +21,29 @@ spec:
             imagePullPolicy: IfNotPresent
             command: ["/bin/bash", "/boot/run.sh"]
             env:
-                - name: AKASH_DEBUG
+              - name: AKASH_DEBUG
                 value: "{{ $.Values.debug }}"
-                - name: AKASH_PATH
+              - name: AKASH_PATH
                 value: "/bin/akash"
-                - name: AKASH_KEYRING_BACKEND
+              - name: AKASH_KEYRING_BACKEND
                 value: "test"
-                - name: POSTGRES_URL
+              - name: POSTGRES_URL
                 value: "postgres://akashnines:password@{{ .Release.Name }}-postgresql.{{ .Release.Namespace }}.svc:5432/akashnines"
-                - name: CHAIN_ID
+              - name: CHAIN_ID
                 value: "{{ $.Values.chainid }}"
-                - name: RPC_NODE
+              - name: RPC_NODE
                 value: "{{ $.Values.node }}"
-                - name: WALLET_HOME
+              - name: WALLET_HOME
                 value: "/root/.akash"
-                - name: GAS_PRICES
+              - name: GAS_PRICES
                 value: "{{ $.Values.gasprices }}"
-                - name: GAS
+              - name: GAS
                 value: "{{ $.Values.gas }}"
-                - name: MINIMUM_UAKT_BALANCE
+              - name: MINIMUM_UAKT_BALANCE
                 value: "{{ $.Values.minuaktbalance }}"
-                - name: CRITICAL_PROVIDERS
+              - name: CRITICAL_PROVIDERS
                 value: "{{ $.Values.criticalproviders }}"
-                - name: BUCKET_NAME
+              - name: BUCKET_NAME
                 value: "none"
             volumeMounts:
             - name: boot
