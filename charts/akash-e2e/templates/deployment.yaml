@@ -27,27 +27,27 @@ spec:
             - name: AKASH_DEBUG
               value: "{{ $.Values.debug }}"
             - name: AKASH_PATH
-              value: /bin/akash
+              value: "/bin/akash"
             - name: AKASH_KEYRING_BACKEND
-              value: test
+              value: "test"
             - name: POSTGRES_URL
-              value: postgres://akashnines:password@{{ .Release.Name }}-postgresql.{{ .Release.Namespace }}.svc:5432/akashnines
+              value: "postgres://akashnines:password@{{ .Release.Name }}-postgresql.{{ .Release.Namespace }}.svc:5432/akashnines"
             - name: CHAIN_ID
-              value: akashnet-2
+              value: "akashnet-2"
             - name: RPC_NODE
-              value: tcp://rpc.mainnet-1.ca.aksh.pw:26657
+              value: "tcp://rpc.mainnet-1.ca.aksh.pw:26657"
             - name: WALLET_HOME
-              value: /root/.akash
+              value: "/root/.akash"
             - name: GAS_PRICES
-              value: 0.02501uakt
+              value: "0.02501uakt"
             - name: GAS
-              value: 500000
+              value: "500000"
             - name: MINIMUM_UAKT_BALANCE
-              value: 52000000
+              value: "52000000"
             - name: CRITICAL_PROVIDERS
-              value: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
+              value: "akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf"
             - name: BUCKET_NAME
-              value: none
+              value: "none"
           ports:
             - name: http
               containerPort: 8080
