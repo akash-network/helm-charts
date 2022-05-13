@@ -14,3 +14,4 @@ data:
     cat /boot-keys/key-pass.txt | { cat ; echo ; } | /bin/akash keys import check_3 /boot-keys/check-3-key.pem
     cd /venv && source ./bin/activate
     python -m akashnines.monitor
+    if $AKASH_DEBUG == "true"; then sleep 5000; fi
