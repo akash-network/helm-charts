@@ -53,10 +53,10 @@ spec:
               mountPath: /boot-keys
               readOnly: true
           restartPolicy: OnFailure
-      volumes:
-        - name: boot
-          configMap:
-            name: {{ include "akash-e2e.fullname" . }}-cron
-        - name: keys
-          secret:
-            secretName: {{ include "akash-e2e.fullname" . }}-keys
+          volumes:
+            - name: boot
+              configMap:
+                name: {{ include "akash-e2e.fullname" . }}-cron
+            - name: keys
+              secret:
+                secretName: {{ include "akash-e2e.fullname" . }}-keys
