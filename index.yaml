@@ -3,6 +3,20 @@ entries:
   akash-e2e:
   - apiVersion: v2
     appVersion: 0.16.0
+    created: "2022-05-13T13:07:19.284494789Z"
+    dependencies:
+    - name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.1.3
+    description: A Helm chart for running the Akash end to end tests
+    digest: 35dbb43c30793788287954322339b649c66bf037d313552eb430ecdb50d28eb6
+    name: akash-e2e
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-e2e-0.10.0/akash-e2e-0.10.0.tgz
+    version: 0.10.0
+  - apiVersion: v2
+    appVersion: 0.16.0
     created: "2022-05-13T12:57:31.726235956Z"
     dependencies:
     - name: postgresql
