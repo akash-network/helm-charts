@@ -2,60 +2,67 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "akash-e2e.fullname" . }}
+  namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "akash-e2e.labels" . | nindent 4 }}
+    app: {{ include "akash-e2e.fullname" . }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
+      app: {{ include "akash-e2e.fullname" . }}
       {{- include "akash-e2e.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap-boot.yaml") . | sha256sum }}
       labels:
+        app: {{ include "akash-e2e.fullname" . }}
         {{- include "akash-e2e.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       serviceAccountName: {{ include "akash-e2e.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: sacreman/akashnines:latest
+          command: ["/bin/bash", "/boot/run.sh"]
+          env:
+            - name: AKASH_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: AKASH_PATH
+              value: /bin/akash
+            - name: AKASH_KEYRING_BACKEND
+              value: test
+            - name: POSTGRES_URL
+              value: postgres://akashnines:password@{{ .Release.Name }}-postgresql.{{ .Release.Namespace }}.svc:5432/akashnines
+            - name: CHAIN_ID
+              value: akashnet-2
+            - name: RPC_NODE
+              value: tcp://rpc.mainnet-1.ca.aksh.pw:26657
+            - name: WALLET_HOME
+              value: /root/.akash
+            - name: GAS_PRICES
+              value: 0.02501uakt
+            - name: GAS
+              value: 500000
+            - name: MINIMUM_UAKT_BALANCE
+              value: 52000000
+            - name: CRITICAL_PROVIDERS
+              value: akash1q7spv2cw06yszgfp4f9ed59lkka6ytn8g4tkjf
+            - name: BUCKET_NAME
+              value: none
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+          volumeMounts:
+            - name: boot
+              mountPath: /boot
+              readOnly: true
+            - name: keys
+              mountPath: /boot-keys
+              readOnly: true
+      volumes:
+        - name: boot
+          configMap:
+            name: {{ include "akash-e2e.fullname" . }}-boot
+        - name: keys
+          secret:
+            secretName: {{ include "akash-e2e.fullname" . }}-keys
