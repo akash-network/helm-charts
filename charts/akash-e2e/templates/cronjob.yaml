@@ -4,7 +4,7 @@ metadata:
   name: {{ include "akash-e2e.fullname" . }}
   namespace: {{ .Release.Namespace }}
 spec:
-  schedule: "*/10 * * * *"
+  schedule: "{{ $.Values.cron }}"
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 1
   suspend: false
