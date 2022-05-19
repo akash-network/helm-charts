@@ -47,7 +47,8 @@ gasprices: "0.025uakt"
 gas: "auto"
 # Note that --gas-adjustment is working only when --gas is "auto"!
 gasadjustment: "1.25"
-bidpricestrategy: "scale"
+bidpricestrategy: "scale" # set to "shellScript" if you plan to use bidpricescriptpath
+#bidpricescriptpath: "/bidscripts/price_script.sh"
 bidpricecpuscale: "0.004"
 bidpricememoryscale: "0.0016"
 bidpriceendpointscale: "0"
