@@ -16,7 +16,7 @@ memory_gb=$(echo $memory_total | awk '{print $1/1024/1024/1024}')
 hd_gb=$(echo $storage_total | awk '{print $1/1024/1024/1024}')
 
 
-usd_per_akt=$(curl -s -X GET "https://api.coingecko.com/api/v3/coins/akash-network/tickers" -H  "accept: application/json" | jq '.tickers[] | select(.market.name == "Osmosis").converted_last.usd' | head -n1)
+usd_per_akt=$(curl --connect-timeout 5 -s -X GET "https://api.coingecko.com/api/v3/coins/akash-network/tickers" -H  "accept: application/json" | jq '.tickers[] | select(.market.name == "Osmosis").converted_last.usd' | head -n1)
 
 #Price in USD
 TARGET_MEMORY="1.25"
