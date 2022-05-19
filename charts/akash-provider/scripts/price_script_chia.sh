@@ -45,11 +45,14 @@ chia_bladebit_memory_max=512
 chia_bladebit_storage=715
 chia_bladebit_storage_max=3200
 
-if (( $memory_gb >= $chia_bladebit_memory && $cpu_total_threads >= $chia_bladebit_cpu )); then
+if (( $(echo "$memory_gb >= $chia_bladebit_memory" | bc -l) && \
+      $(echo "$cpu_total_threads >= $chia_bladebit_cpu" | bc -l) )); then
 #Bladebit detected
 TARGET_CPU="20"
 total_cost_usd_target=$(bc -l <<<"($cpu_total_threads * $TARGET_CPU)")
-elif (( $memory_gb >= $chia_madmax_memory && $cpu_total_threads >= $chia_madmax_cpu && $cpu_total_threads <= $chia_madmax_cpu_max )); then
+elif (( $(echo "$memory_gb >= $chia_madmax_memory" | bc -l) && \
+        $(echo "$cpu_total_threads >= $chia_madmax_cpu" | bc -l) && \
+        $(echo "$cpu_total_threads <= $chia_madmax_cpu_max" | bc -l) )); then
 #Madmax detected
 TARGET_CPU="15"
 total_cost_usd_target=$(bc -l <<<"($cpu_total_threads * $TARGET_CPU)")
