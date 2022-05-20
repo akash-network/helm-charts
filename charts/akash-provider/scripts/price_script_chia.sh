@@ -1,5 +1,5 @@
 #!/bin/bash
-# Author: Andrew Mello
+# Original author: Andrew Mello
 # Purpose:
 # - support Chia mining deployment requests for these miners:
 #   - BladeBit
@@ -16,7 +16,14 @@ memory_gb=$(echo $memory_total | awk '{print $1/1024/1024/1024}')
 hd_gb=$(echo $storage_total | awk '{print $1/1024/1024/1024}')
 
 
-usd_per_akt=$(curl -s --connect-timeout 5 -X GET 'https://api-osmosis.imperator.co/tokens/v2/price/AKT' -H 'accept: application/json' | jq -r '.price')
+# cache AKT price for 60 minutes to reduce the API pressure as well as to slightly accelerate the bidding (+5s)
+CACHE_FILE=/tmp/aktprice.cache
+if ! test $(find $CACHE_FILE -mmin -60 2>/dev/null); then
+  ## echo cache expired
+  curl -s --connect-timeout 5 -X GET 'https://api-osmosis.imperator.co/tokens/v2/price/AKT' -H 'accept: application/json' | jq -r '.price' > $CACHE_FILE
+fi
+
+usd_per_akt=$(cat $CACHE_FILE)
 
 #Price in USD
 TARGET_MEMORY="1.25"
