@@ -19,8 +19,17 @@ hd_gb=$(echo $storage_total | awk '{print $1/1024/1024/1024}')
 # cache AKT price for 60 minutes to reduce the API pressure as well as to slightly accelerate the bidding (+5s)
 CACHE_FILE=/tmp/aktprice.cache
 if ! test $(find $CACHE_FILE -mmin -60 2>/dev/null); then
-  ## echo cache expired
-  curl -s --connect-timeout 5 -X GET 'https://api-osmosis.imperator.co/tokens/v2/price/AKT' -H 'accept: application/json' | jq -r '.price' > $CACHE_FILE
+  ## cache expired
+  usd_per_akt=$(curl -s --connect-timeout 5 -X GET 'https://api-osmosis.imperator.co/tokens/v2/price/AKT' -H 'accept: application/json' | jq -r '.price')
+  # TODO: add an alternative API to avoid SPOF.
+
+  # update the cache only when API returns a result.
+  # this way provider will always keep bidding even if API temporarily breaks (unless pod gets restarted which will clear the cache)
+  if [ ! -z $usd_per_akt ]; then
+    echo "$usd_per_akt" > $CACHE_FILE
+  fi
+
+  # TODO: figure some sort of monitoring to inform the provider in the event API breaks
 fi
 
 usd_per_akt=$(cat $CACHE_FILE)
