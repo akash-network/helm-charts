@@ -9,7 +9,7 @@ data_in=$(jq .)
 
 cpu_total=$(echo "$data_in" | jq 'map(.cpu * .count) | add')
 memory_total=$(echo "$data_in" | jq 'map(.memory * .count) | add')
-storage_total=$(echo "$data_in" |  python3 -c "import json;import sys;data=json.load(sys.stdin);data = [(x['count'], x['storage']) for x in data];data = [cnt*sum(z['size'] for z in y) for cnt,y in data]; data= sum(data);json.dump(data,sys.stdout)")
+storage_total=$(echo "$data_in" | jq -r '[.[].storage[].size] | add')
 
 cpu_total_threads=$(echo $cpu_total | awk '{print $1/1000}')
 memory_gb=$(echo $memory_total | awk '{print $1/1024/1024/1024}')
