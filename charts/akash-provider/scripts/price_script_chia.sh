@@ -23,7 +23,7 @@ if ! test $(find $CACHE_FILE -mmin -60 2>/dev/null); then
   usd_per_akt=$(curl -s --connect-timeout 5 -X GET 'https://api-osmosis.imperator.co/tokens/v2/price/AKT' -H 'accept: application/json' | jq -r '.price')
   if [[ $? -ne 0 ]]; then
     # if Osmosis API fails, try CoinGecko API
-    usd_per_akt=$(curl --connect-timeout 5 -s -X GET "https://api.coingecko.com/api/v3/coins/akash-network/tickers" -H  "accept: application/json" | jq '([.tickers[].converted_volume.usd] | max) as $m | [.tickers[] | select(.converted_volume.usd == $m) | .converted_last.usd][0]')
+    usd_per_akt=$(curl --connect-timeout 5 -s -X GET "https://api.coingecko.com/api/v3/simple/price?ids=akash-network&vs_currencies=usd" -H  "accept: application/json" | jq -r '[.[]][0].usd')
   fi
 
   # update the cache only when API returns a result.
