@@ -26,6 +26,18 @@ if ! test $(find $CACHE_FILE -mmin -60 2>/dev/null); then
   # update the cache only when API returns a result.
   # this way provider will always keep bidding even if API temporarily breaks (unless pod gets restarted which will clear the cache)
   if [ ! -z $usd_per_akt ]; then
+    # check price is an integer/floating number
+    re='^[0-9]+([.][0-9]+)?$'
+    if ! [[ $usd_per_akt =~ $re ]]; then
+      exit 1
+    fi
+
+    # make sure price is in the permitted range
+    if ! (( $(echo "$usd_per_akt > 0" | bc -l) && \
+            $(echo "$usd_per_akt <= 1000000" | bc -l) )); then
+      exit 1
+    fi
+
     echo "$usd_per_akt" > $CACHE_FILE
   fi
 
