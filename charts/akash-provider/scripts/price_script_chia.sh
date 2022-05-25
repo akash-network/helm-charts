@@ -21,7 +21,10 @@ CACHE_FILE=/tmp/aktprice.cache
 if ! test $(find $CACHE_FILE -mmin -60 2>/dev/null); then
   ## cache expired
   usd_per_akt=$(curl -s --connect-timeout 5 -X GET 'https://api-osmosis.imperator.co/tokens/v2/price/AKT' -H 'accept: application/json' | jq -r '.price')
-  # TODO: add an alternative API to avoid SPOF.
+  if [[ $? -ne 0 ]]; then
+    # if Osmosis API fails, try CoinGecko API
+    usd_per_akt=$(curl --connect-timeout 5 -s -X GET "https://api.coingecko.com/api/v3/coins/akash-network/tickers" -H  "accept: application/json" | jq '([.tickers[].converted_volume.usd] | max) as $m | [.tickers[] | select(.converted_volume.usd == $m) | .converted_last.usd][0]')
+  fi
 
   # update the cache only when API returns a result.
   # this way provider will always keep bidding even if API temporarily breaks (unless pod gets restarted which will clear the cache)
