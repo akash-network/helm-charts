@@ -125,10 +125,11 @@ spec:
               value: "provider.{{ .Values.domain }}"
 
             - name: AKASH_BID_PRICE_STRATEGY
-              value: "{{ .Values.bidpricestrategy }}"
-
+              value: "{{ ternary "scale" "shellScript" (empty .Values.bidpricescriptname) }}"
+{{ if .Values.bidpricescriptname }}
             - name: AKASH_BID_PRICE_SCRIPT_PATH
-              value: "{{ .Values.bidpricescriptpath }}"
+              value: "/bidscripts/{{ .Values.bidpricescriptname }}"
+{{- end }}
 
             - name: AKASH_BID_PRICE_CPU_SCALE
               value: "{{ .Values.bidpricecpuscale }}"

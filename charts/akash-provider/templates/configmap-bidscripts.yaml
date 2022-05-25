@@ -1,8 +1,10 @@
+{{- if .Values.bidpricescriptname -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "provider.fullname" . }}-bidscripts
   namespace: {{ .Release.Namespace }}
 data:
-  price_script_chia.sh: |
-{{ tpl (.Files.Get "scripts/price_script_chia.sh") . | indent 4 }}
+  {{ .Values.bidpricescriptname }}: |
+{{ tpl (.Files.Get (printf "scripts/%s" .Values.bidpricescriptname)) . | indent 4 }}
+{{- end }}
