@@ -44,7 +44,10 @@ if ! test $(find $CACHE_FILE -mmin -60 2>/dev/null); then
   # TODO: figure some sort of monitoring to inform the provider in the event API breaks
 fi
 
+# Fail if script can't read CACHE_FILE for some reason
+set -e
 usd_per_akt=$(cat $CACHE_FILE)
+set +e
 
 #Price in USD
 TARGET_MEMORY="1.25"
