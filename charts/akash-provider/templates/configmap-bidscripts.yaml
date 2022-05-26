@@ -1,0 +1,10 @@
+{{- if .Values.bidpricescript }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "provider.fullname" . }}-bidscripts
+  namespace: {{ .Release.Namespace }}
+data:
+  price_script.sh: |
+{{ .Values.bidpricescript | b64dec | indent 4 }}
+{{- end }}

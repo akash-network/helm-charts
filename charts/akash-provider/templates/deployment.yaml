@@ -17,7 +17,8 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/configmap-boot.yaml") . | sha256sum }}
+        checksum/cm-boot: {{ include (print $.Template.BasePath "/configmap-boot.yaml") . | sha256sum }}
+        checksum/cm-bidscripts: {{ include (print $.Template.BasePath "/configmap-bidscripts.yaml") . | sha256sum }}
       labels:
         app: {{ include "provider.fullname" . }}
         {{- include "provider.selectorLabels" . | nindent 8 }}
@@ -124,7 +125,11 @@ spec:
               value: "provider.{{ .Values.domain }}"
 
             - name: AKASH_BID_PRICE_STRATEGY
-              value: "{{ .Values.bidpricestrategy }}"
+              value: "{{ ternary "scale" "shellScript" (empty .Values.bidpricescript) }}"
+{{ if .Values.bidpricescript }}
+            - name: AKASH_BID_PRICE_SCRIPT_PATH
+              value: "/bidscripts/price_script.sh"
+{{- end }}
 
             - name: AKASH_BID_PRICE_CPU_SCALE
               value: "{{ .Values.bidpricecpuscale }}"
@@ -170,6 +175,9 @@ spec:
             - name: boot
               mountPath: /boot
               readOnly: true
+            - name: bidscripts
+              mountPath: /bidscripts
+              readOnly: true
             - name: keys
               mountPath: /boot-keys
               readOnly: true
@@ -177,6 +185,10 @@ spec:
         - name: boot
           configMap:
             name: {{ include "provider.fullname" . }}-boot
+        - name: bidscripts
+          configMap:
+            name: {{ include "provider.fullname" . }}-bidscripts
+            defaultMode: 0744
         - name: keys
           secret:
             secretName: {{ include "provider.fullname" . }}-keys

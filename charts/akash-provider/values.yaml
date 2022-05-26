@@ -47,7 +47,12 @@ gasprices: "0.025uakt"
 gas: "auto"
 # Note that --gas-adjustment is working only when --gas is "auto"!
 gasadjustment: "1.25"
-bidpricestrategy: "scale"
+
+# If you plan to use bid price script, then make sure to set bidpricescript variable to the base64 encoded contents of the script.
+# This will automatically switch AKASH_BID_PRICE_STRATEGY from "scale" (default) to "shellScript".
+# Sample scripts can be found under charts/akash-provider/scripts/ directory.
+# Example usage:
+# --set bidpricescript="$(cat ./charts/akash-provider/scripts/price_script_chia.sh | openssl base64 -A)"
 bidpricecpuscale: "0.004"
 bidpricememoryscale: "0.0016"
 bidpriceendpointscale: "0"
