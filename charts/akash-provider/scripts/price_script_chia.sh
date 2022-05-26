@@ -7,9 +7,9 @@
 
 data_in=$(jq .)
 
-cpu_requested=$(echo "$data_in" | jq 'map(.cpu * .count) | add' | awk '{print $1/1000}')
-memory_requested=$(echo "$data_in" | jq 'map(.memory * .count) | add' | awk '{print $1/1024/1024/1024}')
-ephemeral_storage_requested=$(echo "$data_in" | jq -r '[.[].storage[].size] | add' | awk '{print $1/1024/1024/1024}')
+cpu_requested=$(echo "$data_in" | jq -r '(map(.cpu * .count) | add) / 1000')
+memory_requested=$(echo "$data_in" | jq -r '(map(.memory * .count) | add) / pow(1024; 3)')
+ephemeral_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[].size] | add) / pow(1024; 3)')
 
 # cache AKT price for 60 minutes to reduce the API pressure as well as to slightly accelerate the bidding (+5s)
 CACHE_FILE=/tmp/aktprice.cache
