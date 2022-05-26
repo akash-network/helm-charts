@@ -7,14 +7,12 @@
 
 data_in=$(jq .)
 
-cpu_total=$(echo "$data_in" | jq 'map(.cpu * .count) | add')
-memory_total=$(echo "$data_in" | jq 'map(.memory * .count) | add')
-storage_total=$(echo "$data_in" | jq -r '[.[].storage[].size] | add')
-
-cpu_total_threads=$(echo $cpu_total | awk '{print $1/1000}')
-memory_gb=$(echo $memory_total | awk '{print $1/1024/1024/1024}')
-hd_gb=$(echo $storage_total | awk '{print $1/1024/1024/1024}')
-
+cpu_requested=$(echo "$data_in" | jq -r '(map(.cpu * .count) | add) / 1000')
+memory_requested=$(echo "$data_in" | jq -r '(map(.memory * .count) | add) / pow(1024; 3)')
+ephemeral_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[] | select(.class == "ephemeral").size // 0] | add) / pow(1024; 3)')
+hdd_pers_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[] | select(.class == "beta1").size // 0] | add) / pow(1024; 3)')
+ssd_pers_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[] | select(.class == "beta2").size // 0] | add) / pow(1024; 3)')
+nvme_pers_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[] | select(.class == "beta3").size // 0] | add) / pow(1024; 3)')
 
 # cache AKT price for 60 minutes to reduce the API pressure as well as to slightly accelerate the bidding (+5s)
 CACHE_FILE=/tmp/aktprice.cache
@@ -54,7 +52,10 @@ set +e
 
 #Price in USD
 TARGET_MEMORY="1.25"
-TARGET_HD="0.25"
+TARGET_HD_EPHEMERAL="0.25" # previously TARGET_HD
+TARGET_HD_PERS_HDD="0.30"  # beta1
+TARGET_HD_PERS_SSD="0.40"  # beta2
+TARGET_HD_PERS_NVME="0.45" # beta3
 TARGET_CPU="4.50"
 
 #Chia Madmax Plotter
@@ -79,20 +80,20 @@ chia_bladebit_memory_max=512
 chia_bladebit_storage=715
 chia_bladebit_storage_max=3200
 
-if (( $(echo "$memory_gb >= $chia_bladebit_memory" | bc -l) && \
-      $(echo "$cpu_total_threads >= $chia_bladebit_cpu" | bc -l) )); then
+if (( $(echo "$memory_requested >= $chia_bladebit_memory" | bc -l) && \
+      $(echo "$cpu_requested >= $chia_bladebit_cpu" | bc -l) )); then
   #Bladebit detected
   TARGET_CPU="20"
-  total_cost_usd_target=$(bc -l <<<"($cpu_total_threads * $TARGET_CPU)")
-elif (( $(echo "$memory_gb >= $chia_madmax_memory" | bc -l) && \
-        $(echo "$cpu_total_threads >= $chia_madmax_cpu" | bc -l) && \
-        $(echo "$cpu_total_threads <= $chia_madmax_cpu_max" | bc -l) )); then
+  total_cost_usd_target=$(bc -l <<<"($cpu_requested * $TARGET_CPU)")
+elif (( $(echo "$memory_requested >= $chia_madmax_memory" | bc -l) && \
+        $(echo "$cpu_requested >= $chia_madmax_cpu" | bc -l) && \
+        $(echo "$cpu_requested <= $chia_madmax_cpu_max" | bc -l) )); then
   #Madmax detected
   TARGET_CPU="15"
-  total_cost_usd_target=$(bc -l <<<"($cpu_total_threads * $TARGET_CPU)")
+  total_cost_usd_target=$(bc -l <<<"($cpu_requested * $TARGET_CPU)")
 else
   #Normal deployment
-  total_cost_usd_target=$(bc -l <<<"(($cpu_total_threads * $TARGET_CPU) + ($memory_gb * $TARGET_MEMORY) + ($hd_gb * $TARGET_HD))")
+  total_cost_usd_target=$(bc -l <<<"(($cpu_requested * $TARGET_CPU) + ($memory_requested * $TARGET_MEMORY) + ($ephemeral_storage_requested * $TARGET_HD_EPHEMERAL) + ($hdd_pers_storage_requested * $TARGET_HD_PERS_HDD) + ($ssd_pers_storage_requested * $TARGET_HD_PERS_SSD) + ($nvme_pers_storage_requested * $TARGET_HD_PERS_NVME))")
 fi
 
 total_cost_akt_target=$(bc -l <<<"(${total_cost_usd_target}/$usd_per_akt)")
