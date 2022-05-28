@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/ovrclk/akash
   pullPolicy: IfNotPresent
-  tag: 0.16.4-rc0
+  tag: 0.16.4-rc2
 
 from:
 key:
@@ -52,7 +52,7 @@ gasadjustment: "1.25"
 # This will automatically switch AKASH_BID_PRICE_STRATEGY from "scale" (default) to "shellScript".
 # Sample scripts can be found under charts/akash-provider/scripts/ directory.
 # Example usage:
-# --set bidpricescript="$(cat ./charts/akash-provider/scripts/price_script_chia.sh | openssl base64 -A)"
+# --set bidpricescript="$(cat ./charts/akash-provider/scripts/price_script_generic.sh | openssl base64 -A)"
 bidpricecpuscale: "0.004"
 bidpricememoryscale: "0.0016"
 bidpriceendpointscale: "0"

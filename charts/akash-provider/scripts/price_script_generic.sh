@@ -1,9 +1,4 @@
 #!/bin/bash
-# Original author: Andrew Mello
-# Purpose:
-# - support Chia mining deployment requests for these miners:
-#   - BladeBit
-#   - MadMax
 
 data_in=$(jq .)
 
@@ -50,7 +45,7 @@ set -e
 usd_per_akt=$(cat $CACHE_FILE)
 set +e
 
-#Price in USD
+#Price in USD/month
 TARGET_MEMORY="1.25"
 TARGET_HD_EPHEMERAL="0.25" # previously TARGET_HD
 TARGET_HD_PERS_HDD="0.30"  # beta1
@@ -58,43 +53,7 @@ TARGET_HD_PERS_SSD="0.40"  # beta2
 TARGET_HD_PERS_NVME="0.45" # beta3
 TARGET_CPU="4.50"
 
-#Chia Madmax Plotter
-
-chia_madmax_cpu=8
-chia_madmax_cpu_max=32
-
-chia_madmax_memory=6
-chia_madmax_memory_max=32
-
-chia_madmax_storage=715
-chia_madmax_storage_max=3200
-
-#Chia Bladebit Plotter
-
-chia_bladebit_cpu=8
-chia_bladebit_cpu_max=256
-
-chia_bladebit_memory=420
-chia_bladebit_memory_max=512
-
-chia_bladebit_storage=715
-chia_bladebit_storage_max=3200
-
-if (( $(echo "$memory_requested >= $chia_bladebit_memory" | bc -l) && \
-      $(echo "$cpu_requested >= $chia_bladebit_cpu" | bc -l) )); then
-  #Bladebit detected
-  TARGET_CPU="20"
-  total_cost_usd_target=$(bc -l <<<"($cpu_requested * $TARGET_CPU)")
-elif (( $(echo "$memory_requested >= $chia_madmax_memory" | bc -l) && \
-        $(echo "$cpu_requested >= $chia_madmax_cpu" | bc -l) && \
-        $(echo "$cpu_requested <= $chia_madmax_cpu_max" | bc -l) )); then
-  #Madmax detected
-  TARGET_CPU="15"
-  total_cost_usd_target=$(bc -l <<<"($cpu_requested * $TARGET_CPU)")
-else
-  #Normal deployment
-  total_cost_usd_target=$(bc -l <<<"(($cpu_requested * $TARGET_CPU) + ($memory_requested * $TARGET_MEMORY) + ($ephemeral_storage_requested * $TARGET_HD_EPHEMERAL) + ($hdd_pers_storage_requested * $TARGET_HD_PERS_HDD) + ($ssd_pers_storage_requested * $TARGET_HD_PERS_SSD) + ($nvme_pers_storage_requested * $TARGET_HD_PERS_NVME))")
-fi
+total_cost_usd_target=$(bc -l <<<"(($cpu_requested * $TARGET_CPU) + ($memory_requested * $TARGET_MEMORY) + ($ephemeral_storage_requested * $TARGET_HD_EPHEMERAL) + ($hdd_pers_storage_requested * $TARGET_HD_PERS_HDD) + ($ssd_pers_storage_requested * $TARGET_HD_PERS_SSD) + ($nvme_pers_storage_requested * $TARGET_HD_PERS_NVME))")
 
 total_cost_akt_target=$(bc -l <<<"(${total_cost_usd_target}/$usd_per_akt)")
 total_cost_uakt_target=$(bc -l <<<"(${total_cost_akt_target}*1000000)")
