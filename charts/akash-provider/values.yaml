@@ -60,6 +60,7 @@ bidpriceendpointscale: "0"
 # here is an example for beta2 StorageClass:
 bidpricestoragescale: "0.00016,beta2=0.00016"
 withdrawalperiod: "1h"
+minimumbalance: "10000000"
 
 deploymentnetworkpoliciesenabled: "false"
 

@@ -167,6 +167,9 @@ spec:
             - name: AKASH_WITHDRAWAL_PERIOD
               value: "{{ .Values.withdrawalperiod }}"
 
+            - name: AKASH_MINIMUM_BALANCE
+              value: "{{ .Values.minimumbalance }}"
+
           ports:
             - name: api
               containerPort: 8443
