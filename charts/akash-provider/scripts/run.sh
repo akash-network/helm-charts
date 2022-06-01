@@ -1,5 +1,7 @@
 #!/bin/bash
 
+if $AKASH_DEBUG == "true"; then sleep 5000; fi
+
 set -x
 
 ##
@@ -151,4 +153,4 @@ fi
 ##
 /bin/akash provider run --cluster-k8s
 
-if $AKASH_DEBUG == "true"; then sleep 5000; fi
+
