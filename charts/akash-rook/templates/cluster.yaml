@@ -43,7 +43,6 @@ spec:
     enabled: true
   crashCollector:
     disable: false
-    useAllNodes: false
   storage: # cluster level storage configuration and selection
     useAllNodes: {{ .Values.useAllNodes }}
     useAllDevices: {{ .Values.useAllDevices }}
