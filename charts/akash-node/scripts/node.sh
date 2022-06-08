@@ -19,6 +19,5 @@ then
   rm -f snapshot.tar.gz
 fi
 
-/bin/akash validate-genesis
 /bin/akash start
 if $AKASH_DEBUG == "true"; then sleep 5000; fi
