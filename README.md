@@ -68,6 +68,8 @@ Experimental: It is recommended to run Akash nodes outside of Kubernetes. For ex
 
 Be aware that there is no persistent storage on this Helm chart so a pod restart will lose the blockchain data and the entire snapshot will need to be downloaded again (approx. 30GB).
 
+Or you can pass `--set state_sync.enabled=true` flag to enable state-sync which can bootstrap the Akash Node in under 10 minutes!
+
 This chart will create an Akash node that downloads a snapshot into the pod, extracts it and then starts. This may take some time depending on your internet connection.
 
 ```

@@ -75,6 +75,12 @@ spec:
               value: "{{ $.Values.debug }}"
             - name: AKASH_MINIMUM_GAS_PRICES
               value: "0.025uakt"
+{{- if .Values.state_sync.enabled }}
+            - name: AKASH_STATESYNC_ENABLE
+              value: "true"
+            - name: AKASH_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+{{- end }}
           ports:
             - containerPort: 1317
               name: akashd-api
