@@ -2,6 +2,12 @@
 useAllNodes: false
 useAllDevices: true
 
+mgrCount: 2
+monCount: 3
+
+# Set to 2 for normal HDD, 3 for SSD and 4 for NVME
+osdsPerDevice: 3
+
 # Device filter only used when useAllDevices: false
 deviceFilter: sd[a-z]
 
