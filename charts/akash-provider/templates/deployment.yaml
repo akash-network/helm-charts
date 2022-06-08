@@ -170,6 +170,9 @@ spec:
             - name: AKASH_MINIMUM_BALANCE
               value: "{{ .Values.minimumbalance }}"
 
+            - name: AKASH_BID_DEPOSIT
+              value: "5000000uakt"
+
           ports:
             - name: api
               containerPort: 8443
