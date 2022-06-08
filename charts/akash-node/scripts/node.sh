@@ -4,7 +4,6 @@ set -x
 if [ ! -d "$AKASH_HOME/data" ]
 then
   /bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
-  sed -i -E 's#^(minimum-gas-prices[[:space:]]+=[[:space:]]+)""$#\1"0.025uakt"#' $AKASH_HOME/config/app.toml
 fi
 
 apt update && apt -y install curl > /dev/null 2>&1
