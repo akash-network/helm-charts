@@ -18,31 +18,6 @@ if [ "$AKASH_STATESYNC_ENABLE" == true ]; then
   SNAP_RPC1="{{ .Values.state_sync.rpc1 }}"
   SNAP_RPC2="{{ .Values.state_sync.rpc2 }}"
 
-  echo "update AKASH_P2P_PERSISTENT_PEERS with the state-sync hosts: $SNAP_RPC1, $SNAP_RPC2 ..."
-  SNAP_RPC1_ID=$(curl -s ${SNAP_RPC1}/status | jq -r '.result.node_info.id')
-  SNAP_RPC2_ID=$(curl -s ${SNAP_RPC2}/status | jq -r '.result.node_info.id')
-
-  SNAP_RPC1_ADDR=$(curl -s ${SNAP_RPC1}/status | jq -r '.result.node_info.other.rpc_address')
-  SNAP_RPC2_ADDR=$(curl -s ${SNAP_RPC2}/status | jq -r '.result.node_info.other.rpc_address')
-
-  SNAP_RPC1_PORT=${SNAP_RPC1_ADDR##*:}
-  SNAP_RPC2_PORT=${SNAP_RPC2_ADDR##*:}
-
-  T=${SNAP_RPC1#*//}
-  SNAP_RPC1_HOST=${T%:*}
-
-  T=${SNAP_RPC2#*//}
-  SNAP_RPC2_HOST=${T%:*}
-
-  if [ $SNAP_RPC1_ID == $SNAP_RPC2_ID ]; then
-     T="${SNAP_RPC1_ID}@${SNAP_RPC1_HOST}:${SNAP_RPC1_PORT}"
-  else
-     T="${SNAP_RPC1_ID}@${SNAP_RPC1_HOST}:${SNAP_RPC1_PORT},${SNAP_RPC2_ID}@${SNAP_RPC2_HOST}:${SNAP_RPC2_PORT}"
-  fi
-  AKASH_P2P_PERSISTENT_PEERS="$AKASH_P2P_PERSISTENT_PEERS,$T"
-  export AKASH_P2P_PERSISTENT_PEERS
-  echo "AKASH_P2P_PERSISTENT_PEERS: $AKASH_P2P_PERSISTENT_PEERS"
-
   LATEST_HEIGHT=$(curl -s $SNAP_RPC1/block | jq -r .result.block.header.height)
   HEIGHT_OFFSET={{ .Values.state_sync.height_offset }}
   BLOCK_HEIGHT=$((LATEST_HEIGHT - HEIGHT_OFFSET))

@@ -31,6 +31,8 @@ state_sync:
   enabled: false
   rpc1: "https://akash-rpc.polkachu.com:443"
   rpc2: "https://akash-rpc.polkachu.com:443"
+  # https://polkachu.com/live_peers/akash
+  node_id: "d1e47b071859497089c944dc082e920403484c1a@65.108.128.201:28656"
   height_offset: 2000
 
 persistent_storage:
