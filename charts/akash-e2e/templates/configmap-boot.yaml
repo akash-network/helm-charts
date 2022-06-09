@@ -19,6 +19,5 @@ data:
     cd /venv && source ./bin/activate
     # TODO: wait for postgresql port
     python -m akashnines.create_schema
-    python -m akashnines.monitor
     python -m akashnines.server
     if $AKASH_DEBUG == "true"; then sleep 5000; fi
