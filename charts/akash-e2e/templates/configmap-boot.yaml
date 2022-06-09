@@ -12,8 +12,16 @@ data:
     cat /boot-keys/key-pass.txt | { cat ; echo ; } | /bin/akash keys import check_1 /boot-keys/check-1-key.pem
     cat /boot-keys/key-pass.txt | { cat ; echo ; } | /bin/akash keys import check_2 /boot-keys/check-2-key.pem
     cat /boot-keys/key-pass.txt | { cat ; echo ; } | /bin/akash keys import check_3 /boot-keys/check-3-key.pem
+
+    cp /boot-keys/check-0-cert.pem $WALLET_HOME/$CHECK_KEY_ADDRESS_0.pem
+    cp /boot-keys/check-1-cert.pem $WALLET_HOME/$CHECK_KEY_ADDRESS_1.pem
+    cp /boot-keys/check-2-cert.pem $WALLET_HOME/$CHECK_KEY_ADDRESS_2.pem
+    cp /boot-keys/check-3-cert.pem $WALLET_HOME/$CHECK_KEY_ADDRESS_3.pem
+
     cd /venv && source ./bin/activate
-    # TODO: wait for postgresql port 
+    # TODO: wait for postgresql port
+    sleep 30
+    
     python -m akashnines.create_schema
     python -m akashnines.monitor
     python -m akashnines.server

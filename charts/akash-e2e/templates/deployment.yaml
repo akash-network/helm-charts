@@ -48,6 +48,14 @@ spec:
               value: "{{ $.Values.criticalproviders }}"
             - name: BUCKET_NAME
               value: "none"
+            - name: CHECK_KEY_ADDRESS_0
+              value: "{{ $.Values.check_key_address_0 }}"
+            - name: CHECK_KEY_ADDRESS_1
+              value: "{{ $.Values.check_key_address_1 }}"
+            - name: CHECK_KEY_ADDRESS_2
+              value: "{{ $.Values.check_key_address_2 }}"
+            - name: CHECK_KEY_ADDRESS_3
+              value: "{{ $.Values.check_key_address_3 }}"
           ports:
             - name: http
               containerPort: 8080

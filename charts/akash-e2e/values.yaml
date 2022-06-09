@@ -8,11 +8,26 @@ gas: "500000"
 minuaktbalance: "52000000"
 
 keysecret:
-primarykey:
-check0key:
-check1key:
-check2key:
-check3key:
+
+primary_key_address:
+primary_key:
+primary_cert:
+
+check_key_address_0:
+check_key_0:
+check_cert_0:
+
+check_key_address_1:
+check_key_1:
+check_cert_1:
+
+check_key_address_2:
+check_key_2:
+check_cert_2:
+
+check_key_address_3:
+check_key_3:
+check_cert_3:
 
 cron: "*/10 * * * *"
 
