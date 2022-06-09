@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -o pipefail
+
 data_in=$(jq .)
 
 cpu_requested=$(echo "$data_in" | jq -r '(map(.cpu * .count) | add) / 1000')
