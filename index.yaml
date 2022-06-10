@@ -415,6 +415,16 @@ entries:
   akash-node:
   - apiVersion: v2
     appVersion: 0.16.4-rc2
+    created: "2022-06-10T10:06:06.461374577Z"
+    description: A Helm chart for Kubernetes
+    digest: e8ac943f440a1b9f7199756c4e421dfc86338eb5a3c310cc89102dec656c4bda
+    name: akash-node
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-node-0.133.0/akash-node-0.133.0.tgz
+    version: 0.133.0
+  - apiVersion: v2
+    appVersion: 0.16.4-rc2
     created: "2022-06-10T09:43:55.087312986Z"
     description: A Helm chart for Kubernetes
     digest: 56a2c1cc9265264838d5046a1d65aadcbd2483754fa017d97bb363cb6ecf3939
@@ -1931,6 +1941,16 @@ entries:
   hostname-operator:
   - apiVersion: v2
     appVersion: 0.16.4-rc2
+    created: "2022-06-10T10:06:06.605886517Z"
+    description: A Helm chart for Kubernetes
+    digest: ff4e864f2e5e560999e3df8f8deb7c8033b2fd8fbb09aadd1aee36bd0d86d8f1
+    name: hostname-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/hostname-operator-0.19.0/hostname-operator-0.19.0.tgz
+    version: 0.19.0
+  - apiVersion: v2
+    appVersion: 0.16.4-rc2
     created: "2022-06-10T09:43:55.198418366Z"
     description: A Helm chart for Kubernetes
     digest: a06ffb1a223f56af6e17fa6adbda22638722d0aa8dac907810f01851df663ad6
@@ -2112,6 +2132,16 @@ entries:
   inventory-operator:
   - apiVersion: v2
     appVersion: 0.16.4-rc2
+    created: "2022-06-10T10:06:06.734218096Z"
+    description: A Helm chart for the Akash Inventory Operator
+    digest: 02b8401812018484883882a1cbb6368b34389024ab81355a03221516c130c61d
+    name: inventory-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/inventory-operator-0.12.0/inventory-operator-0.12.0.tgz
+    version: 0.12.0
+  - apiVersion: v2
+    appVersion: 0.16.4-rc2
     created: "2022-06-10T09:43:55.300752451Z"
     description: A Helm chart for the Akash Inventory Operator
     digest: 0fd4223a457e88c5d052670cea02d2dd5168390b725c0b4bf4892d2aa1db8816
@@ -2221,6 +2251,16 @@ entries:
     - https://github.com/ovrclk/helm-charts/releases/download/inventory-operator-0.1.0/inventory-operator-0.1.0.tgz
     version: 0.1.0
   provider:
+  - apiVersion: v2
+    appVersion: 0.16.4-rc2
+    created: "2022-06-10T10:06:06.918524232Z"
+    description: A Helm chart for Kubernetes
+    digest: bf568cb9d8a7c6a78934919066a0a84c455ad363c734aa114b491669f0772f73
+    name: provider
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/provider-0.170.0/provider-0.170.0.tgz
+    version: 0.170.0
   - apiVersion: v2
     appVersion: 0.16.4-rc2
     created: "2022-06-10T09:43:55.428217215Z"
