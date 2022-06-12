@@ -16,7 +16,7 @@ CACHE_FILE=/tmp/aktprice.cache
 if ! test $(find $CACHE_FILE -mmin -60 2>/dev/null); then
   ## cache expired
   usd_per_akt=$(curl -s --connect-timeout 3 --max-time 3 -X GET 'https://api-osmosis.imperator.co/tokens/v2/price/AKT' -H 'accept: application/json' | jq -r '.price' 2>/dev/null)
-  if [[ $? -ne 0 ]]; then
+  if [[ $? -ne 0 ]] || [[ $usd_per_akt == "null" ]] || [[ -z $usd_per_akt ]]; then
     # if Osmosis API fails, try CoinGecko API
     usd_per_akt=$(curl -s --connect-timeout 3 --max-time 3 -X GET "https://api.coingecko.com/api/v3/simple/price?ids=akash-network&vs_currencies=usd" -H  "accept: application/json" | jq -r '[.[]][0].usd' 2>/dev/null)
   fi
