@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
-# for debugging the bid price script.
+# for debugging the bid price engine
 
 echo "====================== start ======================" >> /tmp/log
 cat - >> /tmp/log
 
 echo "====================== end ======================" >> /tmp/log
-echo 1
+echo 99999
