@@ -49,16 +49,20 @@ set +e
 
 #Price in USD/month
 TARGET_MEMORY="1.25"
-TARGET_HD_EPHEMERAL="0.25" # previously TARGET_HD
-TARGET_HD_PERS_HDD="0.30"  # beta1
-TARGET_HD_PERS_SSD="0.40"  # beta2
-TARGET_HD_PERS_NVME="0.45" # beta3
+TARGET_HD_EPHEMERAL="0.08" # previously TARGET_HD
+TARGET_HD_PERS_HDD="0.10"  # beta1
+TARGET_HD_PERS_SSD="0.12"  # beta2
+TARGET_HD_PERS_NVME="0.14" # beta3
 TARGET_CPU="4.50"
 
 total_cost_usd_target=$(bc -l <<<"(($cpu_requested * $TARGET_CPU) + ($memory_requested * $TARGET_MEMORY) + ($ephemeral_storage_requested * $TARGET_HD_EPHEMERAL) + ($hdd_pers_storage_requested * $TARGET_HD_PERS_HDD) + ($ssd_pers_storage_requested * $TARGET_HD_PERS_SSD) + ($nvme_pers_storage_requested * $TARGET_HD_PERS_NVME))")
 
+# average block time: 6.102 seconds
+# average number of days in a month: 30.437
+# (60/6.102)*24*60*30.437 = 430966 blocks per month
+
 total_cost_akt_target=$(bc -l <<<"(${total_cost_usd_target}/$usd_per_akt)")
 total_cost_uakt_target=$(bc -l <<<"(${total_cost_akt_target}*1000000)")
-cost_per_block=$(bc -l <<<"(${total_cost_uakt_target}/425940.524781341)")
+cost_per_block=$(bc -l <<<"(${total_cost_uakt_target}/430966)")
 total_cost_uakt=$(echo "$cost_per_block" | jq 'def ceil: if . | floor == . then . else . + 1.0 | floor end; .|ceil')
 echo $total_cost_uakt
