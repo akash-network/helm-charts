@@ -3,7 +3,7 @@ name: Lint Charts
 on: pull_request
 
 jobs:
-  lint:
+  lint-helm:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
