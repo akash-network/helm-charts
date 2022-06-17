@@ -14,7 +14,7 @@ Please refer to the https://docs.akash.network for Helm-Chart based installation
 | akash-operator     | An operator to map Ingress objects to Akash deployments (required) |
 | inventory-operator | An operator to required for persistent storage (optional)          |
 
-----
+---
 
 > The following sections will be moved to https://docs.akash.network eventually.
 
