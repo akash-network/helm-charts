@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if $AKASH_DEBUG == "true"; then sleep 5000; fi
+if [[ $AKASH_DEBUG == "true" ]]; then sleep 5000; fi
 
 set -x
 
