@@ -1,4 +1,3 @@
-
 useAllNodes: false
 useAllDevices: true
 
@@ -20,5 +19,5 @@ persistent_storage:
   class: beta2
 
 nodes:
-  - name: "node-a" # add the names of the nodes that ceph should use for storage
+  - name: "node-a"  # add the names of the nodes that ceph should use for storage
     config: ""
