@@ -12,7 +12,7 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - name: http
       port: 80
