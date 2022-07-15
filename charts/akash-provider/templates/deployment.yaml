@@ -121,6 +121,12 @@ spec:
             - name: AKASH_CLUSTER_NODE_PORT_QUANTITY
               value: "2500"
 
+            # This needs to stay as it gets shown upon 'akash provider lease-status` under the forwarded_ports (nodePorts).
+            # This is NOT used to connect to K8s cluster itself (6443/tcp).
+            # akash-provider uses kubeconfig to connect to K8s cluster.
+            - name: AKASH_CLUSTER_PUBLIC_HOSTNAME
+              value: "provider.{{ .Values.domain }}"
+
             - name: AKASH_BID_PRICE_STRATEGY
               value: "{{ ternary "scale" "shellScript" (empty .Values.bidpricescript) }}"
 {{ if .Values.bidpricescript }}
