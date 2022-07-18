@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ $AKASH_DEBUG == "true" ]]; then sleep 5000; fi
+if [[ $DEBUG == "true" ]]; then sleep 5000; fi
 
 set -x
 
@@ -147,10 +147,3 @@ if [[ $GEN_NEW_CERT ]]; then
   echo "Publishing new provider certificate"
   /bin/akash tx cert publish server
 fi
-
-##
-# Run daemon
-##
-/bin/akash provider run --cluster-k8s
-
-

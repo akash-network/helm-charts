@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ include "provider.fullname" . }}-boot
-  namespace: {{ .Release.Namespace }}
-data:
-  run.sh: |
-{{ tpl (.Files.Get "scripts/run.sh") . | indent 4 }}
