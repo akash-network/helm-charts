@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: akash-{{ include "hostname-operator.fullname" . }}-boot
-  namespace: {{ .Release.Namespace }}
-data:
-  run.sh: |
-    #!/bin/sh
-    exec /bin/akash provider hostname-operator
