@@ -132,7 +132,7 @@ controller:
   logLevel: info
   image:
     repository: quay.io/metallb/controller
-    tag:
+    tag: v0.12
     pullPolicy:
   serviceAccount:
     # Specifies whether a ServiceAccount should be created
@@ -183,7 +183,7 @@ speaker:
     mlBindPort: 7946
   image:
     repository: quay.io/metallb/speaker
-    tag:
+    tag: v0.12
     pullPolicy:
   serviceAccount:
     # Specifies whether a ServiceAccount should be created
