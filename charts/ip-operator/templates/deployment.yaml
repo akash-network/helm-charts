@@ -20,7 +20,7 @@ spec:
       containers:
       - name: akash-ip-operator
         image: ghcr.io/ovrclk/provider-services:latest
-        args: ["ip-operator"]
+        args: ["ip-operator", "--provider", "{{ .Values.provider_address }}"]
         imagePullPolicy: IfNotPresent
         ports:
           - name: api
@@ -40,5 +40,3 @@ spec:
             value: "2613600s"
           - name: AKASH_EVENT_FAILURE_LIMIT
             value: "3"
-          - name: AKASH_PROVIDER
-            value: "{{ .Values.provider_address }}"
