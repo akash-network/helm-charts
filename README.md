@@ -13,6 +13,7 @@ Please refer to the https://docs.akash.network for Helm-Chart based installation
 | inventory-operator | An operator required for persistent storage (optional)             |
 | akash-rook         | Sets up Rook-Ceph for persistent storage (optional)                |
 | ip-operator        | An operator required for ip marketplace (optional)                 |
+| akash-metallb      | A dependency required for ip marketplace (optional)                |
 | akash-e2e          | End to end tests to check if a provider is healthy (optional)      |
 
 ---
