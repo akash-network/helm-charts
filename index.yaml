@@ -2380,6 +2380,16 @@ entries:
   ip-operator:
   - apiVersion: v2
     appVersion: 0.16.4
+    created: "2022-08-02T12:57:18.539361271Z"
+    description: A Helm chart for Kubernetes
+    digest: b430f3dc4295067347d4b8f691406922d4b823f2e7edd96607d6a8b336f324fd
+    name: ip-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/ip-operator-0.7.0/ip-operator-0.7.0.tgz
+    version: 0.7.0
+  - apiVersion: v2
+    appVersion: 0.16.4
     created: "2022-07-29T14:44:46.803745835Z"
     description: A Helm chart for Kubernetes
     digest: f5cfd9f7e6b15a7f41db286c81179b4996cb829008c9e0524c5f0bf05c33a169
