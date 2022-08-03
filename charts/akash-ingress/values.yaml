@@ -2,6 +2,18 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Your Akash domain. Example: my.network.com
+# We create Ingress objects mapping to A records like provider.my.network.com
 domain: example.local
+
+# Toggle on and off Ingresses
+node:
+  enabled: true
+provider:
+  enabled: true
+e2e:
+  enabled: false
+
+# Used for Testnet networks (ignore)
 bootstrap:
   enabled: false

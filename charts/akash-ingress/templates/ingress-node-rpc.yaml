@@ -1,3 +1,4 @@
+{{- if .Values.node.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -19,3 +20,4 @@ spec:
                 name: akash-node-1
                 port:
                   number: 26657
+{{- end }}
