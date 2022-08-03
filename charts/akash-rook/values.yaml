@@ -4,8 +4,8 @@ useAllDevices: true
 mgrCount: 2
 monCount: 3
 
-# Set to 2 for normal HDD, 3 for SSD and 5 for NVME
-osdsPerDevice: 3
+# Set to 1 for HDD or SSD and 1 or 2 for NVME
+osdsPerDevice: 1
 
 # Device filter only used when useAllDevices: false
 deviceFilter: sd[a-z]
