@@ -6,4 +6,4 @@ metadata:
 data:
   run.sh: |
     #!/bin/sh
-    exec /bin/akash provider hostname-operator
+    exec /bin/akash provider hostname-operator --listen 0.0.0.0:8188
