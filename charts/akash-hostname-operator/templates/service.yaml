@@ -11,3 +11,18 @@ spec:
       name: status
   selector:
     {{- include "akash-hostname-operator.selectorLabels" . | nindent 4 }}
+---
+## Backwards compatability fix. Remove once 0.16.5 is released.
+apiVersion: v1
+kind: Service
+metadata:
+  name: hostname-operator
+  labels:
+    {{- include "akash-hostname-operator.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      name: status
+  selector:
+    {{- include "akash-hostname-operator.selectorLabels" . | nindent 4 }}
