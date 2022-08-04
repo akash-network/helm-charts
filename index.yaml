@@ -492,6 +492,20 @@ entries:
   akash-metallb:
   - apiVersion: v2
     appVersion: 0.16.4
+    created: "2022-08-04T16:57:46.062312779Z"
+    description: A network load-balancer implementation for Kubernetes using standard routing protocols
+    digest: 3d29c0a58c8bd33963a5580525408071412a08bedc75093f537b77f4d56e4ddd
+    home: https://metallb.universe.tf
+    icon: https://metallb.universe.tf/images/logo/metallb-white.png
+    name: akash-metallb
+    sources:
+    - https://github.com/metallb/metallb
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-metallb-0.10.0/akash-metallb-0.10.0.tgz
+    version: 0.10.0
+  - apiVersion: v2
+    appVersion: 0.16.4
     created: "2022-08-04T16:56:29.844496205Z"
     description: A network load-balancer implementation for Kubernetes using standard routing protocols
     digest: 023b2153c50e9e8c4bfc20010d112d336d90051246bed9179117e647f6aa61e4
