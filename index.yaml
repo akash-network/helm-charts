@@ -235,6 +235,17 @@ entries:
     urls:
     - https://github.com/ovrclk/helm-charts/releases/download/akash-e2e-0.1.0/akash-e2e-0.1.0.tgz
     version: 0.1.0
+  akash-hostname-operator:
+  - apiVersion: v2
+    appVersion: 0.16.4
+    created: "2022-08-04T13:09:26.905154658Z"
+    description: A Helm chart for Kubernetes
+    digest: 2b9fb40544ea52ffe4abb609feb0c54b84be75789a8d6e651c90c9ad05957bf7
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-hostname-operator-0.21.0/akash-hostname-operator-0.21.0.tgz
+    version: 0.21.0
   akash-ingress:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -446,6 +457,28 @@ entries:
     urls:
     - https://github.com/ovrclk/helm-charts/releases/download/akash-ingress-0.1.0/akash-ingress-0.1.0.tgz
     version: 0.1.0
+  akash-inventory-operator:
+  - apiVersion: v2
+    appVersion: 0.1.4
+    created: "2022-08-04T13:09:27.192036431Z"
+    description: A Helm chart for the Akash Inventory Operator
+    digest: d174846353ced53c08c4e905932f1e5e7f342978b96be0f8c8187b9a6dfae190
+    name: akash-inventory-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-inventory-operator-0.15.0/akash-inventory-operator-0.15.0.tgz
+    version: 0.15.0
+  akash-ip-operator:
+  - apiVersion: v2
+    appVersion: 0.16.4
+    created: "2022-08-04T13:09:27.461547593Z"
+    description: A Helm chart for Kubernetes
+    digest: 087d6fc54ae3b47c611cf13ccd83ec1036b69985f53aba375c841287ab990eee
+    name: akash-ip-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-ip-operator-0.9.0/akash-ip-operator-0.9.0.tgz
+    version: 0.9.0
   akash-metallb:
   - apiVersion: v2
     appVersion: 0.16.4
