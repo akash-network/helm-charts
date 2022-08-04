@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/name: akash
     app.kubernetes.io/instance: inventory
     app.kubernetes.io/component: operator
-  name: inventory-operator
+  name: akash-inventory-operator
   namespace: akash-services
 spec:
   type: ClusterIP

@@ -1,7 +1,8 @@
+{{/* vim: set filetype=mustache: */}}
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "hostname-operator.name" -}}
+{{- define "akash-inventory-operator.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "hostname-operator.fullname" -}}
+{{- define "akash-inventory-operator.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +27,15 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "hostname-operator.chart" -}}
+{{- define "akash-inventory-operator.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "hostname-operator.labels" -}}
-helm.sh/chart: {{ include "hostname-operator.chart" . }}
-{{ include "hostname-operator.selectorLabels" . }}
+{{- define "akash-inventory-operator.labels" -}}
+helm.sh/chart: {{ include "akash-inventory-operator.chart" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "hostname-operator.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "hostname-operator.name" . }}
+{{- define "akash-inventory-operator.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "akash-inventory-operator.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "hostname-operator.serviceAccountName" -}}
+{{- define "akash-inventory-operator.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "hostname-operator.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "akash-inventory-operator.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

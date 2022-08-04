@@ -4,7 +4,7 @@ metadata:
   name: akash-operator-manage-hostnames
 subjects:
   - kind: ServiceAccount
-    name: {{ include "hostname-operator.serviceAccountName" . }}
+    name: {{ include "akash-hostname-operator.serviceAccountName" . }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
@@ -17,7 +17,7 @@ metadata:
   name: akash-operator-watch-providerhosts
 subjects:
   - kind: ServiceAccount
-    name: {{ include "hostname-operator.serviceAccountName" . }}
+    name: {{ include "akash-hostname-operator.serviceAccountName" . }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
@@ -30,7 +30,7 @@ metadata:
   name: akash-operator-watch-manifests
 subjects:
   - kind: ServiceAccount
-    name: {{ include "hostname-operator.serviceAccountName" . }}
+    name: {{ include "akash-hostname-operator.serviceAccountName" . }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: inventory-operator
+  name: akash-inventory-operator
   namespace: akash-services
   labels:
     akash.network: "true"
@@ -19,14 +19,14 @@ spec:
   template:
     metadata:
       labels:
-        app: inventory-operator
+        app: akash-inventory-operator
         app.kubernetes.io/name: akash
         app.kubernetes.io/instance: inventory
         app.kubernetes.io/component: operator
     spec:
-      serviceAccountName: inventory-operator
+      serviceAccountName: akash-inventory-operator
       containers:
-        - name: inventory-operator
+        - name: akash-inventory-operator
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:

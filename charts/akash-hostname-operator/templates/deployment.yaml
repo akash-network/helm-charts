@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "hostname-operator.fullname" . }}
+  name: {{ include "akash-hostname-operator.fullname" . }}
   labels:
-    {{- include "hostname-operator.labels" . | nindent 4 }}
+    {{- include "akash-hostname-operator.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "hostname-operator.selectorLabels" . | nindent 6 }}
+      {{- include "akash-hostname-operator.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "hostname-operator.selectorLabels" . | nindent 8 }}
+        {{- include "akash-hostname-operator.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "hostname-operator.serviceAccountName" . }}
+      serviceAccountName: {{ include "akash-hostname-operator.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -49,7 +49,7 @@ spec:
       volumes:
         - name: boot
           configMap:
-            name: akash-{{ include "hostname-operator.fullname" . }}-boot
+            name: akash-{{ include "akash-hostname-operator.fullname" . }}-boot
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
