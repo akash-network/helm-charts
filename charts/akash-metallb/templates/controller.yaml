@@ -2,14 +2,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "metallb.fullname" . }}-controller
+  name: {{ template "akash-metallb.fullname" . }}-controller
   labels:
-    {{- include "metallb.labels" . | nindent 4 }}
+    {{- include "akash-metallb.labels" . | nindent 4 }}
     app.kubernetes.io/component: controller
 spec:
   selector:
     matchLabels:
-      {{- include "metallb.selectorLabels" . | nindent 6 }}
+      {{- include "akash-metallb.selectorLabels" . | nindent 6 }}
       app.kubernetes.io/component: controller
   template:
     metadata:
@@ -24,7 +24,7 @@ spec:
         {{- end }}
       {{- end }}
       labels:
-        {{- include "metallb.selectorLabels" . | nindent 8 }}
+        {{- include "akash-metallb.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: controller
     spec:
       {{- with .Values.controller.runtimeClassName }}
@@ -34,7 +34,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ template "metallb.controller.serviceAccountName" . }}
+      serviceAccountName: {{ template "akash-metallb.controller.serviceAccountName" . }}
       terminationGracePeriodSeconds: 0
 {{- if .Values.controller.securityContext }}
       securityContext:
@@ -58,9 +58,9 @@ spec:
         env:
         {{- if and .Values.speaker.enabled .Values.speaker.memberlist.enabled }}
         - name: METALLB_ML_SECRET_NAME
-          value: {{ include "metallb.secretName" . }}
+          value: {{ include "akash-metallb.secretName" . }}
         - name: METALLB_DEPLOYMENT
-          value: {{ template "metallb.fullname" . }}-controller
+          value: {{ template "akash-metallb.fullname" . }}-controller
         {{- end }}
         {{- if .Values.speaker.frr.enabled }}
         - name: METALLB_BGP_TYPE

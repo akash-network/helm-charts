@@ -4,9 +4,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "metallb.fullname" . }}-frr-startup
+  name: {{ template "akash-metallb.fullname" . }}-frr-startup
   labels:
-    {{- include "metallb.labels" . | nindent 4 }}
+    {{- include "akash-metallb.labels" . | nindent 4 }}
     app.kubernetes.io/component: speaker
 data:
   daemons: |
@@ -106,14 +106,14 @@ data:
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: {{ template "metallb.fullname" . }}-speaker
+  name: {{ template "akash-metallb.fullname" . }}-speaker
   labels:
-    {{- include "metallb.labels" . | nindent 4 }}
+    {{- include "akash-metallb.labels" . | nindent 4 }}
     app.kubernetes.io/component: speaker
 spec:
   selector:
     matchLabels:
-      {{- include "metallb.selectorLabels" . | nindent 6 }}
+      {{- include "akash-metallb.selectorLabels" . | nindent 6 }}
       app.kubernetes.io/component: speaker
   template:
     metadata:
@@ -130,7 +130,7 @@ spec:
         {{- end }}
       {{- end }}
       labels:
-        {{- include "metallb.selectorLabels" . | nindent 8 }}
+        {{- include "akash-metallb.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: speaker
     spec:
       {{- if .Values.speaker.runtimeClassName }}
@@ -140,7 +140,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ template "metallb.speaker.serviceAccountName" . }}
+      serviceAccountName: {{ template "akash-metallb.speaker.serviceAccountName" . }}
       terminationGracePeriodSeconds: 0
       hostNetwork: true
       {{- if .Values.speaker.frr.enabled }}
@@ -149,7 +149,7 @@ spec:
           emptyDir: {}
         - name: frr-startup
           configMap:
-            name: {{ template "metallb.fullname" . }}-frr-startup
+            name: {{ template "akash-metallb.fullname" . }}-frr-startup
         - name: frr-conf
           emptyDir: {}
         - name: reloader
@@ -214,13 +214,13 @@ spec:
             fieldRef:
               fieldPath: status.podIP
         - name: METALLB_ML_LABELS
-          value: "app.kubernetes.io/name={{ include "metallb.name" . }},app.kubernetes.io/component=speaker"
+          value: "app.kubernetes.io/name={{ include "akash-metallb.name" . }},app.kubernetes.io/component=speaker"
         - name: METALLB_ML_BIND_PORT
           value: "{{ .Values.speaker.memberlist.mlBindPort }}"
         - name: METALLB_ML_SECRET_KEY
           valueFrom:
             secretKeyRef:
-              name: {{ include "metallb.secretName" . }}
+              name: {{ include "akash-metallb.secretName" . }}
               key: secretkey
         {{- end }}
         {{- if .Values.speaker.frr.enabled }}

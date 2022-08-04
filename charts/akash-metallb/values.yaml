@@ -7,6 +7,11 @@ nameOverride: ""
 fullnameOverride: ""
 loadBalancerClass: ""
 
+# 
+
+IPAddressPool:
+  addresses: "192.168.1.240-192.168.1.250"
+
 # To configure MetalLB, you must specify ONE of the following two
 # options.
 

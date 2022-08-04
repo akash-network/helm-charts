@@ -3,9 +3,9 @@
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: {{ template "metallb.fullname" . }}-controller
+  name: {{ template "akash-metallb.fullname" . }}-controller
   labels:
-    {{- include "metallb.labels" . | nindent 4 }}
+    {{- include "akash-metallb.labels" . | nindent 4 }}
 spec:
   privileged: false
   # Host namespaces
@@ -47,9 +47,9 @@ spec:
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: {{ template "metallb.fullname" . }}-speaker
+  name: {{ template "akash-metallb.fullname" . }}-speaker
   labels:
-    {{- include "metallb.labels" . | nindent 4 }}
+    {{- include "akash-metallb.labels" . | nindent 4 }}
 spec:
   privileged: true
   # Host namespaces

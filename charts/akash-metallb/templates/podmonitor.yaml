@@ -2,9 +2,9 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: {{ template "metallb.fullname" . }}-controller
+  name: {{ template "akash-metallb.fullname" . }}-controller
   labels:
-    {{- include "metallb.labels" . | nindent 4 }}
+    {{- include "akash-metallb.labels" . | nindent 4 }}
     app.kubernetes.io/component: controller
     {{- if .Values.prometheus.podMonitor.additionalLabels }}
 {{ toYaml .Values.prometheus.podMonitor.additionalLabels | indent 4 }}
@@ -17,7 +17,7 @@ spec:
   jobLabel: {{ .Values.prometheus.podMonitor.jobLabel | quote }}
   selector:
     matchLabels:
-      {{- include "metallb.selectorLabels" . | nindent 6 }}
+      {{- include "akash-metallb.selectorLabels" . | nindent 6 }}
       app.kubernetes.io/component: controller
   namespaceSelector:
     matchNames:
@@ -40,9 +40,9 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: {{ template "metallb.fullname" . }}-speaker
+  name: {{ template "akash-metallb.fullname" . }}-speaker
   labels:
-    {{- include "metallb.labels" . | nindent 4 }}
+    {{- include "akash-metallb.labels" . | nindent 4 }}
     app.kubernetes.io/component: speaker
     {{- if .Values.prometheus.podMonitor.additionalLabels }}
 {{ toYaml .Values.prometheus.podMonitor.additionalLabels | indent 4 }}
@@ -55,7 +55,7 @@ spec:
   jobLabel: {{ .Values.prometheus.podMonitor.jobLabel | quote }}
   selector:
     matchLabels:
-      {{- include "metallb.selectorLabels" . | nindent 6 }}
+      {{- include "akash-metallb.selectorLabels" . | nindent 6 }}
       app.kubernetes.io/component: speaker
   namespaceSelector:
     matchNames:
@@ -78,7 +78,7 @@ spec:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{ template "metallb.fullname" . }}-prometheus
+  name: {{ template "akash-metallb.fullname" . }}-prometheus
 rules:
   - apiGroups:
       - ""
@@ -92,11 +92,11 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: {{ template "metallb.fullname" . }}-prometheus
+  name: {{ template "akash-metallb.fullname" . }}-prometheus
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ template "metallb.fullname" . }}-prometheus
+  name: {{ template "akash-metallb.fullname" . }}-prometheus
 subjects:
   - kind: ServiceAccount
     name: {{ required ".Values.prometheus.serviceAccount must be defined when .Values.prometheus.podMonitor.enabled == true" .Values.prometheus.serviceAccount }}

@@ -3,7 +3,7 @@ kind: ValidatingWebhookConfiguration
 metadata:
   name: metallb-webhook-configuration
   labels:
-    {{- include "metallb.labels" . | nindent 4 }}
+    {{- include "akash-metallb.labels" . | nindent 4 }}
 webhooks:
 - admissionReviewVersions:
   - v1
@@ -150,13 +150,13 @@ kind: Service
 metadata:
   name: metallb-webhook-service
   labels:
-    {{- include "metallb.labels" . | nindent 4 }}
+    {{- include "akash-metallb.labels" . | nindent 4 }}
 spec:
   ports:
   - port: 443
     targetPort: 9443
   selector:
-    {{- include "metallb.selectorLabels" . | nindent 4 }}
+    {{- include "akash-metallb.selectorLabels" . | nindent 4 }}
     app.kubernetes.io/component: controller
 ---
 apiVersion: v1
@@ -164,4 +164,4 @@ kind: Secret
 metadata:
   name: webhook-server-cert
   labels:
-    {{- include "metallb.labels" . | nindent 4 }}
+    {{- include "akash-metallb.labels" . | nindent 4 }}
