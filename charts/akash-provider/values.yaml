@@ -63,6 +63,8 @@ minimumbalance: "10000000"
 
 deploymentnetworkpoliciesenabled: "false"
 
+ipoperator: true
+
 #  providers are setting these based on their configuration,
 #  these cannot be generic, hence commented.
 # attributes:

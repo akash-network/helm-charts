@@ -88,6 +88,13 @@ spec:
               value: "{{ .Values.image.tag | default .Chart.AppVersion }}"
 
             ##
+            # akash-provider ip operator config
+            ##
+
+            - name: AKASH_IP_OPERATOR
+              value: "{{ .Values.ipoperator }}"
+
+            ##
             # akash-provider config
             ##
 
