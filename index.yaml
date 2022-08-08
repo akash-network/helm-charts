@@ -501,6 +501,16 @@ entries:
   akash-ip-operator:
   - apiVersion: v2
     appVersion: 0.16.4
+    created: "2022-08-08T12:35:32.056480259Z"
+    description: A Helm chart for Kubernetes
+    digest: 98734efa7f6f6ddb1534f5bf53a492ce2284ded59918144d1d5c888845138591
+    name: akash-ip-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-ip-operator-0.10.0/akash-ip-operator-0.10.0.tgz
+    version: 0.10.0
+  - apiVersion: v2
+    appVersion: 0.16.4
     created: "2022-08-04T13:09:27.461547593Z"
     description: A Helm chart for Kubernetes
     digest: 087d6fc54ae3b47c611cf13ccd83ec1036b69985f53aba375c841287ab990eee
@@ -510,6 +520,20 @@ entries:
     - https://github.com/ovrclk/helm-charts/releases/download/akash-ip-operator-0.9.0/akash-ip-operator-0.9.0.tgz
     version: 0.9.0
   akash-metallb:
+  - apiVersion: v2
+    appVersion: 0.16.4
+    created: "2022-08-08T12:35:32.185406716Z"
+    description: A network load-balancer implementation for Kubernetes using standard routing protocols
+    digest: efe468cc934c86b2f2464d692b004bf71c0a45ae749c2834e3df0e74298bee8e
+    home: https://metallb.universe.tf
+    icon: https://metallb.universe.tf/images/logo/metallb-white.png
+    name: akash-metallb
+    sources:
+    - https://github.com/metallb/metallb
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-metallb-0.11.0/akash-metallb-0.11.0.tgz
+    version: 0.11.0
   - apiVersion: v2
     appVersion: 0.16.4
     created: "2022-08-04T16:57:46.062312779Z"
