@@ -7,9 +7,8 @@ metadata:
   namespace: metallb-system
 spec:
   selector:
-    app.kubernetes.io/component: controller
-    app.kubernetes.io/instance: akash-metallb
-    app.kubernetes.io/name: akash-metallb
+    component: controller
+    app: metallb
   ports:
     - protocol: TCP
       name: monitoring
