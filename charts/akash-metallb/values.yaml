@@ -1,2 +1,2 @@
-IPAddressPool:
-  addresses: "192.168.1.240-192.168.1.250"
+IPAddressPools:
+  - "192.168.1.230-192.168.1.240"
