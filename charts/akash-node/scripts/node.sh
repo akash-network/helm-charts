@@ -30,13 +30,15 @@ if [ "$AKASH_STATESYNC_ENABLE" == true ]; then
   export AKASH_STATESYNC_TRUST_HASH=$TRUST_HASH
 
 else
-
-  apt -y --no-install-recommends install aria2  > /dev/null 2>&1
-  SNAPSHOT_URL=$(curl https://cosmos-snapshots.s3.filebase.com/akash/pruned/snapshot.json | jq -r .latest)
-  echo "Using latest blockchain snapshot, $SNAPSHOT_URL"
-  aria2c --out=snapshot.tar.gz --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 16 -x 16 -k 1M -j 1 $SNAPSHOT_URL
-  tar -zxvf snapshot.tar.gz
-  rm -f snapshot.tar.gz
+  if [ ! -d "$AKASH_HOME/data" ]
+  then
+    apt -y --no-install-recommends install aria2  > /dev/null 2>&1
+    SNAPSHOT_URL=$(curl https://cosmos-snapshots.s3.filebase.com/akash/pruned/snapshot.json | jq -r .latest)
+    echo "Using latest blockchain snapshot, $SNAPSHOT_URL"
+    aria2c --out=snapshot.tar.gz --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 16 -x 16 -k 1M -j 1 $SNAPSHOT_URL
+    tar -zxvf snapshot.tar.gz
+    rm -f snapshot.tar.gz
+  fi
 fi
 
 /bin/akash start
