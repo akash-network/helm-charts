@@ -147,8 +147,3 @@ if [[ $GEN_NEW_CERT ]]; then
   echo "Publishing new provider certificate"
   /bin/akash tx cert publish server
 fi
-
-##
-# Run daemon
-##
-/bin/akash provider run --cluster-k8s

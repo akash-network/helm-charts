@@ -18,6 +18,8 @@ node: "http://akash.c29r3.xyz:80/rpc"
 keyringbackend: "test"
 trustnode: "true"
 
+beta: false
+
 waitready: 30s
 
 # Important to know about the gas and fees:

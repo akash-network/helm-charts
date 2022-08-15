@@ -1,3 +1,4 @@
+{{- if not .Values.beta -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,3 +7,4 @@ metadata:
 data:
   run.sh: |
 {{ tpl (.Files.Get "scripts/run.sh") . | indent 4 }}
+{{- end }}
