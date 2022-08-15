@@ -19,7 +19,7 @@ spec:
       serviceAccountName: akash-ip-operator
       containers:
       - name: akash-ip-operator
-        image: ghcr.io/ovrclk/provider-services:latest
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         args: ["provider-services", "ip-operator", "--provider", "{{ .Values.provider_address }}"]
         imagePullPolicy: IfNotPresent
         ports:
