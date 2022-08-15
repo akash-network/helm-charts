@@ -501,6 +501,16 @@ entries:
   akash-ip-operator:
   - apiVersion: v2
     appVersion: 0.16.4
+    created: "2022-08-15T12:23:38.605769858Z"
+    description: A Helm chart for Kubernetes
+    digest: 53ef8fa4159a0b621ad28453f27b48b8237869c62c498fb2dbd3500573aed4cc
+    name: akash-ip-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-ip-operator-0.12.0/akash-ip-operator-0.12.0.tgz
+    version: 0.12.0
+  - apiVersion: v2
+    appVersion: 0.16.4
     created: "2022-08-08T14:27:20.073238126Z"
     description: A Helm chart for Kubernetes
     digest: fe9d99770b6ad4699e80faee937f4c38d51215d826868488ea173b76de8c8a9b
