@@ -2293,6 +2293,16 @@ entries:
   provider:
   - apiVersion: v2
     appVersion: 0.16.4
+    created: "2022-08-16T14:53:25.727979752Z"
+    description: A Helm chart for Kubernetes
+    digest: 6f4b899a49ac1562d59611b3b1a72561490a39bcf0fae477e60efd3fc6adb2f1
+    name: provider
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/provider-0.190.0/provider-0.190.0.tgz
+    version: 0.190.0
+  - apiVersion: v2
+    appVersion: 0.16.4
     created: "2022-08-16T13:38:44.455607777Z"
     description: A Helm chart for Kubernetes
     digest: 1e79df25e95d8a383d353cd9b3160767f41af0b7dd0144ad8a79e955d3b5d2fd
