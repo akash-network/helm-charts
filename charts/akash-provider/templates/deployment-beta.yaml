@@ -66,6 +66,9 @@ spec:
             - name: keys
               mountPath: /boot-keys
               readOnly: true
+            - name: home
+              mountPath: "{{ .Values.home }}"
+
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -207,6 +210,10 @@ spec:
             - name: AP_BID_DEPOSIT
               value: "5000000uakt"
 
+          volumeMounts:
+          - name: home
+            mountPath: "{{ .Values.home }}"
+
           ports:
             - name: api
               containerPort: 8443
@@ -223,6 +230,9 @@ spec:
         - name: keys
           secret:
             secretName: {{ include "provider.fullname" . }}-keys
+        - name: home
+          emptyDir: {}
+
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

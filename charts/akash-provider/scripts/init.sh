@@ -147,3 +147,5 @@ if [[ $GEN_NEW_CERT ]]; then
   echo "Publishing new provider certificate"
   /bin/akash tx cert publish server
 fi
+
+exit 0
