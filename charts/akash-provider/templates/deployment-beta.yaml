@@ -56,6 +56,16 @@ spec:
               value: "block"
             - name: AKASH_VERSION
               value: "{{ .Values.image.tag | default .Chart.AppVersion }}"
+            - name: AKASH_LOG_LEVEL
+              value: "info"
+            - name: AKASH_YES
+              value: "true"
+            - name: AKASH_GAS_PRICES
+              value: "{{ .Values.gasprices }}"
+            - name: AKASH_GAS
+              value: "{{ .Values.gas }}"
+            - name: AKASH_GAS_ADJUSTMENT
+              value: "{{ .Values.gasadjustment }}"
           volumeMounts:
             - name: boot
               mountPath: /boot
