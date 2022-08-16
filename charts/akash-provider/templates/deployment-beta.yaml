@@ -215,7 +215,7 @@ spec:
       volumes:
         - name: boot
           configMap:
-            name: {{ include "provider.fullname" . }}-boot
+            name: {{ include "provider.fullname" . }}-init
         - name: bidscripts
           configMap:
             name: {{ include "provider.fullname" . }}-bidscripts
