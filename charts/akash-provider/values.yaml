@@ -18,7 +18,7 @@ node: "http://akash.c29r3.xyz:80/rpc"
 keyringbackend: "test"
 trustnode: "true"
 
-beta: false
+beta: "false"
 
 waitready: 30s
 

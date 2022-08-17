@@ -1,4 +1,4 @@
-{{- if not .Values.beta -}}
+{{- if eq .Values.beta "false" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
