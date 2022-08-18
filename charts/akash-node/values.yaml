@@ -18,7 +18,7 @@ debug: "false"
 # Defaults to mainnet
 akash_node:
   enabled: true
-  snapshot_polkachu: true
+  snapshot_polkachu: false
   api_enable: false
   moniker: mynode
   chainid: akashnet-2
