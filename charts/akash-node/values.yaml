@@ -61,6 +61,8 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+akash_api_enable: false
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
