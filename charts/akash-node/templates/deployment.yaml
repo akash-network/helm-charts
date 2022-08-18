@@ -85,6 +85,8 @@ spec:
             - name: AKASH_STATESYNC_RPC_SERVERS
               value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
 {{- end }}
+            - name: AKASH_API_ENABLE
+              value: "{{ .Values.akash_api_enable }}"
           ports:
             - containerPort: 1317
               name: akashd-api
