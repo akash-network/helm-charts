@@ -1,16 +1,19 @@
 #!/bin/bash
 set -x
 
+#Install utils
+apt update && apt -y --no-install-recommends install ca-certificates curl jq > /dev/null 2>&1
+
+#Check if Home data exists, if not create it.
 if [ ! -d "$AKASH_HOME/data" ]
 then
-  /bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
-fi
-
-apt update && apt -y --no-install-recommends install ca-certificates curl jq > /dev/null 2>&1
-curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME/config/genesis.json"
-
+/bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
+else
 mkdir -p $AKASH_HOME/data
 cd $AKASH_HOME/data
+fi
+
+curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME/config/genesis.json"
 
 if [ "$AKASH_STATESYNC_ENABLE" == true ]; then
   echo "state-sync is enabled, figure the right trust height & derive its hash"
@@ -30,8 +33,6 @@ if [ "$AKASH_STATESYNC_ENABLE" == true ]; then
   export AKASH_STATESYNC_TRUST_HASH=$TRUST_HASH
 
 else
-  if [ ! -d "$AKASH_HOME/data" ]
-  then
     apt -y --no-install-recommends install aria2 > /dev/null 2>&1
     if [[ $AKASH_SNAPSHOT_POLKACHU == true ]]; then
     apt -y --no-install-recommends install lz4 > /dev/null 2>&1
@@ -47,8 +48,6 @@ else
     tar -zxvf snapshot.tar.gz
     rm -f snapshot.tar.gz
     fi
-
-  fi
 fi
 
 /bin/akash start
