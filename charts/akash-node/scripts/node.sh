@@ -8,13 +8,8 @@ apt update && apt -y --no-install-recommends install ca-certificates curl jq > /
 if [ ! -d "$AKASH_HOME/data" ]
 then
 /bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
-else
-mkdir -p $AKASH_HOME/data
 cd $AKASH_HOME/data
-fi
-
 curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME/config/genesis.json"
-
 if [ "$AKASH_STATESYNC_ENABLE" == true ]; then
   echo "state-sync is enabled, figure the right trust height & derive its hash"
 
@@ -49,6 +44,11 @@ else
       rm -f snapshot.tar.gz
     fi
 fi
-
 /bin/akash start
+else
+  echo "Found Akash data folder!"
+  cd $AKASH_HOME/data
+  /bin/akash start
+fi
+
 if [[ $AKASH_DEBUG == "true" ]]; then sleep 5000; fi
