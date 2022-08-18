@@ -79,6 +79,8 @@ spec:
               value: "{{ $.Values.debug }}"
             - name: AKASH_MINIMUM_GAS_PRICES
               value: "{{ .Values.akash_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_POLKACHU
+              value: "{{ .Values.akash_node.snapshot_polkachu }}"
 {{- if .Values.state_sync.enabled }}
             - name: AKASH_STATESYNC_ENABLE
               value: "true"
