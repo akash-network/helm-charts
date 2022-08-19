@@ -79,6 +79,8 @@ spec:
               value: "{{ $.Values.debug }}"
             - name: AKASH_MINIMUM_GAS_PRICES
               value: "{{ .Values.akash_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_POLKACHU
+              value: "{{ .Values.akash_node.snapshot_polkachu }}"
 {{- if .Values.state_sync.enabled }}
             - name: AKASH_STATESYNC_ENABLE
               value: "true"
@@ -86,7 +88,7 @@ spec:
               value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
 {{- end }}
             - name: AKASH_API_ENABLE
-              value: "{{ .Values.akash_api_enable }}"
+              value: "{{ .Values.akash_node.api_enable }}"
           ports:
             - containerPort: 1317
               name: akashd-api

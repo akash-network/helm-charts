@@ -18,6 +18,8 @@ debug: "false"
 # Defaults to mainnet
 akash_node:
   enabled: true
+  snapshot_polkachu: false
+  api_enable: false
   moniker: mynode
   chainid: akashnet-2
   minimum_gas_prices: 0.025uakt
@@ -61,8 +63,6 @@ bootstrap:
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-
-akash_api_enable: false
 
 serviceAccount:
   # Specifies whether a service account should be created
