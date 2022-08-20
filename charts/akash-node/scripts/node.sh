@@ -16,10 +16,10 @@ if [ "$AKASH_STATESYNC_ENABLE" == true ]; then
   SNAP_RPC1="{{ .Values.state_sync.rpc1 }}"
   SNAP_RPC2="{{ .Values.state_sync.rpc2 }}"
 
-  LATEST_HEIGHT=$(curl -s $SNAP_RPC1/block | jq -r .result.block.header.height)
+  LATEST_HEIGHT=$(curl -Ls $SNAP_RPC1/block | jq -r .result.block.header.height)
   HEIGHT_OFFSET={{ .Values.state_sync.height_offset }}
   BLOCK_HEIGHT=$((LATEST_HEIGHT - HEIGHT_OFFSET))
-  TRUST_HASH=$(curl -s "$SNAP_RPC1/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash)
+  TRUST_HASH=$(curl -Ls "$SNAP_RPC1/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash)
 
   echo "TRUST HEIGHT: $BLOCK_HEIGHT"
   echo "TRUST HASH: $TRUST_HASH"
