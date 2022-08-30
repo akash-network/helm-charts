@@ -11,7 +11,6 @@ Please refer to the https://docs.akash.network for Helm-Chart based installation
 | akash-provider           | Installs an Akash provider (required)                              |
 | akash-hostname-operator  | An operator to map Ingress objects to Akash deployments (required) |
 | akash-inventory-operator | An operator required for persistent storage (optional)             |
-| akash-rook               | Sets up Rook-Ceph for persistent storage (optional)                |
 | akash-ip-operator        | An operator required for ip marketplace (optional)                 |
 | akash-metallb            | A dependency required for ip marketplace (optional)                |
 | akash-e2e                | End to end tests to check if a provider is healthy (optional)      |
