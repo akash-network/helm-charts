@@ -238,6 +238,16 @@ entries:
   akash-faucet:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2022-08-31T07:03:16.690874274Z"
+    description: A Helm chart for Kubernetes
+    digest: 0e4fa737410d447faabcde7f697c873d868beb9f72dfbbcc731c6e9a9f68ce1a
+    name: akash-faucet
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-faucet-0.3.0/akash-faucet-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2022-08-31T06:52:50.174237744Z"
     description: A Helm chart for Kubernetes
     digest: 04873f72f944a40e3cf589cc2fdf9a6d8e5b11447d488e3ffe01a776364b56de
