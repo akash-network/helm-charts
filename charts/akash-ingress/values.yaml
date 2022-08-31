@@ -13,6 +13,8 @@ provider:
   enabled: true
 e2e:
   enabled: false
+faucet:
+  enabled: false
 
 # Used for Testnet networks (ignore)
 bootstrap:
