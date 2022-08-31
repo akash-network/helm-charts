@@ -9,9 +9,7 @@ metadata:
     app: akash-node
     akash.network/node: "1"
 spec:
-{{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-{{- end }}
+  replicas: 1
   selector:
     matchLabels:
       app: akash-node

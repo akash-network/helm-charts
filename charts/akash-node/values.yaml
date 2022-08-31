@@ -2,8 +2,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
-
 image:
   repository: ghcr.io/ovrclk/akash
   pullPolicy: IfNotPresent
@@ -34,6 +32,7 @@ state_sync:
   node_id: "d1e47b071859497089c944dc082e920403484c1a@65.108.128.201:28656"
   height_offset: 2000
 
+# Used for mounting AKASH_HOME on a specific node
 persistent_storage:
   enabled: false
   capacity: 100Gi
@@ -43,6 +42,7 @@ persistent_storage:
 # Enable to run a 4 node Akash network from bootstrap
 bootstrap:
   enabled: false
+  capacity: 100Gi
   validator1:
   validator2:
   validator3:
@@ -91,12 +91,6 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
 
 nodeSelector: {}
 

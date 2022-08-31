@@ -12,9 +12,7 @@ metadata:
     app: akash-node
     akash.network/node: "{{ . }}"
 spec:
-{{- if not $.Values.autoscaling.enabled }}
-  replicas: {{ $.Values.replicaCount }}
-{{- end }}
+  replicas: 1
   updateStrategy:
     type: RollingUpdate
   selector:
@@ -119,6 +117,6 @@ spec:
       storageClassName: "akash-nodes"
       resources:
         requests:
-          storage: 50Gi
+          storage: {{ $.Values.bootstrap.capacity }}
 {{- end }}
 {{- end }}
