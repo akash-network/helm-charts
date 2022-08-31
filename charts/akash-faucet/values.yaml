@@ -8,10 +8,11 @@ image:
   repository: ghcr.io/ovrclk/faucet
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: v0.0.10
+  tag: v0.0.11
 
 
 # Required: rpcnode and mnemonic values need to be passed in
+serverhost: "0.0.0.0"
 rpcnode:
 waitperiod: "5m"
 distributionamount: "25000000"

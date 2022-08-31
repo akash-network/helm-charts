@@ -33,7 +33,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:   
+          env:
+            - name: SERVER_HOST
+              value: "{{ .Values.serverhost }}"
             - name: NETWORK_RPC_NODE
               value: "{{ .Values.rpcnode }}"
             - name: INLINE_UI
