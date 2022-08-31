@@ -20,8 +20,8 @@ fees: "5000"
 gas: "180000"
 memo: "Sent from Faucet"
 mnemonic:
-promuser: prom
-prompassword: client
+promuser: "prom"
+prompassword: "client"
 
 imagePullSecrets: []
 nameOverride: ""

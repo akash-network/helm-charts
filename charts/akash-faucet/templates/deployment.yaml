@@ -35,27 +35,27 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:   
             - name: NETWORK_RPC_NODE
-              value: {{ .Values.rpcnode }}
+              value: "{{ .Values.rpcnode }}"
             - name: INLINE_UI
               value: "true"
             - name: FAUCET_WAIT_PERIOD
-              value: {{ .Values.waitperiod }}
+              value: "{{ .Values.waitperiod }}"
             - name: FAUCET_DISTRIBUTION_AMOUNT
-              value: {{ .Values.distributionamount }}
+              value: "{{ .Values.distributionamount }}"
             - name: FAUCET_DENOM
-              value: {{ .Values.denom }}
+              value: "{{ .Values.denom }}"
             - name: FAUCET_FEES
-              value: {{ .Values.fees }}
+              value: "{{ .Values.fees }}"
             - name: FAUCET_GAS
-              value: {{ .Values.gas }}
+              value: "{{ .Values.gas }}"
             - name: FAUCET_MEMO
-              value: {{ .Values.memo }}
+              value: "{{ .Values.memo }}"
             - name: FAUCET_MNEMONIC
-              value: {{ .Values.mnemonic }}
+              value: "{{ .Values.mnemonic }}"
             - name: PROM_USER
-              value: {{ .Values.promuser }}
+              value: "{{ .Values.promuser }}"
             - name: PROM_PASSWORD
-              value: {{ .Values.prompassword }}
+              value: "{{ .Values.prompassword }}"
           ports:
             - name: http
               containerPort: 3000
