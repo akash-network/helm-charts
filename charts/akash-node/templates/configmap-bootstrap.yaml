@@ -20,7 +20,7 @@ data:
       sed -i "/snapshot-interval = 0/c\snapshot-interval = 500" $AKASH_HOME/config/app.toml
     fi
     apt update && apt install curl -y
-    export AKASH_P2P_EXTERNAL_ADDRESS="$(curl ifconfig.co):26656"
+    rm -f $AKASH_HOME/config/addrbook.json
     /bin/akash start
     if $AKASH_DEBUG == "true"; then sleep 5000; fi
 {{- end }}
