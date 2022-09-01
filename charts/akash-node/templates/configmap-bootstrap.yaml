@@ -21,6 +21,7 @@ data:
     fi
     apt update && apt install curl -y
     rm -f $AKASH_HOME/config/addrbook.json
+    echo '{"height":"0","round":0,"step":0}' > $AKASH_HOME/data/priv_validator_state.json
     /bin/akash start
     if $AKASH_DEBUG == "true"; then sleep 5000; fi
 {{- end }}
