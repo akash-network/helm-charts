@@ -4,6 +4,8 @@
 
 replicaCount: 1
 
+beta: "false"
+
 image:
   repository: ghcr.io/ovrclk/akash
   pullPolicy: IfNotPresent
@@ -18,9 +20,30 @@ node: "http://akash.c29r3.xyz:80/rpc"
 keyringbackend: "test"
 trustnode: "true"
 
-beta: "false"
+#  Providers should set these based on their configuration,
+#  these cannot be generic, hence commented.
+# attributes:
+#   - key: region
+#     value: us-west
+#   - key: host
+#     value: akash
+#   - key: tier
+#     value: community
+#   - key: organization
+#     value: akash.network
+#   - key: capabilities/storage/1/class
+#     value: default
+#   - key: capabilities/storage/1/persistent
+#     value: true
+#   - key: capabilities/storage/2/class
+#     value: beta2
+#   - key: capabilities/storage/2/persistent
+#     value: true
 
-waitready: 30s
+# Your provider contact details we submit to the chain
+hosturi:
+email: 
+website: 
 
 # Important to know about the gas and fees:
 #
@@ -67,27 +90,8 @@ deploymentnetworkpoliciesenabled: "false"
 
 ipoperator: true
 
-#  providers are setting these based on their configuration,
-#  these cannot be generic, hence commented.
-# attributes:
-#   - key: region
-#     value: us-west
-#   - key: host
-#     value: akash
-#   - key: tier
-#     value: community
-#   - key: organization
-#     value: akash.network
-#   - key: capabilities/storage/1/class
-#     value: default
-#   - key: capabilities/storage/1/persistent
-#     value: true
-#   - key: capabilities/storage/2/class
-#     value: beta2
-#   - key: capabilities/storage/2/persistent
-#     value: true
-
 debug: "false"
+waitready: 30s
 
 imagePullSecrets: []
 nameOverride: ""

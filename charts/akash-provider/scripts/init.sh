@@ -48,6 +48,11 @@ attributes:
   - key: {{ $val.key }}
     value: {{ $val.value }}
 {{- end }}
+host_uri: {{ .Values.hosturi }}
+info:
+  email: {{ .Values.email }}
+  website: {{ .Values.website }}
+owner: {{ .Values.from }}
 EOT
 
 # Figure the provider address in case the user passes `--from=<key_name>` instead of `--from=<akash1...>` address.
