@@ -10,5 +10,5 @@ data:
     exec /bin/akash provider hostname-operator
 {{- end }}
 {{- if eq .Values.beta "true" }}
-    exec /bin/provider-services hostname-operator
+    exec /bin/provider-services hostname-operator --listen 0.0.0.0:8188
 {{- end }}
