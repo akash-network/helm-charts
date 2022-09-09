@@ -279,6 +279,16 @@ entries:
   akash-hostname-operator:
   - apiVersion: v2
     appVersion: 0.16.4
+    created: "2022-09-09T14:59:57.511931338Z"
+    description: A Helm chart for Kubernetes
+    digest: d58a431a65c912e1afdc8c27d8017cfa13c73be2c68d079d464685cea56e3527
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-hostname-operator-0.27.0/akash-hostname-operator-0.27.0.tgz
+    version: 0.27.0
+  - apiVersion: v2
+    appVersion: 0.16.4
     created: "2022-09-09T12:04:37.639251218Z"
     description: A Helm chart for Kubernetes
     digest: 0d8a0a8e0031f88f72f0e20e4072422f49225c2ad0cfb25ca6afee12f2810fe9
