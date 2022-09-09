@@ -6,9 +6,9 @@ metadata:
 data:
   run.sh: |
     #!/bin/sh
-{{- if eq .Values.beta "false" -}}
+{{- if eq .Values.beta "false" }}
     exec /bin/akash provider hostname-operator
 {{- end }}
-{{- if eq .Values.beta "true" -}}
+{{- if eq .Values.beta "true" }}
     exec /bin/provider-services hostname-operator --cluster-k8s
 {{- end }}
