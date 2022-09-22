@@ -35,7 +35,7 @@ else
       echo "Using latest Polkachu blockchain snapshot, $SNAPSHOT_URL"
       aria2c --out=snapshot.tar.lz4 --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 16 -x 16 -k 1M -j 1 $SNAPSHOT_URL
       lz4 -c -d snapshot.tar.lz4 | tar -x -C $AKASH_HOME
-      rm -f snapshot.tar.gz
+      rm -f snapshot.tar.lz4
     else
       SNAPSHOT_URL=$(curl -s https://cosmos-snapshots.s3.filebase.com/akash/pruned/snapshot.json | jq -r .latest)
       echo "Using latest Cosmos blockchain snapshot, $SNAPSHOT_URL"
