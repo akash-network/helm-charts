@@ -8,16 +8,16 @@ apt update && apt -y --no-install-recommends install ca-certificates curl jq > /
 if [ ! -d "$AKASH_HOME/data" ]
 then
 /bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
-cd "$AKASH_HOME"/data
+cd "$AKASH_HOME/data" || exit
 curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME/config/genesis.json"
 if [ "$AKASH_STATESYNC_ENABLE" == true ]; then
   echo "state-sync is enabled, figure the right trust height & derive its hash"
 
-  SNAP_RPC1="{{ .Values.state_sync.rpc1 }}"
-  SNAP_RPC2="{{ .Values.state_sync.rpc2 }}"
+  export SNAP_RPC1="{{ .Values.state_sync.rpc1 }}"
+  export SNAP_RPC2="{{ .Values.state_sync.rpc2 }}"
 
   LATEST_HEIGHT=$(curl -Ls "$SNAP_RPC1/block" | jq -r .result.block.header.height)
-  HEIGHT_OFFSET={{ .Values.state_sync.height_offset }}
+  HEIGHT_OFFSET="{{ .Values.state_sync.height_offset }}"
   BLOCK_HEIGHT=$((LATEST_HEIGHT - HEIGHT_OFFSET))
   TRUST_HASH=$(curl -Ls "$SNAP_RPC1/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash)
 
@@ -47,7 +47,7 @@ fi
 /bin/akash start
 else
   echo "Found Akash data folder!"
-  cd "$AKASH_HOME"/data
+  cd "$AKASH_HOME/data" || exit
   /bin/akash start
 fi
 
