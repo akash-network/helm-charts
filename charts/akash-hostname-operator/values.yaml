@@ -10,7 +10,7 @@ image:
   repository: ghcr.io/ovrclk/akash
   tag: 0.16.6
   provider_services_repository: ghcr.io/ovrclk/provider-services
-  provider_services_tag: 0.1.0-rc2
+  provider_services_tag: 0.1.0-rc4
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
