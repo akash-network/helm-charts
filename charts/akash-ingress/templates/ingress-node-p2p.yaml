@@ -21,3 +21,29 @@ spec:
                 port:
                   number: 26656
 {{- end }}
+{{- if .Values.bootstrap.enabled }}
+{{- range untilStep 1 5 1 }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: akash-ingress-node-p2p-{{ . }}
+  namespace: akash-services
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: p2p-node-{{ . }}.{{ $.Values.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: akash-node-{{ . }}
+                port:
+                  number: 26656
+{{- end }}
+{{- end }}
