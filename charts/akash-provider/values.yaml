@@ -41,7 +41,6 @@ trustnode: "true"
 #     value: true
 
 # Your provider contact details we submit to the chain
-hosturi:
 email: 
 website: 
 
