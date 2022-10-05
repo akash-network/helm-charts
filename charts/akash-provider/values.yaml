@@ -41,9 +41,8 @@ trustnode: "true"
 #     value: true
 
 # Your provider contact details we submit to the chain
-hosturi:
-email: 
-website: 
+email:
+website:
 
 # Important to know about the gas and fees:
 #

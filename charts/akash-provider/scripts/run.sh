@@ -48,7 +48,6 @@ attributes:
   - key: {{ $val.key }}
     value: {{ $val.value }}
 {{- end }}
-host_uri: {{ .Values.hosturi }}
 info:
   email: {{ .Values.email }}
   website: {{ .Values.website }}
