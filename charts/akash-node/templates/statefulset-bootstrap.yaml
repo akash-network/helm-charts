@@ -70,6 +70,8 @@ spec:
               value: "false"
             - name: AKASH_P2P_SEED_MODE
               value: "true"
+            - name: AKASH_API_ENABLE
+              value: "true"
           ports:
             - containerPort: 1317
               name: akashd-api
