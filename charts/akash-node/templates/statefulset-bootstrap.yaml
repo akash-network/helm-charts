@@ -93,6 +93,16 @@ spec:
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
       {{- with $.Values.nodeSelector }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - akash-node
+            topologyKey: "kubernetes.io/hostname"
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
