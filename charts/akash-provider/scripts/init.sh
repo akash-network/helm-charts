@@ -129,7 +129,7 @@ fi
 # Check whether the local certificate matches the one on the blockchain
 if [[ -f "${CERT_PATH}" ]]; then
   LOCAL_CERT_SN="$(cat "${CERT_PATH}" | openssl x509 -serial -noout)"
-  REMOTE_CERT_SN="$(akash query cert list --owner $PROVIDER_ADDRESS --state valid | jq -r '.certificates[-1].certificate.cert' | openssl base64 -A -d | openssl x509 -serial -noout)"
+  REMOTE_CERT_SN="$(AKASH_OUTPUT=json akash query cert list --owner $PROVIDER_ADDRESS --state valid | jq -r '.certificates[-1].certificate.cert' | openssl base64 -A -d | openssl x509 -serial -noout)"
 else
   echo "${CERT_PATH} file is missing."
   GEN_NEW_CERT=0
@@ -146,7 +146,15 @@ elif [[ "$LOCAL_CERT_SN" != "$REMOTE_CERT_SN" ]]; then
   GEN_NEW_CERT=0
 fi
 
-if [[ $GEN_NEW_CERT ]]; then
+# generate a new cert if the current one expires sooner than 7 days
+AKASH_OUTPUT=json akash query cert list --owner $PROVIDER_ADDRESS --state valid | jq -r '.certificates[-1].certificate.cert' | openssl base64 -A -d | openssl x509 -checkend 604800 -noout 2>/dev/null 1>&2
+rc=$?
+if [[ $rc -ne 0 ]]; then
+  echo "Certificate expires in less than 7 days, so going to generate a new one."
+  GEN_NEW_CERT=0
+fi
+
+if [[ "$GEN_NEW_CERT" -eq "0" ]]; then
   echo "Generating new provider certificate"
   /bin/akash tx cert generate server provider.{{ .Values.domain }}
   echo "Publishing new provider certificate"
