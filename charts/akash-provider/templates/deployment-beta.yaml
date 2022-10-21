@@ -83,7 +83,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "ghcr.io/ovrclk/provider-services:0.1.0-rc4"
+          image: "ghcr.io/ovrclk/provider-services:{{ .Values.image.provider_services_tag }}"
           command: ["/bin/provider-services", "run", "--cluster-k8s"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
