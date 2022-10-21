@@ -279,6 +279,16 @@ entries:
   akash-hostname-operator:
   - apiVersion: v2
     appVersion: 0.16.6
+    created: "2022-10-21T15:11:37.959674852Z"
+    description: A Helm chart for Kubernetes
+    digest: 21636023789b4d757dbbcca35163a598deca1d67e34fb880e7c803b6719499df
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-hostname-operator-0.31.0/akash-hostname-operator-0.31.0.tgz
+    version: 0.31.0
+  - apiVersion: v2
+    appVersion: 0.16.6
     created: "2022-09-29T13:42:52.051094048Z"
     description: A Helm chart for Kubernetes
     digest: cf0972cedd52ddb766a15a1c780454e0f6909314605ef3310e200c239f37dfb8
@@ -640,6 +650,16 @@ entries:
     - https://github.com/ovrclk/helm-charts/releases/download/akash-inventory-operator-0.15.0/akash-inventory-operator-0.15.0.tgz
     version: 0.15.0
   akash-ip-operator:
+  - apiVersion: v2
+    appVersion: 0.16.4
+    created: "2022-10-21T15:11:38.134479903Z"
+    description: A Helm chart for Kubernetes
+    digest: 6d141577d35a9e2b85d8a0dde5edaa50831b03c2a901934ec2109778af8eafd7
+    name: akash-ip-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-ip-operator-0.14.0/akash-ip-operator-0.14.0.tgz
+    version: 0.14.0
   - apiVersion: v2
     appVersion: 0.16.4
     created: "2022-09-29T13:42:52.248205745Z"
@@ -2552,6 +2572,16 @@ entries:
     - https://github.com/ovrclk/helm-charts/releases/download/akash-rook-0.1.0/akash-rook-0.1.0.tgz
     version: 0.1.0
   provider:
+  - apiVersion: v2
+    appVersion: 0.16.6
+    created: "2022-10-21T15:11:38.348025362Z"
+    description: A Helm chart for Kubernetes
+    digest: c12b2f23547b75c210c3805bdbe9b60590b689770f36bd1d93ead1609c725792
+    name: provider
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/provider-0.199.0/provider-0.199.0.tgz
+    version: 0.199.0
   - apiVersion: v2
     appVersion: 0.16.6
     created: "2022-10-18T16:25:23.397763853Z"
