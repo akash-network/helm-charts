@@ -27,7 +27,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: akash-ingress-node-rpc-{{ . }}
+  name: akash-ingress-node-validator-rpc-{{ . }}
   namespace: akash-services
   annotations:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
@@ -35,14 +35,14 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: rpc-node-{{ . }}.{{ $.Values.domain }}
+    - host: validator-rpc-{{ . }}.{{ $.Values.domain }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: akash-node-{{ . }}
+                name: akash-node-validator-{{ . }}
                 port:
                   number: 26657
 {{- end }}
