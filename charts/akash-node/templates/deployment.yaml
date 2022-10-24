@@ -69,6 +69,8 @@ spec:
               value: "custom"
             - name: AKASH_PRUNING_KEEP_EVERY
               value: "2000"
+            - name: AKASH_PRUNING_INTERVAL
+              value: "10"
 {{- end }}
             - name: AKASH_P2P_LADDR
               value: tcp://0.0.0.0:26656
