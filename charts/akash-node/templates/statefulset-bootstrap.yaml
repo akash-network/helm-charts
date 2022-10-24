@@ -4,22 +4,22 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: akash-node-{{ . }}
+  name: akash-validator-{{ . }}
   namespace: {{ $.Release.Namespace }}
   annotations:
     argocd.argoproj.io/sync-options: Replace=true
   labels:
-    app: akash-node
-    akash.network/node: "{{ . }}"
+    app: akash-validator
+    akash.network/validator: "{{ . }}"
 spec:
   replicas: 1
   updateStrategy:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: akash-node
-      akash.network/node: "{{ . }}"
-  serviceName: "akash-node-{{ . }}"
+      app: akash-validator
+      akash.network/validator: "{{ . }}"
+  serviceName: "akash-validator-{{ . }}"
   template:
     metadata:
     {{- with $.Values.podAnnotations }}
@@ -27,8 +27,8 @@ spec:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
-        app: akash-node
-        akash.network/node: "{{ . }}"
+        app: akash-validator
+        akash.network/validator: "{{ . }}"
     spec:
       {{- with $.Values.imagePullSecrets }}
       imagePullSecrets:
@@ -103,7 +103,7 @@ spec:
               - key: app
                 operator: In
                 values:
-                - akash-node
+                - akash-validator
             topologyKey: "kubernetes.io/hostname"
       nodeSelector:
         {{- toYaml . | nindent 8 }}
