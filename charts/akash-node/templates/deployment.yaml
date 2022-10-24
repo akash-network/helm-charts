@@ -60,7 +60,7 @@ spec:
             - name: AKASH_P2P_PERSISTENT_PEERS
               value: {{ .Values.akash_node.peers }}
 {{- end }}
-{{- if .Values.snapshot.enabled | default .Values.state_sync.enabled }}
+{{- if .Values.snapshots.enabled }}
             - name: AKASH_STATE_SYNC_SNAPSHOT_INTERVAL
               value: 2000
             - name: AKASH_STATE_SYNC_SNAPSHOT_KEEP_RECENT
