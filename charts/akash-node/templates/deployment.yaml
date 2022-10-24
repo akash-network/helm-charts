@@ -56,6 +56,14 @@ spec:
             - name: AKASH_P2P_PERSISTENT_PEERS
 {{- if .Values.state_sync.enabled }}
               value: {{ .Values.akash_node.peers }},{{ .Values.state_sync.node_id }}
+            - name: AKASH_STATE_SYNC_SNAPSHOT_INTERVAL
+              value: 2000
+            - name: AKASH_STATE_SYNC_SNAPSHOT_KEEP_RECENT
+              value: 5
+            - name: AKASH_PRUNING
+              value: "custom"
+            - name: AKASH_PRUNING_KEEP_EVERY
+              value: 2000
 {{- else }}
               value: {{ .Values.akash_node.peers }}
 {{- end }}
