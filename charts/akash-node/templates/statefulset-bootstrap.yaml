@@ -52,6 +52,8 @@ spec:
               value: {{ $.Values.home }}
             - name: AKASH_DEBUG
               value: "{{ $.Values.debug }}"
+            - name: AKASH_MINIMUM_GAS_PRICES
+              value: "{{ $.Values.akash_node.minimum_gas_prices }}"
             - name: AKASH_KEYRING_BACKEND
               value: {{ $.Values.keyring_backend }}
             - name: AKASH_P2P_PERSISTENT_PEERS
