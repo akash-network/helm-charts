@@ -67,6 +67,8 @@ spec:
               value: "5"
             - name: AKASH_PRUNING
               value: "custom"
+            - name: AKASH_PRUNING_KEEP_RECENT
+              value: "100"
             - name: AKASH_PRUNING_KEEP_EVERY
               value: "2000"
             - name: AKASH_PRUNING_INTERVAL
