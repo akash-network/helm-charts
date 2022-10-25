@@ -121,11 +121,11 @@ spec:
               hostPort: 26657
             {{- if .Values.bootstrap.enabled }}
             - name: validator-1-p2p
-              containerPort: 26652
+              containerPort: 26651
               protocol: TCP
               hostPort: 26651
             - name: validator-1-rpc
-              containerPort: 26662
+              containerPort: 26661
               protocol: TCP
               hostPort: 26661
             - name: validator-2-p2p
