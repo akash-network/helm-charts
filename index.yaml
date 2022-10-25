@@ -390,6 +390,16 @@ entries:
   akash-ingress:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-10-25T11:33:17.127456004Z"
+    description: A Helm chart for Kubernetes
+    digest: 3186ddf0fdd6ae7a50b749bd7b30ab4d9614d11116e5d9fc0831fdedd9c15203
+    name: akash-ingress
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-ingress-0.30.0/akash-ingress-0.30.0.tgz
+    version: 0.30.0
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-10-25T11:07:30.618275471Z"
     description: A Helm chart for Kubernetes
     digest: b608c7a114420b3e431aa4982f5312c1b96cfd329e43de0bcec331073e20c587
