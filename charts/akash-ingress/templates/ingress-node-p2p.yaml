@@ -42,7 +42,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: akash-node-validator-{{ . }}
+                name: validator-{{ . }}
                 port:
                   number: 26656
 {{- end }}
