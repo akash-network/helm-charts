@@ -88,6 +88,8 @@ spec:
               value: "false"
             - name: AKASH_P2P_SEED_MODE
               value: "true"
+            - name: AKASH_P2P_PEX
+              value: "{{ .Values.akash_node.pex }}"
             - name: AKASH_DEBUG
               value: "{{ $.Values.debug }}"
             - name: AKASH_MINIMUM_GAS_PRICES
