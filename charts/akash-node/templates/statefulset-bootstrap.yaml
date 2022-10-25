@@ -59,7 +59,7 @@ spec:
             - name: AKASH_P2P_PEX
               value: "{{ .Values.akash_node.pex }}"
             - name: AKASH_P2P_PERSISTENT_PEERS
-              value: "{{ $.Values.bootstrap.validator1 }}@validator-1:26656,{{ $.Values.bootstrap.validator2 }}@validator-2:26656,{{ $.Values.bootstrap.validator3 }}@validator-3:26656,{{ $.Values.bootstrap.validator4 }}@avalidator-4:26656"
+              value: "{{ $.Values.bootstrap.validator1 }}@validator-1:26656,{{ $.Values.bootstrap.validator2 }}@validator-2:26656,{{ $.Values.bootstrap.validator3 }}@validator-3:26656,{{ $.Values.bootstrap.validator4 }}@validator-4:26656"
             - name: AKASH_P2P_LADDR
               value: tcp://0.0.0.0:26656
             - name: AKASH_RPC_LADDR
