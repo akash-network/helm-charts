@@ -53,11 +53,26 @@ spec:
               value: {{ .Values.akash_node.chainid }}
             - name: AKASH_KEYRING_BACKEND
               value: {{ .Values.keyring_backend }}
-            - name: AKASH_P2P_PERSISTENT_PEERS
 {{- if .Values.state_sync.enabled }}
+            - name: AKASH_P2P_PERSISTENT_PEERS
               value: {{ .Values.akash_node.peers }},{{ .Values.state_sync.node_id }}
 {{- else }}
+            - name: AKASH_P2P_PERSISTENT_PEERS
               value: {{ .Values.akash_node.peers }}
+{{- end }}
+{{- if .Values.snapshots.enabled }}
+            - name: AKASH_STATE_SYNC_SNAPSHOT_INTERVAL
+              value: "2000"
+            - name: AKASH_STATE_SYNC_SNAPSHOT_KEEP_RECENT
+              value: "5"
+            - name: AKASH_PRUNING
+              value: "custom"
+            - name: AKASH_PRUNING_KEEP_RECENT
+              value: "100"
+            - name: AKASH_PRUNING_KEEP_EVERY
+              value: "2000"
+            - name: AKASH_PRUNING_INTERVAL
+              value: "10"
 {{- end }}
             - name: AKASH_P2P_LADDR
               value: tcp://0.0.0.0:26656
@@ -73,6 +88,8 @@ spec:
               value: "false"
             - name: AKASH_P2P_SEED_MODE
               value: "true"
+            - name: AKASH_P2P_PEX
+              value: "{{ .Values.akash_node.pex }}"
             - name: AKASH_DEBUG
               value: "{{ $.Values.debug }}"
             - name: AKASH_MINIMUM_GAS_PRICES

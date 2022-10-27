@@ -120,27 +120,35 @@ spec:
               protocol: TCP
               hostPort: 26657
             {{- if .Values.bootstrap.enabled }}
-            - name: node-2-p2p
+            - name: validator-1-p2p
+              containerPort: 26651
+              protocol: TCP
+              hostPort: 26651
+            - name: validator-1-rpc
+              containerPort: 26661
+              protocol: TCP
+              hostPort: 26661
+            - name: validator-2-p2p
               containerPort: 26652
               protocol: TCP
               hostPort: 26652
-            - name: node-2-rpc
+            - name: validator-2-rpc
               containerPort: 26662
               protocol: TCP
               hostPort: 26662
-            - name: node-3-p2p
+            - name: validator-3-p2p
               containerPort: 26653
               protocol: TCP
               hostPort: 26653
-            - name: node-3-rpc
+            - name: validator-3-rpc
               containerPort: 26663
               protocol: TCP
               hostPort: 26663
-            - name: node-4-p2p
+            - name: validator-4-p2p
               containerPort: 26654
               protocol: TCP
               hostPort: 26654
-            - name: node-4-rpc
+            - name: validator-4-rpc
               containerPort: 26664
               protocol: TCP
               hostPort: 26664

@@ -1,6 +1,6 @@
 apiVersion: v2
 name: akash-metallb
-description: A network load-balancer implementation for Kubernetes using standard routing protocols
+description: A dependency required for ip marketplace (optional)
 home: https://metallb.universe.tf
 sources:
   - https://github.com/metallb/metallb
@@ -20,7 +20,7 @@ type: application
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
 # NOTE: this value is updated by the metallb release process
-version: 0.12.0
+version: 0.13.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to

@@ -10,10 +10,12 @@ data:
   26656: "akash-services/akash-node-1:26656"
   26657: "akash-services/akash-node-1:26657"
   {{- if .Values.bootstrap.enabled }}
-  26652: "akash-services/akash-node-2:26656"
-  26662: "akash-services/akash-node-2:26657"
-  26653: "akash-services/akash-node-3:26656"
-  26663: "akash-services/akash-node-3:26657"
-  26654: "akash-services/akash-node-4:26656"
-  26664: "akash-services/akash-node-4:26657"
+  26651: "akash-services/validator-1:26656"
+  26661: "akash-services/validator-1:26657"
+  26652: "akash-services/validator-2:26656"
+  26662: "akash-services/validator-2:26657"
+  26653: "akash-services/validator-3:26656"
+  26663: "akash-services/validator-3:26657"
+  26654: "akash-services/validator-4:26656"
+  26664: "akash-services/validator-4:26657"
   {{- end }}
