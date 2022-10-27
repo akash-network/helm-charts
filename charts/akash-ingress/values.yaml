@@ -5,6 +5,8 @@
 # Your Akash domain. Example: my.network.com
 # We create Ingress objects mapping to A records like provider.my.network.com
 domain: example.local
+proxy:
+  buffersize: "16k"
 
 # Toggle on and off Ingresses
 node:
