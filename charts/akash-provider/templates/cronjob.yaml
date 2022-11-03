@@ -1,4 +1,43 @@
-apiVersion: batch/v1beta1
+---
+# Service account the client will use to reset the deployment,
+# by default the pods running inside the cluster can do no such things.
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: provider-restart
+  namespace: akash-services
+---
+# allow getting status and patching only the one deployment you want
+# to restart
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: provider-restart
+  namespace: akash-services
+rules:
+  - apiGroups: ["apps", "extensions"]
+    resources: ["deployments"]
+    resourceNames: ["akash-provider"]
+    verbs: ["get", "patch", "list", "watch"] # "list" and "watch" are only needed
+                                             # if you want to use `rollout status`
+---
+# bind the role to the service account
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: provider-restart
+  namespace: akash-services
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: provider-restart
+subjects:
+  - kind: ServiceAccount
+    name: provider-restart
+    namespace: akash-services
+---
+# cronjob spec itself
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: akash-provider-deployment-restart
@@ -8,11 +47,14 @@ spec:
   schedule: '0 8 * * *'
   jobTemplate:
     spec:
-      backoffLimit: 2
-      activeDeadlineSeconds: 600
+      backoffLimit: 2 # this has very low chance of failing, as all this does
+                      # is prompt kubernetes to schedule new replica set for
+                      # the deployment
+      activeDeadlineSeconds: 600 # timeout, makes most sense with
+                                 # "waiting for rollout" variant specified below
       template:
         spec:
-          serviceAccountName: akash-provider
+          serviceAccountName: provider-restart
           restartPolicy: Never
           containers:
             - name: kubectl
@@ -22,4 +64,3 @@ spec:
                 - 'rollout'
                 - 'restart'
                 - 'deployment/akash-provider'
-                - '-n akash-services'
