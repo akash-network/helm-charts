@@ -8,7 +8,7 @@ beta: "false"
 
 image:
   repository: ghcr.io/ovrclk/akash
-  tag: 0.16.6
+  tag: 0.16.8
   provider_services_repository: ghcr.io/ovrclk/provider-services
   provider_services_tag: 0.1.0-rc11
   pullPolicy: IfNotPresent
