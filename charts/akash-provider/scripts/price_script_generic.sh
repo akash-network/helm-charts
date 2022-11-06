@@ -48,12 +48,12 @@ usd_per_akt=$(cat $CACHE_FILE)
 set +e
 
 #Price in USD/month
-TARGET_MEMORY="1.25"       # USD/GB-month
+TARGET_MEMORY="0.90"       # USD/GB-month
 TARGET_HD_EPHEMERAL="0.02" # USD/GB-month
 TARGET_HD_PERS_HDD="0.03"  # USD/GB-month (beta1)
 TARGET_HD_PERS_SSD="0.04"  # USD/GB-month (beta2)
 TARGET_HD_PERS_NVME="0.05" # USD/GB-month (beta3)
-TARGET_CPU="2.50"          # USD/thread-month
+TARGET_CPU="1.90"          # USD/thread-month
 
 total_cost_usd_target=$(bc -l <<<"(($cpu_requested * $TARGET_CPU) + ($memory_requested * $TARGET_MEMORY) + ($ephemeral_storage_requested * $TARGET_HD_EPHEMERAL) + ($hdd_pers_storage_requested * $TARGET_HD_PERS_HDD) + ($ssd_pers_storage_requested * $TARGET_HD_PERS_SSD) + ($nvme_pers_storage_requested * $TARGET_HD_PERS_NVME))")
 
