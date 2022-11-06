@@ -302,6 +302,16 @@ entries:
     version: 0.1.0
   akash-hostname-operator:
   - apiVersion: v2
+    appVersion: 0.16.8
+    created: "2022-11-06T00:12:05.622305933Z"
+    description: An operator to map Ingress objects to Akash deployments (required)
+    digest: d315ebb9538a220be19c17cae2c7647fa3622f8570e78ff5933576fcdccf5e19
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-hostname-operator-0.33.0/akash-hostname-operator-0.33.0.tgz
+    version: 0.33.0
+  - apiVersion: v2
     appVersion: 0.16.6
     created: "2022-10-27T13:36:58.024624376Z"
     description: An operator to map Ingress objects to Akash deployments (required)
@@ -1004,6 +1014,16 @@ entries:
     - https://github.com/ovrclk/helm-charts/releases/download/akash-metallb-0.1.0/akash-metallb-0.1.0.tgz
     version: 0.1.0
   akash-node:
+  - apiVersion: v2
+    appVersion: 0.16.8
+    created: "2022-11-06T00:12:05.763893057Z"
+    description: Installs an Akash RPC node (required)
+    digest: 0bbe8376a2b845665be542246fba0a6fca80df6e89f9763cfd415ce6edae341c
+    name: akash-node
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-node-0.162.0/akash-node-0.162.0.tgz
+    version: 0.162.0
   - apiVersion: v2
     appVersion: 0.16.6
     created: "2022-10-27T13:36:58.754454454Z"
@@ -2840,6 +2860,16 @@ entries:
     - https://github.com/ovrclk/helm-charts/releases/download/akash-rook-0.1.0/akash-rook-0.1.0.tgz
     version: 0.1.0
   provider:
+  - apiVersion: v2
+    appVersion: 0.16.8
+    created: "2022-11-06T00:12:05.893919347Z"
+    description: Installs an Akash provider (required)
+    digest: e2560182f85e5a700cc8f44a38b9a35b377cc3211746482495929bb8a5da7391
+    name: provider
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/provider-0.204.0/provider-0.204.0.tgz
+    version: 0.204.0
   - apiVersion: v2
     appVersion: 0.16.6
     created: "2022-11-05T13:24:30.519826335Z"
