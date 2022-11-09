@@ -10,4 +10,16 @@ spec:
   resources:
     requests:
       storage: {{ $.Values.local_storage.capacity }}
+{{- else if .Values.ceph_storage.enabled }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: akash-node-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: {{ $.Values.ceph_storage.storageclass }}
+  resources:
+    requests:
+      storage: {{ $.Values.ceph_storage.capacity }}
 {{- end }}

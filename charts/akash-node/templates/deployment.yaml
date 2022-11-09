@@ -117,11 +117,8 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
-          {{- if .Values.local_storage.enabled }}
+          {{- if or .Values.local_storage.enabled .Values.ceph_storage.enabled }}
             - name: local-persistent-storage
-              mountPath: {{ .Values.home }}
-          {{- else if .Values.ceph_storage.enabled -}}
-            - name: akash-storage
               mountPath: {{ .Values.home }}
           {{- end }}
           resources:
@@ -142,19 +139,9 @@ spec:
         - name: config
           configMap:
             name: akash-node-config
-      {{- if .Values.local_storage.enabled }}
+      {{- if or .Values.local_storage.enabled .Values.ceph_storage.enabled }}
         - name: local-persistent-storage
           persistentVolumeClaim:
             claimName: akash-node-pvc
-      {{- else if .Values.ceph_storage.enabled -}}
-      volumeClaimTemplates:
-      - metadata:
-          name: akash-storage
-        spec:
-          accessModes: [ "ReadWriteOnce" ]
-          storageClassName: {{ $.Values.ceph_storage.storageclass }}
-          resources:
-            requests:
-              storage: {{ $.Values.ceph_storage.capacity }}
       {{- end }}
 {{- end }}
