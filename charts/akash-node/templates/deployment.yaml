@@ -31,9 +31,9 @@ spec:
       serviceAccountName: akash-node
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{- if .Values.persistent_storage.enabled }}
+      {{- if .Values.local_storage.enabled }}
       nodeSelector:
-        kubernetes.io/hostname: {{ $.Values.persistent_storage.host }}
+        kubernetes.io/hostname: {{ $.Values.local_storage.host }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -117,8 +117,11 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
-          {{- if .Values.persistent_storage.enabled }}
+          {{- if .Values.local_storage.enabled }}
             - name: local-persistent-storage
+              mountPath: {{ .Values.home }}
+          {{- else if .Values.ceph_storage.enabled -}}
+            - name: akash-storage
               mountPath: {{ .Values.home }}
           {{- end }}
           resources:
@@ -139,9 +142,19 @@ spec:
         - name: config
           configMap:
             name: akash-node-config
-      {{- if .Values.persistent_storage.enabled }}
+      {{- if .Values.local_storage.enabled }}
         - name: local-persistent-storage
           persistentVolumeClaim:
             claimName: akash-node-pvc
+      {{- else if .Values.ceph_storage.enabled -}}
+      volumeClaimTemplates:
+      - metadata:
+          name: akash-storage
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          storageClassName: {{ $.Values.ceph_storage.storageclass }}
+          resources:
+            requests:
+              storage: {{ $.Values.ceph_storage.capacity }}
       {{- end }}
 {{- end }}

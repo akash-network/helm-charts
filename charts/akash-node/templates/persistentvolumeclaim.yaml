@@ -1,4 +1,4 @@
-{{- if .Values.persistent_storage.enabled -}}
+{{- if .Values.local_storage.enabled -}}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -9,5 +9,5 @@ spec:
   storageClassName: local-storage
   resources:
     requests:
-      storage: {{ $.Values.persistent_storage.capacity }}
+      storage: {{ $.Values.local_storage.capacity }}
 {{- end }}

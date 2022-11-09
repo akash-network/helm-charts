@@ -42,11 +42,18 @@ snapshots:
   enabled: false
 
 # Used for mounting AKASH_HOME on a specific node
-persistent_storage:
+local_storage:
   enabled: false
   capacity: 100Gi
   path: /mnt/local-storage
   host: k8s-node-0
+
+# Same as local_storage except that it uses block storage pool
+# NOTE: you cannot enable both local_storage and ceph_storage at the same time!
+ceph_storage:
+  enabled: false
+  capacity: 100Gi
+  storageclass: akash-nodes
 
 # Enable to run a 4 node Akash network from bootstrap
 bootstrap:
