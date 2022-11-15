@@ -303,6 +303,16 @@ entries:
   akash-hostname-operator:
   - apiVersion: v2
     appVersion: 0.16.8
+    created: "2022-11-15T12:57:41.148473709Z"
+    description: An operator to map Ingress objects to Akash deployments (required)
+    digest: 2e37bc49260a1c0765a56cb8294dfc3af9494c30383369cf4158271107cd03b5
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-hostname-operator-0.34.0/akash-hostname-operator-0.34.0.tgz
+    version: 0.34.0
+  - apiVersion: v2
+    appVersion: 0.16.8
     created: "2022-11-06T00:12:05.622305933Z"
     description: An operator to map Ingress objects to Akash deployments (required)
     digest: d315ebb9538a220be19c17cae2c7647fa3622f8570e78ff5933576fcdccf5e19
@@ -774,6 +784,16 @@ entries:
     - https://github.com/ovrclk/helm-charts/releases/download/akash-inventory-operator-0.15.0/akash-inventory-operator-0.15.0.tgz
     version: 0.15.0
   akash-ip-operator:
+  - apiVersion: v2
+    appVersion: 0.16.4
+    created: "2022-11-15T12:57:41.27443826Z"
+    description: An operator required for ip marketplace (optional)
+    digest: 178f0ebe629df03e048751d3cbb7581ef6b63efb364febc77b5e628858f83f4d
+    name: akash-ip-operator
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-ip-operator-0.16.0/akash-ip-operator-0.16.0.tgz
+    version: 0.16.0
   - apiVersion: v2
     appVersion: 0.16.4
     created: "2022-10-27T13:36:58.428929994Z"
@@ -2880,6 +2900,16 @@ entries:
     - https://github.com/ovrclk/helm-charts/releases/download/akash-rook-0.1.0/akash-rook-0.1.0.tgz
     version: 0.1.0
   provider:
+  - apiVersion: v2
+    appVersion: 0.16.8
+    created: "2022-11-15T12:57:41.483549338Z"
+    description: Installs an Akash provider (required)
+    digest: 71e896bbe98cd05da2c260c9382b3deb10190dcc7ecb31a4ce3fb60fc0c35b28
+    name: provider
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/provider-0.207.0/provider-0.207.0.tgz
+    version: 0.207.0
   - apiVersion: v2
     appVersion: 0.16.8
     created: "2022-11-06T11:07:35.821420042Z"
