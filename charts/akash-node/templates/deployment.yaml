@@ -10,6 +10,8 @@ metadata:
     akash.network/node: "1"
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: akash-node
