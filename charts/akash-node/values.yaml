@@ -34,7 +34,7 @@ state_sync:
   rpc1: "https://akash-rpc.polkachu.com:443"
   rpc2: "https://akash-rpc.polkachu.com:443"
   # https://polkachu.com/live_peers/akash
-  node_id: "d1e47b071859497089c944dc082e920403484c1a@65.108.128.201:28656"
+  node_id: "d1e47b071859497089c944dc082e920403484c1a@65.108.128.201:12856"
   # height_offset should equal the AKASH_STATE_SYNC_SNAPSHOT_INTERVAL on the node which makes the state-sync snapshots
   height_offset: 2000
 
