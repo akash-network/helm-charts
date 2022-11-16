@@ -4,7 +4,7 @@
 
 replicaCount: 1
 
-beta: "false"
+beta: false
 
 image:
   repository: ghcr.io/ovrclk/akash
