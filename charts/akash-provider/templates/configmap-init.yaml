@@ -1,4 +1,4 @@
-{{- if eq .Values.beta "true" -}}
+{{- if eq .Values.beta true -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:

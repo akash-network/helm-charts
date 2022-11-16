@@ -31,10 +31,10 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-{{- if eq .Values.beta "false" }}
+{{- if eq .Values.beta false }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
 {{- end }}
-{{- if eq .Values.beta "true" }}
+{{- if eq .Values.beta true }}
           image: "{{ .Values.image.provider_services_repository }}:{{ .Values.image.provider_services_tag }}"
 {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -43,11 +43,11 @@ spec:
             - name: status
               containerPort: 8085
           env:
-{{- if eq .Values.beta "false" }}
+{{- if eq .Values.beta false }}
             - name: AKASH_K8S_MANIFEST_NS
               value: lease
 {{- end }}
-{{- if eq .Values.beta "true" }}
+{{- if eq .Values.beta true }}
             - name: AP_K8S_MANIFEST_NS
               value: lease
 {{- end }}
