@@ -43,14 +43,8 @@ spec:
             - name: status
               containerPort: 8085
           env:
-{{- if eq .Values.beta false }}
             - name: AKASH_K8S_MANIFEST_NS
               value: lease
-{{- end }}
-{{- if eq .Values.beta true }}
-            - name: AP_K8S_MANIFEST_NS
-              value: lease
-{{- end }}
           volumeMounts:
             - name: boot
               mountPath: /boot
