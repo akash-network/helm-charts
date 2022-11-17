@@ -4,13 +4,9 @@
 
 replicaCount: 1
 
-beta: false
-
 image:
-  repository: ghcr.io/ovrclk/akash
+  repository: ghcr.io/ovrclk/provider-services
   pullPolicy: IfNotPresent
-  provider_services_tag: 0.1.0
-  provider_services_repository: ghcr.io/ovrclk/provider-services
 
 from:
 key:
