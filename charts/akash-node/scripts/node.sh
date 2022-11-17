@@ -29,7 +29,7 @@ if [ "$AKASH_STATESYNC_ENABLE" == true ]; then
 
 else
   if [ "$AKASH_CHAIN_ID" == "akashnet-2" ]; then
-    apt -y --no-install-recommends install aria2 lz4 liblz4-tool > /dev/null 2>&1
+    apt -y --no-install-recommends install aria2 lz4 liblz4-tool wget > /dev/null 2>&1
       if [ "$SNAPSHOT_POLKACHU" == true ]; then
         SNAPSHOT_URL=$(curl -s https://polkachu.com/tendermint_snapshots/akash | grep tar.lz4 | head -n1 | grep -io '<a href=['"'"'"][^"'"'"']*['"'"'"]' |   sed -e 's/^<a href=["'"'"']//i' -e 's/["'"'"']$//i')
         echo "Using latest Polkachu blockchain snapshot, $SNAPSHOT_URL"
