@@ -98,6 +98,8 @@ spec:
               value: "{{ .Values.akash_node.minimum_gas_prices }}"
             - name: SNAPSHOT_POLKACHU
               value: "{{ .Values.akash_node.snapshot_polkachu }}"
+            - name: SNAPSHOT_AUTOSTAKE
+              value: "{{ .Values.akash_node.snapshot_autostake }}"
 {{- if .Values.state_sync.enabled }}
             - name: AKASH_STATESYNC_ENABLE
               value: "true"
