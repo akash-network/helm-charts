@@ -31,12 +31,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-{{- if eq .Values.beta false }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-{{- end }}
-{{- if eq .Values.beta true }}
-          image: "{{ .Values.image.provider_services_repository }}:{{ .Values.image.provider_services_tag }}"
-{{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/bin/sh", "/boot/run.sh"]
           ports:

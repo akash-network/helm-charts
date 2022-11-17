@@ -6,9 +6,4 @@ metadata:
 data:
   run.sh: |
     #!/bin/sh
-{{- if eq .Values.beta false }}
-    exec /bin/akash provider hostname-operator
-{{- end }}
-{{- if eq .Values.beta true }}
     exec /bin/provider-services hostname-operator --listen 0.0.0.0:8188
-{{- end }}
