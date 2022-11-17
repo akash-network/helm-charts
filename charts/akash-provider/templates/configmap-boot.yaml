@@ -5,8 +5,4 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   run.sh: |
-{{- if eq .Values.beta true -}}
-{{ tpl (.Files.Get "scripts/run-mainnet4.sh") . | indent 4 }}
-{{- else }}
 {{ tpl (.Files.Get "scripts/run.sh") . | indent 4 }}
-{{- end }}

@@ -34,11 +34,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-{{- if eq .Values.beta true }}
-          image: "ghcr.io/ovrclk/provider-services:{{ .Values.image.provider_services_tag }}"
-{{- else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-{{- end }}
           command: ["/bin/bash", "/boot/run.sh"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
@@ -156,6 +152,9 @@ spec:
 
             - name: AKASH_BID_PRICE_STORAGE_SCALE
               value: "{{ .Values.bidpricestoragescale }}"
+
+            - name: AKASH_BID_PRICE_IP_SCALE
+              value: "{{ .Values.bidpriceipscale }}"
 
             - name: AKASH_OVERCOMMIT_PCT_CPU
               value: "0"
