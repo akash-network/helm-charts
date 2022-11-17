@@ -153,6 +153,9 @@ spec:
             - name: AKASH_BID_PRICE_STORAGE_SCALE
               value: "{{ .Values.bidpricestoragescale }}"
 
+            - name: AKASH_BID_PRICE_IP_SCALE
+              value: "{{ .Values.bidpriceipscale }}"
+
             - name: AKASH_OVERCOMMIT_PCT_CPU
               value: "0"
 

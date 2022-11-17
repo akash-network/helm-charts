@@ -76,7 +76,10 @@ gasadjustment: "1.25"
 # --set bidpricescript="$(cat ./charts/akash-provider/scripts/price_script_generic.sh | openssl base64 -A)"
 bidpricecpuscale: "0.004"
 bidpricememoryscale: "0.0016"
-bidpriceendpointscale: "0"
+bidpriceendpointscale: "1"
+# set pricing for leased IP
+# 1 IP would cost ((1*60*429903)/10^6)*0.194 = $5/month (if 1 AKT = $0.194; and 429903 blocks a month)
+bidpriceipscale: "60"
 # set storage pricing for your StorageClass you are using
 # here is an example for beta2 StorageClass:
 bidpricestoragescale: "0.00016,beta2=0.00016"
