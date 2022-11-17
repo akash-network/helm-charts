@@ -5,4 +5,4 @@
 image:
   repository: ghcr.io/ovrclk/provider-services
 
-provider_address: 
+provider_address:
