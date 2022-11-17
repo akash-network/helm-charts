@@ -1,5 +1,7 @@
 #!/bin/bash
 # WARNING: the runtime of this script should NOT exceed 5 seconds!
+# Requirements:
+# curl jq bc ca-certificates
 set -o pipefail
 
 data_in=$(jq .)
@@ -10,6 +12,8 @@ ephemeral_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[] | select(
 hdd_pers_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[] | select(.class == "beta1").size // 0] | add) / pow(1024; 3)')
 ssd_pers_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[] | select(.class == "beta2").size // 0] | add) / pow(1024; 3)')
 nvme_pers_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[] | select(.class == "beta3").size // 0] | add) / pow(1024; 3)')
+ips_requested=$(echo "$data_in" | jq -r '(map(.ip_lease_quantity//0 * .count) | add)')
+endpoints_requested=$(echo "$data_in" | jq -r '(map(.endpoint_quantity//0 * .count) | add)')
 
 # cache AKT price for 60 minutes to reduce the API pressure as well as to slightly accelerate the bidding (+5s)
 CACHE_FILE=/tmp/aktprice.cache
@@ -56,8 +60,19 @@ TARGET_HD_EPHEMERAL="0.02" # USD/GB-month
 TARGET_HD_PERS_HDD="0.01"  # USD/GB-month (beta1)
 TARGET_HD_PERS_SSD="0.03"  # USD/GB-month (beta2)
 TARGET_HD_PERS_NVME="0.04" # USD/GB-month (beta3)
+TARGET_ENDPOINT="0.05"     # USD for port/month
+TARGET_IP="5"              # USD for IP/month
 
-total_cost_usd_target=$(bc -l <<<"(($cpu_requested * $TARGET_CPU) + ($memory_requested * $TARGET_MEMORY) + ($ephemeral_storage_requested * $TARGET_HD_EPHEMERAL) + ($hdd_pers_storage_requested * $TARGET_HD_PERS_HDD) + ($ssd_pers_storage_requested * $TARGET_HD_PERS_SSD) + ($nvme_pers_storage_requested * $TARGET_HD_PERS_NVME))")
+total_cost_usd_target=$(bc -l <<< "( \
+  ($cpu_requested * $TARGET_CPU) + \
+  ($memory_requested * $TARGET_MEMORY) + \
+  ($ephemeral_storage_requested * $TARGET_HD_EPHEMERAL) + \
+  ($hdd_pers_storage_requested * $TARGET_HD_PERS_HDD) + \
+  ($ssd_pers_storage_requested * $TARGET_HD_PERS_SSD) + \
+  ($nvme_pers_storage_requested * $TARGET_HD_PERS_NVME) + \
+  ($endpoints_requested * $TARGET_ENDPOINT) + \
+  ($ips_requested * $TARGET_IP) \
+  )")
 
 # average block time: 6.117 seconds (based on the time diff between 8090658-8522658 heights [with 432000 blocks as a shift in between if considering block time is 6.0s "(60/6)*60*24*30"])
 # average number of days in a month: 30.437
