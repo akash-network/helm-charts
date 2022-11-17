@@ -35,7 +35,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
 {{- if eq .Values.beta true }}
-          image: "ghcr.io/ovrclk/provider-services:{{ .Values.image.provider_services_tag }}"
+          image: "{{ .Values.image.provider_services_repository }}:{{ .Values.image.provider_services_tag }}"
 {{- else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
 {{- end }}
