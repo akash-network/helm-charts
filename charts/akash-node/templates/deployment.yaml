@@ -76,7 +76,6 @@ spec:
             - name: AKASH_PRUNING_INTERVAL
               value: "10"
 {{- else }}
-            {# post-mainnet4 (akash 0.18.1): pruning=nothing is required for now.. #}
             - name: AKASH_PRUNING
               value: "nothing"
 {{- end }}
