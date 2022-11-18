@@ -3,6 +3,8 @@ kind: CustomResourceDefinition
 metadata:
   # name must match the spec fields below, and be in the form: <plural>.<group>
   name: providerleasedips.akash.network
+  annotations:
+    "helm.sh/resource-policy": keep
 spec:
   # group name to use for REST API: /apis/<group>/<version>
   group: akash.network
