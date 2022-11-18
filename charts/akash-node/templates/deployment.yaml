@@ -79,6 +79,8 @@ spec:
             - name: AKASH_PRUNING
               value: "nothing"
 {{- end }}
+            - name: AKASH_IAVL_DISABLE_FASTNODE
+              value: "false"
             - name: AKASH_P2P_LADDR
               value: tcp://0.0.0.0:26656
             - name: AKASH_RPC_LADDR
