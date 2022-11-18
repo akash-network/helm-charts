@@ -3,6 +3,7 @@ kind: CustomResourceDefinition
 metadata:
   # name must match the spec fields below, and be in the form: <plural>.<group>
   name: providerleasedips.akash.network
+  # DO NOT REMOVE resource-policy annotation!
   annotations:
     "helm.sh/resource-policy": keep
 spec:
