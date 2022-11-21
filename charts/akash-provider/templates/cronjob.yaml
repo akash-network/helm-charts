@@ -1,5 +1,5 @@
 ---
-# Service account the client will use to reset the deployment,
+# Service account the client will use to reset the statefulset,
 # by default the pods running inside the cluster can do no such things.
 kind: ServiceAccount
 apiVersion: v1
@@ -7,7 +7,7 @@ metadata:
   name: provider-restart
   namespace: akash-services
 ---
-# allow getting status and patching only the one deployment you want
+# allow getting status and patching only the one statefulset you want
 # to restart
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -16,7 +16,7 @@ metadata:
   namespace: akash-services
 rules:
   - apiGroups: ["apps", "extensions"]
-    resources: ["deployments"]
+    resources: ["statefulsets"]
     resourceNames: ["akash-provider"]
     verbs: ["get", "patch", "list", "watch"] # "list" and "watch" are only needed
                                              # if you want to use `rollout status`
@@ -40,7 +40,7 @@ subjects:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: akash-provider-deployment-restart
+  name: akash-provider-statefulset-restart
   namespace: akash-services
 spec:
   concurrencyPolicy: Forbid
@@ -49,7 +49,7 @@ spec:
     spec:
       backoffLimit: 2 # this has very low chance of failing, as all this does
                       # is prompt kubernetes to schedule new replica set for
-                      # the deployment
+                      # the statefulset
       activeDeadlineSeconds: 600 # timeout, makes most sense with
                                  # "waiting for rollout" variant specified below
       template:
@@ -63,4 +63,4 @@ spec:
                 - 'kubectl'
                 - 'rollout'
                 - 'restart'
-                - 'deployment/akash-provider'
+                - 'statefulset/akash-provider'

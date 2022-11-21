@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "provider.fullname" . }}
   namespace: {{ .Release.Namespace }}
@@ -7,11 +7,10 @@ metadata:
     app: {{ include "provider.fullname" . }}
     {{- include "provider.labels" . | nindent 4 }}
 spec:
-{{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-{{- end }}
-  strategy:
-    type: Recreate
+  replicas: 1
+  #strategy:
+  #  type: OnDelete
+  serviceName: {{ include "provider.fullname" . }}
   selector:
     matchLabels:
       app: {{ include "provider.fullname" . }}
