@@ -10,6 +10,8 @@ spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
 {{- end }}
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: {{ include "provider.fullname" . }}
