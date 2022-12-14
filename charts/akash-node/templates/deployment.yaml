@@ -77,10 +77,10 @@ spec:
               value: "10"
 {{- else }}
             - name: AKASH_PRUNING
-              value: "{{ .Values.akash_node.pruning | default 'nothing' }}"
+              value: "{{ .Values.akash_node.pruning | default "nothing" }}"
 {{- end }}
             - name: AKASH_IAVL_DISABLE_FASTNODE
-              value: "{{ .Values.akash_node.iavl_disable_fastnode | default 'false' }}"
+              value: "{{ .Values.akash_node.iavl_disable_fastnode | default "false" }}"
             - name: AKASH_P2P_LADDR
               value: tcp://0.0.0.0:26656
             - name: AKASH_RPC_LADDR
