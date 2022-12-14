@@ -77,9 +77,9 @@ spec:
             - name: AKASH_API_ENABLE
               value: "true"
             - name: AKASH_PRUNING
-              value: "{{ .Values.akash_node.pruning | default "nothing" }}"
+              value: "{{ .Values.akash_node.pruning }}"
             - name: AKASH_IAVL_DISABLE_FASTNODE
-              value: "{{ .Values.akash_node.iavl_disable_fastnode | default "false" }}"
+              value: "{{ .Values.akash_node.iavl_disable_fastnode }}"
           ports:
             - containerPort: 1317
               name: akashd-api
