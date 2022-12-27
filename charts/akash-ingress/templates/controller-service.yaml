@@ -3,12 +3,13 @@ kind: Service
 metadata:
   annotations:
   labels:
-    helm.sh/chart: ingress-nginx-4.0.1
-    app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.0.0
-    app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/version: 1.5.1
+    helm.sh/chart: ingress-nginx-4.4.0
   name: ingress-nginx-controller
   namespace: ingress-nginx
 spec:
@@ -24,6 +25,7 @@ spec:
       protocol: TCP
       targetPort: https
       appProtocol: https
+    {{- if .Values.node.enabled }}
     - name: provider
       port: 8443
       protocol: TCP
@@ -39,6 +41,7 @@ spec:
     - name: node-rpc
       port: 26657
       protocol: TCP
+    {{- end }}
     {{- if .Values.bootstrap.enabled }}
     - name: validator-1-p2p
       port: 26651
