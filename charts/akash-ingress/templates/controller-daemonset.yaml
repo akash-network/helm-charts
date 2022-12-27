@@ -23,6 +23,12 @@ spec:
   minReadySeconds: 0
   template:
     metadata:
+    {{- if .Values.controller.podAnnotations }}
+      annotations:
+      {{- range $key, $value := .Values.controller.podAnnotations }}
+        {{ $key }}: {{ $value | quote }}
+      {{- end }}
+    {{- end }}
       labels:
         app.kubernetes.io/name: ingress-nginx
         app.kubernetes.io/instance: ingress-nginx
@@ -31,7 +37,7 @@ spec:
       dnsPolicy: ClusterFirst
       containers:
         - name: controller
-          image: k8s.gcr.io/ingress-nginx/controller:v1.0.0@sha256:0851b34f69f69352bf168e6ccf30e1e20714a264ab1ecd1933e4d8c0fc3215c6
+          image: k8s.gcr.io/ingress-nginx/controller:v1.5.1@sha256:4ba73c697770664c1e00e9f968de14e08f606ff961c76e5d7033a4a9c593c629
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
@@ -48,6 +54,7 @@ spec:
             - --validating-webhook-certificate=/usr/local/certificates/cert
             - --validating-webhook-key=/usr/local/certificates/key
             - --enable-ssl-passthrough
+            - --enable-metrics
           securityContext:
             capabilities:
               drop:
@@ -152,6 +159,11 @@ spec:
               containerPort: 26664
               protocol: TCP
               hostPort: 26664
+            {{- end }}
+            {{- if .Values.controller.metrics.enabled }}
+            - name: {{ .Values.controller.metrics.portName }}
+              containerPort: {{ .Values.controller.metrics.port }}
+              protocol: TCP
             {{- end }}
           volumeMounts:
             - name: webhook-cert

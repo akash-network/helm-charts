@@ -21,3 +21,22 @@ faucet:
 # Used for Testnet networks (ignore)
 bootstrap:
   enabled: false
+
+controller:
+  metrics:
+    port: 10254
+    portName: metrics
+    enabled: false
+
+    service:
+      annotations: {}
+      # prometheus.io/scrape: "true"
+      # prometheus.io/port: "10254"
+
+      externalIPs: []
+
+      # loadBalancerIP: ""
+      loadBalancerSourceRanges: []
+      servicePort: 10254
+      type: ClusterIP
+      # nodePort: ""
