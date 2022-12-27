@@ -110,6 +110,7 @@ spec:
               containerPort: 8443
               protocol: TCP
               hostPort: 8443
+            {{- if .Values.node.enabled }}
             - name: node-api
               containerPort: 1317
               protocol: TCP
@@ -126,6 +127,7 @@ spec:
               containerPort: 26657
               protocol: TCP
               hostPort: 26657
+            {{- end }}
             {{- if .Values.bootstrap.enabled }}
             - name: validator-1-p2p
               containerPort: 26651
