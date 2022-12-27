@@ -498,6 +498,16 @@ entries:
   akash-ingress:
   - apiVersion: v2
     appVersion: 1.5.1
+    created: "2022-12-27T18:48:36.102775214Z"
+    description: Installs the Akash Ingress resources (required)
+    digest: 6fb808ae7a6c3bc348c57b385cec47fcd3e38a6d632390f985900062c4890069
+    name: akash-ingress
+    type: application
+    urls:
+    - https://github.com/ovrclk/helm-charts/releases/download/akash-ingress-1.1.1/akash-ingress-1.1.1.tgz
+    version: 1.1.1
+  - apiVersion: v2
+    appVersion: 1.5.1
     created: "2022-12-27T11:09:48.496243374Z"
     description: Installs the Akash Ingress resources (required)
     digest: 53602706ec0315103793823d23fb52fe63322c7a8e822e82f0caa8797f401a92
