@@ -61,7 +61,7 @@ rules:
 - apiGroups:
   - ""
   resourceNames:
-  - ingress-controller-leader
+  - ingress-nginx-leader
   resources:
   - configmaps
   verbs:
@@ -74,9 +74,32 @@ rules:
   verbs:
   - create
 - apiGroups:
+  - coordination.k8s.io
+  resourceNames:
+  - ingress-nginx-leader
+  resources:
+  - leases
+  verbs:
+  - get
+  - update
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+- apiGroups:
   - ""
   resources:
   - events
   verbs:
   - create
   - patch
+- apiGroups:
+  - discovery.k8s.io
+  resources:
+  - endpointslices
+  verbs:
+  - list
+  - watch
+  - get
