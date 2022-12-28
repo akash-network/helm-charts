@@ -56,6 +56,7 @@ spec:
             - --validating-webhook=:7443
             - --validating-webhook-certificate=/usr/local/certificates/cert
             - --validating-webhook-key=/usr/local/certificates/key
+            - --enable-ssl-passthrough
             - --enable-metrics
           securityContext:
             capabilities:
