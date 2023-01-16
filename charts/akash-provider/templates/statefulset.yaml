@@ -201,6 +201,8 @@ spec:
             - name: keys
               mountPath: /boot-keys
               readOnly: true
+            - mountPath: /config
+              name: provider-config-volume
       volumes:
         - name: boot
           configMap:
@@ -212,6 +214,10 @@ spec:
         - name: keys
           secret:
             secretName: {{ include "provider.fullname" . }}-keys
+        - name: provider-config-volume
+          hostPath:
+            path: /root/.akash/k8s-config
+            type: DirectoryOrCreate
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
