@@ -110,40 +110,39 @@ if [[ "$REMOTE_PROVIDER" != "$LOCAL_PROVIDER" ]]; then
   fi
 fi
 
-CERT_PATH="${AKASH_HOME}/${PROVIDER_ADDRESS}.pem"
+CERT_SYMLINK="${AKASH_HOME}/${PROVIDER_ADDRESS}.pem"
+CERT_REAL_PATH="/config/provider.pem"
+rm -vf "$CERT_SYMLINK"
+# provider cert is coming from the configmap
+ln -sv "$CERT_REAL_PATH" "$CERT_SYMLINK"
 # 0 = yes; otherwise do not (re-)generate new provider certificate, unless
 GEN_NEW_CERT=1
-LAST_CERT_STATUS="$(provider-services query cert list --owner $PROVIDER_ADDRESS --state valid -o json | jq -r '.certificates[-1].certificate.state')"
-# Check whether the last broadcasted certificate is valid
-if [[ "valid" != "$LAST_CERT_STATUS" ]]; then
+
+# Check whether the certificate is present and valid on the blockchain
+if [[ -f "${CERT_REAL_PATH}" ]]; then
+  LOCAL_CERT_SN="$(cat "${CERT_REAL_PATH}" | openssl x509 -serial -noout | cut -d'=' -f2)"
+  LOCAL_CERT_SN_DECIMAL=$(echo "obase=10; ibase=16; $LOCAL_CERT_SN" | bc)
+  REMOTE_CERT_STATUS="$(AKASH_OUTPUT=json provider-services query cert list --owner $PROVIDER_ADDRESS --state valid --serial $LOCAL_CERT_SN_DECIMAL | jq -r '.certificates[0].certificate.state')"
+  echo "Provider certificate serial number: ${LOCAL_CERT_SN:-unknown}, status on chain: ${REMOTE_CERT_STATUS:-unknown}"
+else
+  echo "${CERT_REAL_PATH} file is missing."
+  GEN_NEW_CERT=0
+fi
+
+if [[ -z "$LOCAL_CERT_SN" ]]; then
+  echo "LOCAL_CERT_SN variable is empty. Most likely ${CERT_REAL_PATH} file is empty or malformed."
+  GEN_NEW_CERT=0
+fi
+
+if [[ "valid" != "$REMOTE_CERT_STATUS" ]]; then
   echo "No valid certificate found for provider: $PROVIDER_ADDRESS"
   GEN_NEW_CERT=0
 
-  echo "It might as well be that the current certificate was expired, thus, it should be safe to delete it locally"
+  echo "It might as well be that the current certificate was expired/revoked, thus, it should be safe to delete it locally"
   # It's also a good idea to delete it as otherwise, we'd have to add `--overwrite` to `provider-services tx cert generate server` command later.
-  if [[ -f "${CERT_PATH}" ]]; then
-    rm -vf "${CERT_PATH}"
+  if [[ -f "${CERT_REAL_PATH}" ]]; then
+    rm -vf "${CERT_REAL_PATH}"
   fi
-fi
-
-# Check whether the local certificate matches the one on the blockchain
-if [[ -f "${CERT_PATH}" ]]; then
-  LOCAL_CERT_SN="$(cat "${CERT_PATH}" | openssl x509 -serial -noout)"
-  REMOTE_CERT_SN="$(AKASH_OUTPUT=json provider-services query cert list --owner $PROVIDER_ADDRESS --state valid | jq -r '.certificates[-1].certificate.cert' | openssl base64 -A -d | openssl x509 -serial -noout)"
-else
-  echo "${CERT_PATH} file is missing."
-  GEN_NEW_CERT=0
-fi
-if [[ -z "$LOCAL_CERT_SN" ]]; then
-  echo "LOCAL_CERT_SN variable is empty. Most likely ${CERT_PATH} file is empty or malformed."
-  GEN_NEW_CERT=0
-fi
-if [[ -z "$REMOTE_CERT_SN" ]]; then
-  echo "REMOTE_CERT_SN variable is empty. Most likely the cert hasn't been broadcasted to the blockchain yet."
-  GEN_NEW_CERT=0
-elif [[ "$LOCAL_CERT_SN" != "$REMOTE_CERT_SN" ]]; then
-  echo "Local certificate SN does not match the one on the blockchain"
-  GEN_NEW_CERT=0
 fi
 
 # generate a new cert if the current one expires sooner than 7 days
