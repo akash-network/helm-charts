@@ -13,8 +13,6 @@ node:
   enabled: true
 provider:
   enabled: true
-e2e:
-  enabled: false
 faucet:
   enabled: false
 
