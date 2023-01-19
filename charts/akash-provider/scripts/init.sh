@@ -159,8 +159,3 @@ if [[ "$GEN_NEW_CERT" -eq "0" ]]; then
   echo "Publishing new provider certificate"
   provider-services tx cert publish server
 fi
-
-##
-# Run daemon
-##
-provider-services run --cluster-k8s
