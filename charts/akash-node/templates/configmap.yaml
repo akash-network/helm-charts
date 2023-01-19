@@ -7,6 +7,6 @@ metadata:
   labels:
     {{- include "akash-node.labels" . | nindent 4 }}
 data:
-  node.sh: |
-{{ tpl (.Files.Get "scripts/node.sh") . | indent 4 }}
+  init.sh: |
+{{ tpl (.Files.Get "scripts/init.sh") . | indent 4 }}
 {{- end }}

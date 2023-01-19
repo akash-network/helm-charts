@@ -36,14 +36,14 @@ spec:
       nodeSelector:
         kubernetes.io/hostname: {{ $.Values.local_storage.host }}
       {{- end }}
-      containers:
-        - name: {{ .Chart.Name }}
+      initContainers:
+        - name: init
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: [ "/bin/bash" , "/config/node.sh" ]
+          command: [ "/bin/bash" , "/config/init.sh" ]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:   
+          env:
             - name: AKASH_MONIKER
               value: {{ .Values.akash_node.moniker }}-1
             - name: AKASH_NET
@@ -127,7 +127,108 @@ spec:
               readOnly: true
           {{- if or .Values.local_storage.enabled .Values.ceph_storage.enabled }}
             - name: local-persistent-storage
-              mountPath: {{ .Values.home }}
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/akash" , "start" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: AKASH_MONIKER
+              value: {{ .Values.akash_node.moniker }}-1
+            - name: AKASH_NET
+              value: {{ .Values.akash_node.net }}
+            - name: AKASH_HOME
+              value: {{ .Values.home }}
+            - name: AKASH_CHAIN_ID
+              value: {{ .Values.akash_node.chainid }}
+            - name: AKASH_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+{{- if .Values.state_sync.enabled }}
+            - name: AKASH_P2P_PERSISTENT_PEERS
+              value: {{ .Values.akash_node.peers }},{{ .Values.state_sync.node_id }}
+{{- else }}
+            - name: AKASH_P2P_PERSISTENT_PEERS
+              value: {{ .Values.akash_node.peers }}
+{{- end }}
+{{- if .Values.snapshots.enabled }}
+            - name: AKASH_STATE_SYNC_SNAPSHOT_INTERVAL
+              value: "2000"
+            - name: AKASH_STATE_SYNC_SNAPSHOT_KEEP_RECENT
+              value: "5"
+            - name: AKASH_PRUNING
+              value: "custom"
+            - name: AKASH_PRUNING_KEEP_RECENT
+              value: "100"
+            - name: AKASH_PRUNING_KEEP_EVERY
+              value: "2000"
+            - name: AKASH_PRUNING_INTERVAL
+              value: "10"
+{{- else }}
+            - name: AKASH_PRUNING
+              value: "{{ .Values.akash_node.pruning }}"
+{{- end }}
+            - name: AKASH_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.akash_node.iavl_disable_fastnode }}"
+            - name: AKASH_P2P_LADDR
+              value: tcp://0.0.0.0:26656
+            - name: AKASH_RPC_LADDR
+              value: tcp://0.0.0.0:26657
+            - name: AKASH_RPC_PPROF_LADDR
+              value: 0.0.0.0:6060
+            - name: AKASH_GRPC_ADDRESS
+              value: 0.0.0.0:9090
+            - name: AKASH_P2P_ADDR_BOOK_STRICT
+              value: "false"
+            - name: AKASH_ROSETTA_ENABLE
+              value: "false"
+            - name: AKASH_P2P_SEED_MODE
+              value: "true"
+            - name: AKASH_P2P_PEX
+              value: "{{ .Values.akash_node.pex }}"
+            - name: AKASH_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: AKASH_MINIMUM_GAS_PRICES
+              value: "{{ .Values.akash_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_POLKACHU
+              value: "{{ .Values.akash_node.snapshot_polkachu }}"
+            - name: SNAPSHOT_AUTOSTAKE
+              value: "{{ .Values.akash_node.snapshot_autostake }}"
+{{- if .Values.state_sync.enabled }}
+            - name: AKASH_STATESYNC_ENABLE
+              value: "true"
+            - name: AKASH_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+{{- end }}
+            - name: AKASH_API_ENABLE
+              value: "{{ .Values.akash_node.api_enable }}"
+          ports:
+            - containerPort: 1317
+              name: akashd-api
+            - containerPort: 9090
+              name: akashd-grpc
+            - containerPort: 26656
+              name: akashd-p2p
+            - containerPort: 26657
+              name: akashd-rpc
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+          {{- if or .Values.local_storage.enabled .Values.ceph_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -151,5 +252,8 @@ spec:
         - name: local-persistent-storage
           persistentVolumeClaim:
             claimName: akash-node-pvc
+      {{- else }}
+        - name: home
+          emptyDir: {}
       {{- end }}
 {{- end }}
