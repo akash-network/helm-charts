@@ -1,7 +1,7 @@
 {{- if .Values.akash_node.enabled -}}
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: akash-node-1
   namespace: {{ .Release.Namespace }}
@@ -10,8 +10,7 @@ metadata:
     akash.network/node: "1"
 spec:
   replicas: 1
-  strategy:
-    type: Recreate
+  serviceName: {{ include "akash-node.fullname" . }}
   selector:
     matchLabels:
       app: akash-node
