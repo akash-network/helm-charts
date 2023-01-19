@@ -48,11 +48,9 @@ else
       fi
   fi
 fi
-/bin/akash start
 else
   echo "Found Akash data folder!"
   cd "$AKASH_HOME/data" || exit
-  /bin/akash start
 fi
 
 if [[ $AKASH_DEBUG == "true" ]]; then sleep 5000; fi
