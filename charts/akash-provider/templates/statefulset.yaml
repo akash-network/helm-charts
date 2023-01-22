@@ -67,8 +67,6 @@ spec:
               value: "{{ .Values.chainid }}"
             - name: AKASH_KEYRING_BACKEND
               value: "{{ .Values.keyringbackend }}"
-            - name: AKASH_TRUST_NODE
-              value: "{{ .Values.trustnode }}"
             - name: AKASH_BROADCAST_MODE
               value: "block"
             - name: AKASH_YES
@@ -134,8 +132,6 @@ spec:
               value: "{{ .Values.chainid }}"
             - name: AKASH_KEYRING_BACKEND
               value: "{{ .Values.keyringbackend }}"
-            - name: AKASH_TRUST_NODE
-              value: "{{ .Values.trustnode }}"
             - name: AKASH_BROADCAST_MODE
               value: "block"
             - name: AKASH_VERSION
