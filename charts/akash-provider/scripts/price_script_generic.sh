@@ -4,6 +4,16 @@
 # curl jq bc ca-certificates
 set -o pipefail
 
+# Example:
+# Say you have some accounts (typically yours) you want your provider bid the cheapest (1uakt, about 0.42 AKT/month),
+# you can use the following snippet:
+# # Alice: akash1fxa9ss3dg6nqyz8aluyaa6svypgprk5tw9fa4q
+# # Bob: akash1fhe3uk7d95vvr69pna7cxmwa8777as46uyxcz8
+# if [[ "$AKASH_OWNER" == @(akash1fxa9ss3dg6nqyz8aluyaa6svypgprk5tw9fa4q|akash1fhe3uk7d95vvr69pna7cxmwa8777as46uyxcz8) ]]; then
+#   echo 1
+#   exit 0
+# fi
+
 data_in=$(jq .)
 
 cpu_requested=$(echo "$data_in" | jq -r '(map(.cpu * .count) | add) / 1000')
