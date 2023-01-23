@@ -28,6 +28,7 @@ spec:
       containers:
         - name: akash-inventory-operator
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: ["provider-services", "operator", "inventory"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
             limits:
