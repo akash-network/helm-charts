@@ -30,22 +30,30 @@ if [ "$AKASH_STATESYNC_ENABLE" == true ]; then
 else
   if [ "$AKASH_CHAIN_ID" == "akashnet-2" ]; then
     apt -y --no-install-recommends install aria2 lz4 liblz4-tool wget > /dev/null 2>&1
-      if [ "$SNAPSHOT_POLKACHU" == true ]; then
+    case "$SNAPSHOT_PROVIDER" in
+
+      "polkachu")
         SNAPSHOT_URL=$(curl -s https://polkachu.com/tendermint_snapshots/akash | grep tar.lz4 | head -n1 | grep -io '<a href=['"'"'"][^"'"'"']*['"'"'"]' |   sed -e 's/^<a href=["'"'"']//i' -e 's/["'"'"']$//i')
         echo "Using latest Polkachu blockchain snapshot, $SNAPSHOT_URL"
-        aria2c --out=snapshot.tar.lz4 --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 16 -x 16 -k 1M -j 1 "$SNAPSHOT_URL"
+        aria2c --out=snapshot.tar.lz4 --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 4 -x 4 -k 1M -j 1 "$SNAPSHOT_URL"
         lz4 -c -d snapshot.tar.lz4 | tar -x -C "$AKASH_HOME"
         rm -f snapshot.tar.lz4
-      elif [ "$SNAPSHOT_AUTOSTAKE" == true ]; then
+        ;;
+      "autostake")
 	SNAP_NAME=$(curl -s http://snapshots.autostake.net/akashnet-2/ | egrep -o ">akashnet-2.*.tar.lz4" | tr -d ">" | tail -1)
 	wget -O - http://snapshots.autostake.net/akashnet-2/$SNAP_NAME | lz4 -d | tar -xf - -C "$AKASH_HOME"
-      else
+	;;
+
+      *)
         SNAPSHOT_URL=$(curl -s https://cosmos-snapshots.s3.filebase.com/akash/pruned/snapshot.json | jq -r .latest)
         echo "Using latest Cosmos blockchain snapshot, $SNAPSHOT_URL"
         aria2c --out=snapshot.tar.gz --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 16 -x 16 -k 1M -j 1 "$SNAPSHOT_URL"
         tar -zxvf snapshot.tar.gz
         rm -f snapshot.tar.gz
-      fi
+        ;;
+
+    esac
+
   fi
 fi
 else

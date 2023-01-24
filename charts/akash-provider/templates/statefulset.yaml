@@ -193,11 +193,11 @@ spec:
             - name: AKASH_BID_PRICE_IP_SCALE
               value: "{{ .Values.bidpriceipscale }}"
             - name: AKASH_OVERCOMMIT_PCT_CPU
-              value: "0"
+              value: "{{ .Values.overcommit_pct_cpu }}"
             - name: AKASH_OVERCOMMIT_PCT_MEM
-              value: "0"
+              value: "{{ .Values.overcommit_pct_mem }}"
             - name: AKASH_OVERCOMMIT_PCT_STORAGE
-              value: "0"
+              value: "{{ .Values.overcommit_pct_storage }}"
             - name: AKASH_CLUSTER_K8S
               value: "true"
             - name: KUBE_CONFIG

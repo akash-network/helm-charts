@@ -90,6 +90,13 @@ ipoperator: false
 debug: "false"
 waitready: 30s
 
+# Percentage of CPU overcommit
+overcommit_pct_cpu: 0
+# Percentage of memory overcommit
+overcommit_pct_mem: 0
+# Percentage of storage overcommit
+overcommit_pct_storage: 0
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
