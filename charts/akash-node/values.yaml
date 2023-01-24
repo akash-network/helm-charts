@@ -16,8 +16,8 @@ debug: "false"
 # Defaults to mainnet
 akash_node:
   enabled: true
-  snapshot_polkachu: false
-  snapshot_autostake: false
+  # snapshot_provider can be either "polkachu" (2Gi), "autostake" (1Gi). Otherwise it'll default to a much larger in size.
+  snapshot_provider: "polkachu"
   api_enable: false
   moniker: mynode
   chainid: akashnet-2
