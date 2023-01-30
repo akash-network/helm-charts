@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: ghcr.io/ovrclk/provider-services
+  repository: ghcr.io/akash-network/provider
   pullPolicy: IfNotPresent
 
 from:
@@ -88,7 +88,6 @@ deploymentnetworkpoliciesenabled: "false"
 ipoperator: false
 
 debug: "false"
-waitready: 30s
 
 # Percentage of CPU overcommit
 overcommit_pct_cpu: 0
