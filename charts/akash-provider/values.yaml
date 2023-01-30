@@ -88,7 +88,6 @@ deploymentnetworkpoliciesenabled: "false"
 ipoperator: false
 
 debug: "false"
-waitready: 30s
 
 # Percentage of CPU overcommit
 overcommit_pct_cpu: 0

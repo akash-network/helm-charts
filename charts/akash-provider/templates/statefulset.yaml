@@ -152,8 +152,6 @@ spec:
             # akash-provider config
             ##
 
-            - name: AKASH_CLUSTER_WAIT_READY_DURATION
-              value: "{{ .Values.waitready }}"
             - name: AKASH_DEPLOYMENT_INGRESS_DOMAIN
               value: "ingress.{{ .Values.domain }}"
             - name: DEPLOYMENT_NETWORK_POLICIES_ENABLED
