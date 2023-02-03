@@ -3,9 +3,7 @@
 This repo contains a [provider](./provider) submodule which has been initialiize this way:
 
 ```
-cd colo
-
-git clone -b v0.2.1 --depth=1 git@github.com:akash-network/provider.git
+git clone -b v0.2.1 --depth=1 https://github.com/akash-network/provider.git
 git submodule add ./provider
 ```
 
