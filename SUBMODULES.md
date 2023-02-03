@@ -3,7 +3,8 @@
 This repo contains a [provider](./provider) submodule which has been initialiize this way:
 
 ```
-git clone -b v0.2.1 --depth=1 https://github.com/akash-network/provider.git
+LATEST_TAG=$(curl -s https://api.github.com/repos/akash-network/provider/releases/latest | jq -e -r '.tag_name')
+git clone -b $LATEST_TAG --depth=1 https://github.com/akash-network/provider.git
 git submodule add ./provider
 ```
 
