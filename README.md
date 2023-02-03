@@ -18,10 +18,6 @@ Please refer to the https://docs.akash.network for Helm-Chart based installation
 
 > The following sections will be moved to https://docs.akash.network eventually.
 
-### Maintaining the charts
-
-When updating the charts, make sure to update the provider submodule, refer to [SUBMODULES](SUBMODULES.md) for more details.
-
 ### Troubleshooting
 
 To troubleshoot you'll need to know the following.

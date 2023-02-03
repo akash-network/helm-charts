@@ -17,6 +17,8 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git submodule update --init
+          LATEST_TAG=$(curl -s https://api.github.com/repos/akash-network/provider/releases/latest | jq -e -r '.tag_name')
+          cd provider && git reset --hard "$LATEST_TAG"
 
       - name: Configure Helm dependency repos
         run: |
