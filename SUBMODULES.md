@@ -1,0 +1,17 @@
+## Submodules
+
+This repo contains a [provider](./provider) submodule which has been initialiize this way:
+
+```
+cd colo
+
+git clone -b v0.2.1 --depth=1 git@github.com:akash-network/provider.git
+git submodule add ./provider
+```
+
+It is used mainly for providing a source to the `crd.yaml` file so we don't have to copy it manually, but rather update the submodule tag should there be an update.
+
+```
+helm-charts$ find . -type l -ls
+ 26739437      0 lrwxrwxrwx   1 user     user           49 Feb  3 21:57 ./charts/akash-provider/templates/crd.yaml -> ../../../provider/pkg/apis/akash.network/crd.yaml
+```
