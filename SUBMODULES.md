@@ -8,7 +8,9 @@ git clone -b $LATEST_TAG --depth=1 https://github.com/akash-network/provider.git
 git submodule add ./provider
 ```
 
-It is used mainly for providing a source to the `crd.yaml` file so we don't have to copy it manually, but rather update the submodule tag should there be an update.
+It is used mainly for providing a source to the `crd.yaml` file so we don't have to copy it manually.
+
+GH actions will automatically locate the latest tag, so no manual intervention is necessary.
 
 ```
 helm-charts$ find . -type l -ls
