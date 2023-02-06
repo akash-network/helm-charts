@@ -65,20 +65,7 @@ provider-services query provider get $PROVIDER_ADDRESS -o json
 if [[ $? -ne 0 ]]; then
   echo "Could not find provider: $PROVIDER_ADDRES on the blockchain when querying Akash RPC node: $AKASH_NODE"
   echo "Attempting to create a new provider ..."
-  provider-services tx provider create provider.yaml >deploy.log 2>&1
-  DEPLOY=$(cat deploy.log)
-fi
-
-if [[ $DEPLOY == *"incorrect account sequence"* ]]; then
-  echo "Provider has issue talking to the node, check NODE is synced."
-  exit 1
-fi
-
-if [[ $DEPLOY == *"already exists"* ]]; then
-  echo "Provider already exists, continue..."
-elif [[ $DEPLOY == *"Error"* ]]; then
-  echo "Error creating provider : $DEPLOY"
-  exit 1
+  provider-services tx provider create provider.yaml
 fi
 
 echo "Checking whether provider.yaml needs to be updated on the chain ..."
@@ -86,28 +73,7 @@ REMOTE_PROVIDER="$(provider-services query provider get $PROVIDER_ADDRESS -o jso
 LOCAL_PROVIDER="$(provider-services tx provider update provider.yaml --offline --generate-only --from $PROVIDER_ADDRESS | jq -r '.body.messages[]' | jq -r 'del(."@type")' | sha1sum | awk '{print $1}')"
 if [[ "$REMOTE_PROVIDER" != "$LOCAL_PROVIDER" ]]; then
   echo "Updating provider in the blockchain ..."
-  provider-services tx provider update provider.yaml >deploy.log 2>&1
-  DEPLOY=$(cat deploy.log)
-
-  if [[ $DEPLOY == *"insufficient fees"* ]]; then
-    echo "Insufficient fees!  Change the fee settings."
-    exit 1
-  fi
-
-  if [[ $DEPLOY == *"out of gas in location"* ]]; then
-    echo "Out of gas!  Change gas/fee settings."
-    exit 1
-  fi
-
-  if [[ $DEPLOY == *"incorrect account sequence"* ]]; then
-    echo "Provider has issue talking to the node, check NODE is synced."
-    exit 1
-  fi
-
-  if [[ $DEPLOY == *"Error"* ]]; then
-    echo "Error creating provider : $DEPLOY"
-    exit 1
-  fi
+  provider-services tx provider update provider.yaml
 fi
 
 CERT_SYMLINK="${AKASH_HOME}/${PROVIDER_ADDRESS}.pem"
