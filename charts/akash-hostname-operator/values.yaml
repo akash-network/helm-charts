@@ -73,9 +73,9 @@ tolerations: []
 affinity: {}
 
 ssl:
-  enabled: true
+  enabled: false
   clusterIssuer:
-    enabled: true
+    enabled: false
     email: example@example.com
     server: https://acme-v02.api.letsencrypt.org/directory
     preferredChain: "ISRG Root X1"
