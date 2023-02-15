@@ -5,8 +5,9 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/akash-network/provider
-  pullPolicy: IfNotPresent
+  repository: joaoluna/provider
+  tag: latest-arm64
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""
@@ -70,3 +71,15 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+ssl:
+  enabled: true
+  clusterIssuer:
+    enabled: true
+    email: example@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    preferredChain: "ISRG Root X1"
+    name: letsencrypt
+  issuer:
+    enabled: false
+    name: letsencrypt
