@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -12,8 +13,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Configure Git
+      # this is needed for the CRD symlink ./charts/akash-provider/templates/crd.yaml -> ../../../provider/pkg/apis/akash.network/crd.yaml
+      - name: Pull provider repo
         run: |
+          set -x
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git submodule update --init
