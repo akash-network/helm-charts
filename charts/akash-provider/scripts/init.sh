@@ -13,6 +13,12 @@ cat "$AKASH_BOOT_KEYS/key-pass.txt" | { cat ; echo ; } | provider-services --hom
 # Check the Akash Node is working
 ##
 apt update && apt -yqq install curl jq bc netcat ca-certificates
+
+# fail fast should there be a problem installing curl, jq, nc packages
+type curl || exit 1
+type jq || exit 1
+type nc || exit 1
+
 solo_ip=$(echo $AKASH_NODE | cut -d":" -f2 | cut -d"/" -f3)
 port=$(echo $AKASH_NODE | cut -d":" -f3 | cut -d"/" -f1)
 if [[ $AKASH_NODE != "http://akash-node-1:26657" ]]; then
