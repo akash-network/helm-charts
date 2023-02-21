@@ -224,9 +224,10 @@ spec:
               - -c
               - |
                 grep -Eq "$LOG_RESTART_PATTERNS" /var/log/provider.log && exit 1 || :
-            initialDelaySeconds: 30
+            initialDelaySeconds: 60
             periodSeconds: 10
             failureThreshold: 1
+            timeoutSeconds: 10
 
           volumeMounts:
             - name: boot
