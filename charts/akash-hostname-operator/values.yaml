@@ -5,9 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: joaoluna/provider
-  tag: latest-arm64
-  pullPolicy: Always
+  repository: ghcr.io/akash-network/provider
+  pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""
