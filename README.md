@@ -6,7 +6,6 @@ Please refer to the https://docs.akash.network for Helm-Chart based installation
 
 | Chart                    | Description                                                             |
 | ------------------------ | ----------------------------------------------------------------------- |
-| akash-ingress            | Installs the Akash Ingress resources (required)                         |
 | akash-node               | Installs an Akash RPC node (required)                                   |
 | akash-provider           | Installs an Akash provider (required)                                   |
 | akash-hostname-operator  | An operator to map Ingress objects to Akash deployments (required)      |
