@@ -58,24 +58,6 @@ ceph_storage:
   capacity: 100Gi
   storageclass: akash-nodes
 
-# Enable to run a 4 node Akash network from bootstrap
-bootstrap:
-  enabled: false
-  capacity: 100Gi
-  validator1:
-  validator2:
-  validator3:
-  validator4:
-  node_key_1:
-  node_key_2:
-  node_key_3:
-  node_key_4:
-  priv_key_1:
-  priv_key_2:
-  priv_key_3:
-  priv_key_4:
-  genesis:
-
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
