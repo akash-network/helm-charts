@@ -24,6 +24,7 @@ ssd_pers_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[] | select(.
 nvme_pers_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[] | select(.class == "beta3").size // 0] | add) / pow(1024; 3)')
 ips_requested=$(echo "$data_in" | jq -r '(map(.ip_lease_quantity//0 * .count) | add)')
 endpoints_requested=$(echo "$data_in" | jq -r '(map(.endpoint_quantity//0 * .count) | add)')
+gpu_units_requested=$(echo "$data_in" | jq -r '([.[].gpu.units // 0] | add)')
 
 # cache AKT price for 60 minutes to reduce the API pressure as well as to slightly accelerate the bidding (+5s)
 CACHE_FILE=/tmp/aktprice.cache
@@ -72,6 +73,7 @@ TARGET_HD_PERS_SSD="0.03"  # USD/GB-month (beta2)
 TARGET_HD_PERS_NVME="0.04" # USD/GB-month (beta3)
 TARGET_ENDPOINT="0.05"     # USD for port/month
 TARGET_IP="5"              # USD for IP/month
+TARGET_GPU_UNIT="100"      # USD/GPU unit a month
 
 total_cost_usd_target=$(bc -l <<< "( \
   ($cpu_requested * $TARGET_CPU) + \
@@ -81,7 +83,8 @@ total_cost_usd_target=$(bc -l <<< "( \
   ($ssd_pers_storage_requested * $TARGET_HD_PERS_SSD) + \
   ($nvme_pers_storage_requested * $TARGET_HD_PERS_NVME) + \
   ($endpoints_requested * $TARGET_ENDPOINT) + \
-  ($ips_requested * $TARGET_IP) \
+  ($ips_requested * $TARGET_IP) + \
+  ($gpu_units_requested * $TARGET_GPU_UNIT) \
   )")
 
 # average block time: 6.117 seconds (based on the time diff between 8090658-8522658 heights [with 432000 blocks as a shift in between if considering block time is 6.0s "(60/6)*60*24*30"])
