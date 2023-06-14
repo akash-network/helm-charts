@@ -70,3 +70,15 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+ssl:
+  enabled: false
+  clusterIssuer:
+    enabled: false
+    email: example@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    preferredChain: "ISRG Root X1"
+    name: letsencrypt
+  issuer:
+    enabled: false
+    name: letsencrypt

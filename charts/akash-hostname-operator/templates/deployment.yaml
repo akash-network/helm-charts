@@ -40,6 +40,17 @@ spec:
           env:
             - name: AKASH_K8S_MANIFEST_NS
               value: lease
+            {{- if .Values.ssl.clusterIssuer.enabled }}
+            - name: AKASH_PROVIDER_ISSUER_TYPE
+              value: cluster-issuer
+            - name: AKASH_PROVIDER_ISSUER_NAME
+              value: {{ .Values.ssl.clusterIssuer.name }}
+            {{- else if .Values.ssl.issuer.enabled }}
+            - name: AKASH_PROVIDER_ISSUER_TYPE
+              value: issuer
+            - name: AKASH_PROVIDER_ISSUER_NAME
+              value: {{ .Values.ssl.issuer.name }}
+            {{- end }}
           volumeMounts:
             - name: boot
               mountPath: /boot
