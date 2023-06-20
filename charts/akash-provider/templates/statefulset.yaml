@@ -180,6 +180,10 @@ spec:
             - name: AKASH_BID_PRICE_SCRIPT_PATH
               value: "/bidscripts/price_script.sh"
 {{- end }}
+{{ if .Values.whitelist_url }}
+            - name: WHITELIST_URL
+              value: "{{ .Values.whitelist_url }}"
+{{- end }}
             - name: AKASH_BID_PRICE_CPU_SCALE
               value: "{{ .Values.bidpricecpuscale }}"
             - name: AKASH_BID_PRICE_MEMORY_SCALE

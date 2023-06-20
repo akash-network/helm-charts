@@ -13,16 +13,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      # this is needed for the CRD symlink ./charts/akash-provider/templates/crd.yaml -> ../../../provider/pkg/apis/akash.network/crd.yaml
-      - name: Pull provider repo
-        run: |
-          set -x
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git submodule update --init
-          LATEST_TAG=$(curl -s https://api.github.com/repos/akash-network/provider/releases/latest | jq -e -r '.tag_name')
-          cd provider && git reset --hard "$LATEST_TAG"
-
       - name: Configure Helm dependency repos
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
