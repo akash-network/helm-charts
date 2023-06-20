@@ -18,7 +18,6 @@ set -o pipefail
 if ! [[ -z $WHITELIST_URL ]]; then
   WHITELIST=/tmp/price-script.whitelist
   if ! test $(find $WHITELIST -mmin -10 2>/dev/null); then
-    rm $WHITELIST
     curl -o $WHITELIST -s --connect-timeout 3 --max-time 3 -- $WHITELIST_URL
   fi
 
