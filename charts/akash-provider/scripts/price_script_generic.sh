@@ -21,7 +21,10 @@ if ! [[ -z $WHITELIST_URL ]]; then
     curl -o $WHITELIST -s --connect-timeout 3 --max-time 3 -- $WHITELIST_URL
   fi
 
-  grep -qw "$AKASH_OWNER" $WHITELIST || exit 1
+  if ! grep -qw "$AKASH_OWNER" $WHITELIST; then
+    echo "$AKASH_OWNER is not whitelisted" >&2
+    exit 1
+  fi
 fi
 
 data_in=$(jq .)
@@ -52,12 +55,14 @@ if ! test $(find $CACHE_FILE -mmin -60 2>/dev/null); then
     # check price is an integer/floating number
     re='^[0-9]+([.][0-9]+)?$'
     if ! [[ $usd_per_akt =~ $re ]]; then
+      echo "$usd_per_akt is not an integer/floating number!" >&2
       exit 1
     fi
 
     # make sure price is in the permitted range
     if ! (( $(echo "$usd_per_akt > 0" | bc -l) && \
             $(echo "$usd_per_akt <= 1000000" | bc -l) )); then
+      echo "$usd_per_akt is outside the permitted range (>0, <=1000000)" >&2
       exit 1
     fi
 
