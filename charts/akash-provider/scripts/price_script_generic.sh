@@ -14,6 +14,17 @@ set -o pipefail
 #   exit 0
 # fi
 
+# Do not bid if the tenant address is not in the list passed with WHITELIST_URL environment variable
+if ! [[ -z $WHITELIST_URL ]]; then
+  WHITELIST=/tmp/price-script.whitelist
+  if ! test $(find $WHITELIST -mmin -10 2>/dev/null); then
+    rm $WHITELIST
+    curl -o $WHITELIST -s --connect-timeout 3 --max-time 3 -- $WHITELIST_URL
+  fi
+
+  grep -qw "$AKASH_OWNER" $WHITELIST || exit 1
+fi
+
 data_in=$(jq .)
 
 cpu_requested=$(echo "$data_in" | jq -r '(map(.cpu * .count) | add) / 1000')
