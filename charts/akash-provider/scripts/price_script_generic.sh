@@ -1,7 +1,7 @@
 #!/bin/bash
 # WARNING: the runtime of this script should NOT exceed 5 seconds!
 # Requirements:
-# curl jq bc awk ca-certificates
+# curl jq bc mawk ca-certificates
 set -o pipefail
 
 # Example:
