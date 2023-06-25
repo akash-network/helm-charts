@@ -1,7 +1,7 @@
 #!/bin/bash
 # WARNING: the runtime of this script should NOT exceed 5 seconds!
 # Requirements:
-# curl jq bc ca-certificates
+# curl jq bc awk ca-certificates
 set -o pipefail
 
 # Example:
@@ -29,15 +29,21 @@ fi
 
 data_in=$(jq .)
 
+## DEBUG
+if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
+  echo "$(TZ=UTC date -R)" >> /tmp/${AKASH_OWNER}.log
+  echo "$data_in" >> /tmp/${AKASH_OWNER}.log
+fi
+
 cpu_requested=$(echo "$data_in" | jq -r '(map(.cpu * .count) | add) / 1000')
-memory_requested=$(echo "$data_in" | jq -r '(map(.memory * .count) | add) / pow(1024; 3)')
-ephemeral_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[] | select(.class == "ephemeral").size // 0] | add) / pow(1024; 3)')
-hdd_pers_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[] | select(.class == "beta1").size // 0] | add) / pow(1024; 3)')
-ssd_pers_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[] | select(.class == "beta2").size // 0] | add) / pow(1024; 3)')
-nvme_pers_storage_requested=$(echo "$data_in" | jq -r '([.[].storage[] | select(.class == "beta3").size // 0] | add) / pow(1024; 3)')
+memory_requested=$(echo "$data_in" | jq -r '(map(.memory * .count) | add) / pow(1024; 3)' | awk '{printf "%.12f\n", $0}')
+ephemeral_storage_requested=$(echo "$data_in" | jq -r '[.[] | (.storage[] | select(.class == "ephemeral").size // 0) * .count] | add / pow(1024; 3)' | awk '{printf "%.12f\n", $0}')
+hdd_pers_storage_requested=$(echo "$data_in" | jq -r '[.[] | (.storage[] | select(.class == "beta1").size // 0) * .count] | add / pow(1024; 3)' | awk '{printf "%.12f\n", $0}')
+ssd_pers_storage_requested=$(echo "$data_in" | jq -r '[.[] | (.storage[] | select(.class == "beta2").size // 0) * .count] | add / pow(1024; 3)' | awk '{printf "%.12f\n", $0}')
+nvme_pers_storage_requested=$(echo "$data_in" | jq -r '[.[] | (.storage[] | select(.class == "beta3").size // 0) * .count] | add / pow(1024; 3)' | awk '{printf "%.12f\n", $0}')
 ips_requested=$(echo "$data_in" | jq -r '(map(.ip_lease_quantity//0 * .count) | add)')
 endpoints_requested=$(echo "$data_in" | jq -r '(map(.endpoint_quantity//0 * .count) | add)')
-gpu_units_requested=$(echo "$data_in" | jq -r '([.[].gpu.units // 0] | add)')
+gpu_units_requested=$(echo "$data_in" | jq -r '[.[] | (.gpu.units // 0) * .count] | add')
 
 # cache AKT price for 60 minutes to reduce the API pressure as well as to slightly accelerate the bidding (+5s)
 CACHE_FILE=/tmp/aktprice.cache
