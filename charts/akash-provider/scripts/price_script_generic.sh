@@ -1,7 +1,8 @@
 #!/bin/bash
-# WARNING: the runtime of this script should NOT exceed 5 seconds!
+# WARNING: the runtime of this script should NOT exceed 5 seconds! (Perhaps can be amended via AKASH_BID_PRICE_SCRIPT_PROCESS_TIMEOUT env variable)
 # Requirements:
 # curl jq bc mawk ca-certificates
+# Version: Aug-08-2023
 set -o pipefail
 
 # Example:
@@ -28,6 +29,8 @@ if ! [[ -z $WHITELIST_URL ]]; then
 fi
 
 data_in=$(jq .)
+# Pull the pricing data from the deployment request
+price=$(echo "$data_in" | jq -r '.price? // empty')
 
 ## DEBUG
 if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
@@ -35,6 +38,58 @@ if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
   echo "$data_in" >> /tmp/${AKASH_OWNER}.log
 fi
 
+function get_akt_price {
+  # cache AKT price for 60 minutes to reduce the API pressure as well as to slightly accelerate the bidding (+5s)
+  CACHE_FILE=/tmp/aktprice.cache
+  if ! test $(find $CACHE_FILE -mmin -60 2>/dev/null); then
+    ## cache expired
+    usd_per_akt=$(curl -s --connect-timeout 3 --max-time 3 -X GET 'https://api-osmosis.imperator.co/tokens/v2/price/AKT' -H 'accept: application/json' | jq -r '.price' 2>/dev/null)
+    if [[ $? -ne 0 ]] || [[ $usd_per_akt == "null" ]] || [[ -z $usd_per_akt ]]; then
+      # if Osmosis API fails, try CoinGecko API
+      usd_per_akt=$(curl -s --connect-timeout 3 --max-time 3 -X GET "https://api.coingecko.com/api/v3/simple/price?ids=akash-network&vs_currencies=usd" -H  "accept: application/json" | jq -r '[.[]][0].usd' 2>/dev/null)
+    fi
+
+    # update the cache only when API returns a result.
+    # this way provider will always keep bidding even if API temporarily breaks (unless pod gets restarted which will clear the cache)
+    if [ ! -z $usd_per_akt ]; then
+      # check price is an integer/floating number
+      re='^[0-9]+([.][0-9]+)?$'
+      if ! [[ $usd_per_akt =~ $re ]]; then
+        echo "$usd_per_akt is not an integer/floating number!" >&2
+        exit 1
+      fi
+
+      # make sure price is in the permitted range
+      if ! (( $(echo "$usd_per_akt > 0" | bc -l) && \
+              $(echo "$usd_per_akt <= 1000000" | bc -l) )); then
+        echo "$usd_per_akt is outside the permitted range (>0, <=1000000)" >&2
+        exit 1
+      fi
+
+      echo "$usd_per_akt" > $CACHE_FILE
+    fi
+
+    # TODO: figure some sort of monitoring to inform the provider in the event API breaks
+  fi
+
+  # Fail if script can't read CACHE_FILE for some reason
+  set -e
+  usd_per_akt=$(cat $CACHE_FILE)
+  echo $usd_per_akt
+  set +e
+}
+
+# If the price parameter is set, new rate calculations will be used
+# otherwise, the original rate calculations will be used (for backwards compatibility)
+if ! [[ -z "$price" ]]; then
+  isDenom=true
+
+  # strip off the .price by setting data_in to .resources
+  data_in=$(echo "$data_in" | jq -r '.resources')
+fi
+
+# Calculate the resources requested (CPU, memory, storage, IPs, endpoints, GPUs)
+##
 cpu_requested=$(echo "$data_in" | jq -r '(map(.cpu * .count) | add) / 1000')
 memory_requested=$(echo "$data_in" | jq -r '(map(.memory * .count) | add) / pow(1024; 3)' | awk '{printf "%.12f\n", $0}')
 ephemeral_storage_requested=$(echo "$data_in" | jq -r '[.[] | (.storage[] | select(.class == "ephemeral").size // 0) * .count] | add / pow(1024; 3)' | awk '{printf "%.12f\n", $0}')
@@ -45,47 +100,12 @@ ips_requested=$(echo "$data_in" | jq -r '(map(.ip_lease_quantity//0 * .count) | 
 endpoints_requested=$(echo "$data_in" | jq -r '(map(.endpoint_quantity//0 * .count) | add)')
 gpu_units_requested=$(echo "$data_in" | jq -r '[.[] | (.gpu.units // 0) * .count] | add')
 
-# cache AKT price for 60 minutes to reduce the API pressure as well as to slightly accelerate the bidding (+5s)
-CACHE_FILE=/tmp/aktprice.cache
-if ! test $(find $CACHE_FILE -mmin -60 2>/dev/null); then
-  ## cache expired
-  usd_per_akt=$(curl -s --connect-timeout 3 --max-time 3 -X GET 'https://api-osmosis.imperator.co/tokens/v2/price/AKT' -H 'accept: application/json' | jq -r '.price' 2>/dev/null)
-  if [[ $? -ne 0 ]] || [[ $usd_per_akt == "null" ]] || [[ -z $usd_per_akt ]]; then
-    # if Osmosis API fails, try CoinGecko API
-    usd_per_akt=$(curl -s --connect-timeout 3 --max-time 3 -X GET "https://api.coingecko.com/api/v3/simple/price?ids=akash-network&vs_currencies=usd" -H  "accept: application/json" | jq -r '[.[]][0].usd' 2>/dev/null)
-  fi
 
-  # update the cache only when API returns a result.
-  # this way provider will always keep bidding even if API temporarily breaks (unless pod gets restarted which will clear the cache)
-  if [ ! -z $usd_per_akt ]; then
-    # check price is an integer/floating number
-    re='^[0-9]+([.][0-9]+)?$'
-    if ! [[ $usd_per_akt =~ $re ]]; then
-      echo "$usd_per_akt is not an integer/floating number!" >&2
-      exit 1
-    fi
-
-    # make sure price is in the permitted range
-    if ! (( $(echo "$usd_per_akt > 0" | bc -l) && \
-            $(echo "$usd_per_akt <= 1000000" | bc -l) )); then
-      echo "$usd_per_akt is outside the permitted range (>0, <=1000000)" >&2
-      exit 1
-    fi
-
-    echo "$usd_per_akt" > $CACHE_FILE
-  fi
-
-  # TODO: figure some sort of monitoring to inform the provider in the event API breaks
-fi
-
-# Fail if script can't read CACHE_FILE for some reason
-set -e
-usd_per_akt=$(cat $CACHE_FILE)
-set +e
-
-#Price in USD/month
-# Hetzner: CPX51 with 16CPU, 32RAM, 360GB disk = $65.81
-# Akash: `(1.60*16)+(0.80*32)+(0.04*360)` = $65.60
+# Provider sets the Price he wants to charge in USD/month
+##
+# Examples:
+#   Hetzner: CPX51 with 16CPU, 32RAM, 360GB disk = $65.81
+#   Akash: `(1.60*16)+(0.80*32)+(0.04*360)` = $65.60
 TARGET_CPU="1.60"          # USD/thread-month
 TARGET_MEMORY="0.80"       # USD/GB-month
 TARGET_HD_EPHEMERAL="0.02" # USD/GB-month
@@ -96,6 +116,11 @@ TARGET_ENDPOINT="0.05"     # USD for port/month
 TARGET_IP="5"              # USD for IP/month
 TARGET_GPU_UNIT="100"      # USD/GPU unit a month
 
+## Example: restrict deployment requests that have services with less 0.1 threads
+##echo "$data_in" | jq -r '.[].cpu <= 100' | grep -wq true && { echo -n "$AKASH_OWNER requested deployment with less than 0.1 threads. Aborting!" >&2; exit 1; }
+
+# Calculate the total resource cost for the deployment request in USD
+##
 total_cost_usd_target=$(bc -l <<< "( \
   ($cpu_requested * $TARGET_CPU) + \
   ($memory_requested * $TARGET_MEMORY) + \
@@ -112,8 +137,57 @@ total_cost_usd_target=$(bc -l <<< "( \
 # average number of days in a month: 30.437
 # (60/6.117)*24*60*30.437 = 429909 blocks per month
 
+# Convert the total resource cost for the deployment request into uakt/block rate
+##
+blocks_a_month=429909
+usd_per_akt=$(get_akt_price)
 total_cost_akt_target=$(bc -l <<<"(${total_cost_usd_target}/$usd_per_akt)")
 total_cost_uakt_target=$(bc -l <<<"(${total_cost_akt_target}*1000000)")
-cost_per_block=$(bc -l <<<"(${total_cost_uakt_target}/429909)")
-total_cost_uakt=$(echo "$cost_per_block" | jq 'def ceil: if . | floor == . then . else . + 1.0 | floor end; .|ceil')
-echo $total_cost_uakt
+rate_per_block_uakt=$(bc -l <<<"(${total_cost_uakt_target}/${blocks_a_month})")
+rate_per_block_usd=$(bc -l <<<"(${total_cost_usd_target}/${blocks_a_month})")
+total_cost_uakt=$(echo "$rate_per_block_uakt" | jq 'def ceil: if . | floor == . then . else . + 1.0 | floor end; .|ceil')
+
+# NOTE: max_rate_usd, max_rate_uakt = are per block rates !
+
+if [[ $isDenom = true ]]; then
+  denom=$(echo '{"price":"'$price'"}' | jq -r '.price | capture("^[0-9]*\\.?[0-9]*(?<denom>.*)") | .denom')
+
+  case "$price" in
+
+    *"uakt")
+      max_rate_uakt=$(echo '{"price":"'$price'"}' | jq -r '.price | gsub("[^0-9.]"; "")')
+      # Hint: bc <<< "$a > $b" (if a is greater than b, it will return 1, otherwise 0)
+      if bc <<< "$rate_per_block_uakt > $max_rate_uakt" | grep -qw 1; then
+        printf "requested rate is too low. min expected %.8f%s" "$rate_per_block_uakt" "$denom" >&2
+        exit 1
+      fi
+
+      # tell the provider uakt/block rate
+      echo $total_cost_uakt
+      ;;
+
+    # sandbox: Axelar USDC
+    *"ibc/12C6A0C374171B595A0A9E18B83FA09D295FB1F2D8C6DAA3AC28683471752D84")
+      max_rate_usd=$(echo '{"price":"'$price'"}' | jq -r '.price | gsub("[^0-9.]"; "")')
+      rate_per_block_usd_normalized=$(bc -l <<<"scale=18; (${rate_per_block_usd}*1000000)/1")
+      if bc <<< "$rate_per_block_usd_normalized > $max_rate_usd" | grep -qw 1; then
+        printf "requested rate is too low. min expected %.8f%s" "$rate_per_block_usd_normalized" "$denom" >&2
+        exit 1
+      fi
+
+      # tell the provider usd/block rate
+      echo $rate_per_block_usd_normalized
+      ;;
+
+    *)
+      echo -n "denom in not supported: $denom" >&2
+      exit 1
+      ;;
+
+  esac
+
+else
+  # provider only accepts rate in uakt/block when no price is received in structure (backwards compatibility)
+  echo $total_cost_uakt
+fi
+
