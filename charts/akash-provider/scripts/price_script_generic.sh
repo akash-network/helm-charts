@@ -2,7 +2,7 @@
 # WARNING: the runtime of this script should NOT exceed 5 seconds! (Perhaps can be amended via AKASH_BID_PRICE_SCRIPT_PROCESS_TIMEOUT env variable)
 # Requirements:
 # curl jq bc mawk ca-certificates
-# Version: Aug-08-2023
+# Version: Aug-14-2023
 set -o pipefail
 
 # Example:
@@ -145,7 +145,7 @@ total_cost_akt_target=$(bc -l <<<"(${total_cost_usd_target}/$usd_per_akt)")
 total_cost_uakt_target=$(bc -l <<<"(${total_cost_akt_target}*1000000)")
 rate_per_block_uakt=$(bc -l <<<"(${total_cost_uakt_target}/${blocks_a_month})")
 rate_per_block_usd=$(bc -l <<<"(${total_cost_usd_target}/${blocks_a_month})")
-total_cost_uakt=$(echo "$rate_per_block_uakt" | jq 'def ceil: if . | floor == . then . else . + 1.0 | floor end; .|ceil')
+total_cost_uakt="$(printf "%.18f" $rate_per_block_uakt)"
 
 # NOTE: max_rate_usd, max_rate_uakt = are per block rates !
 
@@ -158,7 +158,7 @@ if [[ $isDenom = true ]]; then
       max_rate_uakt=$(echo '{"price":"'$price'"}' | jq -r '.price | gsub("[^0-9.]"; "")')
       # Hint: bc <<< "$a > $b" (if a is greater than b, it will return 1, otherwise 0)
       if bc <<< "$rate_per_block_uakt > $max_rate_uakt" | grep -qw 1; then
-        printf "requested rate is too low. min expected %.8f%s" "$rate_per_block_uakt" "$denom" >&2
+        printf "requested rate is too low. min expected %.18f%s" "$rate_per_block_uakt" "$denom" >&2
         exit 1
       fi
 
@@ -169,9 +169,9 @@ if [[ $isDenom = true ]]; then
     # sandbox: Axelar USDC
     *"ibc/12C6A0C374171B595A0A9E18B83FA09D295FB1F2D8C6DAA3AC28683471752D84")
       max_rate_usd=$(echo '{"price":"'$price'"}' | jq -r '.price | gsub("[^0-9.]"; "")')
-      rate_per_block_usd_normalized=$(bc -l <<<"scale=18; (${rate_per_block_usd}*1000000)/1")
+      rate_per_block_usd_normalized=$(bc -l <<<"scale=18; (${rate_per_block_usd}*1000000)/1" | awk '{printf "%.18f", $0}')
       if bc <<< "$rate_per_block_usd_normalized > $max_rate_usd" | grep -qw 1; then
-        printf "requested rate is too low. min expected %.8f%s" "$rate_per_block_usd_normalized" "$denom" >&2
+        printf "requested rate is too low. min expected %.18f%s" "$rate_per_block_usd_normalized" "$denom" >&2
         exit 1
       fi
 
