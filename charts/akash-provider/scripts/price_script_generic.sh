@@ -69,10 +69,10 @@ function get_akt_price {
       echo "$usd_per_akt" > $CACHE_FILE
     fi
 
-    # TODO: figure some sort of monitoring to inform the provider in the event API breaks
+    # TODO: figure some monitoring to inform the provider in the event API breaks
   fi
 
-  # Fail if script can't read CACHE_FILE for some reason
+  # Fail if the script can't read CACHE_FILE for some reason
   set -e
   usd_per_akt=$(cat $CACHE_FILE)
   echo $usd_per_akt
@@ -80,9 +80,9 @@ function get_akt_price {
 }
 
 # If the price parameter is set, new rate calculations will be used
-# otherwise, the original rate calculations will be used (for backwards compatibility)
+# otherwise, the original rate calculations will be used (for backward compatibility)
 if ! [[ -z "$price" ]]; then
-  isDenom=true
+  hasPrice=true
 
   # strip off the .price by setting data_in to .resources
   data_in=$(echo "$data_in" | jq -r '.resources')
@@ -149,15 +149,13 @@ total_cost_uakt="$(printf "%.18f" $rate_per_block_uakt)"
 
 # NOTE: max_rate_usd, max_rate_uakt = are per block rates !
 
-if [[ $isDenom = true ]]; then
-  denom=$(echo '{"price":"'$price'"}' | jq -r '.price | capture("^[0-9]*\\.?[0-9]*(?<denom>.*)") | .denom')
-
-  case "$price" in
-
-    *"uakt")
-      max_rate_uakt=$(echo '{"price":"'$price'"}' | jq -r '.price | gsub("[^0-9.]"; "")')
+if [[ $hasPrice = true ]]; then
+  denom=$(jq -r '.denom' <<<"$price")
+  amount=$(jq -r '.amount' <<<"$price")
+  case "$denom" in
+    "uakt")
       # Hint: bc <<< "$a > $b" (if a is greater than b, it will return 1, otherwise 0)
-      if bc <<< "$rate_per_block_uakt > $max_rate_uakt" | grep -qw 1; then
+      if bc <<< "$rate_per_block_uakt > $amount" | grep -qw 1; then
         printf "requested rate is too low. min expected %.18f%s" "$rate_per_block_uakt" "$denom" >&2
         exit 1
       fi
@@ -167,10 +165,9 @@ if [[ $isDenom = true ]]; then
       ;;
 
     # sandbox: Axelar USDC
-    *"ibc/12C6A0C374171B595A0A9E18B83FA09D295FB1F2D8C6DAA3AC28683471752D84")
-      max_rate_usd=$(echo '{"price":"'$price'"}' | jq -r '.price | gsub("[^0-9.]"; "")')
+    "ibc/12C6A0C374171B595A0A9E18B83FA09D295FB1F2D8C6DAA3AC28683471752D84")
       rate_per_block_usd_normalized=$(bc -l <<<"(${rate_per_block_usd}*1000000)" | awk '{printf "%.18f", $0}')
-      if bc <<< "$rate_per_block_usd_normalized > $max_rate_usd" | grep -qw 1; then
+      if bc <<< "$rate_per_block_usd_normalized > $amount" | grep -qw 1; then
         printf "requested rate is too low. min expected %.18f%s" "$rate_per_block_usd_normalized" "$denom" >&2
         exit 1
       fi
