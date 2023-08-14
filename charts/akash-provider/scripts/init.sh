@@ -111,10 +111,6 @@ if [[ "valid" != "$REMOTE_CERT_STATUS" ]]; then
   GEN_NEW_CERT=0
 
   echo "It might as well be that the current certificate was expired/revoked, thus, it should be safe to delete it locally"
-  # It's also a good idea to delete it as otherwise, we'd have to add `--overwrite` to `provider-services tx cert generate server` command later.
-  if [[ -f "${CERT_REAL_PATH}" ]]; then
-    rm -vf "${CERT_REAL_PATH}"
-  fi
 fi
 
 # generate a new cert if the current one expires sooner than 7 days
@@ -126,8 +122,13 @@ if [[ $rc -ne 0 ]]; then
 fi
 
 if [[ "$GEN_NEW_CERT" -eq "0" ]]; then
+  echo "Removing the old certificate before generating a new one"
+  # It's also a good idea to delete it as otherwise, we'd have to add `--overwrite` to `provider-services tx cert generate server` command later.
+  rm -vf "${CERT_REAL_PATH}"
+
   echo "Generating new provider certificate"
   provider-services tx cert generate server provider.{{ .Values.domain }}
+
   echo "Publishing new provider certificate"
   provider-services tx cert publish server
 fi
