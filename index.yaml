@@ -2157,6 +2157,16 @@ entries:
   provider:
   - apiVersion: v2
     appVersion: 0.2.1
+    created: "2023-08-14T20:45:07.360717413Z"
+    description: Installs an Akash provider (required)
+    digest: a2ff628d7aa7325953ce26a27f09c1bdc4bd6adfe927fae833c7ccc2c69ad44d
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-4.3.6/provider-4.3.6.tgz
+    version: 4.3.6
+  - apiVersion: v2
+    appVersion: 0.2.1
     created: "2023-08-09T20:02:03.641855439Z"
     description: Installs an Akash provider (required)
     digest: 213be620542706dc04d724852838a072ef5583e3c6b530a62a5d34afdb586da3
@@ -4415,4 +4425,4 @@ entries:
     urls:
     - https://github.com/ovrclk/helm-charts/releases/download/provider-0.1.0/provider-0.1.0.tgz
     version: 0.1.0
-generated: "2023-08-09T20:02:03.643152946Z"
+generated: "2023-08-14T20:45:07.362736017Z"
