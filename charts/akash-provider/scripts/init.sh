@@ -94,7 +94,7 @@ GEN_NEW_CERT=1
 if [[ -f "${CERT_REAL_PATH}" ]]; then
   LOCAL_CERT_SN="$(cat "${CERT_REAL_PATH}" | openssl x509 -serial -noout | cut -d'=' -f2)"
   LOCAL_CERT_SN_DECIMAL=$(echo "obase=10; ibase=16; $LOCAL_CERT_SN" | bc)
-  REMOTE_CERT_STATUS="$(AKASH_OUTPUT=json provider-services query cert list --owner $PROVIDER_ADDRESS --state valid --serial $LOCAL_CERT_SN_DECIMAL | jq -r '.certificates[0].certificate.state')"
+  REMOTE_CERT_STATUS="$(AKASH_OUTPUT=json provider-services query cert list --owner $PROVIDER_ADDRESS --state valid --serial $LOCAL_CERT_SN_DECIMAL --reverse | jq -r '.certificates[0].certificate.state')"
   echo "Provider certificate serial number: ${LOCAL_CERT_SN:-unknown}, status on chain: ${REMOTE_CERT_STATUS:-unknown}"
 else
   echo "${CERT_REAL_PATH} file is missing."
@@ -114,7 +114,7 @@ if [[ "valid" != "$REMOTE_CERT_STATUS" ]]; then
 fi
 
 # generate a new cert if the current one expires sooner than 7 days
-AKASH_OUTPUT=json provider-services query cert list --owner $PROVIDER_ADDRESS --state valid | jq -r '.certificates[-1].certificate.cert' | openssl base64 -A -d | openssl x509 -checkend 604800 -noout 2>/dev/null 1>&2
+AKASH_OUTPUT=json provider-services query cert list --owner $PROVIDER_ADDRESS --state valid --reverse | jq -r '.certificates[0].certificate.cert' | openssl base64 -A -d | openssl x509 -checkend 604800 -noout 2>/dev/null 1>&2
 rc=$?
 if [[ $rc -ne 0 ]]; then
   echo "Certificate expires in less than 7 days, so going to generate a new one."
