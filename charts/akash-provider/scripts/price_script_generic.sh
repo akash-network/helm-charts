@@ -145,7 +145,7 @@ total_cost_akt_target=$(bc -l <<<"(${total_cost_usd_target}/$usd_per_akt)")
 total_cost_uakt_target=$(bc -l <<<"(${total_cost_akt_target}*1000000)")
 rate_per_block_uakt=$(bc -l <<<"(${total_cost_uakt_target}/${blocks_a_month})")
 rate_per_block_usd=$(bc -l <<<"(${total_cost_usd_target}/${blocks_a_month})")
-total_cost_uakt=$(echo "$rate_per_block_uakt" | jq 'def ceil: if . | floor == . then . else . + 1.0 | floor end; .|ceil')
+total_cost_uakt="$(printf "%.8f" $rate_per_block_uakt)"
 
 # NOTE: max_rate_usd, max_rate_uakt = are per block rates !
 
