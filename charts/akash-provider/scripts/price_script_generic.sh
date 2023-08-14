@@ -169,7 +169,7 @@ if [[ $isDenom = true ]]; then
     # sandbox: Axelar USDC
     *"ibc/12C6A0C374171B595A0A9E18B83FA09D295FB1F2D8C6DAA3AC28683471752D84")
       max_rate_usd=$(echo '{"price":"'$price'"}' | jq -r '.price | gsub("[^0-9.]"; "")')
-      rate_per_block_usd_normalized=$(bc -l <<<"scale=18; (${rate_per_block_usd}*1000000)/1" | awk '{printf "%.18f", $0}')
+      rate_per_block_usd_normalized=$(bc -l <<<"(${rate_per_block_usd}*1000000)" | awk '{printf "%.18f", $0}')
       if bc <<< "$rate_per_block_usd_normalized > $max_rate_usd" | grep -qw 1; then
         printf "requested rate is too low. min expected %.18f%s" "$rate_per_block_usd_normalized" "$denom" >&2
         exit 1
