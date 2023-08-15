@@ -2,7 +2,7 @@
 # WARNING: the runtime of this script should NOT exceed 5 seconds! (Perhaps can be amended via AKASH_BID_PRICE_SCRIPT_PROCESS_TIMEOUT env variable)
 # Requirements:
 # curl jq bc mawk ca-certificates
-# Version: Aug-14-2023
+# Version: Aug-16-2023
 set -o pipefail
 
 # Example:
@@ -26,16 +26,6 @@ if ! [[ -z $WHITELIST_URL ]]; then
     echo "$AKASH_OWNER is not whitelisted" >&2
     exit 1
   fi
-fi
-
-data_in=$(jq .)
-# Pull the pricing data from the deployment request
-price=$(echo "$data_in" | jq -r '.price? // empty')
-
-## DEBUG
-if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
-  echo "$(TZ=UTC date -R)" >> /tmp/${AKASH_OWNER}.log
-  echo "$data_in" >> /tmp/${AKASH_OWNER}.log
 fi
 
 function get_akt_price {
@@ -79,10 +69,29 @@ function get_akt_price {
   set +e
 }
 
+
+# bid script starts reading the deployment order request specs here (passed by the Akash Provider)
+data_in=$(jq .)
+
+## DEBUG
+if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
+  echo "$(TZ=UTC date -R)" >> /tmp/${AKASH_OWNER}.log
+  echo "$data_in" >> /tmp/${AKASH_OWNER}.log
+fi
+
+# Pull the pricing data from the deployment request
+hasPrice=$(echo "$data_in" | jq -r 'has("price")?')
+
 # If the price parameter is set, new rate calculations will be used
 # otherwise, the original rate calculations will be used (for backward compatibility)
-if ! [[ -z "$price" ]]; then
-  hasPrice=true
+if [[ "$hasPrice" == true ]]; then
+  isObject=$(jq -r 'if .price?|type == "object" then true else false end' <<<"$data_in")
+  if [[ "$isObject" != true ]]; then
+    echo "price must be an object! make sure you are using the latest akash-provider." >&2
+    exit 1
+  fi
+  denom=$(jq -r '.price.denom' <<<"$data_in")
+  amount=$(jq -r '.price.amount' <<<"$data_in")
 
   # strip off the .price by setting data_in to .resources
   data_in=$(echo "$data_in" | jq -r '.resources')
@@ -150,8 +159,6 @@ total_cost_uakt="$(printf "%.18f" $rate_per_block_uakt)"
 # NOTE: max_rate_usd, max_rate_uakt = are per block rates !
 
 if [[ $hasPrice = true ]]; then
-  denom=$(jq -r '.denom' <<<"$price")
-  amount=$(jq -r '.amount' <<<"$price")
   case "$denom" in
     "uakt")
       # Hint: bc <<< "$a > $b" (if a is greater than b, it will return 1, otherwise 0)
