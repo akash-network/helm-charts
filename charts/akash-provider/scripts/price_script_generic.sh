@@ -23,7 +23,7 @@ if ! [[ -z $WHITELIST_URL ]]; then
   fi
 
   if ! grep -qw "$AKASH_OWNER" $WHITELIST; then
-    echo "$AKASH_OWNER is not whitelisted" >&2
+    echo -n "$AKASH_OWNER is not whitelisted" >&2
     exit 1
   fi
 fi
@@ -45,14 +45,14 @@ function get_akt_price {
       # check price is an integer/floating number
       re='^[0-9]+([.][0-9]+)?$'
       if ! [[ $usd_per_akt =~ $re ]]; then
-        echo "$usd_per_akt is not an integer/floating number!" >&2
+        echo -n "$usd_per_akt is not an integer/floating number!" >&2
         exit 1
       fi
 
       # make sure price is in the permitted range
       if ! (( $(echo "$usd_per_akt > 0" | bc -l) && \
               $(echo "$usd_per_akt <= 1000000" | bc -l) )); then
-        echo "$usd_per_akt is outside the permitted range (>0, <=1000000)" >&2
+        echo -n "$usd_per_akt is outside the permitted range (>0, <=1000000)" >&2
         exit 1
       fi
 
@@ -82,12 +82,15 @@ fi
 # Pull the pricing data from the deployment request
 hasPrice=$(echo "$data_in" | jq -r 'has("price")?')
 
+# default price precision to 6 (for backward compatibility)
+precision=$(jq -r '.price_precision? // 6' <<<"$data_in")
+
 # If the price parameter is set, new rate calculations will be used
 # otherwise, the original rate calculations will be used (for backward compatibility)
 if [[ "$hasPrice" == true ]]; then
   isObject=$(jq -r 'if .price?|type == "object" then true else false end' <<<"$data_in")
   if [[ "$isObject" != true ]]; then
-    echo "price must be an object! make sure you are using the latest akash-provider." >&2
+    echo -n "price must be an object! make sure you are using the latest akash-provider." >&2
     exit 1
   fi
   denom=$(jq -r '.price.denom' <<<"$data_in")
@@ -154,7 +157,7 @@ total_cost_akt_target=$(bc -l <<<"(${total_cost_usd_target}/$usd_per_akt)")
 total_cost_uakt_target=$(bc -l <<<"(${total_cost_akt_target}*1000000)")
 rate_per_block_uakt=$(bc -l <<<"(${total_cost_uakt_target}/${blocks_a_month})")
 rate_per_block_usd=$(bc -l <<<"(${total_cost_usd_target}/${blocks_a_month})")
-total_cost_uakt="$(printf "%.18f" $rate_per_block_uakt)"
+total_cost_uakt="$(printf "%.*f" $precision $rate_per_block_uakt)"
 
 # NOTE: max_rate_usd, max_rate_uakt = are per block rates !
 
@@ -163,24 +166,24 @@ if [[ $hasPrice = true ]]; then
     "uakt")
       # Hint: bc <<< "$a > $b" (if a is greater than b, it will return 1, otherwise 0)
       if bc <<< "$rate_per_block_uakt > $amount" | grep -qw 1; then
-        printf "requested rate is too low. min expected %.18f%s" "$rate_per_block_uakt" "$denom" >&2
+        printf "requested rate is too low. min expected %.*f%s" "$precision" "$rate_per_block_uakt" "$denom" >&2
         exit 1
       fi
 
       # tell the provider uakt/block rate
-      echo $total_cost_uakt
+      printf "%.*f" "$precision" "$total_cost_uakt"
       ;;
 
     # sandbox: Axelar USDC
     "ibc/12C6A0C374171B595A0A9E18B83FA09D295FB1F2D8C6DAA3AC28683471752D84")
-      rate_per_block_usd_normalized=$(bc -l <<<"(${rate_per_block_usd}*1000000)" | awk '{printf "%.18f", $0}')
+      rate_per_block_usd_normalized=$(bc -l <<<"(${rate_per_block_usd}*1000000)" | awk -v precision="$precision" '{printf "%.*f", precision, $0}')
       if bc <<< "$rate_per_block_usd_normalized > $amount" | grep -qw 1; then
-        printf "requested rate is too low. min expected %.18f%s" "$rate_per_block_usd_normalized" "$denom" >&2
+        printf "requested rate is too low. min expected %.*f%s" "$precision" "$rate_per_block_usd_normalized" "$denom" >&2
         exit 1
       fi
 
       # tell the provider usd/block rate
-      echo $rate_per_block_usd_normalized
+      printf "%.*f" "$precision" "$rate_per_block_usd_normalized"
       ;;
 
     *)
@@ -192,6 +195,5 @@ if [[ $hasPrice = true ]]; then
 
 else
   # provider only accepts rate in uakt/block when no price is received in structure (backwards compatibility)
-  echo $total_cost_uakt
+  printf "%.f" "$total_cost_uakt"
 fi
-
