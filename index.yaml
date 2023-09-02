@@ -334,6 +334,16 @@ entries:
     version: 0.15.0
   akash-ip-operator:
   - apiVersion: v2
+    appVersion: 0.4.6
+    created: "2023-09-02T00:57:12.072619782Z"
+    description: An operator required for ip marketplace (optional)
+    digest: 00f59540bb82e0f7a734a3e2f936f5d0fd90aa3e2d9e0874f21596f32327c466
+    name: akash-ip-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-ip-operator-6.0.4/akash-ip-operator-6.0.4.tgz
+    version: 6.0.4
+  - apiVersion: v2
     appVersion: 0.4.4
     created: "2023-09-01T13:59:34.692173257Z"
     description: An operator required for ip marketplace (optional)
@@ -4615,4 +4625,4 @@ entries:
     urls:
     - https://github.com/ovrclk/helm-charts/releases/download/provider-0.1.0/provider-0.1.0.tgz
     version: 0.1.0
-generated: "2023-09-02T00:56:46.453927379Z"
+generated: "2023-09-02T00:57:12.073582697Z"
