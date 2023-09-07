@@ -75,8 +75,11 @@ data_in=$(jq .)
 
 ## DEBUG
 if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
+  echo "====================== start ======================" >> /tmp/${AKASH_OWNER}.log
   echo "$(TZ=UTC date -R)" >> /tmp/${AKASH_OWNER}.log
   echo "$data_in" >> /tmp/${AKASH_OWNER}.log
+  env >> /tmp/${AKASH_OWNER}.log
+  echo "====================== end ======================" >> /tmp/${AKASH_OWNER}.log
 fi
 
 # Pull the pricing data from the deployment request
