@@ -2,7 +2,7 @@
 # WARNING: the runtime of this script should NOT exceed 5 seconds! (Perhaps can be amended via AKASH_BID_PRICE_SCRIPT_PROCESS_TIMEOUT env variable)
 # Requirements:
 # curl jq bc mawk ca-certificates
-# Version: Aug-16-2023
+# Version: Sept-08-2023
 set -o pipefail
 
 # Example:
@@ -174,8 +174,10 @@ if [[ $hasPrice = true ]]; then
       printf "%.*f" "$precision" "$total_cost_uakt"
       ;;
 
-    # sandbox: Axelar USDC
-    "ibc/12C6A0C374171B595A0A9E18B83FA09D295FB1F2D8C6DAA3AC28683471752D84")
+    # sandbox: Axelar USDC (uausdc) ibc/12C6...
+    # mainnet: Axelar USDC (uusdc) ibc/170C...
+    "ibc/12C6A0C374171B595A0A9E18B83FA09D295FB1F2D8C6DAA3AC28683471752D84" | \
+    "ibc/170C677610AC31DF0904FFE09CD3B5C657492170E7E52372E48756B71E56F2F1")
       rate_per_block_usd_normalized=$(bc -l <<<"(${rate_per_block_usd}*1000000)" | awk -v precision="$precision" '{printf "%.*f", precision, $0}')
       if bc <<< "$rate_per_block_usd_normalized > $amount" | grep -qw 1; then
         printf "requested rate is too low. min expected %.*f%s" "$precision" "$rate_per_block_usd_normalized" "$denom" >&2
