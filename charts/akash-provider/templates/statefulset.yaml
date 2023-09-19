@@ -188,6 +188,42 @@ spec:
             - name: DEBUG_BID_SCRIPT
               value: "{{ .Values.debug_bid_script }}"
 {{- end }}
+{{ if .Values.price_target_cpu }}
+            - name: PRICE_TARGET_CPU
+              value: "{{ .Values.price_target_cpu }}"
+{{- end }}
+{{ if .Values.price_target_memory }}
+            - name: PRICE_TARGET_MEMORY
+              value: "{{ .Values.price_target_memory }}"
+{{- end }}
+{{ if .Values.price_target_hd_ephemeral }}
+            - name: PRICE_TARGET_HD_EPHEMERAL
+              value: "{{ .Values.price_target_hd_ephemeral }}"
+{{- end }}
+{{ if .Values.price_target_hd_pers_hdd }}
+            - name: PRICE_TARGET_HD_PERS_HDD
+              value: "{{ .Values.price_target_hd_pers_hdd }}"
+{{- end }}
+{{ if .Values.price_target_hd_pers_ssd }}
+            - name: PRICE_TARGET_HD_PERS_SSD
+              value: "{{ .Values.price_target_hd_pers_ssd }}"
+{{- end }}
+{{ if .Values.price_target_hd_pers_nvme }}
+            - name: PRICE_TARGET_HD_PERS_NVME
+              value: "{{ .Values.price_target_hd_pers_nvme }}"
+{{- end }}
+{{ if .Values.price_target_endpoint }}
+            - name: PRICE_TARGET_ENDPOINT
+              value: "{{ .Values.price_target_endpoint }}"
+{{- end }}
+{{ if .Values.price_target_ip }}
+            - name: PRICE_TARGET_IP
+              value: "{{ .Values.price_target_ip }}"
+{{- end }}
+{{ if .Values.price_target_gpu_mappings }}
+            - name: PRICE_TARGET_GPU_MAPPINGS
+              value: "{{ .Values.price_target_gpu_mappings }}"
+{{- end }}
             - name: AKASH_BID_PRICE_CPU_SCALE
               value: "{{ .Values.bidpricecpuscale }}"
             - name: AKASH_BID_PRICE_MEMORY_SCALE
