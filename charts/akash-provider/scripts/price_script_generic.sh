@@ -121,15 +121,15 @@ gpu_units_requested=$(echo "$data_in" | jq -r '[.[] | (.gpu.units // 0) * .count
 # Examples:
 #   Hetzner: CPX51 with 16CPU, 32RAM, 360GB disk = $65.81
 #   Akash: `(1.60*16)+(0.80*32)+(0.04*360)` = $65.60
-TARGET_CPU="1.60"          # USD/thread-month
-TARGET_MEMORY="0.80"       # USD/GB-month
-TARGET_HD_EPHEMERAL="0.02" # USD/GB-month
-TARGET_HD_PERS_HDD="0.01"  # USD/GB-month (beta1)
-TARGET_HD_PERS_SSD="0.03"  # USD/GB-month (beta2)
-TARGET_HD_PERS_NVME="0.04" # USD/GB-month (beta3)
-TARGET_ENDPOINT="0.05"     # USD for port/month
-TARGET_IP="5"              # USD for IP/month
-TARGET_GPU_UNIT="100"      # USD/GPU unit a month
+TARGET_CPU="${PRICE_TARGET_CPU:-1.60}"                   # USD/thread-month
+TARGET_MEMORY="${PRICE_TARGET_MEMORY:-0.80}"             # USD/GB-month
+TARGET_HD_EPHEMERAL="${PRICE_TARGET_HD_EPHEMERAL:-0.02}" # USD/GB-month
+TARGET_HD_PERS_HDD="${PRICE_TARGET_HD_PERS_HDD:-0.01}"   # USD/GB-month (beta1)
+TARGET_HD_PERS_SSD="${PRICE_TARGET_HD_PERS_SSD:-0.03}"   # USD/GB-month (beta2)
+TARGET_HD_PERS_NVME="${PRICE_TARGET_HD_PERS_NVME:-0.04}" # USD/GB-month (beta3)
+TARGET_ENDPOINT="${PRICE_TARGET_ENDPOINT:-0.05}"         # USD for port/month
+TARGET_IP="${PRICE_TARGET_IP:-5}"                        # USD for leased IP/month
+TARGET_GPU_UNIT="${PRICE_TARGET_GPU_UNIT:-100}"          # USD/GPU unit a month
 
 ## Example: restrict deployment requests that have services with less 0.1 threads
 ##echo "$data_in" | jq -r '.[].cpu <= 100' | grep -wq true && { echo -n "$AKASH_OWNER requested deployment with less than 0.1 threads. Aborting!" >&2; exit 1; }
