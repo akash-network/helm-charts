@@ -2,7 +2,7 @@
 # WARNING: the runtime of this script should NOT exceed 5 seconds! (Perhaps can be amended via AKASH_BID_PRICE_SCRIPT_PROCESS_TIMEOUT env variable)
 # Requirements:
 # curl jq bc mawk ca-certificates
-# Version: Sept-08-2023
+# Version: Sept-19-2023
 set -o pipefail
 
 # Example:
@@ -113,8 +113,6 @@ ssd_pers_storage_requested=$(echo "$data_in" | jq -r '[.[] | (.storage[] | selec
 nvme_pers_storage_requested=$(echo "$data_in" | jq -r '[.[] | (.storage[] | select(.class == "beta3").size // 0) * .count] | add / pow(1024; 3)' | awk '{printf "%.12f\n", $0}')
 ips_requested=$(echo "$data_in" | jq -r '(map(.ip_lease_quantity//0 * .count) | add)')
 endpoints_requested=$(echo "$data_in" | jq -r '(map(.endpoint_quantity//0 * .count) | add)')
-gpu_units_requested=$(echo "$data_in" | jq -r '[.[] | (.gpu.units // 0) * .count] | add')
-
 
 # Provider sets the Price he wants to charge in USD/month
 ##
@@ -129,10 +127,41 @@ TARGET_HD_PERS_SSD="${PRICE_TARGET_HD_PERS_SSD:-0.03}"   # USD/GB-month (beta2)
 TARGET_HD_PERS_NVME="${PRICE_TARGET_HD_PERS_NVME:-0.04}" # USD/GB-month (beta3)
 TARGET_ENDPOINT="${PRICE_TARGET_ENDPOINT:-0.05}"         # USD for port/month
 TARGET_IP="${PRICE_TARGET_IP:-5}"                        # USD for leased IP/month
-TARGET_GPU_UNIT="${PRICE_TARGET_GPU_UNIT:-100}"          # USD/GPU unit a month
 
 ## Example: restrict deployment requests that have services with less 0.1 threads
 ##echo "$data_in" | jq -r '.[].cpu <= 100' | grep -wq true && { echo -n "$AKASH_OWNER requested deployment with less than 0.1 threads. Aborting!" >&2; exit 1; }
+
+# GPU pricing per GPU model (USD/GPU unit a month) calculation
+##
+
+# Populate the price target gpu_mappings dynamically based on the "price_target_gpu_mappings" value passed by the helm-chart
+# Default: "a100=120,t4=80,*=130"
+declare -A gpu_mappings=()
+
+IFS=',' read -ra PAIRS <<< "${PRICE_TARGET_GPU_MAPPINGS:-a100=120,t4=80,*=130}"
+for pair in "${PAIRS[@]}"; do
+  IFS='=' read -ra KV <<< "$pair"
+  key="${KV[0]}"
+  value="${KV[1]}"
+  gpu_mappings["$key"]=$value
+done
+
+gpu_price_total=0
+
+while IFS= read -r resource; do
+  model=$(echo "$resource" | jq -r '.gpu.attributes.vendor.nvidia.model // 0')
+  gpu_units=$(echo "$resource" | jq -r '.gpu.units // 0')
+  # default to 100 USD/GPU per unit a month when PRICE_TARGET_GPU_MAPPINGS is not set
+  price="${gpu_mappings[''$model'']:-100}"
+  ((gpu_price_total += gpu_units * price))
+
+  ## DEBUG
+  #echo "model $model"
+  #echo "price for this model $price"
+  #echo "gpu_units $gpu_units"
+  #echo "gpu_price_total $gpu_price_total"
+  #echo ""
+done <<< "$(echo "$data_in" | jq -rc '.[]')"
 
 # Calculate the total resource cost for the deployment request in USD
 ##
@@ -145,7 +174,7 @@ total_cost_usd_target=$(bc -l <<< "( \
   ($nvme_pers_storage_requested * $TARGET_HD_PERS_NVME) + \
   ($endpoints_requested * $TARGET_ENDPOINT) + \
   ($ips_requested * $TARGET_IP) + \
-  ($gpu_units_requested * $TARGET_GPU_UNIT) \
+  ($gpu_price_total) \
   )")
 
 # average block time: 6.117 seconds (based on the time diff between 8090658-8522658 heights [with 432000 blocks as a shift in between if considering block time is 6.0s "(60/6)*60*24*30"])

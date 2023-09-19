@@ -220,9 +220,9 @@ spec:
             - name: PRICE_TARGET_IP
               value: "{{ .Values.price_target_ip }}"
 {{- end }}
-{{ if .Values.price_target_gpu_unit }}
-            - name: PRICE_TARGET_GPU_UNIT
-              value: "{{ .Values.price_target_gpu_unit }}"
+{{ if .Values.price_target_gpu_mappings }}
+            - name: PRICE_TARGET_GPU_MAPPINGS
+              value: "{{ .Values.price_target_gpu_mappings }}"
 {{- end }}
             - name: AKASH_BID_PRICE_CPU_SCALE
               value: "{{ .Values.bidpricecpuscale }}"
