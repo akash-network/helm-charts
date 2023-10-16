@@ -37,16 +37,20 @@ else
     case "$SNAPSHOT_PROVIDER" in
 
       "polkachu")
-        SNAPSHOT_URL=$(curl -s https://polkachu.com/tendermint_snapshots/akash | grep tar.lz4 | head -n1 | grep -io '<a href=['"'"'"][^"'"'"']*['"'"'"]' |   sed -e 's/^<a href=["'"'"']//i' -e 's/["'"'"']$//i')
+        SNAPSHOT_URL=$(curl -s https://polkachu.com/tendermint_snapshots/akash | grep tar.lz4 | head -n1 | grep -io '<a href=['"'"'"][^"'"'"']*['"'"'"]' | sed -e 's/^<a href=["'"'"']//i' -e 's/["'"'"']$//i')
         echo "Using latest Polkachu blockchain snapshot, $SNAPSHOT_URL"
         aria2c --out=snapshot.tar.lz4 --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 4 -x 4 -k 1M -j 1 "$SNAPSHOT_URL"
         lz4 -c -d snapshot.tar.lz4 | tar -x -C "$AKASH_HOME"
         rm -f snapshot.tar.lz4
         ;;
       "autostake")
-	SNAP_NAME=$(curl -s http://snapshots.autostake.net/akashnet-2/ | egrep -o ">akashnet-2.*.tar.lz4" | tr -d ">" | tail -1)
-	wget -O - http://snapshots.autostake.net/akashnet-2/$SNAP_NAME | lz4 -d | tar -xf - -C "$AKASH_HOME"
-	;;
+        SNAP_URL="http://snapshots.autostake.com/akashnet-2"
+        SNAP_NAME=$(curl -s $SNAP_URL/ | egrep -o ">akashnet-2.*.tar.lz4" | tr -d ">" | tail -1)
+        echo "Using latest Autostake blockchain snapshot, $SNAP_URL/$SNAP_NAME"
+        aria2c --out=snapshot_autostake.tar.lz4 --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 4 -x 4 -k 1M -j 1 "$SNAP_URL/$SNAP_NAME"
+        lz4 -c -d snapshot_autostake.tar.lz4 | tar -x -C "$AKASH_HOME"
+        rm -f snapshot_autostake.tar.lz4
+        ;;
 
       *)
         SNAPSHOT_URL=$(curl -s https://cosmos-snapshots.s3.filebase.com/akash/pruned/snapshot.json | jq -r .latest)
