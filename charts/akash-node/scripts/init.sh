@@ -31,6 +31,10 @@ if [ "$AKASH_STATESYNC_ENABLE" == true ]; then
   export AKASH_STATESYNC_TRUST_HEIGHT=$BLOCK_HEIGHT
   export AKASH_STATESYNC_TRUST_HASH=$TRUST_HASH
 
+  # Make sure we state-sync the node first if it has never been synced before
+  export AKASH_HALT_HEIGHT=$LATEST_HEIGHT
+  /bin/akash start
+
 else
   if [ "$AKASH_CHAIN_ID" == "akashnet-2" ]; then
     apt -y --no-install-recommends install aria2 lz4 liblz4-tool wget > /dev/null 2>&1
