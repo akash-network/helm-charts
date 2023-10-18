@@ -161,7 +161,7 @@ spec:
             - name: AKASH_DEPLOYMENT_BLOCKED_HOSTNAMES
               value: ""
             - name: AKASH_CLUSTER_NODE_PORT_QUANTITY
-              value: "2500"
+              value: "{{ .Values.cluster_node_port_quantity }}"
             - name: AKASH_GAS_PRICES
               value: "{{ .Values.gasprices }}"
             - name: AKASH_GAS
