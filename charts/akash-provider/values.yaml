@@ -84,6 +84,7 @@ withdrawalperiod: "1h"
 minimumbalance: "10000000"
 
 deploymentnetworkpoliciesenabled: "false"
+cluster_node_port_quantity: "2500"
 
 ipoperator: false
 
