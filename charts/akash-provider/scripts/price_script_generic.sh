@@ -73,8 +73,7 @@ function get_akt_price {
 # bid script starts reading the deployment order request specs here (passed by the Akash Provider)
 data_in=$(jq .)
 
-## DEBUG
-if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
+if ! [[ -z $DEBUG_BID_SCRIPT ]] && ! [[ -z $AKASH_OWNER ]]; then
   echo "====================== start ======================" >> /tmp/${AKASH_OWNER}.log
   echo "$(TZ=UTC date -R)" >> /tmp/${AKASH_OWNER}.log
   echo "$data_in" >> /tmp/${AKASH_OWNER}.log
@@ -154,7 +153,9 @@ for value in "${gpu_mappings[@]}"; do
   fi
 done
 
-echo "DEBUG: gpu_unit_max_price $gpu_unit_max_price"
+if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
+  echo "DEBUG: gpu_unit_max_price $gpu_unit_max_price"
+fi
 
 gpu_price_total=0
 while IFS= read -r resource; do
@@ -164,12 +165,12 @@ while IFS= read -r resource; do
   price="${gpu_mappings[''$model'']:-$gpu_unit_max_price}"
   ((gpu_price_total += gpu_units * price))
 
-  ## DEBUG
-  #echo "model $model"
-  #echo "price for this model $price"
-  #echo "gpu_units $gpu_units"
-  #echo "gpu_price_total $gpu_price_total"
-  #echo ""
+  if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
+    echo "DEBUG: model $model"
+    echo "DEBUG: price for this model $price"
+    echo "DEBUG: gpu_units $gpu_units"
+    echo "DEBUG: gpu_price_total $gpu_price_total"
+  fi
 done <<< "$(echo "$data_in" | jq -rc '.[]')"
 
 # Calculate the total resource cost for the deployment request in USD
@@ -185,6 +186,10 @@ total_cost_usd_target=$(bc -l <<< "( \
   ($ips_requested * $TARGET_IP) + \
   ($gpu_price_total) \
   )")
+
+if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
+  echo "DEBUG: Total cost USD/month: $total_cost_usd_target"
+fi
 
 # average block time: 6.117 seconds (based on the time diff between 8090658-8522658 heights [with 432000 blocks as a shift in between if considering block time is 6.0s "(60/6)*60*24*30"])
 # average number of days in a month: 30.437
