@@ -135,10 +135,9 @@ TARGET_IP="${PRICE_TARGET_IP:-5}"                        # USD for leased IP/mon
 ##
 
 # Populate the price target gpu_mappings dynamically based on the "price_target_gpu_mappings" value passed by the helm-chart
-# Default: "a100=120,t4=80,*=130"
 declare -A gpu_mappings=()
 
-IFS=',' read -ra PAIRS <<< "${PRICE_TARGET_GPU_MAPPINGS:-a100=120,t4=80,*=130}"
+IFS=',' read -ra PAIRS <<< "${PRICE_TARGET_GPU_MAPPINGS}"
 for pair in "${PAIRS[@]}"; do
   IFS='=' read -ra KV <<< "$pair"
   key="${KV[0]}"
@@ -146,13 +145,23 @@ for pair in "${PAIRS[@]}"; do
   gpu_mappings["$key"]=$value
 done
 
-gpu_price_total=0
+# Default to 100 USD/GPU per unit a month when PRICE_TARGET_GPU_MAPPINGS is not set
+# Or use the highest price from PRICE_TARGET_GPU_MAPPINGS when model detection fails (ref. https://github.com/akash-network/support/issues/139 )
+gpu_unit_max_price=100
+for value in "${gpu_mappings[@]}"; do
+  if (( value > gpu_unit_max_price )); then
+    gpu_unit_max_price=$value
+  fi
+done
 
+echo "DEBUG: gpu_unit_max_price $gpu_unit_max_price"
+
+gpu_price_total=0
 while IFS= read -r resource; do
   model=$(echo "$resource" | jq -r '.gpu.attributes.vendor.nvidia.model // 0')
   gpu_units=$(echo "$resource" | jq -r '.gpu.units // 0')
   # default to 100 USD/GPU per unit a month when PRICE_TARGET_GPU_MAPPINGS is not set
-  price="${gpu_mappings[''$model'']:-100}"
+  price="${gpu_mappings[''$model'']:-$gpu_unit_max_price}"
   ((gpu_price_total += gpu_units * price))
 
   ## DEBUG
