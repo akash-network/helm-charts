@@ -16,9 +16,11 @@ debug: "false"
 # Defaults to mainnet
 akash_node:
   enabled: true
-  # snapshot_provider can be either "polkachu" (1Gi), "autostake" (3Gi). Otherwise it'll default to a much larger in size.
+  # snapshot_provider can be : "polkachu" (1Gi), "c29r3" (2Gi), or "autostake" (3Gi)
   # Nov/02 2023: disabled polkachu since it is now behind Cloudflare's "Verify you are human" CAPTCHA
-  snapshot_provider: "autostake"
+  # Nov/14 2023: autostake snapshot is unavailable, fixed polkachu and set as default, fix "c29r3" snapshot provider
+
+  snapshot_provider: "polkachu"
   api_enable: false
   moniker: mynode
   chainid: akashnet-2
