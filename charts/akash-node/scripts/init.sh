@@ -62,7 +62,7 @@ else
         SNAP_NAME=$(curl -s https://snapshots.c29r3.xyz/akash/ | egrep -o ">$AKASH_CHAIN_ID.*tar" | tr -d ">")
         echo "Using default c29r3.xyz blockchain snapshot, https://snapshots.c29r3.xyz/akash/${SNAP_NAME}"
         aria2c --out=snapshot.tar --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 8 -x 8 -k 1M -j 1 "https://snapshots.c29r3.xyz/akash/${SNAP_NAME}"
-        tar -xf snapshot.tar -C "$AKASH_HOME"
+        tar -xf snapshot.tar -C "$AKASH_HOME/data"
         rm -rf snapshot.tar
         ;;
 
