@@ -41,27 +41,39 @@ else
     case "$SNAPSHOT_PROVIDER" in
 
       "polkachu")
-        SNAPSHOT_URL=$(curl -s https://polkachu.com/tendermint_snapshots/akash | grep tar.lz4 | head -n1 | grep -io '<a href=['"'"'"][^"'"'"']*['"'"'"]' | sed -e 's/^<a href=["'"'"']//i' -e 's/["'"'"']$//i')
-        echo "Using latest Polkachu blockchain snapshot, $SNAPSHOT_URL"
-        aria2c --out=snapshot.tar.lz4 --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 4 -x 4 -k 1M -j 1 "$SNAPSHOT_URL"
+        SNAPSHOTS_DIR_URL="https://snapshots.polkachu.com/snapshots/"
+        USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        LATEST=$(curl -s -A "$USER_AGENT" "$SNAPSHOTS_DIR_URL" | grep -oP 'akash/[^<]+\.tar\.lz4' | tail -n1)
+        SNAPSHOT_URL="https://snapshots.polkachu.com/snapshots/"
+        aria2c --out=snapshot.tar.lz4 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 8 -x 8 -k 1M -j 1 "${SNAPSHOT_URL}${LATEST}"
         lz4 -c -d snapshot.tar.lz4 | tar -x -C "$AKASH_HOME"
-        rm -f snapshot.tar.lz4
+        rm -rf snapshot.tar.lz4
         ;;
-      "autostake")
-        SNAP_URL="http://snapshots.autostake.com/akashnet-2"
-        SNAP_NAME=$(curl -s $SNAP_URL/ | egrep -o ">akashnet-2.*.tar.lz4" | tr -d ">" | tail -1)
-        echo "Using latest Autostake blockchain snapshot, $SNAP_URL/$SNAP_NAME"
-        aria2c --out=snapshot_autostake.tar.lz4 --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 4 -x 4 -k 1M -j 1 "$SNAP_URL/$SNAP_NAME"
-        lz4 -c -d snapshot_autostake.tar.lz4 | tar -x -C "$AKASH_HOME"
-        rm -f snapshot_autostake.tar.lz4
+
+      "autostake") #Snapshot is not available as of 14/11/2023
+        SNAP_URL="http://snapshots.autostake.com/$AKASH_CHAIN_ID/"
+        SNAP_NAME=$(curl -s "${SNAP_URL}" | egrep -o "$AKASH_CHAIN_ID" | tr -d ">" | tail -1)
+        aria2c --out=snapshot.tar.lz4 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 8 -x 8 -k 1M -j 1 "${SNAP_URL}${SNAP_NAME}"
+        lz4 -c -d snapshot.tar.lz4 | tar -x -C "$AKASH_HOME"
+        rm -rf snapshot.tar.lz4
+        ;;
+
+      "c29r3")
+        SNAP_NAME=$(curl -s https://snapshots.c29r3.xyz/akash/ | egrep -o ">$AKASH_CHAIN_ID.*tar" | tr -d ">")
+        echo "Using default c29r3.xyz blockchain snapshot, https://snapshots.c29r3.xyz/akash/${SNAP_NAME}"
+        aria2c --out=snapshot.tar --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 8 -x 8 -k 1M -j 1 "https://snapshots.c29r3.xyz/akash/${SNAP_NAME}"
+        tar -xf snapshot.tar -C "$AKASH_HOME/data"
+        rm -rf snapshot.tar
         ;;
 
       *)
-        SNAPSHOT_URL=$(curl -s https://cosmos-snapshots.s3.filebase.com/akash/pruned/snapshot.json | jq -r .latest)
-        echo "Using latest Cosmos blockchain snapshot, $SNAPSHOT_URL"
-        aria2c --out=snapshot.tar.gz --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 16 -x 16 -k 1M -j 1 "$SNAPSHOT_URL"
-        tar -zxvf snapshot.tar.gz
-        rm -f snapshot.tar.gz
+        SNAPSHOTS_DIR_URL="https://snapshots.polkachu.com/snapshots/"
+        USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        LATEST=$(curl -s -A "$USER_AGENT" "$SNAPSHOTS_DIR_URL" | grep -oP 'akash/[^<]+\.tar\.lz4' | tail -n1)
+        SNAPSHOT_URL="https://snapshots.polkachu.com/snapshots/"
+        aria2c --out=snapshot.tar.lz4 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 8 -x 8 -k 1M -j 1 "${SNAPSHOT_URL}${LATEST}"
+        lz4 -c -d snapshot.tar.lz4 | tar -x -C "$AKASH_HOME"
+        rm -rf snapshot.tar.lz4
         ;;
 
     esac
