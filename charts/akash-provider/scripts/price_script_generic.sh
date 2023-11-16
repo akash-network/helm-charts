@@ -2,7 +2,7 @@
 # WARNING: the runtime of this script should NOT exceed 5 seconds! (Perhaps can be amended via AKASH_BID_PRICE_SCRIPT_PROCESS_TIMEOUT env variable)
 # Requirements:
 # curl jq bc mawk ca-certificates
-# Version: Sept-19-2023
+# Version: November-16-2023
 set -o pipefail
 
 # Example:
@@ -159,17 +159,19 @@ fi
 
 gpu_price_total=0
 while IFS= read -r resource; do
+  count=$(echo "$resource" | jq -r '.count')
   model=$(echo "$resource" | jq -r '.gpu.attributes.vendor.nvidia.model // 0')
   gpu_units=$(echo "$resource" | jq -r '.gpu.units // 0')
   # default to 100 USD/GPU per unit a month when PRICE_TARGET_GPU_MAPPINGS is not set
   price="${gpu_mappings[''$model'']:-$gpu_unit_max_price}"
-  ((gpu_price_total += gpu_units * price))
+  ((gpu_price_total += count * gpu_units * price))
 
   if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
     echo "DEBUG: model $model"
     echo "DEBUG: price for this model $price"
     echo "DEBUG: gpu_units $gpu_units"
     echo "DEBUG: gpu_price_total $gpu_price_total"
+    echo "DEBUG: count $count"
   fi
 done <<< "$(echo "$data_in" | jq -rc '.[]')"
 
