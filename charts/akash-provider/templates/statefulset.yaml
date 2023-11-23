@@ -253,25 +253,10 @@ spec:
             - name: AKASH_BID_DEPOSIT
               value: "5000000uakt"
 
-            - name: LOG_RESTART_PATTERNS
-              value: "{{ .Values.log_restart_patterns }}"
-
           ports:
             - name: api
               containerPort: 8443
               protocol: TCP
-
-          livenessProbe:
-            exec:
-              command:
-              - sh
-              - -c
-              - |
-                grep -Eq "$LOG_RESTART_PATTERNS" /var/log/provider.log && exit 1 || :
-            initialDelaySeconds: 60
-            periodSeconds: 10
-            failureThreshold: 1
-            timeoutSeconds: 10
 
           volumeMounts:
             - name: boot
