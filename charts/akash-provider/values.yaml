@@ -97,10 +97,6 @@ overcommit_pct_mem: 0
 # Percentage of storage overcommit
 overcommit_pct_storage: 0
 
-# When provider pod finds these errors in its logs it will automatically restart.
-# You can specify multiple patterns, separated by | character
-log_restart_patterns: "account sequence mismatch"
-
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
