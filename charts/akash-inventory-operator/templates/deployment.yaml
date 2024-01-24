@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: akash-inventory-operator
+  name: operator-inventory
   namespace: akash-services
   labels:
     akash.network: "true"
@@ -19,17 +19,23 @@ spec:
   template:
     metadata:
       labels:
-        app: akash-inventory-operator
+        app: operator-inventory
         app.kubernetes.io/name: akash
         app.kubernetes.io/instance: inventory
         app.kubernetes.io/component: operator
     spec:
-      serviceAccountName: akash-inventory-operator
+      serviceAccountName: operator-inventory
       containers:
-        - name: akash-inventory-operator
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["provider-services", "operator", "inventory"]
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: operator-inventory
+          image: ghcr.io/akash-network/provider
+          args:
+            - "provider-services"
+            - "operator"
+            - "inventory"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: AP_CONFIG
+              value: /akash/config.yaml
           resources:
             limits:
               cpu: 500m
@@ -41,3 +47,13 @@ spec:
             - containerPort: 8080
               name: api
               protocol: TCP
+            - containerPort: 8081
+              name: grpc
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /akash
+      volumes:
+        - name: config
+          configMap:
+            name: operator-inventory
