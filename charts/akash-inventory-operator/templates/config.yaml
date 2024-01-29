@@ -1,8 +1,13 @@
----
-version: v1
-cluster_storage:
-  - default
-  - beta2
-exclude:
-  nodes: []
-  node_storage: []
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: inventory-configmap
+  namespace: akash-services 
+  config.yaml: |
+    version: v1
+    cluster_storage:
+      - default
+      - beta2
+    exclude:
+      nodes: []
+      node_storage: []
