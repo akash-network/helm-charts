@@ -7,11 +7,10 @@ data:
   config.yaml: |
     version: v1
     cluster_storage:
-      {{- range .Values.inventoryConfig.cluster_storage }}
-      - {{ . }}
-      {{- end }}
+      - default
+      - beta2
     exclude:
-      nodes: {{ .Values.inventoryConfig.exclude.nodes | toYaml | nindent 6 }}
-      node_storage: {{ .Values.inventoryConfig.exclude.node_storage | toYaml | nindent 6 }}
+      nodes: []
+      node_storage: []
 
 
