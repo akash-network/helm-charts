@@ -7,9 +7,12 @@ image:
   pullPolicy: IfNotPresent
 
 inventoryConfig:
+  # Allow users to specify cluster storage options
   cluster_storage:
     - default
+    - beta1
     - beta2
+    - beta3
   exclude:
     nodes: []
     node_storage: []

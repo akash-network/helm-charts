@@ -7,10 +7,9 @@ data:
   config.yaml: |
     version: v1
     cluster_storage:
-      - default
-      - beta2
+{{- range .Values.inventoryConfig.cluster_storage }}
+      - {{ . }}
+{{- end }}
     exclude:
       nodes: []
       node_storage: []
-
-
