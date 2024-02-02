@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -38,6 +39,14 @@ spec:
           env:
             - name: AP_CONFIG
               value: /akash/config.yaml
+            - name: AP_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: AP_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           resources:
             limits:
               cpu: 500m
@@ -45,6 +54,20 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
+          livenessProbe:
+            httpGet:
+              path: /metrics/health
+              port: api
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /metrics/ready
+              port: api
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 5
           ports:
             - containerPort: 8080
               name: api
