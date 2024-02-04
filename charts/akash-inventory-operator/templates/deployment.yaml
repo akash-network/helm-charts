@@ -30,7 +30,7 @@ spec:
       serviceAccountName: operator-inventory
       containers:
         - name: operator-inventory
-          image: ghcr.io/akash-network/provider
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           args:
             - "provider-services"
             - "operator"
