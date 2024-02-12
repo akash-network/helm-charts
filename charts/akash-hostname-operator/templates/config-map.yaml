@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: akash-{{ include "akash-hostname-operator.fullname" . }}-boot
+  name: operator-hostname
   namespace: {{ .Release.Namespace }}
 data:
   run.sh: |
