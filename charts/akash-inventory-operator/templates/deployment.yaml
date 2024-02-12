@@ -35,7 +35,7 @@ spec:
             - "provider-services"
             - "operator"
             - "inventory"
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: AP_CONFIG
               value: /akash/config.yaml
