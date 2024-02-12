@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: operator-hostname
-  namespace: {{ .Release.Namespace }}
+  namespace: akash-services
 data:
   run.sh: |
     #!/bin/sh
