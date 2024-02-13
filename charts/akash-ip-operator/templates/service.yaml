@@ -18,3 +18,4 @@ spec:
   ports:
     - name: rest
       port: 8080
+      targetPort: rest
