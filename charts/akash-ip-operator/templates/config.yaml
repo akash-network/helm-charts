@@ -4,6 +4,7 @@ metadata:
   name: operator-ip
   namespace: akash-services
 data:
+  provider-address: {{ .Values.provider_address | default "" | quote }}
   k8s-manifest-ns: "lease"
   prune-interval: "600s"
   ignore-list-entry-limit: "131072"
