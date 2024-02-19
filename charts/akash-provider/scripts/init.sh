@@ -75,11 +75,12 @@ if [[ $? -ne 0 ]]; then
 fi
 
 echo "Checking whether provider.yaml needs to be updated on the chain ..."
-REMOTE_PROVIDER="$(provider-services query provider get $PROVIDER_ADDRESS -o json | jq | sha1sum | awk '{print $1}')"
-LOCAL_PROVIDER="$(provider-services tx provider update provider.yaml --offline --generate-only --from $PROVIDER_ADDRESS | jq -r '.body.messages[]' | jq -r 'del(."@type")' | sha1sum | awk '{print $1}')"
-if [[ "$REMOTE_PROVIDER" != "$LOCAL_PROVIDER" ]]; then
-  echo "Updating provider in the blockchain ..."
-  provider-services tx provider update provider.yaml
+diff --color -Nur <(cat provider.yaml | awk '/attributes:/{print;flag=1;next}/^  - key:/{if(flag)sub("  ","");print;next}flag&&/^    /{sub("    ","  ");print;next}{flag=0;print}' | sort) <(provider-services query provider get $PROVIDER_ADDRESS -o text | sed -e 's/"//g' -e 's/host_uri:/host:/g' | sort)
+rc=$?
+if [[ $rc -ne 0 ]]; then
+  echo "Updating provider info in the blockchain in 10 seconds ..."
+  sleep 10s
+  echo provider-services tx provider update provider.yaml
 fi
 
 CERT_SYMLINK="${AKASH_HOME}/${PROVIDER_ADDRESS}.pem"
