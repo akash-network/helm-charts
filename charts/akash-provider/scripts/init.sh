@@ -121,6 +121,15 @@ if [[ $rc -ne 0 ]]; then
   GEN_NEW_CERT=0
 fi
 
+# check if current local cert has expired
+# TODO: should probably add a healthCheck which would keep doing this every 5 minutes to bounce the pod if cert got expired
+openssl x509 -checkend 604800 -noout -in "${CERT_REAL_PATH}" 2>/dev/null 1>&2
+rc=$?
+if [[ $rc -ne 0 ]]; then
+  echo "Certificate expires in less than 7 days, so going to generate a new one."
+  GEN_NEW_CERT=0
+fi
+
 if [[ "$GEN_NEW_CERT" -eq "0" ]]; then
   echo "Removing the old certificate before generating a new one"
   # It's also a good idea to delete it as otherwise, we'd have to add `--overwrite` to `provider-services tx cert generate server` command later.
