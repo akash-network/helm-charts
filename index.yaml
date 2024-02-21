@@ -264,6 +264,16 @@ entries:
   akash-inventory-operator:
   - apiVersion: v2
     appVersion: 0.4.8
+    created: "2024-02-21T09:10:55.482444254Z"
+    description: An operator required for persistent storage (optional)
+    digest: 594ed8233781787777c67362b7a79301ae940162ea4c6e82818469631421dd91
+    name: akash-inventory-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-8.0.1/akash-inventory-operator-8.0.1.tgz
+    version: 8.0.1
+  - apiVersion: v2
+    appVersion: 0.4.8
     created: "2023-11-20T02:52:19.416661691Z"
     description: An operator required for persistent storage (optional)
     digest: f1a08de0b91607046c28dbdaebba64921992036a2e6c8697eb974dd8c3d8a0e9
@@ -4865,4 +4875,4 @@ entries:
     urls:
     - https://github.com/ovrclk/helm-charts/releases/download/provider-0.1.0/provider-0.1.0.tgz
     version: 0.1.0
-generated: "2024-02-19T21:38:12.236041762Z"
+generated: "2024-02-21T09:10:55.483378509Z"
