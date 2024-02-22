@@ -28,6 +28,7 @@ spec:
         app.kubernetes.io/part-of: provider
     spec:
       serviceAccountName: operator-inventory
+      terminationGracePeriodSeconds: 30
       containers:
         - name: operator-inventory
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -56,7 +57,7 @@ spec:
               memory: 128Mi
           ports:
             - containerPort: 8080
-              name: api
+              name: rest
               protocol: TCP
             - containerPort: 8081
               name: grpc
