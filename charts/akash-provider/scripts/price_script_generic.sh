@@ -160,8 +160,12 @@ fi
 gpu_price_total=0
 while IFS= read -r resource; do
   count=$(echo "$resource" | jq -r '.count')
-  model=$(echo "$resource" | jq -r '.gpu.attributes.vendor.nvidia.model // 0')
-  vram=$(echo "$resource" | jq -r --arg v_model "$model" '.gpu.attributes.vendor.nvidia | select(.model == $v_model).ram // 0')
+  model=$(echo "$resource" | jq -r '.gpu.attributes.vendor | (.nvidia // .amd // empty).model // 0')
+  vram=$(echo "$resource" | jq -r --arg v_model "$model" '.gpu.attributes.vendor | (
+      .nvidia | select(.model == $v_model) //
+      .amd | select(.model == $v_model) //
+      empty
+  ).ram // 0')
   gpu_units=$(echo "$resource" | jq -r '.gpu.units // 0')
   # default to 100 USD/GPU per unit a month when PRICE_TARGET_GPU_MAPPINGS is not set
   # price_target_gpu_mappings can specify <model.vram> or <model>. E.g. a100.40Gi=900,a100.80Gi=1000 or a100=950
