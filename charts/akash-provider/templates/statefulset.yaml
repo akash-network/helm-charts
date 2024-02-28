@@ -257,6 +257,9 @@ spec:
             - name: api
               containerPort: 8443
               protocol: TCP
+            - name: grpc
+              containerPort: 8444
+              protocol: TCP
 
           volumeMounts:
             - name: boot

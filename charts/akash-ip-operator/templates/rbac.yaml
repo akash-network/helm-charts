@@ -1,51 +1,18 @@
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: akash-ip-operator-manage-service
-subjects:
-  - kind: ServiceAccount
-    name: akash-ip-operator
-    namespace: akash-services
-roleRef:
-  kind: ClusterRole
-  name: akash-ip-op-manage-service
-  apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: akash-ip-operator-watch-providerleasedip
+  name: akash-operator-ip
+  labels:
+    app.kubernetes.io/name: ip
+    app.kubernetes.io/instance: ip-service
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/part-of: provider
 subjects:
   - kind: ServiceAccount
-    name: akash-ip-operator
+    name: operator-ip
     namespace: akash-services
 roleRef:
   kind: ClusterRole
-  name: akash-ip-op-watch-providerleasedip
-  apiGroup: rbac.authorization.k8s.io
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: akash-ip-operator-watch-configmaps
-subjects:
-  - kind: ServiceAccount
-    name: akash-ip-operator
-    namespace: akash-services
-roleRef:
-  kind: ClusterRole
-  name: akash-ip-op-watch-configmaps
-  apiGroup: rbac.authorization.k8s.io
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: akash-ip-operator-get-namespaces
-subjects:
-  - kind: ServiceAccount
-    name: akash-ip-operator
-    namespace: akash-services
-roleRef:
-  kind: ClusterRole
-  name: akash-ip-op-get-namespaces
+  name: akash-operator-ip
   apiGroup: rbac.authorization.k8s.io
