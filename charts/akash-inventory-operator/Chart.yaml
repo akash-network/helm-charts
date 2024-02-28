@@ -1,6 +1,6 @@
 apiVersion: v2
 name: akash-inventory-operator
-description: An operator required for persistent storage (optional)
+description: An operator required for persistent storage (required)
 
 # A chart can be either an 'application' or a 'library' chart.
 #
