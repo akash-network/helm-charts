@@ -11,5 +11,8 @@ data:
       - {{ . }}
 {{- end }}
     exclude:
-      nodes: []
+      nodes:
+{{- range .Values.inventoryConfig.exclude.nodes }}
+        - {{ . }}
+{{- end }}
       node_storage: []
