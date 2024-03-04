@@ -80,7 +80,7 @@ rc=$?
 if [[ $rc -ne 0 ]]; then
   echo "Updating provider info in the blockchain in 10 seconds ..."
   sleep 10s
-  echo provider-services tx provider update provider.yaml
+  provider-services tx provider update provider.yaml
 fi
 
 CERT_SYMLINK="${AKASH_HOME}/${PROVIDER_ADDRESS}.pem"
