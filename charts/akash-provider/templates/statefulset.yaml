@@ -43,6 +43,8 @@ spec:
           env:
             - name: AKASH_DEBUG
               value: "{{ $.Values.debug }}"
+            - name: AP_YES
+              value: "true"
             ##
             # boot config
             ##
