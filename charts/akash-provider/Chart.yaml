@@ -24,4 +24,4 @@ version: 9.0.4
 # follow Semantic Versioning. They should reflect the version the application is using.
 #
 # Refs https://github.com/akash-network/provider/releases
-appVersion: 0.5.3
+appVersion: 0.5.4
