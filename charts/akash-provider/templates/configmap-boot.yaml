@@ -8,3 +8,5 @@ data:
 {{ tpl (.Files.Get "scripts/init.sh") . | indent 4 }}
   run.sh: |
 {{ tpl (.Files.Get "scripts/run.sh") . | indent 4 }}
+  liveness_checks.sh: |
+{{ tpl (.Files.Get "scripts/liveness_checks.sh") . | indent 4 }}

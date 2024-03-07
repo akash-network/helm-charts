@@ -19,7 +19,7 @@ spec:
     metadata:
       annotations:
         checksum/cm-boot: {{ include (print $.Template.BasePath "/configmap-boot.yaml") . | sha256sum }}
-        checksum/cm-bidscripts: {{ include (print $.Template.BasePath "/configmap-bidscripts.yaml") . | sha256sum }}
+        checksum/cm-scripts: {{ include (print $.Template.BasePath "/configmap-scripts.yaml") . | sha256sum }}
       labels:
         app: {{ include "provider.fullname" . }}
         {{- include "provider.selectorLabels" . | nindent 8 }}
@@ -82,10 +82,6 @@ spec:
             - name: AKASH_LOG_LEVEL
               value: "info"
 
-          ports:
-            - name: api
-              containerPort: 8443
-              protocol: TCP
           volumeMounts:
             - name: boot
               mountPath: /boot
@@ -180,7 +176,7 @@ spec:
               value: "{{ ternary "scale" "shellScript" (empty .Values.bidpricescript) }}"
 {{ if .Values.bidpricescript }}
             - name: AKASH_BID_PRICE_SCRIPT_PATH
-              value: "/bidscripts/price_script.sh"
+              value: "/scripts/price_script.sh"
 {{- end }}
 {{ if .Values.whitelist_url }}
             - name: WHITELIST_URL
@@ -263,12 +259,23 @@ spec:
               containerPort: 8444
               protocol: TCP
 
+          livenessProbe:
+            exec:
+              command:
+              - sh
+              - -c
+              - /scripts/liveness_checks.sh
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            failureThreshold: 1
+            timeoutSeconds: 10
+
           volumeMounts:
             - name: boot
               mountPath: /boot
               readOnly: true
-            - name: bidscripts
-              mountPath: /bidscripts
+            - name: scripts
+              mountPath: /scripts
               readOnly: true
             - name: keys
               mountPath: /boot-keys
@@ -281,9 +288,9 @@ spec:
         - name: boot
           configMap:
             name: {{ include "provider.fullname" . }}-boot
-        - name: bidscripts
+        - name: scripts
           configMap:
-            name: {{ include "provider.fullname" . }}-bidscripts
+            name: {{ include "provider.fullname" . }}-scripts
             defaultMode: 0744
         - name: keys
           secret:
