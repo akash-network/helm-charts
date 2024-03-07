@@ -3,6 +3,12 @@
 # Ensure the script fails if any part of a pipeline fails
 set -o pipefail
 
+# Check provider certificate expiration
+if ! openssl x509 -in /config/provider.pem -checkend 3600 -noout > /dev/null; then
+  echo "certificate will expire in 1h, restarting"
+  exit 1
+fi
+
 # Provider API /status check
 if ! timeout 5s curl -o /dev/null -fsk https://127.0.0.1:8443/status; then
   echo "api /status check failed"
