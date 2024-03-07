@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "provider.fullname" . }}-bidscripts
+  name: {{ include "provider.fullname" . }}-scripts
   namespace: {{ .Release.Namespace }}
 data:
   dummy: |
@@ -10,3 +10,5 @@ data:
   price_script.sh: |
 {{ .Values.bidpricescript | b64dec | indent 4 }}
 {{- end }}
+  liveness_checks.sh: |
+{{ tpl (.Files.Get "scripts/liveness_checks.sh") . | indent 4 }}
