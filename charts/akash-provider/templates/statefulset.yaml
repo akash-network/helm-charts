@@ -82,10 +82,6 @@ spec:
             - name: AKASH_LOG_LEVEL
               value: "info"
 
-          ports:
-            - name: api
-              containerPort: 8443
-              protocol: TCP
           volumeMounts:
             - name: boot
               mountPath: /boot
