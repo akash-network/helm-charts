@@ -18,7 +18,6 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/cm-boot: {{ include (print $.Template.BasePath "/configmap-boot.yaml") . | sha256sum }}
         checksum/cm-scripts: {{ include (print $.Template.BasePath "/configmap-scripts.yaml") . | sha256sum }}
       labels:
         app: {{ include "provider.fullname" . }}
@@ -36,7 +35,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["/bin/bash", "/boot/init.sh"]
+          command: ["/bin/bash", "/scripts/init.sh"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -83,8 +82,8 @@ spec:
               value: "info"
 
           volumeMounts:
-            - name: boot
-              mountPath: /boot
+            - name: scripts
+              mountPath: /scripts
               readOnly: true
             - name: keys
               mountPath: /boot-keys
@@ -98,7 +97,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["/bin/bash", "/boot/run.sh"]
+          command: ["/bin/bash", "/scripts/run.sh"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -271,9 +270,6 @@ spec:
             timeoutSeconds: 10
 
           volumeMounts:
-            - name: boot
-              mountPath: /boot
-              readOnly: true
             - name: scripts
               mountPath: /scripts
               readOnly: true
@@ -285,9 +281,6 @@ spec:
             - name: home
               mountPath: "{{ .Values.home }}"
       volumes:
-        - name: boot
-          configMap:
-            name: {{ include "provider.fullname" . }}-boot
         - name: scripts
           configMap:
             name: {{ include "provider.fullname" . }}-scripts
