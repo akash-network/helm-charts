@@ -112,11 +112,11 @@ securityContext: {}
 
 resources:
   limits:
+    cpu: 2000m
+    memory: 1024Mi
+  requests:
     cpu: 1000m
     memory: 512Mi
-  requests:
-    cpu: 200m
-    memory: 128Mi
 
 autoscaling:
   enabled: false
