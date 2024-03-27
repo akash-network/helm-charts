@@ -166,11 +166,20 @@ while IFS= read -r resource; do
       .amd | select(.model == $v_model) //
       empty
   ).ram // 0')
+  interface=$(echo "$resource" | jq -r --arg v_model "$model" '.gpu.attributes.vendor | (
+      .nvidia | select(.model == $v_model) //
+      .amd | select(.model == $v_model) //
+      empty
+  ).interface // 0')
   gpu_units=$(echo "$resource" | jq -r '.gpu.units // 0')
   # default to 100 USD/GPU per unit a month when PRICE_TARGET_GPU_MAPPINGS is not set
-  # price_target_gpu_mappings can specify <model.vram> or <model>. E.g. a100.40Gi=900,a100.80Gi=1000 or a100=950
+  # GPU <vram> price_target_gpu_mappings can specify <model.vram> or <model>. E.g. a100.40Gi=900,a100.80Gi=1000 or a100=950
   if [[ "$vram" != "0" ]]; then
     model="${model}.${vram}"
+  fi
+  # GPU <interface>: price_target_gpu_mappings can specify <model.vram.interface> or <model.interface>. E.g. a100.80Gi.pcie=900,a100.pcie=1000 or a100.80Gi.sxm4,a100.sxm4 or a100=950
+  if [[ "$interface" != "0" ]]; then
+    model="${model}.${interface}"
   fi
 
   # Fallback logic to find the best matching price if vram/interface weren't set in PRICE_TARGET_GPU_MAPPINGS
