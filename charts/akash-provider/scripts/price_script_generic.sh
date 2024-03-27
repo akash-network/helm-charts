@@ -2,7 +2,7 @@
 # WARNING: the runtime of this script should NOT exceed 5 seconds! (Perhaps can be amended via AKASH_BID_PRICE_SCRIPT_PROCESS_TIMEOUT env variable)
 # Requirements:
 # curl jq bc mawk ca-certificates
-# Version: February-27-2024
+# Version: March-27-2024
 set -o pipefail
 
 # Example:
@@ -166,13 +166,32 @@ while IFS= read -r resource; do
       .amd | select(.model == $v_model) //
       empty
   ).ram // 0')
+  interface=$(echo "$resource" | jq -r --arg v_model "$model" '.gpu.attributes.vendor | (
+      .nvidia | select(.model == $v_model) //
+      .amd | select(.model == $v_model) //
+      empty
+  ).interface // 0')
   gpu_units=$(echo "$resource" | jq -r '.gpu.units // 0')
   # default to 100 USD/GPU per unit a month when PRICE_TARGET_GPU_MAPPINGS is not set
-  # price_target_gpu_mappings can specify <model.vram> or <model>. E.g. a100.40Gi=900,a100.80Gi=1000 or a100=950
+  # GPU <vram> price_target_gpu_mappings can specify <model.vram> or <model>. E.g. a100.40Gi=900,a100.80Gi=1000 or a100=950
   if [[ "$vram" != "0" ]]; then
     model="${model}.${vram}"
   fi
-  price="${gpu_mappings[''$model'']:-$gpu_unit_max_price}"
+  # GPU <interface>: price_target_gpu_mappings can specify <model.vram.interface> or <model.interface>. E.g. a100.80Gi.pcie=900,a100.pcie=1000 or a100.80Gi.sxm4,a100.sxm4 or a100=950
+  if [[ "$interface" != "0" ]]; then
+    model="${model}.${interface}"
+  fi
+
+  # Fallback logic to find the best matching price if vram/interface weren't set in PRICE_TARGET_GPU_MAPPINGS
+  if [[ -n "${gpu_mappings["$model"]}" ]]; then
+    price="${gpu_mappings["$model"]}"
+  elif [[ -n "${gpu_mappings["${model%.*}"]}" ]]; then  # Remove the interface or vram if it's not found
+    price="${gpu_mappings["${model%.*}"]}"
+  elif [[ -n "${gpu_mappings["${model%%.*}"]}" ]]; then  # Remove vram (and interface if exists)
+    price="${gpu_mappings["${model%%.*}"]}"
+  else
+    price="$gpu_unit_max_price"  # Default catchall price
+  fi
   ((gpu_price_total += count * gpu_units * price))
 
   if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
