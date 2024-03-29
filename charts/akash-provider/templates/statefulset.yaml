@@ -248,7 +248,7 @@ spec:
             - name: AKASH_MINIMUM_BALANCE
               value: "{{ .Values.minimumbalance }}"
             - name: AKASH_BID_DEPOSIT
-              value: "500000uakt"
+              value: "{{ .Values.bidmindeposit }}"
 
           ports:
             - name: api
