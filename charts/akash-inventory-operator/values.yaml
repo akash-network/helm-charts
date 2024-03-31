@@ -10,7 +10,8 @@ inventoryConfig:
   # Allow users to specify cluster storage options
   cluster_storage:
     - default
-    - beta2
+    - beta3
+    - ram
   exclude:
     nodes: []
     node_storage: []
