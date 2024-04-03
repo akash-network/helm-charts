@@ -2,7 +2,7 @@
 # WARNING: the runtime of this script should NOT exceed 5 seconds! (Perhaps can be amended via AKASH_BID_PRICE_SCRIPT_PROCESS_TIMEOUT env variable)
 # Requirements:
 # curl jq bc mawk ca-certificates
-# Version: March-27-2024
+# Version: April-03-2024
 set -o pipefail
 
 # Example:
@@ -148,7 +148,8 @@ done
 # Or use the highest price from PRICE_TARGET_GPU_MAPPINGS when model detection fails (ref. https://github.com/akash-network/support/issues/139 )
 gpu_unit_max_price=100
 for value in "${gpu_mappings[@]}"; do
-  if (( value > gpu_unit_max_price )); then
+  # Hint: bc <<< "$a > $b" (if a is greater than b, it will return 1, otherwise 0)
+  if bc <<< "$value > $gpu_unit_max_price" | grep -qw 1; then
     gpu_unit_max_price=$value
   fi
 done
@@ -192,7 +193,7 @@ while IFS= read -r resource; do
   else
     price="$gpu_unit_max_price"  # Default catchall price
   fi
-  ((gpu_price_total += count * gpu_units * price))
+  gpu_price_total=$(bc -l <<< "$gpu_price_total + ($count * $gpu_units * $price)")
 
   if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
     echo "DEBUG: model $model"
