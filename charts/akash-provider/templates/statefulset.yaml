@@ -264,10 +264,10 @@ spec:
               - sh
               - -c
               - /scripts/liveness_checks.sh
-            initialDelaySeconds: 120
-            periodSeconds: 10
+            initialDelaySeconds: 240
+            periodSeconds: 30
             failureThreshold: 1
-            timeoutSeconds: 10
+            timeoutSeconds: 30
 
           volumeMounts:
             - name: scripts
