@@ -1,51 +1,18 @@
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: akash-operator-manage-hostnames
-subjects:
-  - kind: ServiceAccount
-    name: {{ include "akash-hostname-operator.serviceAccountName" . }}
-    namespace: {{ .Release.Namespace }}
-roleRef:
-  kind: ClusterRole
-  name: manage-ingress
-  apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: akash-operator-watch-providerhosts
+  name: akash-operator-hostname
+  labels:
+    app.kubernetes.io/name: hostname
+    app.kubernetes.io/instance: hostname-service
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/part-of: provider
 subjects:
   - kind: ServiceAccount
-    name: {{ include "akash-hostname-operator.serviceAccountName" . }}
-    namespace: {{ .Release.Namespace }}
+    name: operator-hostname
+    namespace: akash-services
 roleRef:
   kind: ClusterRole
-  name: watch-providerhosts
-  apiGroup: rbac.authorization.k8s.io
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: akash-operator-watch-manifests
-subjects:
-  - kind: ServiceAccount
-    name: {{ include "akash-hostname-operator.serviceAccountName" . }}
-    namespace: {{ .Release.Namespace }}
-roleRef:
-  kind: ClusterRole
-  name: watch-manifests
-  apiGroup: rbac.authorization.k8s.io
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: akash-operator-get-namespaces
-subjects:
-  - kind: ServiceAccount
-    name: {{ include "akash-hostname-operator.serviceAccountName" . }}
-    namespace: {{ .Release.Namespace }}
-roleRef:
-  kind: ClusterRole
-  name: get-namespaces
+  name: akash-operator-hostname
   apiGroup: rbac.authorization.k8s.io

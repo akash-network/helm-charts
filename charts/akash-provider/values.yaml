@@ -64,7 +64,9 @@ gasprices: "0.025uakt"
 # increase gasadjustment to tackle "out of gas" issues, i.e. https://github.com/ovrclk/akash/issues/1508
 gas: "auto"
 # Note that --gas-adjustment is working only when --gas is "auto"!
-gasadjustment: "1.25"
+gasadjustment: "1.5"
+
+bidmindeposit: "500000uakt" # 0.5 AKT - provider minimum bid deposit (5 AKT for sandbox)
 
 # If you plan to use bid price script, then make sure to set bidpricescript variable to the base64 encoded contents of the script.
 # This will automatically switch AKASH_BID_PRICE_STRATEGY from "scale" (default) to "shellScript".
@@ -84,6 +86,7 @@ withdrawalperiod: "1h"
 minimumbalance: "10000000"
 
 deploymentnetworkpoliciesenabled: "false"
+cluster_node_port_quantity: "2500"
 
 ipoperator: false
 
@@ -95,10 +98,6 @@ overcommit_pct_cpu: 0
 overcommit_pct_mem: 0
 # Percentage of storage overcommit
 overcommit_pct_storage: 0
-
-# When provider pod finds these errors in its logs it will automatically restart.
-# You can specify multiple patterns, separated by | character
-log_restart_patterns: "account sequence mismatch"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -115,11 +114,11 @@ securityContext: {}
 
 resources:
   limits:
+    cpu: 2000m
+    memory: 1024Mi
+  requests:
     cpu: 1000m
     memory: 512Mi
-  requests:
-    cpu: 200m
-    memory: 128Mi
 
 autoscaling:
   enabled: false

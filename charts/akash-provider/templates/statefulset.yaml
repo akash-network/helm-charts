@@ -18,8 +18,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/cm-boot: {{ include (print $.Template.BasePath "/configmap-boot.yaml") . | sha256sum }}
-        checksum/cm-bidscripts: {{ include (print $.Template.BasePath "/configmap-bidscripts.yaml") . | sha256sum }}
+        checksum/cm-scripts: {{ include (print $.Template.BasePath "/configmap-scripts.yaml") . | sha256sum }}
       labels:
         app: {{ include "provider.fullname" . }}
         {{- include "provider.selectorLabels" . | nindent 8 }}
@@ -36,13 +35,15 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["/bin/bash", "/boot/init.sh"]
+          command: ["/bin/bash", "/scripts/init.sh"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
             - name: AKASH_DEBUG
               value: "{{ $.Values.debug }}"
+            - name: AP_YES
+              value: "true"
             ##
             # boot config
             ##
@@ -80,13 +81,9 @@ spec:
             - name: AKASH_LOG_LEVEL
               value: "info"
 
-          ports:
-            - name: api
-              containerPort: 8443
-              protocol: TCP
           volumeMounts:
-            - name: boot
-              mountPath: /boot
+            - name: scripts
+              mountPath: /scripts
               readOnly: true
             - name: keys
               mountPath: /boot-keys
@@ -100,7 +97,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["/bin/bash", "/boot/run.sh"]
+          command: ["/bin/bash", "/scripts/run.sh"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -161,7 +158,7 @@ spec:
             - name: AKASH_DEPLOYMENT_BLOCKED_HOSTNAMES
               value: ""
             - name: AKASH_CLUSTER_NODE_PORT_QUANTITY
-              value: "2500"
+              value: "{{ .Values.cluster_node_port_quantity }}"
             - name: AKASH_GAS_PRICES
               value: "{{ .Values.gasprices }}"
             - name: AKASH_GAS
@@ -178,7 +175,7 @@ spec:
               value: "{{ ternary "scale" "shellScript" (empty .Values.bidpricescript) }}"
 {{ if .Values.bidpricescript }}
             - name: AKASH_BID_PRICE_SCRIPT_PATH
-              value: "/bidscripts/price_script.sh"
+              value: "/scripts/price_script.sh"
 {{- end }}
 {{ if .Values.whitelist_url }}
             - name: WHITELIST_URL
@@ -251,14 +248,14 @@ spec:
             - name: AKASH_MINIMUM_BALANCE
               value: "{{ .Values.minimumbalance }}"
             - name: AKASH_BID_DEPOSIT
-              value: "5000000uakt"
-
-            - name: LOG_RESTART_PATTERNS
-              value: "{{ .Values.log_restart_patterns }}"
+              value: "{{ .Values.bidmindeposit }}"
 
           ports:
             - name: api
               containerPort: 8443
+              protocol: TCP
+            - name: grpc
+              containerPort: 8444
               protocol: TCP
 
           livenessProbe:
@@ -266,19 +263,15 @@ spec:
               command:
               - sh
               - -c
-              - |
-                grep -Eq "$LOG_RESTART_PATTERNS" /var/log/provider.log && exit 1 || :
-            initialDelaySeconds: 60
-            periodSeconds: 10
+              - /scripts/liveness_checks.sh
+            initialDelaySeconds: 240
+            periodSeconds: 30
             failureThreshold: 1
-            timeoutSeconds: 10
+            timeoutSeconds: 30
 
           volumeMounts:
-            - name: boot
-              mountPath: /boot
-              readOnly: true
-            - name: bidscripts
-              mountPath: /bidscripts
+            - name: scripts
+              mountPath: /scripts
               readOnly: true
             - name: keys
               mountPath: /boot-keys
@@ -288,12 +281,9 @@ spec:
             - name: home
               mountPath: "{{ .Values.home }}"
       volumes:
-        - name: boot
+        - name: scripts
           configMap:
-            name: {{ include "provider.fullname" . }}-boot
-        - name: bidscripts
-          configMap:
-            name: {{ include "provider.fullname" . }}-bidscripts
+            name: {{ include "provider.fullname" . }}-scripts
             defaultMode: 0744
         - name: keys
           secret:

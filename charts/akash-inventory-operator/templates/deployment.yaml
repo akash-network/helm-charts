@@ -1,43 +1,71 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: akash-inventory-operator
+  name: operator-inventory
   namespace: akash-services
   labels:
     akash.network: "true"
-    app.kubernetes.io/name: akash
-    app.kubernetes.io/instance: inventory
+    app.kubernetes.io/name: inventory
+    app.kubernetes.io/instance: inventory-service
     app.kubernetes.io/component: operator
+    app.kubernetes.io/part-of: provider
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: akash
-      app.kubernetes.io/instance: inventory
+      app.kubernetes.io/name: inventory
+      app.kubernetes.io/instance: inventory-service
       app.kubernetes.io/component: operator
+      app.kubernetes.io/part-of: provider
   replicas: 1
   revisionHistoryLimit: 1
   template:
     metadata:
       labels:
-        app: akash-inventory-operator
-        app.kubernetes.io/name: akash
-        app.kubernetes.io/instance: inventory
+        app.kubernetes.io/name: inventory
+        app.kubernetes.io/instance: inventory-service
         app.kubernetes.io/component: operator
+        app.kubernetes.io/part-of: provider
     spec:
-      serviceAccountName: akash-inventory-operator
+      serviceAccountName: operator-inventory
+      terminationGracePeriodSeconds: 30
       containers:
-        - name: akash-inventory-operator
+        - name: operator-inventory
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["provider-services", "operator", "inventory"]
+          args:
+            - "provider-services"
+            - "operator"
+            - "inventory"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: AP_CONFIG
+              value: /akash/config.yaml
+            - name: AP_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: AP_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           resources:
             limits:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 2000m
+              memory: 1024Mi
             requests:
-              cpu: 100m
-              memory: 128Mi
+              cpu: 500m
+              memory: 256Mi
           ports:
             - containerPort: 8080
-              name: api
+              name: rest
               protocol: TCP
+            - containerPort: 8081
+              name: grpc
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /akash
+      volumes:
+        - name: config
+          configMap:
+            name: operator-inventory

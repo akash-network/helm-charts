@@ -1,28 +1,20 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "akash-hostname-operator.fullname" . }}
-  labels:
-    {{- include "akash-hostname-operator.labels" . | nindent 4 }}
-spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      name: status
-  selector:
-    {{- include "akash-hostname-operator.selectorLabels" . | nindent 4 }}
 ---
-## Backwards compatability fix. Remove once 0.16.5 is released.
 apiVersion: v1
 kind: Service
 metadata:
-  name: hostname-operator
+  name: operator-hostname
   labels:
-    {{- include "akash-hostname-operator.labels" . | nindent 4 }}
+    app.kubernetes.io/name: hostname
+    app.kubernetes.io/instance: hostname-service
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/part-of: provider
 spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      name: status
   selector:
-    {{- include "akash-hostname-operator.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/name: hostname
+    app.kubernetes.io/instance: hostname-service
+    app.kubernetes.io/component: operator
+    app.kubernetes.io/part-of: provider
+  ports:
+    - name: rest
+      port: 8080
+      targetPort: rest

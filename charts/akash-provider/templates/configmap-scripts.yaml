@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "provider.fullname" . }}-scripts
+  namespace: {{ .Release.Namespace }}
+data:
+  init.sh: |
+{{ tpl (.Files.Get "scripts/init.sh") . | indent 4 }}
+  wait_for_rpc.sh: |
+{{ tpl (.Files.Get "scripts/wait_for_rpc.sh") . | indent 4 }}
+  create_provider.sh: |
+{{ tpl (.Files.Get "scripts/create_provider.sh") . | indent 4 }}
+  refresh_provider_cert.sh: |
+{{ tpl (.Files.Get "scripts/refresh_provider_cert.sh") . | indent 4 }}
+  run.sh: |
+{{ tpl (.Files.Get "scripts/run.sh") . | indent 4 }}
+  liveness_checks.sh: |
+{{ tpl (.Files.Get "scripts/liveness_checks.sh") . | indent 4 }}
+{{- if .Values.bidpricescript }}
+  price_script.sh: |
+{{ .Values.bidpricescript | b64dec | indent 4 }}
+{{- end }}

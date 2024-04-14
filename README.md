@@ -9,7 +9,7 @@ Please refer to the https://docs.akash.network for Helm-Chart based installation
 | akash-node               | Installs an Akash RPC node (required)                                   |
 | akash-provider           | Installs an Akash provider (required)                                   |
 | akash-hostname-operator  | An operator to map Ingress objects to Akash deployments (required)      |
-| akash-inventory-operator | An operator required for persistent storage (optional)                  |
+| akash-inventory-operator | An operator  for inventory discovery, labeling, and reporting (required)|
 | akash-ip-operator        | An operator required for ip marketplace (optional)                      |
 
 ---

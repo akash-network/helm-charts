@@ -16,6 +16,10 @@ spec:
     protocol: TCP
     port: 8443
     targetPort: api
+  - name: grpc
+    protocol: TCP
+    port: 8444
+    targetPort: grpc
   selector:
     app: {{ include "provider.fullname" . }}
     {{- include "provider.selectorLabels" . | nindent 4 }}

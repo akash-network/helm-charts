@@ -2,7 +2,7 @@
 # WARNING: the runtime of this script should NOT exceed 5 seconds! (Perhaps can be amended via AKASH_BID_PRICE_SCRIPT_PROCESS_TIMEOUT env variable)
 # Requirements:
 # curl jq bc mawk ca-certificates
-# Version: Sept-19-2023
+# Version: April-03-2024
 set -o pipefail
 
 # Example:
@@ -73,8 +73,7 @@ function get_akt_price {
 # bid script starts reading the deployment order request specs here (passed by the Akash Provider)
 data_in=$(jq .)
 
-## DEBUG
-if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
+if ! [[ -z $DEBUG_BID_SCRIPT ]] && ! [[ -z $AKASH_OWNER ]]; then
   echo "====================== start ======================" >> /tmp/${AKASH_OWNER}.log
   echo "$(TZ=UTC date -R)" >> /tmp/${AKASH_OWNER}.log
   echo "$data_in" >> /tmp/${AKASH_OWNER}.log
@@ -135,10 +134,9 @@ TARGET_IP="${PRICE_TARGET_IP:-5}"                        # USD for leased IP/mon
 ##
 
 # Populate the price target gpu_mappings dynamically based on the "price_target_gpu_mappings" value passed by the helm-chart
-# Default: "a100=120,t4=80,*=130"
 declare -A gpu_mappings=()
 
-IFS=',' read -ra PAIRS <<< "${PRICE_TARGET_GPU_MAPPINGS:-a100=120,t4=80,*=130}"
+IFS=',' read -ra PAIRS <<< "${PRICE_TARGET_GPU_MAPPINGS}"
 for pair in "${PAIRS[@]}"; do
   IFS='=' read -ra KV <<< "$pair"
   key="${KV[0]}"
@@ -146,21 +144,64 @@ for pair in "${PAIRS[@]}"; do
   gpu_mappings["$key"]=$value
 done
 
-gpu_price_total=0
+# Default to 100 USD/GPU per unit a month when PRICE_TARGET_GPU_MAPPINGS is not set
+# Or use the highest price from PRICE_TARGET_GPU_MAPPINGS when model detection fails (ref. https://github.com/akash-network/support/issues/139 )
+gpu_unit_max_price=100
+for value in "${gpu_mappings[@]}"; do
+  # Hint: bc <<< "$a > $b" (if a is greater than b, it will return 1, otherwise 0)
+  if bc <<< "$value > $gpu_unit_max_price" | grep -qw 1; then
+    gpu_unit_max_price=$value
+  fi
+done
 
+if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
+  echo "DEBUG: gpu_unit_max_price $gpu_unit_max_price"
+fi
+
+gpu_price_total=0
 while IFS= read -r resource; do
-  model=$(echo "$resource" | jq -r '.gpu.attributes.vendor.nvidia.model // 0')
+  count=$(echo "$resource" | jq -r '.count')
+  model=$(echo "$resource" | jq -r '.gpu.attributes.vendor | (.nvidia // .amd // empty).model // 0')
+  vram=$(echo "$resource" | jq -r --arg v_model "$model" '.gpu.attributes.vendor | (
+      .nvidia | select(.model == $v_model) //
+      .amd | select(.model == $v_model) //
+      empty
+  ).ram // 0')
+  interface=$(echo "$resource" | jq -r --arg v_model "$model" '.gpu.attributes.vendor | (
+      .nvidia | select(.model == $v_model) //
+      .amd | select(.model == $v_model) //
+      empty
+  ).interface // 0')
   gpu_units=$(echo "$resource" | jq -r '.gpu.units // 0')
   # default to 100 USD/GPU per unit a month when PRICE_TARGET_GPU_MAPPINGS is not set
-  price="${gpu_mappings[''$model'']:-100}"
-  ((gpu_price_total += gpu_units * price))
+  # GPU <vram> price_target_gpu_mappings can specify <model.vram> or <model>. E.g. a100.40Gi=900,a100.80Gi=1000 or a100=950
+  if [[ "$vram" != "0" ]]; then
+    model="${model}.${vram}"
+  fi
+  # GPU <interface>: price_target_gpu_mappings can specify <model.vram.interface> or <model.interface>. E.g. a100.80Gi.pcie=900,a100.pcie=1000 or a100.80Gi.sxm4,a100.sxm4 or a100=950
+  if [[ "$interface" != "0" ]]; then
+    model="${model}.${interface}"
+  fi
 
-  ## DEBUG
-  #echo "model $model"
-  #echo "price for this model $price"
-  #echo "gpu_units $gpu_units"
-  #echo "gpu_price_total $gpu_price_total"
-  #echo ""
+  # Fallback logic to find the best matching price if vram/interface weren't set in PRICE_TARGET_GPU_MAPPINGS
+  if [[ -n "${gpu_mappings["$model"]}" ]]; then
+    price="${gpu_mappings["$model"]}"
+  elif [[ -n "${gpu_mappings["${model%.*}"]}" ]]; then  # Remove the interface or vram if it's not found
+    price="${gpu_mappings["${model%.*}"]}"
+  elif [[ -n "${gpu_mappings["${model%%.*}"]}" ]]; then  # Remove vram (and interface if exists)
+    price="${gpu_mappings["${model%%.*}"]}"
+  else
+    price="$gpu_unit_max_price"  # Default catchall price
+  fi
+  gpu_price_total=$(bc -l <<< "$gpu_price_total + ($count * $gpu_units * $price)")
+
+  if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
+    echo "DEBUG: model $model"
+    echo "DEBUG: price for this model $price"
+    echo "DEBUG: gpu_units $gpu_units"
+    echo "DEBUG: gpu_price_total $gpu_price_total"
+    echo "DEBUG: count $count"
+  fi
 done <<< "$(echo "$data_in" | jq -rc '.[]')"
 
 # Calculate the total resource cost for the deployment request in USD
@@ -176,6 +217,10 @@ total_cost_usd_target=$(bc -l <<< "( \
   ($ips_requested * $TARGET_IP) + \
   ($gpu_price_total) \
   )")
+
+if ! [[ -z $DEBUG_BID_SCRIPT ]]; then
+  echo "DEBUG: Total cost USD/month: $total_cost_usd_target"
+fi
 
 # average block time: 6.117 seconds (based on the time diff between 8090658-8522658 heights [with 432000 blocks as a shift in between if considering block time is 6.0s "(60/6)*60*24*30"])
 # average number of days in a month: 30.437
