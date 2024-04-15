@@ -50,10 +50,11 @@ else
         rm -rf snapshot.tar.lz4
         ;;
 
-      "autostake") #Snapshot is not available as of 14/11/2023
-        SNAP_URL="http://snapshots.autostake.com/$AKASH_CHAIN_ID/"
-        SNAP_NAME=$(curl -s "${SNAP_URL}" | egrep -o "$AKASH_CHAIN_ID" | tr -d ">" | tail -1)
-        aria2c --out=snapshot.tar.lz4 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 8 -x 8 -k 1M -j 1 "${SNAP_URL}${SNAP_NAME}"
+      "autostake")
+        SNAPSHOTS_DIR_URL="https://autostake.com/networks/akash/"
+        USER_AGENT="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0"
+        SNAPSHOT_URL=$(curl -H "$USER_AGENT" -s "$SNAPSHOTS_DIR_URL" | grep -oP 'SNAP_URL="\K[^"]+')
+        aria2c --out=snapshot.tar.lz4 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 8 -x 8 -k 1M -j 1 "${SNAPSHOT_URL}"
         lz4 -c -d snapshot.tar.lz4 | tar -x -C "$AKASH_HOME"
         rm -rf snapshot.tar.lz4
         ;;
@@ -86,3 +87,4 @@ else
 fi
 
 if [[ $AKASH_DEBUG == "true" ]]; then sleep 5000; fi
+
