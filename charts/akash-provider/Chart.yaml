@@ -17,11 +17,11 @@ type: application
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
 
 # Major version bit highlights the mainnet release (e.g. mainnet4 = 4.x.x, mainnet5 = 5.x.x, ...)
-version: 9.2.5
+version: 9.2.6
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 #
 # Refs https://github.com/akash-network/provider/releases
-appVersion: 0.5.12
+appVersion: 0.5.13
