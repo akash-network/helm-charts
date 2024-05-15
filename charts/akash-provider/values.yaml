@@ -12,7 +12,7 @@ keysecret:
 chainid: akashnet-2
 domain:
 home: "/root/.akash"
-node: "http://akash.c29r3.xyz:80/rpc"
+node: "https://akash-rpc.polkachu.com:443"
 keyringbackend: "test"
 
 #  Providers should set these based on their configuration,
