@@ -21,6 +21,13 @@ if ! timeout 30s curl -k -v --http2-prior-knowledge https://127.0.0.1:8444 2>&1 
   exit 1
 fi
 
+# Ensure chrony is installed for time synchronization
+if ! command -v chrony &> /dev/null
+then
+    echo "Chrony not found, installing..."
+    apt -y install chrony
+fi
+
 # RPC node sync check
 current_time=$(date -u +%s)
 latest_block_time_str=$(curl -s $AKASH_NODE/status | jq -r '.result.sync_info.latest_block_time')

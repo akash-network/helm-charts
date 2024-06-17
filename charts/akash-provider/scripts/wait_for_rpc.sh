@@ -20,6 +20,13 @@ if [[ $AKASH_NODE != "http://akash-node-1:26657" ]]; then
 fi
 until [[ $(curl -s $AKASH_NODE/status | jq -r .result.sync_info.catching_up) == "false" ]]; do sleep 15; echo "Akash node not ready. Retrying";  done
 
+# Ensure chrony is installed for time synchronization
+if ! command -v chrony &> /dev/null
+then
+    echo "Chrony not found, installing..."
+    apt -y install chrony
+fi
+
 # Check Akash RPC node isn't running behind too much and abort if it does.
 DATE_AKASH=$(curl -s $AKASH_NODE/status | jq -r '.result.sync_info.latest_block_time')
 TS_AKASH=$(date +%s --date "$DATE_AKASH")
