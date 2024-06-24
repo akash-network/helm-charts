@@ -93,7 +93,7 @@ spec:
             - name: AKASH_ROSETTA_ENABLE
               value: "false"
             - name: AKASH_P2P_SEED_MODE
-              value: "true"
+              value: "false"
             - name: AKASH_P2P_PEX
               value: "{{ .Values.akash_node.pex }}"
             - name: AKASH_DEBUG
