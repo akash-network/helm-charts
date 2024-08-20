@@ -15,4 +15,3 @@ inventoryConfig:
   exclude:
     nodes: []
     node_storage: []
-
