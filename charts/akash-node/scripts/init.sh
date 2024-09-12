@@ -67,6 +67,13 @@ else
         rm -rf snapshot.tar
         ;;
 
+      "decloudnodeslab")
+        SNAPSHOT_URL="https://akash.declab.pro/latest.tar.lz4"
+        aria2c --out=snapshot.tar.lz4 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 8 -x 8 -k 1M -j 1 "${SNAPSHOT_URL}"
+        tar -xf snapshot.tar -C "$AKASH_HOME"
+        rm -rf snapshot.tar
+        ;;
+
       *)
         SNAPSHOTS_DIR_URL="https://snapshots.polkachu.com/snapshots/"
         USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
