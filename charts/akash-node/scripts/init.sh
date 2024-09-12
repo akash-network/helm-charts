@@ -67,6 +67,14 @@ else
         rm -rf snapshot.tar
         ;;
 
+      "Akash")
+        SNAP_NAME="https://snapshots.akash.network/akashnet-2/akashnet-2_latest.tar.lz4"
+        echo "Using lastest Akash blockchain snapshot, https://snapshots.akash.network/akashnet-2/akashnet-2_latest.tar.lz4"
+        aria2c --out=snapshot.tar --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 8 -x 8 -k 1M -j 1 "https://snapshots.akash.network/akashnet-2/akashnet-2_latest.tar.lz4"
+        lz4 -c -d snapshot.tar.lz4 | tar -x -C "$AKASH_HOME"
+        rm -rf snapshot.tar
+        ;;
+
       *)
         SNAPSHOTS_DIR_URL="https://snapshots.polkachu.com/snapshots/"
         USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
