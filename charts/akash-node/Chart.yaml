@@ -26,4 +26,4 @@ version: 11.1.1
 # Refs
 # https://github.com/akash-network/node/releases
 # https://github.com/akash-network/net/blob/main/mainnet/version.txt
-appVersion: 0.36.1
+appVersion: 0.36.0
