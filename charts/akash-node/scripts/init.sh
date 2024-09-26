@@ -40,6 +40,14 @@ else
     apt -y --no-install-recommends install aria2 lz4 liblz4-tool wget > /dev/null 2>&1
     case "$SNAPSHOT_PROVIDER" in
 
+      "akash")
+        SNAPSHOT_URL="https://snapshots.akash.network/akashnet-2/akashnet-2_latest.tar.lz4"
+        echo "Using default akash blockchain snapshot, $SNAPSHOT_URL"
+        aria2c --out=snapshot.tar.lz4 --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 8 -x 8 -k 1M -j 1 "$SNAPSHOT_URL"
+        lz4 -c -d snapshot.tar.lz4 | tar -x -C "$AKASH_HOME"
+        rm -rf snapshot.tar.lz4
+        ;;
+
       "polkachu")
         SNAPSHOTS_DIR_URL="https://snapshots.polkachu.com/snapshots/"
         USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
@@ -61,7 +69,7 @@ else
 
       "c29r3")
         SNAP_NAME=$(curl -s https://snapshots.c29r3.xyz/akash/ | egrep -o ">$AKASH_CHAIN_ID.*tar" | tr -d ">")
-        echo "Using default c29r3.xyz blockchain snapshot, https://snapshots.c29r3.xyz/akash/${SNAP_NAME}"
+        echo "Using c29r3.xyz blockchain snapshot, https://snapshots.c29r3.xyz/akash/${SNAP_NAME}"
         aria2c --out=snapshot.tar --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 8 -x 8 -k 1M -j 1 "https://snapshots.c29r3.xyz/akash/${SNAP_NAME}"
         tar -xf snapshot.tar -C "$AKASH_HOME/data"
         rm -rf snapshot.tar
