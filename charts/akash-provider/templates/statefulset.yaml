@@ -249,6 +249,16 @@ spec:
               value: "{{ .Values.minimumbalance }}"
             - name: AKASH_BID_DEPOSIT
               value: "{{ .Values.bidmindeposit }}"
+            - name: AKASH_MONITOR_MAX_RETRIES
+              value: {{ if (hasKey (.Values.monitor | default dict) "maxRetries") }}{{ (.Values.monitor | default dict).maxRetries | quote }}{{ else }}"40"{{ end }}
+            - name: AKASH_MONITOR_RETRY_PERIOD
+              value: {{ (.Values.monitor | default dict).retryPeriod | default "4s" | quote }}
+            - name: AKASH_MONITOR_RETRY_PERIOD_JITTER
+              value: {{ (.Values.monitor | default dict).retryPeriodJitter | default "15s" | quote }}
+            - name: AKASH_MONITOR_HEALTHCHECK_PERIOD
+              value: {{ (.Values.monitor | default dict).healthcheckPeriod | default "10s" | quote }}
+            - name: AKASH_MONITOR_HEALTHCHECK_PERIOD_JITTER
+              value: {{ (.Values.monitor | default dict).healthcheckPeriodJitter | default "5s" | quote }}
 
           ports:
             - name: api

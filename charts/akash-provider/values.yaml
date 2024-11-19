@@ -93,6 +93,37 @@ ipoperator: false
 
 debug: "false"
 
+#  monitor
+##
+
+# These monitor settings control the retry behavior for deployment checks and health monitoring.
+#
+# If a user deployment cannot start for any reason - such as an issue with the deployment itself,
+# a provider issue (e.g., a lost node due to disk or networking failure), or scheduled maintenance -
+# this monitor starts a counter for retry attempts. It determines how many times and how frequently
+# the provider will retry before marking the deployment as failed and closing the lease.
+#
+# With the default settings (maxRetries = 40, retryPeriod = 4s, retryPeriodJitter = 15s), the total retry time is ~8 minutes.
+#
+# Setting maxRetries to 0 will immediately deem the deployment as failed without attempting any retries.
+#
+# Formula: Total Time = maxRetries * (retryPeriod + average retryPeriodJitter)
+# Example for 1 hour (3600 seconds): maxRetries = 3600 / (retryPeriod + average retryPeriodJitter)
+# Example for 24 hours (86400 seconds): maxRetries = 86400 / (retryPeriod + average retryPeriodJitter)
+# Example for 48 hours (172800 seconds): maxRetries = 172800 / (retryPeriod + average retryPeriodJitter)
+
+# Defaults: retryPeriod = 4s, retryPeriodJitter = 15s, average retryPeriodJitter = 7.5s
+# Example for 1 hour: maxRetries = 3600 / (4 + 7.5) = 3600 / 11.5 ≈ 313
+# Example for 24 hours: maxRetries = 86400 / (4 + 7.5) = 86400 / 11.5 ≈ 7513
+# Example for 48 hours: maxRetries = 172800 / (4 + 7.5) = 172800 / 11.5 ≈ 15026
+
+monitor:
+  maxRetries: 40                     # Maximum retry attempts before closing a lease
+  retryPeriod: 4s                    # Time interval between retries
+  retryPeriodJitter: 15s             # Jitter for retry period
+  healthcheckPeriod: 10s             # Health check period
+  healthcheckPeriodJitter: 5s        # Jitter for health check period
+
 # Percentage of CPU overcommit
 overcommit_pct_cpu: 0
 # Percentage of memory overcommit
