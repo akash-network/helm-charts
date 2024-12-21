@@ -41,7 +41,7 @@ else
     case "$SNAPSHOT_PROVIDER" in
 
       "akash")
-        SNAPSHOT_URL="https://snapshots.akash.network/akashnet-2/akashnet-2_latest.tar.lz4"
+        SNAPSHOT_URL="https://snapshots.akash.network/akashnet-2/latest"
         echo "Using default akash blockchain snapshot, $SNAPSHOT_URL"
         aria2c --out=snapshot.tar.lz4 --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 8 -x 8 -k 1M -j 1 "$SNAPSHOT_URL"
         lz4 -c -d snapshot.tar.lz4 | tar -x -C "$AKASH_HOME"
