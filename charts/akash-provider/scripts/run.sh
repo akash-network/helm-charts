@@ -19,5 +19,11 @@ type bc || exit 1
 ##
 /scripts/refresh_provider_cert.sh
 
-# Start provider-services
-exec provider-services run
+# Start provider-services and monitor its output
+exec provider-services run | while read line; do
+    echo "$line"
+    if [[ "$line" == *"account sequence mismatch"* ]]; then
+        echo "Pattern 'account sequence mismatch' found. Restarting provider-services..."
+        exit 2
+    fi
+done
