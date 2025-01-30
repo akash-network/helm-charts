@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: console-api-{{ .Values.global.environment }}
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app: console-api-{{ .Values.global.environment }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: console-api-{{ .Values.global.environment }}
+  template:
+    metadata:
+      labels:
+        app: console-api-{{ .Values.global.environment }}
+    spec:
+      containers:
+        - name: console-api-{{ .Values.global.environment }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["node", "dist/server.js"]
+          ports:
+            - containerPort: {{ .Values.service.port }}
+              name: {{ .Values.service.targetPort }}
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "{{ .Values.service.port }}"
+          resources:
+            {{- with index .Values.environments .Values.global.environment "resources" }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          envFrom:
+            - secretRef:
+                name: console-api-{{ .Values.global.environment }}-secret
+
+---

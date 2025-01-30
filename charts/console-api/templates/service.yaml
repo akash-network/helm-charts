@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: console-api-{{ .Values.global.environment }}-service
+  namespace: {{ .Values.global.namespace }}
+spec:
+  selector:
+    app: console-api-{{ .Values.global.environment }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      name: {{ .Values.service.targetPort }}
+  type: {{ .Values.service.type }}

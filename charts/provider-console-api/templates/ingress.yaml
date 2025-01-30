@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: staging
+  name: provider-console-api-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "140"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "140"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "140"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - provider-console-api.akash.network
+      secretName: provider-console-api-akash-network-tls
+  rules:
+    - host: provider-console-api.akash.network
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: provider-console-api-service
+                port:
+                  number: 80

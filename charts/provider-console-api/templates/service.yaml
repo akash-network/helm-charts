@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: provider-console-api-service
+  namespace: staging
+spec:
+  selector:
+    app: provider-console-api
+  ports:
+    - protocol: TCP
+      port: 80

@@ -1,0 +1,106 @@
+---
+# Source: console-api/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: console-api-sandbox-service
+  namespace: staging
+spec:
+  selector:
+    app: console-api-sandbox
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: api-port
+      name: api-port
+  type: ClusterIP
+---
+# Source: console-api/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: console-api-sandbox
+  namespace: staging
+  labels:
+    app: console-api-sandbox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: console-api-sandbox
+  template:
+    metadata:
+      labels:
+        app: console-api-sandbox
+    spec:
+      containers:
+        - name: console-api-sandbox
+          image: "ghcr.io/akash-network/console-api:2.53.0"
+          imagePullPolicy: Always
+          command: ["node", "dist/server.js"]
+          ports:
+            - containerPort: 3000
+              name: api-port
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "3000"
+          resources:
+            limits:
+              cpu: 500m
+              ephemeral-storage: 1Gi
+              memory: 1Gi
+            requests:
+              cpu: 500m
+              ephemeral-storage: 1Gi
+              memory: 1Gi
+          envFrom:
+            - secretRef:
+                name: console-api-sandbox-secret
+---
+# Source: console-api/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: console-api-sandbox-ingress
+  namespace: staging
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "140"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "140"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "140"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: console-api-staging-sandbox.akash.network
+      http:
+        paths:
+          - backend:
+              service:
+                name: console-api-sandbox-service
+                port:
+                  name: api-port
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - console-api-staging-sandbox.akash.network
+      secretName: console-api-staging-akash-network-tls
+---
+# Source: console-api/templates/doppler-secret.yaml
+apiVersion: secrets.doppler.com/v1alpha1
+kind: DopplerSecret
+metadata:
+  name: console-api-sandbox-dopplersecret
+  namespace: doppler-operator-system
+spec:
+  config: staging-sandbox
+  managedSecret:
+    name: console-api-sandbox-secret
+    namespace: staging
+    type: Opaque
+  project: console-api
+  tokenSecret:
+    name: console-token-secret
+  verifyTLS: true

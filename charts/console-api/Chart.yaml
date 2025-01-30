@@ -1,0 +1,25 @@
+apiVersion: v2
+name: console-api
+description: Helm chart for Akash Console API deployment
+type: application
+version: 0.1.0 
+appVersion: "2.53.0" 
+
+# Dependencies if needed
+# dependencies:
+#   - name: common
+#     version: 1.x.x
+#     repository: https://charts.bitnami.com/bitnami
+
+maintainers:
+  - name: Akash Network
+    url: https://akash.network
+
+keywords:
+  - akash
+  - api
+  - console
+
+home: https://github.com/akash-network/helm-charts/console-api
+sources:
+  - https://github.com/akash-network/helm-charts/console-api

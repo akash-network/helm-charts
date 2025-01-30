@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: provider-console-api
+  namespace: staging
+  labels:
+    app: provider-console-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: provider-console-api
+  template:
+    metadata:
+      labels:
+        app: provider-console-api
+    spec:
+      containers:
+        - name: provider-console-api
+          image: arc10/provider-console-api:0.0.18
+          imagePullPolicy: "Always"
+          resources:
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+              ephemeral-storage: "2Gi"
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+              ephemeral-storage: "2Gi"
+          envFrom:
+            - secretRef:
+                name: provider-console-api-secret
