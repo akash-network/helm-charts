@@ -13,6 +13,11 @@ namespace: staging
 # Deployment configurations
 replicaCount: 1
 
+# Command configuration
+command:
+  enabled: true
+  args: ["node", "dist/server.js"] # For doppler use: ["doppler", "run", "--", "node", "server.js"]
+
 # Image configurations
 image:
   repository: ghcr.io/akash-network/console-api
