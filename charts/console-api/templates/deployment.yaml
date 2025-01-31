@@ -19,7 +19,6 @@ spec:
         - name: {{ include "console-api.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["node", "dist/server.js"]
           ports:
             - containerPort: 3000
               name: api-port
