@@ -1,2 +1,5 @@
-global:
-  environment: sandbox
+environment: sandbox
+ingress:
+  host: console-api-sandbox.akash.network
+  tls:
+    secretName: console-api-sandbox-akash-network-tls

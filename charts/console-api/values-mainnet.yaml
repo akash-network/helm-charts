@@ -1,2 +1,5 @@
-global:
-  environment: mainnet
+environment: mainnet
+ingress:
+  host: console-api-mainnet.akash.network
+  tls:
+    secretName: console-api-mainnet-akash-network-tls

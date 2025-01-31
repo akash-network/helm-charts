@@ -1,18 +1,43 @@
-global:
-  environment: mainnet  # or sandbox
-  namespace: staging
+# Default values for console-api chart
 
+# Chart name override configurations
+nameOverride: ""
+fullnameOverride: ""
+
+# Environment (mainnet or sandbox)
+environment: mainnet
+
+# Namespace for the application
+namespace: staging
+
+# Deployment configurations
+replicaCount: 1
+
+# Image configurations
 image:
   repository: ghcr.io/akash-network/console-api
   tag: "2.53.0"
   pullPolicy: Always
 
+# Service configurations
 service:
-  port: 3000
-  targetPort: api-port
   type: ClusterIP
+  port: 3000
 
+# Resource requirements
+resources:
+  requests:
+    cpu: "1"
+    memory: "2Gi"
+    ephemeral-storage: "2Gi"
+  limits:
+    cpu: "1"
+    memory: "2Gi"
+    ephemeral-storage: "2Gi"
+
+# Ingress configurations
 ingress:
+  enabled: true
   className: nginx
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 100m
@@ -20,33 +45,26 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "140"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "140"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
-  
-environments:
-  mainnet:
-    host: console-api-staging-next.akash.network
-    doppler:
-      config: staging-mainnet
-    resources:
-      requests:
-        cpu: "1"
-        memory: "2Gi"
-        ephemeral-storage: "2Gi"
-      limits:
-        cpu: "1"
-        memory: "2Gi"
-        ephemeral-storage: "2Gi"
-  sandbox:
-    host: console-api-staging-sandbox.akash.network
-    doppler:
-      config: staging-sandbox
-    resources:
-      requests:
-        cpu: "500m"
-        memory: "1Gi"
-        ephemeral-storage: "1Gi"
-      limits:
-        cpu: "500m"
-        memory: "1Gi"
-        ephemeral-storage: "1Gi"
+  host: console-api-staging-next.akash.network
+  tls:
+    secretName: console-api-staging-akash-network-tls
 
----
+# Doppler secret configurations
+doppler:
+  namespace: doppler-operator-system
+  project: console-api
+  tokenSecret: console-token-secret
+  verifyTLS: true
+
+# Application specific configurations
+app:
+  port: "3000"
+
+# Node selector configurations
+nodeSelector: {}
+
+# Tolerations configurations
+tolerations: []
+
+# Affinity configurations
+affinity: {}

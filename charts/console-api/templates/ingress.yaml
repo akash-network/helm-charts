@@ -1,28 +1,30 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: console-api-{{ .Values.global.environment }}-ingress
-  namespace: {{ .Values.global.namespace }}
+  name: {{ include "console-api.fullname" . }}-ingress
+  namespace: {{ .Values.namespace | default "staging" }}
+  labels:
+    {{- include "console-api.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
   annotations:
-    {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
-    {{- end }}
+  {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:
-    - host: {{ index .Values.environments .Values.global.environment "host" }}
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
-          - backend:
-              service:
-                name: console-api-{{ .Values.global.environment }}-service
-                port:
-                  name: {{ .Values.service.targetPort }}
-            path: /
+          - path: /
             pathType: Prefix
+            backend:
+              service:
+                name: {{ include "console-api.fullname" . }}-service
+                port:
+                  name: api-port
+  {{- if .Values.ingress.tls }}
   tls:
     - hosts:
-        - {{ index .Values.environments .Values.global.environment "host" }}
-      secretName: console-api-staging-akash-network-tls
-
----
+        - {{ .Values.ingress.host }}
+      secretName: {{ .Values.ingress.tls.secretName }}
+  {{- end }}

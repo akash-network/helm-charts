@@ -1,38 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: console-api-{{ .Values.global.environment }}
-  namespace: {{ .Values.global.namespace }}
+  name: {{ include "console-api.fullname" . }}
+  namespace: {{ .Values.namespace | default "staging" }}
   labels:
-    app: console-api-{{ .Values.global.environment }}
+    {{- include "console-api.labels" . | nindent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount | default 1 }}
   selector:
     matchLabels:
-      app: console-api-{{ .Values.global.environment }}
+      {{- include "console-api.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: console-api-{{ .Values.global.environment }}
+        {{- include "console-api.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: console-api-{{ .Values.global.environment }}
+        - name: {{ include "console-api.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["node", "dist/server.js"]
           ports:
-            - containerPort: {{ .Values.service.port }}
-              name: {{ .Values.service.targetPort }}
+            - containerPort: 3000
+              name: api-port
               protocol: TCP
           env:
             - name: PORT
-              value: "{{ .Values.service.port }}"
+              value: "3000"
           resources:
-            {{- with index .Values.environments .Values.global.environment "resources" }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
+            {{- toYaml .Values.resources | nindent 12 }}
           envFrom:
             - secretRef:
-                name: console-api-{{ .Values.global.environment }}-secret
-
----
+                name: {{ include "console-api.dopplerSecretName" . }}
