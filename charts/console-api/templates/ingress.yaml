@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.appName }}-{{ .Values.chain}}-ingress
+  namespace: {{ .Values.namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "140"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "140"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "140"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.appName }}-{{ .Values.namespace }}-next.akash.network
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{ .Values.appName }}-{{ .Values.chain }}-service
+                port:
+                  name: api-port
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - {{ .Values.appName }}-{{ .Values.namespace }}-next.akash.network
+      secretName: {{ .Values.appName }}-{{ .Values.namespace }}-akash-network-tls

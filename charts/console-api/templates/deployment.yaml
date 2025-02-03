@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+  metadata:
+    name: {{ .Values.appName }}-mainnet
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.appName }}-{{ .Values.chain }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}-{{ .Values.chain }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}-{{ .Values.chain }}
+    spec:
+      containers:
+        - name: {{ .Values.appName }}-{{ .Values.chain }}
+          image: ghcr.io/akash-network/console-api:2.53.0
+          imagePullPolicy: "Always"
+          command: ["node", "dist/server.js"]
+          ports:
+            - containerPort: 3000
+              name: api-port
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "3000"
+          resources:
+            requests:
+              cpu: "1"
+              memory: "2Gi"
+              ephemeral-storage: "2Gi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+              ephemeral-storage: "2Gi"
+          envFrom:
+            - secretRef:
+                name: {{ .Values.appName }}-{{ .Values.chain }}-secret
