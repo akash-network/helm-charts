@@ -1,0 +1,5 @@
+namespace: staging
+appName: console-api
+doppler:
+  project: "console-api"  # Optional Doppler project name
+  config: "staging-sandbox"   # Optional Doppler config name
