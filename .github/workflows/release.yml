@@ -1,9 +1,11 @@
 name: Release Charts
+
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -22,7 +24,42 @@ jobs:
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
 
-      - name: Run chart-releaser
+      - name: Get Chart Version
+        id: chart_version
+        run: |
+          CHART_VERSION=$(grep '^version:' charts/*/Chart.yaml | awk '{print $2}')
+          echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_ENV
+
+      - name: Determine if Pre-release
+        id: pre_release
+        run: |
+          if [[ "$CHART_VERSION" =~ -rc|-beta|-alpha ]]; then
+            echo "PRERELEASE=true" >> $GITHUB_ENV
+          else
+            echo "PRERELEASE=false" >> $GITHUB_ENV
+          fi
+
+      - name: Run chart-releaser (Skip Pre-release in Latest)
         uses: helm/chart-releaser-action@v1.5.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          charts_dir: ./charts
+          skip_existing: true  # Prevents overwriting existing latest
+
+      - name: Remove Pre-release from Latest
+        if: env.PRERELEASE == 'true'
+        run: |
+          # Ensure index.yaml exists
+          if [ -f .cr-index/index.yaml ]; then
+            yq eval 'del(.entries[].[] | select(.version | test(".*-(rc|beta|alpha)")))' -i .cr-index/index.yaml
+            git add .cr-index/index.yaml
+            git commit -m "Remove pre-release from index.yaml" || echo "No changes to commit"
+            git push origin main
+          fi
+
+      - name: Tag stable releases as latest
+        if: env.PRERELEASE == 'false'
+        run: |
+          git tag -f latest
+          git push origin latest --force
