@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: {{ .Values.appName }}-{{ .Values.chain }}
-          image: ghcr.io/akash-network/console-api:2.53.0
-          imagePullPolicy: "Always"
+          image: {{ .Values.image }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           command: ["node", "dist/server.js"]
           ports:
             - containerPort: 3000

@@ -12,7 +12,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: {{ .Values.appName }}-{{ .Values.namespace }}-next.akash.network
+    - host: {{ .Values.hostName }}
       http:
         paths:
           - backend:
@@ -24,5 +24,5 @@ spec:
             pathType: Prefix
   tls:
     - hosts:
-        - {{ .Values.appName }}-{{ .Values.namespace }}-next.akash.network
+        - {{ .Values.hostName }}
       secretName: {{ .Values.appName }}-{{ .Values.namespace }}-akash-network-tls

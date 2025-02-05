@@ -3,3 +3,7 @@ appName: console-api
 doppler:
   project: "console-api"  # Optional Doppler project name
   config: "staging-sandbox"   # Optional Doppler config name
+image: ghcr.io/akash-network/console-api:2.56.0
+imagePullPolicy: "Always"
+hostName: console-api-staging-next.akash.network
+dopplerConfig: "staging-sandbox" # Or staging-mainnet
