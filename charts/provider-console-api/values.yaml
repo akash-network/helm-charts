@@ -1,0 +1,11 @@
+appName: provider-console-api
+
+imageName: arc10/provider-console-api:0.0.18
+
+imagePullPolicy: "Always"  # or never
+
+hostName: provider-console-api-staging-next.akash.network
+
+dopplerConfig: "staging"
+
+namespace: staging

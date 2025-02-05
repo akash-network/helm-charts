@@ -1,0 +1,15 @@
+namespace: staging
+
+appName: provider-console-security
+
+imagePullPolicy: "Always"  # or never
+
+imageName: arc10/provider-console-security:v0.1.0
+
+dopplerProject: provider-console-security
+
+dopplerConfig: staging
+
+hostName: provider-console-security.akash.network
+
+chain: sandbox  # or mainnet

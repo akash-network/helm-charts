@@ -1,0 +1,8 @@
+appName: provider-console
+
+namespace: staging
+
+image: arc10/provider-console:0.0.37
+imagePullPolicy: "Always"  # or never
+
+hostName: provider-console-beta.akash.network
