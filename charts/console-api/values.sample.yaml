@@ -1,5 +1,0 @@
-namespace: staging
-appName: console-api
-doppler:
-  project: "console-api"  # 
-  config: "staging-sandbox"   # Or staging-mainnet
