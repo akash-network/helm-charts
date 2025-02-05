@@ -6,4 +6,4 @@ doppler:
 image: ghcr.io/akash-network/console-api:2.56.0
 imagePullPolicy: "Always"
 hostName: console-api-staging-next.akash.network
-dopplerConfig: "staging-sandbox" # Or staging-mainnet
+dopplerConfig: "staging-sandbox"  # Or staging-mainnet
