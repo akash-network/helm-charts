@@ -11,5 +11,3 @@ dopplerProject: provider-console-security
 dopplerConfig: staging
 
 hostName: provider-console-security.akash.network
-
-chain: sandbox  # or mainnet

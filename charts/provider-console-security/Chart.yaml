@@ -1,6 +1,6 @@
 apiVersion: v2
 name: provider-console-security
-description: A Helm chart for Kubernetes
+description: A Helm chart for Akash Network Provider-Console-Security
 
 # A chart can be either an 'application' or a 'library' chart.
 #
