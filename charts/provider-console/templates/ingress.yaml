@@ -14,7 +14,7 @@ spec:
   tls:
     - hosts:
         - {{ .Values.hostName }}
-      secretName: {{ .Values.appName }}-beta-akash-network-tls
+      secretName: {{ .Values.appName }}-akash-network-tls
   rules:
     - host: {{ .Values.hostName }}
       http:
