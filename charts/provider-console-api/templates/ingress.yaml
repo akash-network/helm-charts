@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: {{ .Values.appName }}-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "140"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "140"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "140"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - {{ .Values.hostName }}
+      secretName: {{ .Values.appName }}-akash-network-tls
+  rules:
+    - host: {{ .Values.hostName }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.appName }}-service
+                port:
+                  number: 80

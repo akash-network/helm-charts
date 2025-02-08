@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.appName }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+        - name: {{ .Values.appName }}
+          image: {{ .Values.imageName }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.appName }}-secret
+          resources:
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+              ephemeral-storage: "2Gi"
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+              ephemeral-storage: "2Gi"
