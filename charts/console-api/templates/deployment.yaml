@@ -19,7 +19,10 @@ spec:
         - name: {{ .Values.appName }}{{ if .Values.chain }}-{{ .Values.chain }}{{ end }}
           image: {{ .Values.image }}
           imagePullPolicy: {{ .Values.imagePullPolicy }}
-          command: ["node", "dist/server.js"]
+          {{- if .Values.command }}
+          command:
+            {{- toYaml .Values.command | nindent 12 }}
+          {{- end }}
           ports:
             - containerPort: 3000
               name: api-port
