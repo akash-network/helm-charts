@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.appName }}-{{ .Values.chain }}
+  name: {{ .Values.appName }}{{ if .Values.chain }}-{{ .Values.chain }}{{ end }}
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.appName }}-{{ .Values.chain }}
+    app: {{ .Values.appName }}{{ if .Values.chain }}-{{ .Values.chain }}{{ end }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.appName }}-{{ .Values.chain }}
+      app: {{ .Values.appName }}{{ if .Values.chain }}-{{ .Values.chain }}{{ end }}
   template:
     metadata:
       labels:
-        app: {{ .Values.appName }}-{{ .Values.chain }}
+        app: {{ .Values.appName }}{{ if .Values.chain }}-{{ .Values.chain }}{{ end }}
     spec:
       containers:
-        - name: {{ .Values.appName }}-{{ .Values.chain }}
+        - name: {{ .Values.appName }}{{ if .Values.chain }}-{{ .Values.chain }}{{ end }}
           image: {{ .Values.image }}
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           command: ["node", "dist/server.js"]
@@ -36,6 +36,9 @@ spec:
               cpu: "1"
               memory: "2Gi"
               ephemeral-storage: "2Gi"
+          {{- if .Values.chain }}
           envFrom:
             - secretRef:
                 name: {{ .Values.appName }}-{{ .Values.chain }}-secret
+          {{- end }}
+

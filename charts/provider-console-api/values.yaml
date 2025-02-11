@@ -9,3 +9,5 @@ hostName: provider-console-api-staging-next.akash.network
 dopplerConfig: "staging"
 
 namespace: staging
+
+chain: sandbox  # or mainnet

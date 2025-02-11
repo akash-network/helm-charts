@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.appName }}-{{ .Values.chain }}-service
+  name: {{ .Values.appName }}{{ if .Values.chain }}-{{ .Values.chain }}{{ end }}-service
   namespace: {{ .Values.namespace }}
 spec:
   selector:
-    app: {{ .Values.appName }}-{{ .Values.chain }}
+    app: {{ .Values.appName }}{{ if .Values.chain }}-{{ .Values.chain }}{{ end }}
   ports:
     - protocol: TCP
       port: 3000

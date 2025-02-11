@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Values.appName }}-{{ .Values.chain}}-ingress
+  name: {{ .Values.appName }}{{ if .Values.chain }}-{{ .Values.chain }}{{ end }}-ingress
   namespace: {{ .Values.namespace }}
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 100m
@@ -17,7 +17,7 @@ spec:
         paths:
           - backend:
               service:
-                name: {{ .Values.appName }}-{{ .Values.chain }}-service
+                name: {{ .Values.appName }}{{ if .Values.chain }}-{{ .Values.chain }}{{ end }}-service
                 port:
                   name: api-port
             path: /
