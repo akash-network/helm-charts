@@ -4,7 +4,7 @@ imageName: ghcr.io/akash-network/provider-console-api:1.0.0
 
 imagePullPolicy: "Always"  # or never
 
-hostName: provider-console-api-staging-next.akash.network
+hostName: provider-console-api-staging.akash.network
 
 dopplerConfig: "staging"
 
