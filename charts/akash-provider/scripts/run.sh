@@ -20,4 +20,4 @@ type bc || exit 1
 /scripts/refresh_provider_cert.sh
 
 # Start provider-services and monitor its output
-exec provider-services run
+provider-services run
