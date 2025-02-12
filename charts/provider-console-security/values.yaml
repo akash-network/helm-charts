@@ -4,7 +4,7 @@ appName: provider-console-security
 
 imagePullPolicy: "Always"  # or never
 
-imageName: arc10/provider-console-security:v0.1.0
+imageName: ghcr.io/akash-network/provider-console-security:1.0.0
 
 dopplerProject: provider-console-security
 

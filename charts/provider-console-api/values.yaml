@@ -1,6 +1,6 @@
 appName: provider-console-api
 
-imageName: arc10/provider-console-api:0.0.18
+imageName: ghcr.io/akash-network/provider-console-api:1.0.0
 
 imagePullPolicy: "Always"  # or never
 
