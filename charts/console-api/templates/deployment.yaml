@@ -39,9 +39,8 @@ spec:
               cpu: "1"
               memory: "2Gi"
               ephemeral-storage: "2Gi"
-          {{- if .Values.chain }}
+          {{- if and .Values.doppler (and .Values.doppler.project .Values.doppler.config) }}
           envFrom:
             - secretRef:
-                name: {{ .Values.appName }}-{{ .Values.chain }}-secret
+                name: {{ .Values.appName }}{{ if .Values.chain }}-{{ .Values.chain }}{{ end }}-secret
           {{- end }}
-
