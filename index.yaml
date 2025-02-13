@@ -12,6 +12,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-11.4.0/akash-hostname-operator-11.4.0.tgz
     version: 11.4.0
   - apiVersion: v2
+    appVersion: 0.6.7-rc9
+    created: "2025-02-13T15:44:46.003828354Z"
+    description: An operator to map Ingress objects to Akash deployments (required)
+    digest: 3a25e57689f422662f70d7e2769de574001f66b025570ad56a5ec625d6688ebe
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-11.3.4-rc9/akash-hostname-operator-11.3.4-rc9.tgz
+    version: 11.3.4-rc9
+  - apiVersion: v2
     appVersion: 0.6.7-rc8
     created: "2025-02-13T03:57:11.244737194Z"
     description: An operator to map Ingress objects to Akash deployments (required)
@@ -533,6 +543,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-11.4.0/akash-inventory-operator-11.4.0.tgz
     version: 11.4.0
   - apiVersion: v2
+    appVersion: 0.6.7-rc9
+    created: "2025-02-13T15:44:46.189952961Z"
+    description: An operator required for persistent storage (required)
+    digest: 86043fa64a12a51fee480f7428b4ed0178255c21eeb801a30d0ad4ce69152027
+    name: akash-inventory-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-11.3.4-rc9/akash-inventory-operator-11.3.4-rc9.tgz
+    version: 11.3.4-rc9
+  - apiVersion: v2
     appVersion: 0.6.7-rc8
     created: "2025-02-13T03:57:11.357091905Z"
     description: An operator required for persistent storage (required)
@@ -943,6 +963,16 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/akash-ip-operator-11.4.0/akash-ip-operator-11.4.0.tgz
     version: 11.4.0
+  - apiVersion: v2
+    appVersion: 0.6.7-rc9
+    created: "2025-02-13T15:44:46.394829968Z"
+    description: An operator required for ip marketplace (optional)
+    digest: 0efc36b6da217ce802a75558342a3515c62b26af49eb8954e3d88002bcbd5638
+    name: akash-ip-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-ip-operator-11.3.4-rc9/akash-ip-operator-11.3.4-rc9.tgz
+    version: 11.3.4-rc9
   - apiVersion: v2
     appVersion: 0.6.7-rc8
     created: "2025-02-13T03:57:11.438091131Z"
@@ -3355,6 +3385,16 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-11.4.0/provider-11.4.0.tgz
     version: 11.4.0
+  - apiVersion: v2
+    appVersion: 0.6.7-rc9
+    created: "2025-02-13T15:44:46.596369638Z"
+    description: Installs an Akash provider (required)
+    digest: bfa87922aa3f218ca78293ce2e14dcf6e7a889e7690ac16539f940e33046de4a
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-11.3.6-rc9/provider-11.3.6-rc9.tgz
+    version: 11.3.6-rc9
   - apiVersion: v2
     appVersion: 0.6.7-rc8
     created: "2025-02-13T03:57:11.541204259Z"
@@ -6145,4 +6185,4 @@ entries:
     urls:
     - https://github.com/ovrclk/helm-charts/releases/download/provider-0.1.0/provider-0.1.0.tgz
     version: 0.1.0
-generated: "2025-02-13T03:57:11.542858925Z"
+generated: "2025-02-13T15:44:46.59863322Z"
