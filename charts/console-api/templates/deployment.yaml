@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-{{ .Values.chain }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Chart.Name }}-{{ .Values.chain }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}-{{ .Values.chain }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-{{ .Values.chain }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-{{ .Values.chain }}
+          image: ghcr.io/akash-network/console-api:{{ .Chart.AppVersion }}
+          imagePullPolicy: "Always"
+          command:
+            - node
+            - dist/server.js
+          ports:
+            - containerPort: 3000
+              name: api-port
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "3000"
+          resources:
+            limits:
+              cpu: "1"
+              ephemeral-storage: "2Gi"
+              memory: "1Gi"
+            requests:
+              cpu: "0.5"
+              ephemeral-storage: "1Gi"
+              memory: "512Mi"
+          envFrom:
+            - secretRef:
+                name: {{ .Chart.Name }}-{{ .Values.chain }}-secret

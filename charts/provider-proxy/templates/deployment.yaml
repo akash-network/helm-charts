@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: ghcr.io/akash-network/provider-proxy:{{ .Chart.AppVersion }}
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 3000
+              name: api-port
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "3000"
+          resources:
+            limits:
+              cpu: "1"
+              ephemeral-storage: "2Gi"
+              memory: "512Mi"
+            requests:
+              cpu: "0.25"
+              ephemeral-storage: "1Gi"
+              memory: "256Mi"

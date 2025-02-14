@@ -1,0 +1,13 @@
+appName: provider-console-api
+
+imageName: ghcr.io/akash-network/provider-console-api:1.0.0
+
+imagePullPolicy: "Always"  # or never
+
+hostName: provider-console-api-staging.akash.network
+
+dopplerConfig: "staging"
+
+namespace: staging
+
+chain: sandbox  # or mainnet

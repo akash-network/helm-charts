@@ -1,0 +1,9 @@
+appName: provider-console
+
+namespace: staging
+
+image: ghcr.io/akash-network/provider-console:1.0.0
+
+imagePullPolicy: "Always"  # or never
+
+hostName: provider-console-beta.akash.network

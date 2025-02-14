@@ -1,0 +1,13 @@
+namespace: staging
+
+appName: provider-console-security
+
+imagePullPolicy: "Always"  # or never
+
+imageName: ghcr.io/akash-network/provider-console-security:1.0.0
+
+dopplerProject: provider-console-security
+
+dopplerConfig: staging
+
+hostName: provider-console-security.akash.network
