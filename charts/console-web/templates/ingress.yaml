@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Chart.Name }}-{{ .Values.chain }}-ingress
+  name: {{ .Chart.Name }}-ingress
   namespace: {{ .Release.Namespace }}
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 100m
@@ -17,7 +17,7 @@ spec:
         paths:
           - backend:
               service:
-                name: {{ .Chart.Name }}-{{ .Values.chain }}-service
+                name: {{ .Chart.Name }}-service
                 port:
                   name: api-port
             path: /
@@ -25,4 +25,4 @@ spec:
   tls:
     - hosts:
         - {{ .Values.hostName }}
-      secretName: {{ .Chart.Name }}-{{ .Values.namespace }}-akash-network-tls
+      secretName: {{ .Chart.Name }}-{{ .Release.Namespace }}-akash-network-tls

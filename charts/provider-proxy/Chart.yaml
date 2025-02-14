@@ -1,6 +1,6 @@
 apiVersion: v2
-name: console-api
-description: Akash Console-API Helm Chart
+name: provider-proxy
+description: Akash Provider Proxy Helm Chart
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -19,4 +19,4 @@ version: 0.1.0
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "2.62.1"
+appVersion: "1.4.3"

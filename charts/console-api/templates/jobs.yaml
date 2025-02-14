@@ -1,0 +1,35 @@
+{{- range .Values.jobs }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ $.Chart.Name }}-{{ $.Values.chain }}-{{ .name }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  schedule: {{ .schedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            job: {{ $.Chart.Name }}-{{ $.Values.chain }}-{{ .name }}
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: {{ $.Chart.Name }}-{{ $.Values.chain }}
+              image: ghcr.io/akash-network/console-api:{{ $.Chart.AppVersion }}
+              imagePullPolicy: "Always"
+              command: {{ .command | toJson }}
+              resources:
+                limits:
+                  cpu: "1"
+                  ephemeral-storage: "2Gi"
+                  memory: "1Gi"
+                requests:
+                  cpu: "0.5"
+                  ephemeral-storage: "1Gi"
+                  memory: "512Mi"
+              envFrom:
+                - secretRef:
+                    name: {{ $.Chart.Name }}-{{ $.Values.chain }}-secret
+{{- end }} 
