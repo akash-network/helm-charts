@@ -2,7 +2,7 @@
 # WARNING: the runtime of this script should NOT exceed 5 seconds! (Perhaps can be amended via AKASH_BID_PRICE_SCRIPT_PROCESS_TIMEOUT env variable)
 # Requirements:
 # curl jq bc mawk ca-certificates
-# Version: February-04-2025
+# Version: February-19-2025
 set -o pipefail
 
 # Example:
@@ -24,6 +24,19 @@ if ! [[ -z $WHITELIST_URL ]]; then
 
   if ! grep -qw "$AKASH_OWNER" $WHITELIST; then
     echo -n "$AKASH_OWNER is not whitelisted" >&2
+    exit 1
+  fi
+fi
+
+# Do not bid if the tenant address is in the list passed with FILTERED_ACCOUNTS_URL environment variable
+if ! [[ -z $FILTERED_ACCOUNTS_URL ]]; then
+  FILTERED_ACCOUNTS=/tmp/price-script.filtered_accounts
+  if ! test $(find $FILTERED_ACCOUNTS -mmin -10 2>/dev/null); then
+    curl -o $FILTERED_ACCOUNTS -s --connect-timeout 3 --max-time 3 -- $FILTERED_ACCOUNTS_URL
+  fi
+
+  if grep -qw "$AKASH_OWNER" $FILTERED_ACCOUNTS; then
+    echo -n "$AKASH_OWNER is filtered" >&2
     exit 1
   fi
 fi

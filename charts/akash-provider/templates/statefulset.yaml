@@ -181,6 +181,10 @@ spec:
             - name: WHITELIST_URL
               value: "{{ .Values.whitelist_url }}"
 {{- end }}
+{{ if .Values.filtered_accounts_url }}
+            - name: FILTERED_ACCOUNTS_URL
+              value: "{{ .Values.filtered_accounts_url }}"
+{{- end }}
 {{ if .Values.debug_bid_script }}
             - name: DEBUG_BID_SCRIPT
               value: "{{ .Values.debug_bid_script }}"
