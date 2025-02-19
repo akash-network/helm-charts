@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: {{ .Chart.Name }}
-          image: ghcr.io/akash-network/provider-proxy:{{ .Chart.AppVersion }}
+          image: ghcr.io/akash-network/provider-proxy:{{ .Values.appVersion }}
           imagePullPolicy: "Always"
           ports:
             - containerPort: 3000

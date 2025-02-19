@@ -17,7 +17,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: {{ $.Chart.Name }}-{{ $.Values.chain }}
-              image: ghcr.io/akash-network/console-api:{{ $.Chart.AppVersion }}
+              image: ghcr.io/akash-network/console-api:{{ $.Values.appVersion }}
               imagePullPolicy: "Always"
               command: {{ .command | toJson }}
               resources:
