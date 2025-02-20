@@ -3526,6 +3526,16 @@ entries:
     version: 0.2.0
   console-api:
   - apiVersion: v2
+    appVersion: 2.64.0
+    created: "2025-02-20T08:52:10.681264064Z"
+    description: Akash Console-API Helm Chart
+    digest: 7ac663d05aceed6609bcd66f507b6bae64ae7b25e44bc71c0fa2f55dd0443130
+    name: console-api
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/console-api-0.1.1/console-api-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: 2.62.1
     created: "2025-02-14T12:13:01.833199793Z"
     description: Akash Console-API Helm Chart
@@ -3536,6 +3546,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/console-api-0.1.0/console-api-0.1.0.tgz
     version: 0.1.0
   console-web:
+  - apiVersion: v2
+    appVersion: 2.46.0
+    created: "2025-02-20T08:52:10.778538865Z"
+    description: Akash Console-Web Helm Chart
+    digest: 3880a738c7a5f398a21d6556dadc019e7ba6cbf027b44fda0a9e8fa95310f212
+    name: console-web
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/console-web-0.1.1/console-web-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     appVersion: 2.44.0
     created: "2025-02-14T12:13:01.958500643Z"
@@ -6443,6 +6463,16 @@ entries:
   provider-proxy:
   - apiVersion: v2
     appVersion: 1.4.3
+    created: "2025-02-20T08:52:10.888895558Z"
+    description: Akash Provider Proxy Helm Chart
+    digest: 2f18884cb79fb2bb20f52075c8bb63806e940622a111a7986997a23bbcda6536
+    name: provider-proxy
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.1.1/provider-proxy-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.4.3
     created: "2025-02-14T12:13:02.390318418Z"
     description: Akash Provider Proxy Helm Chart
     digest: 40ce7a894fd21974df026ef986cee6b872323e9b955771f3f803c0a24d705cd9
@@ -6451,4 +6481,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.1.0/provider-proxy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-02-19T13:35:07.33494908Z"
+generated: "2025-02-20T08:52:10.88987226Z"
