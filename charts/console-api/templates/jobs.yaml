@@ -32,4 +32,4 @@ spec:
               envFrom:
                 - secretRef:
                     name: {{ $.Chart.Name }}-{{ $.Values.chain }}-secret
-{{- end }} 
+{{- end }}
