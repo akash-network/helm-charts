@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: {{ .Chart.Name }}
-          image: ghcr.io/akash-network/deploy-web:{{ .Chart.AppVersion }}{{ if eq .Release.Namespace "staging" }}-beta{{ end }}
+          image: ghcr.io/akash-network/deploy-web:{{ .Values.appVersion }}{{ if eq .Release.Namespace "staging" }}-beta{{ end }}
           imagePullPolicy: "Always"
           ports:
             - containerPort: 3000
