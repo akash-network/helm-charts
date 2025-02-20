@@ -9,6 +9,10 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "140"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "140"
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
+    nginx.ingress.kubernetes.io/session-cookie-samesite: "None"
+    nginx.ingress.kubernetes.io/session-cookie-secure: "true"
 spec:
   ingressClassName: nginx
   rules:
