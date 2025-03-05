@@ -25,6 +25,7 @@ akash_node:
   api_enable: false
   moniker: mynode
   chainid: akashnet-2
+  indexer: "null"
   # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood
   pex: true
   minimum_gas_prices: 0.0025uakt
