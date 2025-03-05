@@ -1,9 +1,2 @@
-appName: provider-console
-
-namespace: staging
-
-image: ghcr.io/akash-network/provider-console:1.0.0
-
-imagePullPolicy: "Always"  # or never
-
+appVersion: "1.2.1"
 hostName: provider-console-beta.akash.network

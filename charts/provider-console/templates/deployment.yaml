@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.appName }}
-  namespace: {{ .Values.namespace }}
+  name: {{ .Chart.Name }}
+  namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ .Values.appName }}
+    app: {{ .Chart.Name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Values.appName }}
+      app: {{ .Chart.Name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.appName }}
+        app: {{ .Chart.Name }}
     spec:
       containers:
-        - name: {{ .Values.appName }}
-          image: {{ .Values.image }}
-          imagePullPolicy: {{ .Values.imagePullPolicy }}
+        - name: {{ .Chart.Name }}
+          image: ghcr.io/akash-network/provider-console:{{ .Values.appVersion }}{{ if eq .Release.Namespace "staging" }}-beta{{ end }}
+          imagePullPolicy: "Always"
           resources:
             limits:
               cpu: "1"
