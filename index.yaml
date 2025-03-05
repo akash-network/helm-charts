@@ -6480,6 +6480,16 @@ entries:
   provider-console:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2025-03-05T19:10:46.789224696Z"
+    description: A Helm chart for Akash Network Provider-Console
+    digest: 8994654cbb1f9e2a5196aa277043ddb9f8b066abae685856cfeebe47f2b4d04d
+    name: provider-console
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-console-0.2.0/provider-console-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2025-02-14T12:13:02.054153817Z"
     description: A Helm chart for Akash Network Provider-Console
     digest: 1fab5a2a4a004e5f9fd1085ef85c60451055a3bdb1a6e97c4344f9ec6a71ad1e
@@ -6531,4 +6541,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.1.0/provider-proxy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-03-05T18:46:21.614948573Z"
+generated: "2025-03-05T19:10:46.791155161Z"
