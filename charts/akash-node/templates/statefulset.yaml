@@ -75,7 +75,7 @@ spec:
             - name: AKASH_PRUNING_INTERVAL
               value: "10"
             - name: AKASH_INDEXER
-              value: {{ .Values.akash_node.indexer | quote }}
+              value: {{ .Values.akash_node.indexer }}
 {{- else }}
             - name: AKASH_PRUNING
               value: "{{ .Values.akash_node.pruning }}"
