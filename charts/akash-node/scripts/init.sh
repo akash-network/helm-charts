@@ -96,3 +96,4 @@ fi
 
 if [[ $AKASH_DEBUG == "true" ]]; then sleep 5000; fi
 
+sed -i 's/^indexer = "kv"/indexer = "null"/' /root/.akash/config/config.toml
