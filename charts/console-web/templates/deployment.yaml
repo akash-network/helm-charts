@@ -35,6 +35,12 @@ spec:
               cpu: "0.5"
               ephemeral-storage: "1Gi"
               memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /api/healthz
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
           envFrom:
             - secretRef:
                 name: {{ .Chart.Name }}-secret
