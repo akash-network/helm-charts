@@ -38,6 +38,18 @@ spec:
               cpu: "0.5"
               ephemeral-storage: "1Gi"
               memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /v1/healthz/readiness
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /v1/healthz/liveness
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
           envFrom:
             - secretRef:
                 name: {{ .Chart.Name }}-{{ .Values.chain }}-secret
