@@ -16,7 +16,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: {{ .Values.hostName }}
+    - host: {{ if eq .Release.Namespace "staging" }}{{ .Values.stagingHostName }}{{ else }}{{ .Values.prodHostName }}{{ end }}
       http:
         paths:
           - backend:
@@ -28,5 +28,5 @@ spec:
             pathType: Prefix
   tls:
     - hosts:
-        - {{ .Values.hostName }}
+        - {{ if eq .Release.Namespace "staging" }}{{ .Values.stagingHostName }}{{ else }}{{ .Values.prodHostName }}{{ end }}
       secretName: {{ .Chart.Name }}-{{ .Release.Namespace }}-akash-network-tls
