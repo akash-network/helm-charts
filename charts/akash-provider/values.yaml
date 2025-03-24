@@ -118,7 +118,7 @@ debug: "false"
 # Example for 48 hours: maxRetries = 172800 / (4 + 7.5) = 172800 / 11.5 ≈ 15026
 
 monitor:
-  maxRetries: 40                     # Maximum retry attempts before closing a lease
+  maxRetries: 626                    # Maximum retry attempts before closing a lease - Retry for about 2h
   retryPeriod: 4s                    # Time interval between retries
   retryPeriodJitter: 15s             # Jitter for retry period
   healthcheckPeriod: 10s             # Health check period
