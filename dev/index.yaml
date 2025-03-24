@@ -1,2 +1,47 @@
 apiVersion: v1
-entries: {}
+entries:
+  akash-hostname-operator:
+  - apiVersion: v2
+    appVersion: 0.6.10-rc3
+    created: "2025-03-24T15:48:29.133207278Z"
+    description: An operator to map Ingress objects to Akash deployments (required)
+    digest: 5f5c6ae04f29f1186defad12b998daf5505b1222bf3ae923cd2c2311ef83df75
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-11.5.8-rc3/akash-hostname-operator-11.5.8-rc3.tgz
+    version: 11.5.8-rc3
+  akash-inventory-operator:
+  - apiVersion: v2
+    appVersion: 0.6.10-rc3
+    created: "2025-03-24T15:48:29.268254453Z"
+    description: An operator required for persistent storage (required)
+    digest: b930b369454d4a2f000fb688a652c32816e28821e0bdc22bc59a9d0953c09562
+    name: akash-inventory-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-11.5.8-rc3/akash-inventory-operator-11.5.8-rc3.tgz
+    version: 11.5.8-rc3
+  akash-ip-operator:
+  - apiVersion: v2
+    appVersion: 0.6.10-rc3
+    created: "2025-03-24T15:48:29.411489612Z"
+    description: An operator required for ip marketplace (optional)
+    digest: 63a9418221bff895c295b1e30c7325397963388947b56db5fedde23e556a1178
+    name: akash-ip-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-ip-operator-11.5.8-rc3/akash-ip-operator-11.5.8-rc3.tgz
+    version: 11.5.8-rc3
+  provider:
+  - apiVersion: v2
+    appVersion: 0.6.10-rc3
+    created: "2025-03-24T15:48:29.517775664Z"
+    description: Installs an Akash provider (required)
+    digest: a8a8698401925194162b4afb94656605865fef05e505d7e431b398472a275bb7
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-11.5.8-rc3/provider-11.5.8-rc3.tgz
+    version: 11.5.8-rc3
+generated: "2025-03-24T15:48:29.517795471Z"
