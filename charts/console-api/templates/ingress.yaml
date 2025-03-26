@@ -1,6 +1,71 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  name: {{ .Chart.Name }}-{{ .Values.chain }}-start-trial-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "140"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "140"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "140"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/limit-rpm: "1"
+    nginx.ingress.kubernetes.io/limit-burst-multiplier: "1"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.hostName }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{ .Chart.Name }}-{{ .Values.chain }}-service
+                port:
+                  name: api-port
+            path: /v1/start-trial
+            pathType: Exact
+  tls:
+    - hosts:
+        - {{ .Values.hostName }}
+      secretName: {{ .Chart.Name }}-{{ .Release.Namespace }}-akash-network-tls
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Chart.Name }}-{{ .Values.chain }}-tx-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "140"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "140"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "140"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/limit-rpm: "2"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.hostName }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{ .Chart.Name }}-{{ .Values.chain }}-service
+                port:
+                  name: api-port
+            path: /v1/tx
+            pathType: Exact
+  tls:
+    - hosts:
+        - {{ .Values.hostName }}
+      secretName: {{ .Chart.Name }}-{{ .Release.Namespace }}-akash-network-tls
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
   name: {{ .Chart.Name }}-{{ .Values.chain }}-ingress
   namespace: {{ .Release.Namespace }}
   annotations:
@@ -25,4 +90,4 @@ spec:
   tls:
     - hosts:
         - {{ .Values.hostName }}
-      secretName: {{ .Chart.Name }}-{{ .Values.namespace }}-akash-network-tls
+      secretName: {{ .Chart.Name }}-{{ .Release.Namespace }}-akash-network-tls
