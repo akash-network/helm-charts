@@ -3,15 +3,11 @@
 
 set -x
 
-##
-# Check the Akash Node is working
-##
-apt update && apt -yqq install curl jq bc netcat ca-certificates
-
-# fail fast should there be a problem installing curl, jq, nc packages
+# Abort early if essential image dependencies are not present:
 type curl || exit 1
 type jq || exit 1
 type nc || exit 1
+test -e /etc/ssl/certs/ca-certificates.crt || exit 1
 
 solo_ip=$(echo $AKASH_NODE | cut -d":" -f2 | cut -d"/" -f3)
 port=$(echo $AKASH_NODE | cut -d":" -f3 | cut -d"/" -f1)
