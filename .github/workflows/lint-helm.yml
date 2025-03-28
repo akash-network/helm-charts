@@ -25,14 +25,6 @@ jobs:
         with:
           version: v3.8.1
 
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-
-      - name: Configure Helm dependency repos
-        run: |
-          helm repo add bitnami https://charts.bitnami.com/bitnami
-
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.2.1
 
