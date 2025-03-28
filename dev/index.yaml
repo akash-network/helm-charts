@@ -33,7 +33,28 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/akash-ip-operator-11.5.8-rc3/akash-ip-operator-11.5.8-rc3.tgz
     version: 11.5.8-rc3
+  akash-node:
+  - apiVersion: v2
+    appVersion: 0.38.1
+    created: "2025-03-28T11:27:35.922066322Z"
+    description: Installs an Akash RPC node (required)
+    digest: 45ba2847451c6b5203267c6b879ac062b7ec133ec6edf4da3eb95b1c0f5df7c8
+    name: akash-node
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-node-12.0.3/akash-node-12.0.3.tgz
+    version: 12.0.3
   provider:
+  - apiVersion: v2
+    appVersion: 0.6.10-rc3
+    created: "2025-03-28T11:27:36.022661959Z"
+    description: Installs an Akash provider (required)
+    digest: 8ee655dd29963920445cac47671b3442e2516e5c832c0371fc110dd245da7124
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-11.6.1-rc3/provider-11.6.1-rc3.tgz
+    version: 11.6.1-rc3
   - apiVersion: v2
     appVersion: 0.6.10-rc3
     created: "2025-03-24T15:48:29.517775664Z"
@@ -44,4 +65,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-11.5.8-rc3/provider-11.5.8-rc3.tgz
     version: 11.5.8-rc3
-generated: "2025-03-24T15:48:29.517795471Z"
+generated: "2025-03-28T11:27:36.022676567Z"
