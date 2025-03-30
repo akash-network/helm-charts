@@ -249,6 +249,8 @@ spec:
               value: "{{ .Values.minimumbalance }}"
             - name: AKASH_BID_DEPOSIT
               value: "{{ .Values.bidmindeposit }}"
+            - name: AKASH_TX_BROADCAST_TIMEOUT
+              value: "{{ .Values.tx_broadcast_timeout }}"
             - name: AKASH_MONITOR_MAX_RETRIES
               value: {{ if (hasKey (.Values.monitor | default dict) "maxRetries") }}{{ (.Values.monitor | default dict).maxRetries | quote }}{{ else }}"40"{{ end }}
             - name: AKASH_MONITOR_RETRY_PERIOD
