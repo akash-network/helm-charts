@@ -69,6 +69,9 @@ gasadjustment: "1.5"
 # 0.5 AKT - provider minimum bid deposit (5 AKT for sandbox)
 bidmindeposit: "500000uakt"
 
+# Might help increasing tx_broadcast_timeout when seeing errors like this "RPC error -32603 - Internal error: timed out waiting for tx to be included in a block"
+tx_broadcast_timeout: "60s"  # CLI default is 30s
+
 # If you plan to use bid price script, then make sure to set bidpricescript variable to the base64 encoded contents of the script.
 # This will automatically switch AKASH_BID_PRICE_STRATEGY from "scale" (default) to "shellScript".
 # Sample scripts can be found under charts/akash-provider/scripts/ directory.
