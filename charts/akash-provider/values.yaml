@@ -42,12 +42,12 @@ website:
 # Important to know about the gas and fees:
 #
 # fees = (gas * gas-prices) as per Cosmos SDK docs.
-# (200000 * 0.0025uakt) = 500uakt floor fee for most of RPC nodes.
+# (200000 * 0.025uakt) = 5000uakt floor fee for most of RPC nodes.
 #
-# Akash RPC nodes set --minimum-gas-prices=0.0025uakt which gives
-# 500uakt minimum fee when multiplied by the gas price (200000 default).
+# Akash RPC nodes set --minimum-gas-prices=0.025uakt which gives
+# 5000uakt minimum fee when multiplied by the gas price (200000 default).
 #
-# Akash clients should respect this and set --gas-prices to 0.0025uakt
+# Akash clients should respect this and set --gas-prices to 0.025uakt
 #
 # Note that RPC node running without minimum-gas-prices set will accept
 # 0uakt fee transactions which is not desirable as per Cosmos SDK docs.
@@ -58,8 +58,8 @@ website:
 # Anything you set here will get globally exposed via AKASH_GAS_PRICES,
 # AKASH_GAS, AKASH_GAS_ADJUSTMENT environment variables in
 # charts/akash-provider/templates/deployment.yaml
-gasprices: "0.0025uakt"
-# set --gas to 200000 (or higher) to meet Akash RPC's minimum fees, (--minimum-gas-prices X 200000) = 500uakt.
+gasprices: "0.025uakt"
+# set --gas to 200000 (or higher) to meet Akash RPC's minimum fees, (--minimum-gas-prices X 200000) = 5000uakt.
 # or set --gas to "auto" to leverage the gasadjustment setting;
 # increase gasadjustment to tackle "out of gas" issues, i.e. https://github.com/ovrclk/akash/issues/1508
 gas: "auto"
