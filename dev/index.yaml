@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   akash-hostname-operator:
   - apiVersion: v2
+    appVersion: 0.6.11-rc1
+    created: "2025-03-30T02:12:08.720652582Z"
+    description: An operator to map Ingress objects to Akash deployments (required)
+    digest: 2e08e9472a07761da134ee7b06ec3f7b368069ab2d464a988d9837e46a19a973
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-11.6.0-rc1/akash-hostname-operator-11.6.0-rc1.tgz
+    version: 11.6.0-rc1
+  - apiVersion: v2
     appVersion: 0.6.10-rc3
     created: "2025-03-24T15:48:29.133207278Z"
     description: An operator to map Ingress objects to Akash deployments (required)
@@ -12,6 +22,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-11.5.8-rc3/akash-hostname-operator-11.5.8-rc3.tgz
     version: 11.5.8-rc3
   akash-inventory-operator:
+  - apiVersion: v2
+    appVersion: 0.6.11-rc1
+    created: "2025-03-30T02:12:08.835055332Z"
+    description: An operator required for persistent storage (required)
+    digest: d8b362a79ce4bf526505b371fc18c4dc361f3afb808daa885be94e0be9d045f8
+    name: akash-inventory-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-11.6.0-rc1/akash-inventory-operator-11.6.0-rc1.tgz
+    version: 11.6.0-rc1
   - apiVersion: v2
     appVersion: 0.6.10-rc3
     created: "2025-03-24T15:48:29.268254453Z"
@@ -24,6 +44,16 @@ entries:
     version: 11.5.8-rc3
   akash-ip-operator:
   - apiVersion: v2
+    appVersion: 0.6.11-rc1
+    created: "2025-03-30T02:12:08.953931244Z"
+    description: An operator required for ip marketplace (optional)
+    digest: 834ec26f6abd41c0d2686a74569ac5fa44e97fc1154085eff7eaf094827e094f
+    name: akash-ip-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-ip-operator-11.6.0-rc1/akash-ip-operator-11.6.0-rc1.tgz
+    version: 11.6.0-rc1
+  - apiVersion: v2
     appVersion: 0.6.10-rc3
     created: "2025-03-24T15:48:29.411489612Z"
     description: An operator required for ip marketplace (optional)
@@ -35,6 +65,16 @@ entries:
     version: 11.5.8-rc3
   akash-node:
   - apiVersion: v2
+    appVersion: 0.38.2-rc0
+    created: "2025-03-30T02:12:09.066696532Z"
+    description: Installs an Akash RPC node (required)
+    digest: 1b33b1a75f81961b18b9066004d3e92f75b8907154b4d32833602693921c17b0
+    name: akash-node
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-node-12.1.0-rc0/akash-node-12.1.0-rc0.tgz
+    version: 12.1.0-rc0
+  - apiVersion: v2
     appVersion: 0.38.1
     created: "2025-03-28T11:27:35.922066322Z"
     description: Installs an Akash RPC node (required)
@@ -45,6 +85,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/akash-node-12.0.3/akash-node-12.0.3.tgz
     version: 12.0.3
   provider:
+  - apiVersion: v2
+    appVersion: 0.6.11-rc1
+    created: "2025-03-30T02:12:09.141270968Z"
+    description: Installs an Akash provider (required)
+    digest: 0d1e8e1683a147d051a07b34292dac06a8a9761baf469a6af6637ceb6da5cf08
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-11.6.2-rc1/provider-11.6.2-rc1.tgz
+    version: 11.6.2-rc1
   - apiVersion: v2
     appVersion: 0.6.10-rc3
     created: "2025-03-28T11:27:36.022661959Z"
@@ -65,4 +115,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-11.5.8-rc3/provider-11.5.8-rc3.tgz
     version: 11.5.8-rc3
-generated: "2025-03-28T11:27:36.022676567Z"
+generated: "2025-03-30T02:12:09.141299893Z"
