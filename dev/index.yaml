@@ -75,6 +75,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/akash-node-12.1.0-rc0/akash-node-12.1.0-rc0.tgz
     version: 12.1.0-rc0
   - apiVersion: v2
+    appVersion: 0.38.2-rc0
+    created: "2025-03-30T06:14:31.038994534Z"
+    description: Installs an Akash RPC node (required)
+    digest: 692df48fa92850167bc835bdc53ba5fa345df45af51715a4b8376966d667727e
+    name: akash-node
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-node-12.1.0-rc0/akash-node-12.1.0-rc0.tgz
+    version: 12.1.0-rc0
+  - apiVersion: v2
     appVersion: 0.38.1
     created: "2025-03-28T11:27:35.922066322Z"
     description: Installs an Akash RPC node (required)
@@ -90,6 +100,16 @@ entries:
     created: "2025-03-30T02:12:09.141270968Z"
     description: Installs an Akash provider (required)
     digest: 0d1e8e1683a147d051a07b34292dac06a8a9761baf469a6af6637ceb6da5cf08
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-11.6.2-rc1/provider-11.6.2-rc1.tgz
+    version: 11.6.2-rc1
+  - apiVersion: v2
+    appVersion: 0.6.11-rc1
+    created: "2025-03-30T06:14:31.152424826Z"
+    description: Installs an Akash provider (required)
+    digest: d22fa05d2c35b0ce1a5f9158b90c51888cf72721eb722ca6ab3284d20e0d11ab
     name: provider
     type: application
     urls:
@@ -115,4 +135,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-11.5.8-rc3/provider-11.5.8-rc3.tgz
     version: 11.5.8-rc3
-generated: "2025-03-30T02:12:09.141299893Z"
+generated: "2025-03-30T06:14:31.152471213Z"
