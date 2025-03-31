@@ -14,6 +14,69 @@ Please refer to the https://docs.akash.network for Helm-Chart based installation
 
 ---
 
+### Versioning & Release Process (For Contributors)
+
+We use a two-branch workflow for safely testing and releasing Helm charts in this repo:
+
+- **`devel` branch** – for testing, RC (release candidate) versions, and in-progress changes  
+- **`main` branch** – for stable, production-ready chart releases
+
+#### 1. `devel` Branch Workflow
+
+- All development work — including *release candidates* — must go through the `devel` branch.  
+- When opening a new PR for an RC version or test changes, always set the base branch to `devel` ⚠️  
+- To test charts from `devel`, use the special `akash-dev` Helm repo:  
+
+```sh
+helm repo add akash-dev https://akash-network.github.io/helm-charts/dev
+helm search repo akash-dev --devel
+```
+
+Example output:
+
+```sh
+$ helm search repo akash-dev --devel
+NAME                               	CHART VERSION	APP VERSION	DESCRIPTION
+akash-dev/akash-hostname-operator 	11.5.8-rc3   	0.6.10-rc3 	Maps Ingress objects to Akash deployments
+akash-dev/akash-inventory-operator	11.5.8-rc3   	0.6.10-rc3 	Inventory discovery and reporting
+akash-dev/akash-ip-operator       	11.5.8-rc3   	0.6.10-rc3 	IP marketplace support (optional)
+akash-dev/provider                	11.5.8-rc3   	0.6.10-rc3 	Installs an Akash provider (required)
+```
+
+You can use both the **main** and **dev** helm-chart repos side by side:
+
+```sh
+$ helm repo list | grep -E '^NAME|^akash'
+NAME       	URL                                            
+akash      	https://akash-network.github.io/helm-charts    
+akash-dev  	https://akash-network.github.io/helm-charts/dev
+```
+
+#### 2. Versioning Workflow
+
+Here’s the full versioning lifecycle using `akash/provider` as an example:
+
+- **Initial State**  
+  The chart version in the `main` branch is a stable release (e.g., `11.6.3`).
+
+- **Testing Phase**  
+  - In the `devel` branch, bump the chart version to a release candidate (e.g., `11.6.4-rc0`).
+  - Push to `akash-dev` Helm repo for testing and validation.
+
+- **Release Phase**  
+  - Once the RC is verified, cherry-pick or merge relevant commits from `devel` into `main`.
+  - Update the version from `11.6.4-rcX` → `11.6.4` (remove `-rcX`) in `main`.
+
+- **Post-Release Sync**  
+  After releasing, merge `main` back into `devel` to sync the branches and avoid drift.
+
+#### Rationale
+
+This workflow prevents overlap between RCs and final release versions in `main`, which helps avoid version conflicts when using `helm search repo --devel`.  
+Without this separation, Helm hides RCs once a final version with the same number is published — making RCs effectively invisible for testing.
+
+---
+
 > The following sections will be moved to https://docs.akash.network eventually.
 
 ### Troubleshooting
