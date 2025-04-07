@@ -3848,6 +3848,16 @@ entries:
   console-web:
   - apiVersion: v2
     appVersion: 2.66.0
+    created: "2025-04-07T09:51:19.423718463Z"
+    description: Akash Console-Web Helm Chart
+    digest: 9b09a2c0deb9e7a542c292ee0b26b53355ae55e26ded7ae9d9aa297c8dbe2c97
+    name: console-web
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/console-web-0.3.0/console-web-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 2.66.0
     created: "2025-04-07T08:42:01.796328322Z"
     description: Akash Console-Web Helm Chart
     digest: 293b62b19d019bbfdae5a4c7ab7bb492cf15775f71c25c1444e3bb71f08212de
@@ -6911,4 +6921,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.1.0/provider-proxy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-04-07T08:42:01.797435139Z"
+generated: "2025-04-07T09:51:19.42537157Z"
