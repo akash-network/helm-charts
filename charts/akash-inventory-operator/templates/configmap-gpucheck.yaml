@@ -14,6 +14,21 @@ data:
     PROVIDER_ENDPOINT="https://akash-provider.akash-services.svc.cluster.local:8443/status"
     EXPECTED_GPUS=8
 
+    # Check if grpcurl is installed, install if not
+    if ! command -v grpcurl &> /dev/null; then
+        echo "Installing grpcurl..."
+        # Single-command installation
+        curl -sSL "https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_x86_64.tar.gz" | sudo tar -xz -C /usr/local/bin
+
+        # Verify installation
+        if ! command -v grpcurl &> /dev/null; then
+            >&2 echo "Error: Failed to install grpcurl"
+            exit 1
+        fi
+
+        echo "grpcurl installed successfully"
+    fi
+
     # Check if jq is installed
     if ! command -v jq &> /dev/null; then
         >&2 echo "Error: jq is not installed"
@@ -29,6 +44,7 @@ data:
     # Fetch provider status
     RESPONSE=$(curl -fsk "$PROVIDER_ENDPOINT" 2>/dev/null)
 
+
     if [ $? -ne 0 ]; then
         >&2 echo "Error: Failed to connect to provider endpoint"
         exit 1
@@ -38,6 +54,42 @@ data:
     if [ -z "$RESPONSE" ] || ! echo "$RESPONSE" | jq . &>/dev/null; then
         >&2 echo "Error: Received invalid JSON from provider endpoint"
         exit 1
+    fi
+
+    # Get cluster public hostname
+    CLUSTER_HOSTNAME=$(echo "$RESPONSE" | jq -r '.cluster_public_hostname')
+    echo "Cluster public hostname: $CLUSTER_HOSTNAME"
+
+    # Check gRPC provider status if hostname is available
+    if [ -n "$CLUSTER_HOSTNAME" ]; then
+        echo "Checking gRPC provider status..."
+        GRPC_RESPONSE=$(grpcurl -insecure "$CLUSTER_HOSTNAME:8444" akash.provider.v1.ProviderRPC.GetStatus 2>/dev/null)
+
+        if [ $? -ne 0 ]; then
+            >&2 echo "Error: Failed to get gRPC provider status"
+            exit 1
+        fi
+
+        echo "gRPC provider status check successful"
+
+        # Extract GPU capacity from gRPC response
+        GPU_CAPACITY=$(echo "$GRPC_RESPONSE" | jq -r '.cluster.inventory.cluster.nodes[0].resources.gpu.quantity.capacity.string' 2>/dev/null)
+
+        # Check if capacity was found and is a number
+        if [ -n "$GPU_CAPACITY" ] && [[ "$GPU_CAPACITY" =~ ^[0-9]+$ ]]; then
+            EXPECTED_GPUS=$GPU_CAPACITY
+            echo "Setting expected GPUs to $EXPECTED_GPUS based on capacity value"
+        else
+            echo "Using default expected GPUs: $EXPECTED_GPUS (could not extract from response)"
+            # Print the paths in the JSON to aid debugging
+            echo "Available JSON paths:"
+            echo "$GRPC_RESPONSE" | jq -r 'paths | join(".")' | grep -i gpu
+        fi
+
+        # Pretty print the response if possible, otherwise show raw
+        echo "$GRPC_RESPONSE" | jq . 2>/dev/null || echo "$GRPC_RESPONSE"
+    else
+        >&2 echo "Warning: Could not determine cluster public hostname for gRPC check"
     fi
 
     # Check if there are any nodes
