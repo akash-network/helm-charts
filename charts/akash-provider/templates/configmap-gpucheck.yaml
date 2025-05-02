@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gpu-validation-script
+  namespace: {{ .Release.Namespace }}
+data:
+  inv_liveness_check.sh: |
+    #!/bin/bash
+
+    # Validates that the expected number of GPUs are available
+    # Returns non-zero exit code if GPU count doesn't match expectations
+
+    # Configuration
+    PROVIDER_ENDPOINT="https://akash-provider.akash-services.svc.cluster.local:8443/status"
+    EXPECTED_GPUS=8
+
+    # Check if jq is installed
+    if ! command -v jq &> /dev/null; then
+        >&2 echo "Error: jq is not installed"
+        exit 1
+    fi
+
+    # Check if curl is installed
+    if ! command -v curl &> /dev/null; then
+        >&2 echo "Error: curl is not installed"
+        exit 1
+    fi
+
+    # Fetch provider status
+    RESPONSE=$(curl -fsk "$PROVIDER_ENDPOINT" 2>/dev/null)
+
+    if [ $? -ne 0 ]; then
+        >&2 echo "Error: Failed to connect to provider endpoint"
+        exit 1
+    fi
+
+    # Check if response is empty or invalid JSON
+    if [ -z "$RESPONSE" ] || ! echo "$RESPONSE" | jq . &>/dev/null; then
+        >&2 echo "Error: Received invalid JSON from provider endpoint"
+        exit 1
+    fi
+
+    # Check if there are any nodes
+    NODE_COUNT=$(echo "$RESPONSE" | jq '.cluster.inventory.available.nodes | length')
+
+    if [ "$NODE_COUNT" -eq 0 ]; then
+        >&2 echo "Error: No nodes found in the inventory"
+        exit 1
+    fi
+
+    # Check GPU count on each node
+    echo "$RESPONSE" | jq -c '.cluster.inventory.available.nodes[]' | while read -r node; do
+        NODE_NAME=$(echo "$node" | jq -r '.name')
+        
+        # Get GPU information
+        ALLOCATABLE_GPU=$(echo "$node" | jq -r '.allocatable.gpu')
+        
+        # Check for negative GPU count (should never happen in healthy system)
+        if [ "$ALLOCATABLE_GPU" -lt 0 ]; then
+            >&2 echo "Error: Node $NODE_NAME has negative GPU count: $ALLOCATABLE_GPU"
+            exit 1
+        fi
+        
+        # Check for excessive GPU count (indication of misconfiguration)
+        # For example, if we expect 8 GPUs but see 800, something is wrong
+        EXCESSIVE_GPU_THRESHOLD=$((EXPECTED_GPUS * 10))
+        if [ "$ALLOCATABLE_GPU" -gt "$EXCESSIVE_GPU_THRESHOLD" ]; then
+            >&2 echo "Error: Node $NODE_NAME has suspiciously high GPU count: $ALLOCATABLE_GPU (expected around $EXPECTED_GPUS)"
+            exit 1
+        fi
+        
+        # Check if GPU count matches expectations
+        if [ "$ALLOCATABLE_GPU" -lt "$EXPECTED_GPUS" ]; then
+            >&2 echo "Error: Node $NODE_NAME has only $ALLOCATABLE_GPU GPUs (expected $EXPECTED_GPUS)"
+            exit 1
+        fi
+    done
+
+    # All checks passed
+    exit 0

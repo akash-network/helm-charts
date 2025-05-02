@@ -62,10 +62,21 @@ spec:
             - containerPort: 8081
               name: grpc
               protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+              - sh
+              - -c
+              - /scripts/inv_liveness_check.sh
           volumeMounts:
             - name: config
               mountPath: /akash
+            - name: scripts
+              mountPath: /scripts
       volumes:
         - name: config
           configMap:
             name: operator-inventory
+        - name: scripts
+          configMap:
+            name: gpu-validation-script
