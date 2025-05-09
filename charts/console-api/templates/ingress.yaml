@@ -12,17 +12,21 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: {{ .Values.hostName }}
+    {{- range .Values.hostNames }}
+    - host: {{ . }}
       http:
         paths:
           - backend:
               service:
-                name: {{ .Chart.Name }}-{{ .Values.chain }}-service
+                name: {{ $.Chart.Name }}-{{ $.Values.chain }}-service
                 port:
                   name: api-port
             path: /
             pathType: Prefix
+    {{- end }}
   tls:
     - hosts:
-        - {{ .Values.hostName }}
-      secretName: {{ .Chart.Name }}-{{ .Values.namespace }}-akash-network-tls
+        {{- range .Values.hostNames }}
+        - {{ . }}
+        {{- end }}
+      secretName: {{ .Chart.Name }}-{{ .Release.Namespace }}-akash-network-tls
