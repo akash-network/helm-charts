@@ -7,126 +7,15 @@ data:
   inv_liveness_check.sh: |
     #!/bin/bash
 
-    # Validates that the expected number of GPUs are available
-    # Returns non-zero exit code if GPU count doesn't match expectations
+    # Get the output and check if there are any nodes with null GPU info
+    curl -sSf http://127.0.0.1:8080/v1/inventory | jq '.nodes[] | select(.resources.gpu.info == null)' | grep -q .
+    result=$?
 
-    # Configuration
-    PROVIDER_ENDPOINT="https://akash-provider.akash-services.svc.cluster.local:8443/status"
-    EXPECTED_GPUS=8
-
-    # Check if grpcurl is installed, install if not
-    if ! command -v grpcurl &> /dev/null; then
-        echo "Installing grpcurl..."
-        # Single-command installation
-        curl -sSL "https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_x86_64.tar.gz" | sudo tar -xz -C /usr/local/bin
-
-        # Verify installation
-        if ! command -v grpcurl &> /dev/null; then
-            >&2 echo "Error: Failed to install grpcurl"
-            exit 1
-        fi
-
-        echo "grpcurl installed successfully"
-    fi
-
-    # Check if jq is installed
-    if ! command -v jq &> /dev/null; then
-        >&2 echo "Error: jq is not installed"
-        exit 1
-    fi
-
-    # Check if curl is installed
-    if ! command -v curl &> /dev/null; then
-        >&2 echo "Error: curl is not installed"
-        exit 1
-    fi
-
-    # Fetch provider status
-    RESPONSE=$(curl -fsk "$PROVIDER_ENDPOINT" 2>/dev/null)
-
-
-    if [ $? -ne 0 ]; then
-        >&2 echo "Error: Failed to connect to provider endpoint"
-        exit 1
-    fi
-
-    # Check if response is empty or invalid JSON
-    if [ -z "$RESPONSE" ] || ! echo "$RESPONSE" | jq . &>/dev/null; then
-        >&2 echo "Error: Received invalid JSON from provider endpoint"
-        exit 1
-    fi
-
-    # Get cluster public hostname
-    CLUSTER_HOSTNAME=$(echo "$RESPONSE" | jq -r '.cluster_public_hostname')
-    echo "Cluster public hostname: $CLUSTER_HOSTNAME"
-
-    # Check gRPC provider status if hostname is available
-    if [ -n "$CLUSTER_HOSTNAME" ]; then
-        echo "Checking gRPC provider status..."
-        GRPC_RESPONSE=$(grpcurl -insecure "$CLUSTER_HOSTNAME:8444" akash.provider.v1.ProviderRPC.GetStatus 2>/dev/null)
-
-        if [ $? -ne 0 ]; then
-            >&2 echo "Error: Failed to get gRPC provider status"
-            exit 1
-        fi
-
-        echo "gRPC provider status check successful"
-
-        # Extract GPU capacity from gRPC response
-        GPU_CAPACITY=$(echo "$GRPC_RESPONSE" | jq -r '.cluster.inventory.cluster.nodes[0].resources.gpu.quantity.capacity.string' 2>/dev/null)
-
-        # Check if capacity was found and is a number
-        if [ -n "$GPU_CAPACITY" ] && [[ "$GPU_CAPACITY" =~ ^[0-9]+$ ]]; then
-            EXPECTED_GPUS=$GPU_CAPACITY
-            echo "Setting expected GPUs to $EXPECTED_GPUS based on capacity value"
-        else
-            echo "Using default expected GPUs: $EXPECTED_GPUS (could not extract from response)"
-            # Print the paths in the JSON to aid debugging
-            echo "Available JSON paths:"
-            echo "$GRPC_RESPONSE" | jq -r 'paths | join(".")' | grep -i gpu
-        fi
-
-        # Pretty print the response if possible, otherwise show raw
-        echo "$GRPC_RESPONSE" | jq . 2>/dev/null || echo "$GRPC_RESPONSE"
+    # If grep found something (exit code 0), that's an error
+    if [ $result -eq 0 ]; then
+    echo "ERROR: Found nodes with GPU info set to null"
+    exit 1
     else
-        >&2 echo "Warning: Could not determine cluster public hostname for gRPC check"
-    fi
-
-    # Check if there are any nodes
-    NODE_COUNT=$(echo "$RESPONSE" | jq '.cluster.inventory.available.nodes | length')
-
-    if [ "$NODE_COUNT" -eq 0 ]; then
-        >&2 echo "Error: No nodes found in the inventory"
-        exit 1
-    fi
-
-    # Check GPU count on each node
-    echo "$RESPONSE" | jq -c '.cluster.inventory.available.nodes[]' | while read -r node; do
-        NODE_NAME=$(echo "$node" | jq -r '.name')
-        
-        # Get GPU information
-        ALLOCATABLE_GPU=$(echo "$node" | jq -r '.allocatable.gpu')
-        
-        # Check for negative GPU count (should never happen in healthy system)
-        if [ "$ALLOCATABLE_GPU" -lt 0 ]; then
-            >&2 echo "Error: Node $NODE_NAME has negative GPU count: $ALLOCATABLE_GPU"
-            exit 1
-        fi
-        
-        # Check for excessive GPU count (indication of misconfiguration)
-        # For example, if we expect 8 GPUs but see 800, something is wrong
-        EXCESSIVE_GPU_THRESHOLD=$((EXPECTED_GPUS * 10))
-        if [ "$ALLOCATABLE_GPU" -gt "$EXCESSIVE_GPU_THRESHOLD" ]; then
-            >&2 echo "Error: Node $NODE_NAME has suspiciously high GPU count: $ALLOCATABLE_GPU (expected around $EXPECTED_GPUS)"
-            exit 1
-        fi
-        
-        # Check if GPU count matches expectations
-        if [ "$ALLOCATABLE_GPU" -lt "$EXPECTED_GPUS" ]; then
-            >&2 echo "Error: Node $NODE_NAME has only $ALLOCATABLE_GPU GPUs (expected $EXPECTED_GPUS)"
-            exit 1
-        fi
-    done
-
-    # All checks passed
+    echo "No nodes with null GPU info found"
     exit 0
+    fi
