@@ -67,7 +67,11 @@ spec:
               command:
               - sh
               - -c
-              - "/scripts/inv_liveness_check.sh >> /tmp/liveness.log 2>&1"
+              - "/scripts/inv_liveness_check.sh"
+            initialDelaySeconds: 240
+            periodSeconds: 30
+            failureThreshold: 1
+            timeoutSeconds: 30
           volumeMounts:
             - name: config
               mountPath: /akash
