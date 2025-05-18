@@ -6,16 +6,31 @@ metadata:
 data:
   inv_liveness_check.sh: |
     #!/bin/bash
+    set -o pipefail
+    echo "$(date): Running inventory liveness check..."
+    INVENTORY=$(curl -sSf http://127.0.0.1:8080/v1/inventory)
 
-    # Get the output and check if there are any nodes with null GPU info
-    curl -sSf http://127.0.0.1:8080/v1/inventory | jq '.nodes[] | select(.resources.gpu.info == null)' | grep -q .
+    echo "Checking for nodes with GPU capacity..."
+    GPU_NODES=$(echo "$INVENTORY" | jq -c '.nodes[] | select(.resources.gpu.quantity.capacity != "0")' | wc -l)
+
+    # If no GPUs found in the cluster (all have capacity 0), skip the validation
+    if [ "$GPU_NODES" -eq 0 ]; then
+      echo "No GPU resources with capacity > 0 detected in cluster, skipping GPU validation"
+      echo "$(date): Liveness check completed successfully (CPU-only cluster)"
+      exit 0
+    fi
+
+    # Check if there are any nodes with GPU capacity > 0 but null GPU info
+    echo "$INVENTORY" | jq '.nodes[] | select(.resources.gpu.quantity.capacity != "0" and .resources.gpu.info == null)' | grep -q .
     result=$?
 
     # If grep found something (exit code 0), that's an error
     if [ $result -eq 0 ]; then
-    echo "ERROR: Found nodes with GPU info set to null"
-    exit 1
+      echo "ERROR: Found nodes with GPU capacity > 0 but GPU info set to null"
+      echo "$(date): Liveness check failed with status 1"
+      exit 1
     else
-    echo "No nodes with null GPU info found"
-    exit 0
+      echo "All nodes with GPU capacity > 0 have valid GPU info"
+      echo "$(date): Liveness check completed successfully"
+      exit 0
     fi

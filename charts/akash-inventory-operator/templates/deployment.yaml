@@ -67,7 +67,7 @@ spec:
               command:
               - sh
               - -c
-              - /scripts/inv_liveness_check.sh
+              - "/scripts/inv_liveness_check.sh >> /tmp/liveness.log 2>&1"
           volumeMounts:
             - name: config
               mountPath: /akash
@@ -80,3 +80,4 @@ spec:
         - name: scripts
           configMap:
             name: gpu-validation-script
+            defaultMode: 0755
