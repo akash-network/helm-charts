@@ -5,6 +5,8 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.appName }}
+  annotations:
+    secrets.doppler.com/reload: 'true'
 spec:
   replicas: 1
   selector:

@@ -5,6 +5,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Chart.Name }}-{{ .Values.chain }}
+  annotations:
+    secrets.doppler.com/reload: 'true'
 spec:
   replicas: 1
   selector:
