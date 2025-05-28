@@ -1,5 +1,5 @@
 
-{{- $interfaces := list "rest" "chain-events" "alert-events" "notification-events" }}
+{{- $interfaces := list "rest" "chain-events" "alert-events" "notifications-events" }}
 {{- range $interface := $interfaces }}
 ---
 apiVersion: apps/v1
