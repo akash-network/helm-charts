@@ -45,13 +45,13 @@ spec:
               memory: "256Mi"
           readinessProbe:
             httpGet:
-              path: /v1/healthz/readiness
+              path: /healthz/readiness
               port: 3000
             initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             httpGet:
-              path: /v1/healthz/liveness
+              path: /healthz/liveness
               port: 3000
             initialDelaySeconds: 5
             periodSeconds: 10
