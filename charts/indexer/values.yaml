@@ -1,2 +1,7 @@
 appVersion: "2.79.3"
 hostNames:
+
+chain: mainnet
+
+service:
+  nodePort: 30000

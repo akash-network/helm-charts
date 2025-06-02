@@ -11,5 +11,5 @@ spec:
       port: 3000
       targetPort: api-port
       name: api-port
-      nodePort: 30000
+      nodePort: {{ .Values.service.nodePort | default 30000 }}
   type: NodePort
