@@ -10,6 +10,15 @@ data:
     echo "$(date): Running inventory liveness check..."
     INVENTORY=$(curl -sSf http://127.0.0.1:8080/v1/inventory)
 
+    # Check for empty nodes
+    TOTAL_NODES=$(echo "$INVENTORY" | jq '.nodes | length')
+    if [ "$TOTAL_NODES" -eq 0 ]; then
+      echo "ERROR: No nodes detected in inventory - operator-inventory likely lost K8s API connectivity"
+      echo "$(date): Liveness check failed - empty nodes array detected"
+      exit 1
+    fi
+    echo "Found $TOTAL_NODES total nodes in inventory"
+
     echo "Checking for nodes with GPU capacity..."
     GPU_NODES=$(echo "$INVENTORY" | jq -c '.nodes[] | select(.resources.gpu.quantity.capacity != "0")' | wc -l)
 
