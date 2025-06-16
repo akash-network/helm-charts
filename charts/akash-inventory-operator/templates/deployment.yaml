@@ -39,7 +39,10 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: AP_CONFIG
-              value: /akash/config.yaml
+              valueFrom:
+                configMapKeyRef:
+                  name: operator-inventory
+                  key: config-path
             - name: AP_POD_NAME
               valueFrom:
                 fieldRef:
