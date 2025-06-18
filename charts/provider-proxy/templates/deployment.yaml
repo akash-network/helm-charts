@@ -21,6 +21,11 @@ spec:
         - name: {{ .Chart.Name }}
           image: ghcr.io/akash-network/provider-proxy:{{ .Values.appVersion }}
           imagePullPolicy: "Always"
+          envFrom:
+            - secretRef:
+                name: {{ .Chart.Name }}-secret
+            - configMapRef:
+                name: {{ .Chart.Name }}-config
           ports:
             - containerPort: 3000
               name: api-port
