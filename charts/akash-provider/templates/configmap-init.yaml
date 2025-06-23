@@ -1,0 +1,29 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "provider.fullname" . }}-init
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ include "provider.fullname" . }}
+    {{- include "provider.labels" . | nindent 4 }}
+data:
+  # Debug config
+  AKASH_DEBUG: "{{ $.Values.debug }}"
+  AP_YES: "true"
+  
+  # Boot config
+  AKASH_BOOT_KEYS: "/boot-keys"
+  
+  # Cosmos-SDK client config
+  AKASH_HOME: "{{ .Values.home }}"
+  AKASH_FROM: "{{ .Values.from }}"
+  AKASH_NODE: "{{ .Values.node }}"
+  AKASH_CHAIN_ID: "{{ .Values.chainid }}"
+  AKASH_KEYRING_BACKEND: "{{ .Values.keyringbackend }}"
+  AKASH_BROADCAST_MODE: "block"
+  AKASH_YES: "true"
+  AKASH_GAS_PRICES: "{{ .Values.gasprices }}"
+  AKASH_GAS: "{{ .Values.gas }}"
+  AKASH_GAS_ADJUSTMENT: "{{ .Values.gasadjustment }}"
+  AKASH_LOG_LEVEL: "info"

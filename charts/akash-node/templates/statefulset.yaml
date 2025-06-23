@@ -106,7 +106,7 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: akash-node-scripts
+            name: akash-node-script
       {{- if or .Values.local_storage.enabled .Values.ceph_storage.enabled }}
         - name: local-persistent-storage
           persistentVolumeClaim:
