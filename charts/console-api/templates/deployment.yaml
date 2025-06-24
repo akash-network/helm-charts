@@ -28,13 +28,18 @@ spec:
             - containerPort: 3000
               name: api-port
               protocol: TCP
+          envFrom:
+            - secretRef:
+                name: {{ .Chart.Name }}-{{ .Values.chain }}-secret
+            - configMapRef:
+                name: {{ .Chart.Name }}-{{ .Values.chain }}-config
           env:
             - name: PORT
               value: "3000"
-            - name: OTEL_RESOURCE_ATTRIBUTES
-              value: "namespace={{ .Release.Namespace }}"
             - name: OTEL_SERVICE_NAME
               value: {{ .Chart.Name }}-{{ .Values.chain }}
+            - name: NETWORK
+              value: {{ .Values.chain }}
           resources:
             limits:
               cpu: "1"
@@ -56,6 +61,3 @@ spec:
               port: 3000
             initialDelaySeconds: 5
             periodSeconds: 10
-          envFrom:
-            - secretRef:
-                name: {{ .Chart.Name }}-{{ .Values.chain }}-secret
