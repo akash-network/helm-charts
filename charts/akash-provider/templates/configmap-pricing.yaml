@@ -1,0 +1,109 @@
+---
+# Conditional ConfigMap for optional main container values
+{{- if or .Values.bidpricescript .Values.whitelist_url .Values.debug_bid_script .Values.price_target_cpu .Values.price_target_memory .Values.price_target_hd_ephemeral .Values.price_target_hd_pers_hdd .Values.price_target_hd_pers_ssd .Values.price_target_hd_pers_nvme .Values.price_target_endpoint .Values.price_target_ip .Values.price_target_gpu_mappings .Values.bid_deposit .Values.bid_timeout .Values.manifest_timeout .Values.balances_period .Values.query_timeout .Values.lease_funds_monitor_interval .Values.withdrawal_period .Values.bid_price_cpu .Values.bid_price_memory .Values.bid_price_storage .Values.deployment_runtime_class .Values.cluster_storage_class .Values.deployment_ingress_domain_config_secret_name .Values.authpem .Values.biddepositcpudenom .Values.biddepositmemorydenom .Values.biddepositendpointdenom .Values.biddepositipdenom .Values.biddepositstoragedenoms .Values.resourcedefinition }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "provider.fullname" . }}-pricing
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ include "provider.fullname" . }}
+    {{- include "provider.labels" . | nindent 4 }}
+data:
+{{ if .Values.bidpricescript }}
+  AKASH_BID_PRICE_SCRIPT_PATH: "/scripts/price_script.sh"
+{{- end }}
+{{ if .Values.whitelist_url }}
+  WHITELIST_URL: "{{ .Values.whitelist_url }}"
+{{- end }}
+{{ if .Values.debug_bid_script }}
+  DEBUG_BID_SCRIPT: "{{ .Values.debug_bid_script }}"
+{{- end }}
+{{ if .Values.price_target_cpu }}
+  PRICE_TARGET_CPU: "{{ .Values.price_target_cpu }}"
+{{- end }}
+{{ if .Values.price_target_memory }}
+  PRICE_TARGET_MEMORY: "{{ .Values.price_target_memory }}"
+{{- end }}
+{{ if .Values.price_target_hd_ephemeral }}
+  PRICE_TARGET_HD_EPHEMERAL: "{{ .Values.price_target_hd_ephemeral }}"
+{{- end }}
+{{ if .Values.price_target_hd_pers_hdd }}
+  PRICE_TARGET_HD_PERS_HDD: "{{ .Values.price_target_hd_pers_hdd }}"
+{{- end }}
+{{ if .Values.price_target_hd_pers_ssd }}
+  PRICE_TARGET_HD_PERS_SSD: "{{ .Values.price_target_hd_pers_ssd }}"
+{{- end }}
+{{ if .Values.price_target_hd_pers_nvme }}
+  PRICE_TARGET_HD_PERS_NVME: "{{ .Values.price_target_hd_pers_nvme }}"
+{{- end }}
+{{ if .Values.price_target_endpoint }}
+  PRICE_TARGET_ENDPOINT: "{{ .Values.price_target_endpoint }}"
+{{- end }}
+{{ if .Values.price_target_ip }}
+  PRICE_TARGET_IP: "{{ .Values.price_target_ip }}"
+{{- end }}
+{{ if .Values.price_target_gpu_mappings }}
+  PRICE_TARGET_GPU_MAPPINGS: "{{ .Values.price_target_gpu_mappings }}"
+{{- end }}
+{{ if .Values.bid_deposit }}
+  AKASH_BID_DEPOSIT: "{{ .Values.bid_deposit }}"
+{{- end }}
+{{ if .Values.bid_timeout }}
+  AKASH_BID_TIMEOUT: "{{ .Values.bid_timeout }}"
+{{- end }}
+{{ if .Values.manifest_timeout }}
+  AKASH_MANIFEST_TIMEOUT: "{{ .Values.manifest_timeout }}"
+{{- end }}
+{{ if .Values.balances_period }}
+  AKASH_BALANCES_PERIOD: "{{ .Values.balances_period }}"
+{{- end }}
+{{ if .Values.query_timeout }}
+  AKASH_QUERY_TIMEOUT: "{{ .Values.query_timeout }}"
+{{- end }}
+{{ if .Values.lease_funds_monitor_interval }}
+  AKASH_LEASE_FUNDS_MONITOR_INTERVAL: "{{ .Values.lease_funds_monitor_interval }}"
+{{- end }}
+{{ if .Values.withdrawal_period }}
+  AKASH_WITHDRAWAL_PERIOD: "{{ .Values.withdrawal_period }}"
+{{- end }}
+{{ if .Values.bid_price_cpu }}
+  AKASH_BID_PRICE_CPU: "{{ .Values.bid_price_cpu }}"
+{{- end }}
+{{ if .Values.bid_price_memory }}
+  AKASH_BID_PRICE_MEMORY: "{{ .Values.bid_price_memory }}"
+{{- end }}
+{{ if .Values.bid_price_storage }}
+  AKASH_BID_PRICE_STORAGE: "{{ .Values.bid_price_storage }}"
+{{- end }}
+{{ if .Values.deployment_runtime_class }}
+  AKASH_DEPLOYMENT_RUNTIME_CLASS: "{{ .Values.deployment_runtime_class }}"
+{{- end }}
+{{ if .Values.cluster_storage_class }}
+  AKASH_CLUSTER_STORAGE: "{{ .Values.cluster_storage_class }}"
+{{- end }}
+{{ if .Values.deployment_ingress_domain_config_secret_name }}
+  AKASH_DEPLOYMENT_INGRESS_DOMAIN_CONFIG_SECRET_NAME: "{{ .Values.deployment_ingress_domain_config_secret_name }}"
+{{- end }}
+{{ if .Values.authpem }}
+  AKASH_AUTH_PEM: "{{ .Values.authpem }}"
+{{- end }}
+{{ if .Values.biddepositcpudenom }}
+  AKASH_BID_DEPOSIT_CPU_DENOM: "{{ .Values.biddepositcpudenom }}"
+{{- end }}
+{{ if .Values.biddepositmemorydenom }}
+  AKASH_BID_DEPOSIT_MEMORY_DENOM: "{{ .Values.biddepositmemorydenom }}"
+{{- end }}
+{{ if .Values.biddepositendpointdenom }}
+  AKASH_BID_DEPOSIT_ENDPOINT_DENOM: "{{ .Values.biddepositendpointdenom }}"
+{{- end }}
+{{ if .Values.biddepositipdenom }}
+  AKASH_BID_DEPOSIT_IP_DENOM: "{{ .Values.biddepositipdenom }}"
+{{- end }}
+{{ if .Values.biddepositstoragedenoms }}
+  AKASH_BID_DEPOSIT_STORAGE_DENOMS: "{{ .Values.biddepositstoragedenoms }}"
+{{- end }}
+{{ if .Values.resourcedefinition }}
+  AKASH_RESOURCE_DEFINITION: "{{ .Values.resourcedefinition }}"
+{{- end }}
+{{- end }}
