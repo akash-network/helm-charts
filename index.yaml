@@ -654,6 +654,16 @@ entries:
   akash-inventory-operator:
   - apiVersion: v2
     appVersion: 0.6.11-rc1
+    created: "2025-06-26T07:00:37.279201712Z"
+    description: An operator required for persistent storage (required)
+    digest: 44767548cdfca9f84cc6eab7023ea77ac3a45849af0328b61712c2cbf8b66383
+    name: akash-inventory-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-11.6.4/akash-inventory-operator-11.6.4.tgz
+    version: 11.6.4
+  - apiVersion: v2
+    appVersion: 0.6.11-rc1
     created: "2025-06-16T06:47:46.035968542Z"
     description: An operator required for persistent storage (required)
     digest: c2106dfdc8ffaa404b05ffea226a78015031fd790f30876c2fbdda2fa47bacb6
@@ -1804,6 +1814,16 @@ entries:
     - https://github.com/ovrclk/helm-charts/releases/download/akash-ip-operator-0.9.0/akash-ip-operator-0.9.0.tgz
     version: 0.9.0
   akash-node:
+  - apiVersion: v2
+    appVersion: 0.38.2-rc0
+    created: "2025-06-26T07:00:37.396076312Z"
+    description: Installs an Akash RPC node (required)
+    digest: 2e86bb24d0cb719ca5fedaf1a7ee9e9c4c8f8a3c82cf56f762c722e62bd6c222
+    name: akash-node
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-node-12.1.1/akash-node-12.1.1.tgz
+    version: 12.1.1
   - apiVersion: v2
     appVersion: 0.38.2-rc0
     created: "2025-03-31T09:36:16.501209692Z"
@@ -4053,6 +4073,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/notifications-1.0.0/notifications-1.0.0.tgz
     version: 1.0.0
   provider:
+  - apiVersion: v2
+    appVersion: 0.6.11-rc1
+    created: "2025-06-26T07:00:37.54588293Z"
+    description: Installs an Akash provider (required)
+    digest: d20de446d1e50826c8b769ff63797723f1728a2116909576ad9f5b089447898a
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-11.6.4/provider-11.6.4.tgz
+    version: 11.6.4
   - apiVersion: v2
     appVersion: 0.6.11-rc1
     created: "2025-03-31T08:56:42.381672751Z"
@@ -7111,4 +7141,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.1.0/provider-proxy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-06-24T13:02:48.183060833Z"
+generated: "2025-06-26T07:00:37.547649228Z"
