@@ -270,6 +270,7 @@ spec:
               value: "{{ .Values.env.CF_DNS_API_TOKEN }}"
 {{- end }}
 
+
           ports:
             - name: api
               containerPort: 8443
