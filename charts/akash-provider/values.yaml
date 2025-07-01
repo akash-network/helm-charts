@@ -166,3 +166,19 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Google Cloud DNS configuration
+gcp:
+  # Service account credentials for DNS zone access
+  serviceAccount:
+    # Secret name containing the service account JSON file
+    secretName: "gcp-dns-service-account"
+    # Key in the secret containing the service account JSON
+    secretKey: "service-account.json"
+    # Mount path for the service account file
+    mountPath: "/etc/gcp"
+
+# Environment variables for DNS providers
+env:
+  # Cloudflare DNS API token
+  CF_DNS_API_TOKEN: ""
