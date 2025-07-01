@@ -261,6 +261,14 @@ spec:
               value: {{ (.Values.monitor | default dict).healthcheckPeriod | default "10s" | quote }}
             - name: AKASH_MONITOR_HEALTHCHECK_PERIOD_JITTER
               value: {{ (.Values.monitor | default dict).healthcheckPeriodJitter | default "5s" | quote }}
+{{ if .Values.gcp.serviceAccount.secretName }}
+            - name: GCE_SERVICE_ACCOUNT_FILE
+              value: "{{ .Values.gcp.serviceAccount.mountPath }}/{{ .Values.gcp.serviceAccount.secretKey }}"
+{{- end }}
+{{ if .Values.env.CF_DNS_API_TOKEN }}
+            - name: CF_DNS_API_TOKEN
+              value: "{{ .Values.env.CF_DNS_API_TOKEN }}"
+{{- end }}
 
 
           ports:
@@ -293,6 +301,11 @@ spec:
               mountPath: /config
             - name: home
               mountPath: "{{ .Values.home }}"
+{{ if .Values.gcp.serviceAccount.secretName }}
+            - name: gcp-service-account
+              mountPath: "{{ .Values.gcp.serviceAccount.mountPath }}"
+              readOnly: true
+{{- end }}
       volumes:
         - name: scripts
           configMap:
@@ -307,6 +320,14 @@ spec:
             type: DirectoryOrCreate
         - name: home
           emptyDir: {}
+{{ if .Values.gcp.serviceAccount.secretName }}
+        - name: gcp-service-account
+          secret:
+            secretName: {{ .Values.gcp.serviceAccount.secretName }}
+            items:
+              - key: {{ .Values.gcp.serviceAccount.secretKey }}
+                path: {{ .Values.gcp.serviceAccount.secretKey }}
+{{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
