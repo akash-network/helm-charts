@@ -221,10 +221,6 @@ spec:
             - name: PRICE_TARGET_GPU_MAPPINGS
               value: "{{ .Values.price_target_gpu_mappings }}"
 {{- end }}
-{{ if .Values.env.CF_DNS_API_TOKEN }}
-            - name: CF_DNS_API_TOKEN
-              value: "{{ .Values.env.CF_DNS_API_TOKEN }}"
-{{- end }}
             - name: AKASH_BID_PRICE_CPU_SCALE
               value: "{{ .Values.bidpricecpuscale }}"
             - name: AKASH_BID_PRICE_MEMORY_SCALE
