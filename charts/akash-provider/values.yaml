@@ -182,3 +182,25 @@ gcp:
 env:
   # Cloudflare DNS API token
   CF_DNS_API_TOKEN: ""
+
+# Certificate issuer configuration
+certIssuer:
+  # Enable certificate issuer
+  enabled: false
+  # DNS providers for certificate challenges (e.g., cf, gcloud)
+  dnsProviders: ""
+  # Email for Let's Encrypt account
+  email: ""
+  # ACME CA directory URL
+  caDirUrl: "https://acme-v02.api.letsencrypt.org/directory"
+
+# Storage configuration
+storage:
+  # Home directory persistent volume claim
+  home:
+    # Storage size for home directory
+    size: "10Gi"
+    # Storage class to use
+    storageClassName: "local-path"
+    # Access mode for the PVC
+    accessMode: "ReadWriteOnce"

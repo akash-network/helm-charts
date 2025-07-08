@@ -15,6 +15,15 @@ spec:
     matchLabels:
       app: {{ include "provider.fullname" . }}
       {{- include "provider.selectorLabels" . | nindent 6 }}
+  volumeClaimTemplates:
+    - metadata:
+        name: home
+      spec:
+        accessModes: ["{{ .Values.storage.home.accessMode }}"]
+        resources:
+          requests:
+            storage: {{ .Values.storage.home.size }}
+        storageClassName: "{{ .Values.storage.home.storageClassName }}"
   template:
     metadata:
       annotations:
@@ -269,6 +278,22 @@ spec:
             - name: CF_DNS_API_TOKEN
               value: "{{ .Values.env.CF_DNS_API_TOKEN }}"
 {{- end }}
+{{ if .Values.certIssuer.enabled }}
+            - name: CERT_ISSUER_ENABLED
+              value: "{{ .Values.certIssuer.enabled }}"
+{{- end }}
+{{ if .Values.certIssuer.dnsProviders }}
+            - name: CERT_ISSUER_DNS_PROVIDERS
+              value: "{{ .Values.certIssuer.dnsProviders }}"
+{{- end }}
+{{ if .Values.certIssuer.email }}
+            - name: CERT_ISSUER_EMAIL
+              value: "{{ .Values.certIssuer.email }}"
+{{- end }}
+{{ if .Values.certIssuer.caDirUrl }}
+            - name: CERT_ISSUER_CA_DIR_URL
+              value: "{{ .Values.certIssuer.caDirUrl }}"
+{{- end }}
 
           ports:
             - name: api
@@ -318,7 +343,8 @@ spec:
             path: /root/.akash/k8s-config
             type: DirectoryOrCreate
         - name: home
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: {{ include "provider.fullname" . }}-home
 {{ if .Values.gcp.serviceAccount.secretName }}
         - name: gcp-service-account
           secret:
