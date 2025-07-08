@@ -200,7 +200,5 @@ storage:
   home:
     # Storage size for home directory
     size: "10Gi"
-    # Storage class to use
-    storageClassName: "local-path"
     # Access mode for the PVC
     accessMode: "ReadWriteOnce"
