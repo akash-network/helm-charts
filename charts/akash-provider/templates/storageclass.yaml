@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ include "provider.fullname" . }}-local-storage
+  labels:
+    app: {{ include "provider.fullname" . }}
+    {{- include "provider.labels" . | nindent 4 }}
+provisioner: rancher.io/local-path
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain 

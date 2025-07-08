@@ -23,7 +23,7 @@ spec:
         resources:
           requests:
             storage: {{ .Values.storage.home.size }}
-        storageClassName: "{{ .Values.storage.home.storageClassName }}"
+        storageClassName: {{ include "provider.fullname" . }}-local-storage
   template:
     metadata:
       annotations:
