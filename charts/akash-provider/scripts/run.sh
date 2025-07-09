@@ -36,5 +36,14 @@ if [[ "${CERT_ISSUER_ENABLED}" == "true" ]]; then
     fi
 fi
 
+# Debug: Print the final command to see all flags
+echo "=== Provider Command Debug ==="
+echo "CERT_ISSUER_ENABLED: ${CERT_ISSUER_ENABLED}"
+echo "CERT_ISSUER_DNS_PROVIDERS: ${CERT_ISSUER_DNS_PROVIDERS}"
+echo "CERT_ISSUER_EMAIL: ${CERT_ISSUER_EMAIL}"
+echo "CERT_ISSUER_CA_DIR_URL: ${CERT_ISSUER_CA_DIR_URL}"
+echo "Final command: ${PROVIDER_CMD}"
+echo "=============================="
+
 # Start provider-services and monitor its output
 eval "${PROVIDER_CMD}"
