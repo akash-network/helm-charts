@@ -46,4 +46,4 @@ echo "Final command: ${PROVIDER_CMD}"
 echo "=============================="
 
 # Start provider-services and monitor its output
-eval "${PROVIDER_CMD}"
+${PROVIDER_CMD}
