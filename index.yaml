@@ -7127,6 +7127,20 @@ entries:
   provider-proxy:
   - apiVersion: v2
     appVersion: 1.13.3
+    created: "2025-07-30T18:50:29.865231373Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.1.1
+    description: Akash Provider Proxy Helm Chart
+    digest: f235393d27ae44243d11063f912f8cb9f132ecf0614e9a84f10cb865bec027da
+    name: provider-proxy
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.5.0/provider-proxy-0.5.0.tgz
+    version: 0.5.0
+  - apiVersion: v2
+    appVersion: 1.13.3
     created: "2025-07-26T07:11:48.408356267Z"
     dependencies:
     - name: nodejs-app
@@ -7183,4 +7197,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.1.0/provider-proxy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-07-30T16:32:39.498661116Z"
+generated: "2025-07-30T18:50:29.86625436Z"
