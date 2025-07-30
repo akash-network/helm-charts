@@ -35,13 +35,13 @@ spec:
               value: "3000"
           resources:
             limits:
-              cpu: "1"
+              cpu: "4"
               ephemeral-storage: "2Gi"
-              memory: "512Mi"
+              memory: "8Gi"
             requests:
-              cpu: "0.25"
+              cpu: "2"
               ephemeral-storage: "1Gi"
-              memory: "256Mi"
+              memory: "8Gi"
           readinessProbe:
             httpGet:
               path: /status
