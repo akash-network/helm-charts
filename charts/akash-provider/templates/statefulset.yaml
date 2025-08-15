@@ -270,7 +270,7 @@ spec:
               value: {{ (.Values.monitor | default dict).healthcheckPeriod | default "10s" | quote }}
             - name: AKASH_MONITOR_HEALTHCHECK_PERIOD_JITTER
               value: {{ (.Values.monitor | default dict).healthcheckPeriodJitter | default "5s" | quote }}
-{{ if .Values.gcp.serviceAccount.secretName }}
+{{ if and .Values.gcp.enabled .Values.gcp.serviceAccount.secretName }}
             - name: GCE_SERVICE_ACCOUNT_FILE
               value: "{{ .Values.gcp.serviceAccount.mountPath }}/{{ .Values.gcp.serviceAccount.secretKey }}"
 {{- end }}
@@ -325,7 +325,7 @@ spec:
               mountPath: /config
             - name: home
               mountPath: "{{ .Values.home }}"
-{{ if .Values.gcp.serviceAccount.secretName }}
+{{ if and .Values.gcp.enabled .Values.gcp.serviceAccount.secretName }}
             - name: gcp-service-account
               mountPath: "{{ .Values.gcp.serviceAccount.mountPath }}"
               readOnly: true
@@ -345,7 +345,7 @@ spec:
         - name: home
           persistentVolumeClaim:
             claimName: {{ include "provider.fullname" . }}-home
-{{ if .Values.gcp.serviceAccount.secretName }}
+{{ if and .Values.gcp.enabled .Values.gcp.serviceAccount.secretName }}
         - name: gcp-service-account
           secret:
             secretName: {{ .Values.gcp.serviceAccount.secretName }}

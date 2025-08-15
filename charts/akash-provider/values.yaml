@@ -169,6 +169,8 @@ affinity: {}
 
 # Google Cloud DNS configuration
 gcp:
+  # Enable GCP DNS functionality
+  enabled: false
   # Service account credentials for DNS zone access
   serviceAccount:
     # Secret name containing the service account JSON file
