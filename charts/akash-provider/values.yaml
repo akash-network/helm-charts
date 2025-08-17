@@ -166,3 +166,37 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Let's Encrypt Certificate Issuer Configuration
+# This section allows you to configure automatic SSL/TLS certificate management
+# for your provider's REST and gRPC gateways using Let's Encrypt.
+# 
+# The Helm chart will automatically detect Let's Encrypt configuration from your provider.yaml file
+# when you use: helm install akash-provider akash/provider -f provider.yaml
+#
+# To enable Let's Encrypt, add a 'letsEncrypt' section to your provider.yaml file.
+# See examples/provider-with-letsencrypt.yaml for a complete example.
+letsEncrypt:
+  # Enable Let's Encrypt certificate issuer
+  # This will be automatically set to true if letsEncrypt configuration is found in provider.yaml
+  enabled: false
+  
+  # Storage configuration for certificates and account data
+  storage:
+    # Storage size for certificate data (default: 1Gi)
+    size: "1Gi"
+    
+    # Storage class to use (default: use cluster default)
+    storageClass: ""
+    
+    # Access mode for the PVC (default: ReadWriteOnce)
+    accessMode: "ReadWriteOnce"
+    
+# Storage configuration
+storage:
+  # Home directory persistent volume claim
+  home:
+    # Storage size for home directory
+    size: "10Gi"
+    # Access mode for the PVC
+    accessMode: "ReadWriteOnce"

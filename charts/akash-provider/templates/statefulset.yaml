@@ -31,6 +31,20 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
+        {{- if .Values.letsEncrypt.enabled }}
+        {{- $storageClass := include "provider.storageClass" . | trim }}
+        {{- if eq $storageClass "local-path" }}
+        - name: storage-validation
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: ["/bin/bash"]
+          args: ["/validation/validation.sh"]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: validation-script
+              mountPath: /validation
+              readOnly: true
+        {{- end }}
+        {{- end }}
         - name: init
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -53,6 +67,16 @@ spec:
               mountPath: /config
             - name: home
               mountPath: "{{ .Values.home }}"
+
+            {{- if .Values.letsEncrypt.enabled }}
+            - name: letsencrypt-storage
+              mountPath: /root/.certissuer
+            {{- if .Values.letsEncrypt.providers.googleCloud.enabled }}
+            - name: gcp-service-account
+              mountPath: /etc/gcp
+              readOnly: true
+            {{- end }}
+            {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -69,6 +93,25 @@ spec:
             - configMapRef:
                 name: {{ include "provider.fullname" . }}-pricing
             {{- end }}
+            {{- if .Values.letsEncrypt.enabled }}
+            - configMapRef:
+                name: {{ include "provider.fullname" . }}-letsencrypt
+            {{- end }}
+          {{- if .Values.letsEncrypt.enabled }}
+          env:
+            {{- if .Values.letsEncrypt.providers.cloudflare.enabled }}
+            - name: CF_DNS_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "provider.fullname" . }}-cloudflare-dns
+                  key: CF_DNS_API_TOKEN
+            {{- end }}
+            {{- if .Values.letsEncrypt.providers.googleCloud.enabled }}
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "/etc/gcp/service-account.json"
+            {{- end }}
+          {{- end }}
+          
 
           ports:
             - name: api
@@ -100,7 +143,25 @@ spec:
               mountPath: /config
             - name: home
               mountPath: "{{ .Values.home }}"
+            {{- if .Values.letsEncrypt.enabled }}
+            - name: letsencrypt-storage
+              mountPath: /root/.certissuer
+            {{- if .Values.letsEncrypt.providers.googleCloud.enabled }}
+            - name: gcp-service-account
+              mountPath: /etc/gcp
+              readOnly: true
+            {{- end }}
+            {{- end }}
       volumes:
+        {{- if .Values.letsEncrypt.enabled }}
+        {{- $storageClass := include "provider.storageClass" . | trim }}
+        {{- if eq $storageClass "local-path" }}
+        - name: validation-script
+          configMap:
+            name: {{ include "provider.fullname" . }}-storage-validation
+            defaultMode: 0755
+        {{- end }}
+        {{- end }}
         - name: scripts
           configMap:
             name: {{ include "provider.fullname" . }}-script
@@ -114,6 +175,19 @@ spec:
             type: DirectoryOrCreate
         - name: home
           emptyDir: {}
+        {{- if .Values.letsEncrypt.enabled }}
+        - name: letsencrypt-storage
+          persistentVolumeClaim:
+            claimName: {{ include "provider.fullname" . }}-letsencrypt-storage
+        {{- if .Values.letsEncrypt.providers.googleCloud.enabled }}
+        - name: gcp-service-account
+          secret:
+            secretName: {{ include "provider.fullname" . }}-gcp-dns
+            items:
+              - key: service-account.json
+                path: service-account.json
+        {{- end }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
