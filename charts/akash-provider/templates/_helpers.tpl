@@ -61,3 +61,29 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Extract storage class from provider attributes
+Looks for capabilities/storage/*/class where persistent = true
+Falls back to local-path storage class
+*/}}
+{{- define "provider.storageClass" -}}
+{{- $storageClass := "" }}
+{{- if .Values.attributes }}
+{{- range .Values.attributes }}
+{{- if and (hasPrefix "capabilities/storage/" .key) (eq .value "true") }}
+{{- $storageKey := printf "%s/class" (trimSuffix "/persistent" .key) }}
+{{- range $.Values.attributes }}
+{{- if and (eq .key $storageKey) .value }}
+{{- $storageClass = .value }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if $storageClass }}
+{{- $storageClass }}
+{{- else }}
+{{- .Values.letsEncrypt.storage.storageClass | default "local-path" }}
+{{- end }}
+{{- end }}
