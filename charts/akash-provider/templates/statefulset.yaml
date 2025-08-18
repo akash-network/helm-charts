@@ -268,26 +268,7 @@ spec:
             - name: AKASH_MONITOR_HEALTHCHECK_PERIOD_JITTER
               value: {{ (.Values.monitor | default dict).healthcheckPeriodJitter | default "5s" | quote }}
 
-{{ if .Values.env.CF_DNS_API_TOKEN }}
-            - name: CF_DNS_API_TOKEN
-              value: "{{ .Values.env.CF_DNS_API_TOKEN }}"
-{{- end }}
-{{ if .Values.certIssuer.enabled }}
-            - name: CERT_ISSUER_ENABLED
-              value: "{{ .Values.certIssuer.enabled }}"
-{{- end }}
-{{ if .Values.certIssuer.dnsProviders }}
-            - name: CERT_ISSUER_DNS_PROVIDERS
-              value: "{{ .Values.certIssuer.dnsProviders }}"
-{{- end }}
-{{ if .Values.certIssuer.email }}
-            - name: CERT_ISSUER_EMAIL
-              value: "{{ .Values.certIssuer.email }}"
-{{- end }}
-{{ if .Values.certIssuer.caDirUrl }}
-            - name: CERT_ISSUER_CA_DIR_URL
-              value: "{{ .Values.certIssuer.caDirUrl }}"
-{{- end }}
+
             {{- if .Values.letsEncrypt.providers.cloudflare.enabled }}
             - name: CF_DNS_API_TOKEN
               valueFrom:
