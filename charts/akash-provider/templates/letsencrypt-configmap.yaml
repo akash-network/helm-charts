@@ -16,10 +16,10 @@ data:
   {{- if .Values.letsEncrypt.acme.caDirUrl }}
   AP_CERT_ISSUER_CA_DIR_URL: {{ .Values.letsEncrypt.acme.caDirUrl | quote }}
   {{- end }}
-  {{- if .Values.letsEncrypt.acme.externalAccountBinding.kid }}
+  {{- if and .Values.letsEncrypt.acme.externalAccountBinding .Values.letsEncrypt.acme.externalAccountBinding.kid }}
   AP_CERT_ISSUER_KID: {{ .Values.letsEncrypt.acme.externalAccountBinding.kid | quote }}
   {{- end }}
-  {{- if .Values.letsEncrypt.acme.externalAccountBinding.hmac }}
+  {{- if and .Values.letsEncrypt.acme.externalAccountBinding .Values.letsEncrypt.acme.externalAccountBinding.hmac }}
   AP_CERT_ISSUER_HMAC: {{ .Values.letsEncrypt.acme.externalAccountBinding.hmac | quote }}
   {{- end }}
   {{- if .Values.letsEncrypt.dns.providers }}
