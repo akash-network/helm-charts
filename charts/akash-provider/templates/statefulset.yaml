@@ -51,13 +51,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "provider.fullname" . }}-init
-          env:
-            {{- if .Values.letsEncrypt.enabled }}
-            - name: AP_CERT_ISSUER_ENABLED
-              value: "true"
-            - name: PROVIDER_STORAGE_CLASS
-              value: {{ include "provider.storageClass" . | quote }}
-            {{- end }}
+
           volumeMounts:
             - name: scripts
               mountPath: /scripts
