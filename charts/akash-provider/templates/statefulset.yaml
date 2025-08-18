@@ -40,20 +40,6 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
-        {{- if .Values.letsEncrypt.enabled }}
-        {{- $storageClass := include "provider.storageClass" . | trim }}
-        {{- if eq $storageClass "local-path" }}
-        - name: storage-validation
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["/bin/bash"]
-          args: ["/validation/validation.sh"]
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          volumeMounts:
-            - name: validation-script
-              mountPath: /validation
-              readOnly: true
-        {{- end }}
-        {{- end }}
         - name: init
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -65,6 +51,13 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "provider.fullname" . }}-init
+          env:
+            {{- if .Values.letsEncrypt.enabled }}
+            - name: AP_CERT_ISSUER_ENABLED
+              value: "true"
+            - name: PROVIDER_STORAGE_CLASS
+              value: {{ include "provider.storageClass" . | quote }}
+            {{- end }}
           volumeMounts:
             - name: scripts
               mountPath: /scripts
@@ -76,16 +69,6 @@ spec:
               mountPath: /config
             - name: home
               mountPath: "{{ .Values.home }}"
-
-            {{- if .Values.letsEncrypt.enabled }}
-            - name: letsencrypt-storage
-              mountPath: /root/.certissuer
-            {{- if and .Values.letsEncrypt.providers.googleCloud .Values.letsEncrypt.providers.googleCloud.enabled }}
-            - name: gcp-service-account
-              mountPath: /etc/gcp
-              readOnly: true
-            {{- end }}
-            {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -320,15 +303,6 @@ spec:
             {{- end }}
             {{- end }}
       volumes:
-        {{- if .Values.letsEncrypt.enabled }}
-        {{- $storageClass := include "provider.storageClass" . | trim }}
-        {{- if eq $storageClass "local-path" }}
-        - name: validation-script
-          configMap:
-            name: {{ include "provider.fullname" . }}-storage-validation
-            defaultMode: 0755
-        {{- end }}
-        {{- end }}
         - name: scripts
           configMap:
             name: {{ include "provider.fullname" . }}-script
