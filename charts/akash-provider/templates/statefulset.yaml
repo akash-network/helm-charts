@@ -275,7 +275,7 @@ spec:
                   key: CF_DNS_API_TOKEN
             {{- end }}
             {{- if and .Values.letsEncrypt.providers.googleCloud .Values.letsEncrypt.providers.googleCloud.enabled }}
-            - name: GOOGLE_APPLICATION_CREDENTIALS
+            - name: GCE_SERVICE_ACCOUNT_FILE
               value: "/etc/gcp/service-account.json"
             {{- end }}
           {{- end }}
