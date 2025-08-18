@@ -1,6 +1,5 @@
 {{- if .Values.letsEncrypt.enabled }}
 {{- $storageClass := include "provider.storageClass" . | trim }}
-{{- if eq $storageClass "local-path" }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -14,19 +13,30 @@ data:
     #!/bin/bash
     set -e
     
-    echo "Validating storage class 'local-path' exists..."
+    echo "Validating storage classes are available..."
     
-    if ! kubectl get storageclass local-path >/dev/null 2>&1; then
-      echo "ERROR: Storage class 'local-path' not found!"
+    # Check if any storage classes exist
+    if ! kubectl get storageclass --no-headers | wc -l | grep -q -v "^0$"; then
+      echo "ERROR: No storage classes found in the cluster!"
       echo ""
-      echo "The Let's Encrypt PVC requires the local-path storage class."
-      echo "Please install the Rancher Local Path Provisioner:"
+      echo "The Let's Encrypt PVC requires a storage class to be available."
+      echo "Please install a storage provisioner such as:"
       echo ""
       echo "kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.32/deploy/local-path-storage.yaml"
       echo ""
       echo "For more information, visit: https://github.com/rancher/local-path-provisioner"
+      exit 1
+    fi
+    
+    # Check if the specific storage class exists
+    if ! kubectl get storageclass {{ $storageClass }} >/dev/null 2>&1; then
+      echo "WARNING: Storage class '{{ $storageClass }}' not found!"
       echo ""
-      echo "Alternatively, you can:"
+      echo "Available storage classes:"
+      kubectl get storageclass
+      echo ""
+      echo "The Let's Encrypt PVC will use the default storage class."
+      echo "If you want to use a specific storage class, you can:"
       echo "1. Specify a different storage class in your provider.yaml:"
       echo "   - key: capabilities/storage/1/class"
       echo "     value: your-storage-class"
@@ -37,9 +47,7 @@ data:
       echo "   letsEncrypt:"
       echo "     storage:"
       echo "       storageClass: your-storage-class"
-      exit 1
+    else
+      echo "Storage class '{{ $storageClass }}' found. Validation passed."
     fi
-    
-    echo "Storage class 'local-path' found. Validation passed."
-{{- end }}
 {{- end }}
