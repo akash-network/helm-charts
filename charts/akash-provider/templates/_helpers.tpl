@@ -65,7 +65,7 @@ Create the name of the service account to use
 {{/*
 Extract storage class from provider attributes
 Looks for capabilities/storage/[*]/class where persistent = true
-Falls back to local-path storage class
+Falls back to the Helm chart's storage class
 */}}
 {{- define "provider.storageClass" -}}
 {{- $storageClass := "" -}}
@@ -84,6 +84,6 @@ Falls back to local-path storage class
 {{- if $storageClass -}}
   {{- $storageClass -}}
 {{- else -}}
-  {{- .Values.letsEncrypt.storage.storageClass | default "local-path" -}}
+  {{- .Values.letsEncrypt.storage.storageClass | default (printf "%s-local-storage" (include "provider.fullname" .)) -}}
 {{- end -}}
 {{- end }}

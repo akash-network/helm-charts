@@ -22,7 +22,8 @@ if [[ "${AP_CERT_ISSUER_ENABLED}" == "true" ]]; then
   echo "Checking for storage class: ${STORAGE_CLASS}"
   
   # Check if any storage classes exist
-  if ! kubectl get storageclass --no-headers 2>/dev/null | wc -l | grep -q -v "^0$"; then
+  STORAGE_CLASS_COUNT=$(kubectl get storageclass --no-headers 2>/dev/null | wc -l)
+  if [[ "$STORAGE_CLASS_COUNT" -eq 0 ]]; then
     echo "ERROR: No storage classes found in the cluster!"
     echo ""
     echo "The Let's Encrypt PVC requires a storage class to be available."
