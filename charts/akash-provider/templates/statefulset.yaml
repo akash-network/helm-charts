@@ -268,7 +268,6 @@ spec:
             - name: AKASH_MONITOR_HEALTHCHECK_PERIOD_JITTER
               value: {{ (.Values.monitor | default dict).healthcheckPeriodJitter | default "5s" | quote }}
 
-
             {{- if .Values.letsEncrypt.providers.cloudflare.enabled }}
             - name: CF_DNS_API_TOKEN
               valueFrom:
