@@ -675,6 +675,16 @@ entries:
   provider:
   - apiVersion: v2
     appVersion: 0.10.0-rc5
+    created: "2025-08-18T19:31:36.227770862Z"
+    description: Installs an Akash provider (required)
+    digest: 6c29c1019fa1ec2b30d5cc26c48b06266e591403e6c627d885682f81cbf6ab63
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-12.1.1-rc3/provider-12.1.1-rc3.tgz
+    version: 12.1.1-rc3
+  - apiVersion: v2
+    appVersion: 0.10.0-rc5
     created: "2025-08-18T17:47:44.354869065Z"
     description: Installs an Akash provider (required)
     digest: 5d812c9f93f8a8c3e14e4054a16ad89c5fe068fa90609c9096885e527626ac70
@@ -865,9 +875,9 @@ entries:
     version: 12.0.0-rc9
   - apiVersion: v2
     appVersion: 0.7.0-rc5
-    created: "2025-07-01T21:26:24.038606333Z"
+    created: "2025-07-01T22:55:18.239237752Z"
     description: Installs an Akash provider (required)
-    digest: 0d5adc1fc202792b59ee3c97a05432808db970c3270e970836100610ea510a74
+    digest: cc12ea540ad9da88db4c11c01a046034d5463b4ebb3f02b77022e9076f59c9fa
     name: provider
     type: application
     urls:
@@ -875,9 +885,9 @@ entries:
     version: 12.0.0-rc8
   - apiVersion: v2
     appVersion: 0.7.0-rc5
-    created: "2025-07-01T22:55:18.239237752Z"
+    created: "2025-07-01T21:26:24.038606333Z"
     description: Installs an Akash provider (required)
-    digest: cc12ea540ad9da88db4c11c01a046034d5463b4ebb3f02b77022e9076f59c9fa
+    digest: 0d5adc1fc202792b59ee3c97a05432808db970c3270e970836100610ea510a74
     name: provider
     type: application
     urls:
@@ -1109,4 +1119,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.5.0/provider-proxy-0.5.0.tgz
     version: 0.5.0
-generated: "2025-08-18T17:47:44.355411153Z"
+generated: "2025-08-18T19:31:36.228677344Z"
