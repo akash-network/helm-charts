@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: {{ .Chart.Name }}-{{ .Values.chain }}
-          image: ghcr.io/akash-network/console-api:{{ .Values.appVersion }}
+          image: ghcr.io/akash-network/indexer:{{ .Values.appVersion }}
           imagePullPolicy: "Always"
           command:
             - node
@@ -28,11 +28,6 @@ spec:
             - containerPort: 3000
               name: api-port
               protocol: TCP
-          envFrom:
-            - secretRef:
-                name: {{ .Chart.Name }}-{{ .Values.chain }}-secret
-            - configMapRef:
-                name: {{ .Chart.Name }}-{{ .Values.chain }}-config
           env:
             - name: PORT
               value: "3000"
@@ -40,8 +35,6 @@ spec:
               value: "namespace={{ .Release.Namespace }}"
             - name: OTEL_SERVICE_NAME
               value: {{ .Chart.Name }}-{{ .Values.chain }}
-            - name: NETWORK
-              value: {{ .Values.chain }}
           resources:
             limits:
               cpu: "4"
@@ -50,20 +43,7 @@ spec:
             requests:
               cpu: "2"
               ephemeral-storage: "1Gi"
-              memory: "8Gi"
-          readinessProbe:
-            httpGet:
-              path: /v1/healthz/readiness
-              port: 3000
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3
-          livenessProbe:
-            httpGet:
-              path: /v1/healthz/liveness
-              port: 3000
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3
+              memory: "4Gi"
+          envFrom:
+            - secretRef:
+                name: {{ .Chart.Name }}-{{ .Values.chain }}-secret

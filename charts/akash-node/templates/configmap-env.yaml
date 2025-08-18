@@ -1,0 +1,47 @@
+{{- if .Values.akash_node.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: akash-node-env
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "akash-node.labels" . | nindent 4 }}
+data:
+  AKASH_MONIKER: "{{ .Values.akash_node.moniker }}-1"
+  AKASH_NET: "{{ .Values.akash_node.net }}"
+  AKASH_HOME: "{{ .Values.home }}"
+  AKASH_CHAIN_ID: "{{ .Values.akash_node.chainid }}"
+  AKASH_KEYRING_BACKEND: "{{ .Values.keyring_backend }}"
+{{- if .Values.state_sync.enabled }}
+  AKASH_P2P_PERSISTENT_PEERS: "{{ .Values.akash_node.peers }},{{ .Values.state_sync.node_id }}"
+{{- else }}
+  AKASH_P2P_PERSISTENT_PEERS: "{{ .Values.akash_node.peers }}"
+{{- end }}
+{{- if .Values.snapshots.enabled }}
+  AKASH_STATE_SYNC_SNAPSHOT_INTERVAL: "2000"
+  AKASH_STATE_SYNC_SNAPSHOT_KEEP_RECENT: "5"
+  AKASH_PRUNING: "custom"
+  AKASH_PRUNING_KEEP_RECENT: "100"
+  AKASH_PRUNING_KEEP_EVERY: "2000"
+  AKASH_PRUNING_INTERVAL: "10"
+{{- else }}
+  AKASH_PRUNING: "{{ .Values.akash_node.pruning }}"
+{{- end }}
+  AKASH_IAVL_DISABLE_FASTNODE: "{{ .Values.akash_node.iavl_disable_fastnode }}"
+  AKASH_P2P_LADDR: "tcp://0.0.0.0:26656"
+  AKASH_RPC_LADDR: "tcp://0.0.0.0:26657"
+  AKASH_RPC_PPROF_LADDR: "0.0.0.0:6060"
+  AKASH_GRPC_ADDRESS: "0.0.0.0:9090"
+  AKASH_P2P_ADDR_BOOK_STRICT: "false"
+  AKASH_ROSETTA_ENABLE: "false"
+  AKASH_P2P_SEED_MODE: "true"
+  AKASH_P2P_PEX: "{{ .Values.akash_node.pex }}"
+  AKASH_DEBUG: "{{ $.Values.debug }}"
+  AKASH_MINIMUM_GAS_PRICES: "{{ .Values.akash_node.minimum_gas_prices }}"
+  SNAPSHOT_PROVIDER: "{{ .Values.akash_node.snapshot_provider }}"
+  AKASH_API_ENABLE: "{{ .Values.akash_node.api_enable }}"
+{{- if .Values.state_sync.enabled }}
+  AKASH_STATESYNC_ENABLE: "true"
+  AKASH_STATESYNC_RPC_SERVERS: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+{{- end }}
+{{- end }}

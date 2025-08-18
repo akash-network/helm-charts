@@ -1,6 +1,6 @@
 apiVersion: v2
-name: akash-node
-description: Installs an Akash RPC node (required)
+name: nodejs-app
+description: A Helm chart for Nodejs based server applications
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -10,20 +10,9 @@ description: Installs an Akash RPC node (required)
 # Library charts provide useful utilities or functions for the chart developer. They're included as
 # a dependency of application charts to inject those utilities and functions into the rendering
 # pipeline. Library charts do not define any templates and therefore cannot be deployed.
-type: application
+type: library
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-
-# Major version bit highlights the mainnet release (e.g. mainnet4 = 4.x.x, mainnet5 = 5.x.x, ...)
-version: 12.1.1
-
-# This is the version number of the application being deployed. This version number should be
-# incremented each time you make changes to the application. Versions are not expected to
-# follow Semantic Versioning. They should reflect the version the application is using.
-#
-# Refs
-# https://github.com/akash-network/node/releases
-# https://github.com/akash-network/net/blob/main/mainnet/version.txt
-appVersion: 0.38.2-rc0
+version: 0.1.1

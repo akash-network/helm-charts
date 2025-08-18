@@ -5,6 +5,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Chart.Name }}
+  annotations:
+    secrets.doppler.com/reload: 'true'
 spec:
   replicas: 1
   selector:
@@ -19,6 +21,11 @@ spec:
         - name: {{ .Chart.Name }}
           image: ghcr.io/akash-network/provider-proxy:{{ .Values.appVersion }}
           imagePullPolicy: "Always"
+          envFrom:
+            - secretRef:
+                name: {{ .Chart.Name }}-secret
+            - configMapRef:
+                name: {{ .Chart.Name }}-config
           ports:
             - containerPort: 3000
               name: api-port
@@ -28,10 +35,26 @@ spec:
               value: "3000"
           resources:
             limits:
-              cpu: "1"
+              cpu: "4"
               ephemeral-storage: "2Gi"
-              memory: "512Mi"
+              memory: "8Gi"
             requests:
-              cpu: "0.25"
+              cpu: "2"
               ephemeral-storage: "1Gi"
-              memory: "256Mi"
+              memory: "8Gi"
+          readinessProbe:
+            httpGet:
+              path: /status
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 1
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 1

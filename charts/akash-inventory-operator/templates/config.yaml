@@ -16,3 +16,4 @@ data:
         - {{ . }}
 {{- end }}
       node_storage: []
+  config-path: "/akash/config.yaml"

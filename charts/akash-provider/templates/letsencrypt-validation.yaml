@@ -1,0 +1,45 @@
+{{- if .Values.letsEncrypt.enabled }}
+{{- $storageClass := include "provider.storageClass" . | trim }}
+{{- if eq $storageClass "local-path" }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "provider.fullname" . }}-storage-validation
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "provider.labels" . | nindent 4 }}
+data:
+  validation.sh: |
+    #!/bin/bash
+    set -e
+    
+    echo "Validating storage class 'local-path' exists..."
+    
+    if ! kubectl get storageclass local-path >/dev/null 2>&1; then
+      echo "ERROR: Storage class 'local-path' not found!"
+      echo ""
+      echo "The Let's Encrypt PVC requires the local-path storage class."
+      echo "Please install the Rancher Local Path Provisioner:"
+      echo ""
+      echo "kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.32/deploy/local-path-storage.yaml"
+      echo ""
+      echo "For more information, visit: https://github.com/rancher/local-path-provisioner"
+      echo ""
+      echo "Alternatively, you can:"
+      echo "1. Specify a different storage class in your provider.yaml:"
+      echo "   - key: capabilities/storage/1/class"
+      echo "     value: your-storage-class"
+      echo "   - key: capabilities/storage/1/persistent"
+      echo "     value: true"
+      echo ""
+      echo "2. Or manually specify in values:"
+      echo "   letsEncrypt:"
+      echo "     storage:"
+      echo "       storageClass: your-storage-class"
+      exit 1
+    fi
+    
+    echo "Storage class 'local-path' found. Validation passed."
+{{- end }}
+{{- end }}

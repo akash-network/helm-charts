@@ -40,6 +40,20 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
+        {{- if .Values.letsEncrypt.enabled }}
+        {{- $storageClass := include "provider.storageClass" . | trim }}
+        {{- if eq $storageClass "local-path" }}
+        - name: storage-validation
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: ["/bin/bash"]
+          args: ["/validation/validation.sh"]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: validation-script
+              mountPath: /validation
+              readOnly: true
+        {{- end }}
+        {{- end }}
         - name: init
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -48,48 +62,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          env:
-            - name: AKASH_DEBUG
-              value: "{{ $.Values.debug }}"
-            - name: AP_YES
-              value: "true"
-            ##
-            # boot config
-            ##
-
-            # location of key export. must contain two files:
-            #
-            # key.txt:      exported wallet key
-            # key-pass.txt: password used to encrypt exported key
-            - name: AKASH_BOOT_KEYS
-              value: "/boot-keys"
-
-            ##
-            # cosmos-sdk client config
-            ##
-            - name: AKASH_HOME
-              value: "{{ .Values.home }}"
-            - name: AKASH_FROM
-              value: "{{ .Values.from }}"
-            - name: AKASH_NODE
-              value: "{{ .Values.node }}"
-            - name: AKASH_CHAIN_ID
-              value: "{{ .Values.chainid }}"
-            - name: AKASH_KEYRING_BACKEND
-              value: "{{ .Values.keyringbackend }}"
-            - name: AKASH_BROADCAST_MODE
-              value: "block"
-            - name: AKASH_YES
-              value: "true"
-            - name: AKASH_GAS_PRICES
-              value: "{{ .Values.gasprices }}"
-            - name: AKASH_GAS
-              value: "{{ .Values.gas }}"
-            - name: AKASH_GAS_ADJUSTMENT
-              value: "{{ .Values.gasadjustment }}"
-            - name: AKASH_LOG_LEVEL
-              value: "info"
-
+          envFrom:
+            - configMapRef:
+                name: {{ include "provider.fullname" . }}-init
           volumeMounts:
             - name: scripts
               mountPath: /scripts
@@ -101,6 +76,16 @@ spec:
               mountPath: /config
             - name: home
               mountPath: "{{ .Values.home }}"
+
+            {{- if .Values.letsEncrypt.enabled }}
+            - name: letsencrypt-storage
+              mountPath: /root/.certissuer
+            {{- if .Values.letsEncrypt.providers.googleCloud.enabled }}
+            - name: gcp-service-account
+              mountPath: /etc/gcp
+              readOnly: true
+            {{- end }}
+            {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -110,6 +95,18 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "provider.fullname" . }}-main
+            {{- if or .Values.bidpricescript .Values.whitelist_url .Values.debug_bid_script .Values.price_target_cpu .Values.price_target_memory .Values.price_target_hd_ephemeral .Values.price_target_hd_pers_hdd .Values.price_target_hd_pers_ssd .Values.price_target_hd_pers_nvme .Values.price_target_endpoint .Values.price_target_ip .Values.price_target_gpu_mappings }}
+            - configMapRef:
+                name: {{ include "provider.fullname" . }}-pricing
+            {{- end }}
+            {{- if .Values.letsEncrypt.enabled }}
+            - configMapRef:
+                name: {{ include "provider.fullname" . }}-letsencrypt
+            {{- end }}
+          {{- if .Values.letsEncrypt.enabled }}
           env:
             - name: AKASH_DEBUG
               value: "{{ $.Values.debug }}"
@@ -235,7 +232,7 @@ spec:
             - name: AKASH_BID_PRICE_MEMORY_SCALE
               value: "{{ .Values.bidpricememoryscale }}"
             - name: AKASH_BID_PRICE_ENDPOINT_SCALE
-              value: "{{ .Values.bidpricendpointscale }}"
+              value: "{{ .Values.bidpriceendpointscale }}"
             - name: AKASH_BID_PRICE_STORAGE_SCALE
               value: "{{ .Values.bidpricestoragescale }}"
             - name: AKASH_BID_PRICE_IP_SCALE
@@ -294,6 +291,18 @@ spec:
             - name: CERT_ISSUER_CA_DIR_URL
               value: "{{ .Values.certIssuer.caDirUrl }}"
 {{- end }}
+            {{- if .Values.letsEncrypt.providers.cloudflare.enabled }}
+            - name: CF_DNS_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "provider.fullname" . }}-cloudflare-dns
+                  key: CF_DNS_API_TOKEN
+            {{- end }}
+            {{- if .Values.letsEncrypt.providers.googleCloud.enabled }}
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "/etc/gcp/service-account.json"
+            {{- end }}
+          {{- end }}
 
           ports:
             - name: api
@@ -325,15 +334,28 @@ spec:
               mountPath: /config
             - name: home
               mountPath: "{{ .Values.home }}"
-{{ if and .Values.gcp.enabled .Values.gcp.serviceAccount.secretName }}
+            {{- if .Values.letsEncrypt.enabled }}
+            - name: letsencrypt-storage
+              mountPath: /root/.certissuer
+            {{- if .Values.letsEncrypt.providers.googleCloud.enabled }}
             - name: gcp-service-account
-              mountPath: "{{ .Values.gcp.serviceAccount.mountPath }}"
+              mountPath: /etc/gcp
               readOnly: true
-{{- end }}
+            {{- end }}
+            {{- end }}
       volumes:
+        {{- if .Values.letsEncrypt.enabled }}
+        {{- $storageClass := include "provider.storageClass" . | trim }}
+        {{- if eq $storageClass "local-path" }}
+        - name: validation-script
+          configMap:
+            name: {{ include "provider.fullname" . }}-storage-validation
+            defaultMode: 0755
+        {{- end }}
+        {{- end }}
         - name: scripts
           configMap:
-            name: {{ include "provider.fullname" . }}-scripts
+            name: {{ include "provider.fullname" . }}-script
             defaultMode: 0744
         - name: keys
           secret:
@@ -345,14 +367,19 @@ spec:
         - name: home
           persistentVolumeClaim:
             claimName: {{ include "provider.fullname" . }}-home
-{{ if and .Values.gcp.enabled .Values.gcp.serviceAccount.secretName }}
+        {{- if .Values.letsEncrypt.enabled }}
+        - name: letsencrypt-storage
+          persistentVolumeClaim:
+            claimName: {{ include "provider.fullname" . }}-letsencrypt-storage
+        {{- if .Values.letsEncrypt.providers.googleCloud.enabled }}
         - name: gcp-service-account
           secret:
-            secretName: {{ .Values.gcp.serviceAccount.secretName }}
+            secretName: {{ include "provider.fullname" . }}-gcp-dns
             items:
-              - key: {{ .Values.gcp.serviceAccount.secretKey }}
-                path: {{ .Values.gcp.serviceAccount.secretKey }}
-{{- end }}
+              - key: service-account.json
+                path: service-account.json
+        {{- end }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
