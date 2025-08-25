@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   akash-hostname-operator:
   - apiVersion: v2
+    appVersion: 0.10.0-rc6
+    created: "2025-08-25T20:28:36.775835539Z"
+    description: An operator to map Ingress objects to Akash deployments (required)
+    digest: e19d1a8a877a9a0dd61a0ed0ae9292fdeac7f927b082665160f514bbb83cdb94
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-12.1.1-rc2/akash-hostname-operator-12.1.1-rc2.tgz
+    version: 12.1.1-rc2
+  - apiVersion: v2
     appVersion: 0.10.0-rc5
     created: "2025-08-18T17:34:47.876082555Z"
     description: An operator to map Ingress objects to Akash deployments (required)
@@ -172,6 +182,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-11.5.8-rc3/akash-hostname-operator-11.5.8-rc3.tgz
     version: 11.5.8-rc3
   akash-inventory-operator:
+  - apiVersion: v2
+    appVersion: 0.10.0-rc6
+    created: "2025-08-25T20:28:36.906468565Z"
+    description: An operator required for persistent storage (required)
+    digest: 7794a25e1184f78f4ee4b14b9e327085db3f1ba754fd59a2072918770475f8f7
+    name: akash-inventory-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-12.1.1-rc2/akash-inventory-operator-12.1.1-rc2.tgz
+    version: 12.1.1-rc2
   - apiVersion: v2
     appVersion: 0.10.0-rc5
     created: "2025-08-18T17:34:48.035371458Z"
@@ -363,6 +383,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-11.5.8-rc3/akash-inventory-operator-11.5.8-rc3.tgz
     version: 11.5.8-rc3
   akash-ip-operator:
+  - apiVersion: v2
+    appVersion: 0.10.0-rc6
+    created: "2025-08-25T20:28:37.054156724Z"
+    description: An operator required for ip marketplace (optional)
+    digest: 98adbd3f633e1f10519c93b9bb2953f8d9cce11f8ca62fe8d453aa2624b8913d
+    name: akash-ip-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-ip-operator-12.1.1-rc2/akash-ip-operator-12.1.1-rc2.tgz
+    version: 12.1.1-rc2
   - apiVersion: v2
     appVersion: 0.10.0-rc5
     created: "2025-08-18T17:34:48.173590138Z"
@@ -674,6 +704,16 @@ entries:
     version: 1.1.1
   provider:
   - apiVersion: v2
+    appVersion: 0.10.0-rc6
+    created: "2025-08-25T20:28:37.172491891Z"
+    description: Installs an Akash provider (required)
+    digest: f69110c1810a97ea821d34269c0073c79edd85722b1f65866048c0fe8e9067ae
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-12.1.1-rc8/provider-12.1.1-rc8.tgz
+    version: 12.1.1-rc8
+  - apiVersion: v2
     appVersion: 0.10.0-rc5
     created: "2025-08-18T20:10:23.927531935Z"
     description: Installs an Akash provider (required)
@@ -915,9 +955,9 @@ entries:
     version: 12.0.0-rc9
   - apiVersion: v2
     appVersion: 0.7.0-rc5
-    created: "2025-07-01T21:26:24.038606333Z"
+    created: "2025-07-01T22:55:18.239237752Z"
     description: Installs an Akash provider (required)
-    digest: 0d5adc1fc202792b59ee3c97a05432808db970c3270e970836100610ea510a74
+    digest: cc12ea540ad9da88db4c11c01a046034d5463b4ebb3f02b77022e9076f59c9fa
     name: provider
     type: application
     urls:
@@ -925,9 +965,9 @@ entries:
     version: 12.0.0-rc8
   - apiVersion: v2
     appVersion: 0.7.0-rc5
-    created: "2025-07-01T22:55:18.239237752Z"
+    created: "2025-07-01T21:26:24.038606333Z"
     description: Installs an Akash provider (required)
-    digest: cc12ea540ad9da88db4c11c01a046034d5463b4ebb3f02b77022e9076f59c9fa
+    digest: 0d5adc1fc202792b59ee3c97a05432808db970c3270e970836100610ea510a74
     name: provider
     type: application
     urls:
@@ -1159,4 +1199,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.5.0/provider-proxy-0.5.0.tgz
     version: 0.5.0
-generated: "2025-08-18T20:10:23.928212238Z"
+generated: "2025-08-25T20:28:37.173299103Z"
