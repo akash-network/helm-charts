@@ -1,2 +1,5 @@
 appVersion: "2.79.3"
 hostNames:
+
+backgroundJobs:
+  replicas: 1
