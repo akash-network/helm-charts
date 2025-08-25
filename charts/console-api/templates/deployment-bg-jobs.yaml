@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Chart.Name }}-{{ .Values.chain }}
+  name: {{ .Chart.Name }}-{{ .Values.chain }}-bg-jobs
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ .Chart.Name }}-{{ .Values.chain }}
+    app: {{ .Chart.Name }}-{{ .Values.chain }}-bg-jobs
   annotations:
     secrets.doppler.com/reload: 'true'
 spec:
-  replicas: {{ .Values.backgroundJobs.replicas | default 1 }}
+  replicas: 1
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}-{{ .Values.chain }}
+      app: {{ .Chart.Name }}-{{ .Values.chain }}-bg-jobs
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}-{{ .Values.chain }}
+        app: {{ .Chart.Name }}-{{ .Values.chain }}-bg-jobs
     spec:
       containers:
-        - name: {{ .Chart.Name }}-{{ .Values.chain }}
+        - name: {{ .Chart.Name }}-{{ .Values.chain }}-bg-jobs
           image: ghcr.io/akash-network/console-api:{{ .Values.appVersion }}
           imagePullPolicy: "Always"
           command:
@@ -37,20 +37,22 @@ spec:
             - name: PORT
               value: "3000"
             - name: OTEL_SERVICE_NAME
-              value: {{ .Chart.Name }}-{{ .Values.chain }}
+              value: {{ .Chart.Name }}-{{ .Values.chain }}-bg-jobs
             - name: NETWORK
               value: {{ .Values.chain }}
             - name: INTERFACE
-              value: "rest"
+              value: "background-jobs"
+            - name: POSTGRES_BACKGROUND_JOBS_SCHEMA
+              value: pgboss-{{ .Values.chain }}
           resources:
             limits:
-              cpu: "4"
-              ephemeral-storage: "2Gi"
-              memory: "8Gi"
-            requests:
-              cpu: "2"
+              cpu: "0.5"
               ephemeral-storage: "1Gi"
-              memory: "8Gi"
+              memory: "1Gi"
+            requests:
+              cpu: "0.5"
+              ephemeral-storage: "1Gi"
+              memory: "1Gi"
           readinessProbe:
             httpGet:
               path: /v1/healthz/readiness
