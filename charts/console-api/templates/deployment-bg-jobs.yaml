@@ -43,7 +43,7 @@ spec:
             - name: INTERFACE
               value: "background-jobs"
             - name: POSTGRES_BACKGROUND_JOBS_SCHEMA
-              value: pgboss-{{ .Values.chain }}
+              value: pgboss_{{ .Values.chain }}
           resources:
             limits:
               cpu: "0.5"
