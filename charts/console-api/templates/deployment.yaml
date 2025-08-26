@@ -42,6 +42,8 @@ spec:
               value: {{ .Values.chain }}
             - name: INTERFACE
               value: "rest"
+            - name: POSTGRES_BACKGROUND_JOBS_SCHEMA
+              value: pgboss_{{ .Values.chain }}
           resources:
             limits:
               cpu: "4"
