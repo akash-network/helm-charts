@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   akash-hostname-operator:
   - apiVersion: v2
+    appVersion: 0.10.0-rc8
+    created: "2025-08-29T19:25:19.112323224Z"
+    description: An operator to map Ingress objects to Akash deployments (required)
+    digest: be64a26a4925ef1ae88113bab2a99fceb6e08a47ab85b494f8623aaf6033bd51
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-12.1.1-rc4/akash-hostname-operator-12.1.1-rc4.tgz
+    version: 12.1.1-rc4
+  - apiVersion: v2
     appVersion: 0.10.0-rc7
     created: "2025-08-29T13:35:45.43484117Z"
     description: An operator to map Ingress objects to Akash deployments (required)
@@ -192,6 +202,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-11.5.8-rc3/akash-hostname-operator-11.5.8-rc3.tgz
     version: 11.5.8-rc3
   akash-inventory-operator:
+  - apiVersion: v2
+    appVersion: 0.10.0-rc8
+    created: "2025-08-29T19:25:19.293753118Z"
+    description: An operator required for persistent storage (required)
+    digest: 3a4b1815924c198b8a762bc2e6b499e7c1f7f9ea2c5aa15357e538ce388797e2
+    name: akash-inventory-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-12.1.1-rc4/akash-inventory-operator-12.1.1-rc4.tgz
+    version: 12.1.1-rc4
   - apiVersion: v2
     appVersion: 0.10.0-rc7
     created: "2025-08-29T13:35:45.692436649Z"
@@ -403,6 +423,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-11.5.8-rc3/akash-inventory-operator-11.5.8-rc3.tgz
     version: 11.5.8-rc3
   akash-ip-operator:
+  - apiVersion: v2
+    appVersion: 0.10.0-rc8
+    created: "2025-08-29T19:25:19.482682818Z"
+    description: An operator required for ip marketplace (optional)
+    digest: 26ea9f38eba57d54c176c11d178ab5621f17339f86dd0c1c5ff16e74e6a97173
+    name: akash-ip-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-ip-operator-12.1.1-rc4/akash-ip-operator-12.1.1-rc4.tgz
+    version: 12.1.1-rc4
   - apiVersion: v2
     appVersion: 0.10.0-rc7
     created: "2025-08-29T13:35:45.890022851Z"
@@ -814,6 +844,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/provider-12.1.1-rc2/provider-12.1.1-rc2.tgz
     version: 12.1.1-rc2
   - apiVersion: v2
+    appVersion: 0.10.0-rc8
+    created: "2025-08-29T19:25:19.615320201Z"
+    description: Installs an Akash provider (required)
+    digest: ad91e243d2805e03d9e783ef962ecea739bb5b2dd59b64cc38f9bb6700e6b214
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-12.1.1-rc10/provider-12.1.1-rc10.tgz
+    version: 12.1.1-rc10
+  - apiVersion: v2
     appVersion: 0.10.0-rc5
     created: "2025-08-18T17:34:48.336555838Z"
     description: Installs an Akash provider (required)
@@ -995,9 +1035,9 @@ entries:
     version: 12.0.0-rc9
   - apiVersion: v2
     appVersion: 0.7.0-rc5
-    created: "2025-07-01T22:55:18.239237752Z"
+    created: "2025-07-01T21:26:24.038606333Z"
     description: Installs an Akash provider (required)
-    digest: cc12ea540ad9da88db4c11c01a046034d5463b4ebb3f02b77022e9076f59c9fa
+    digest: 0d5adc1fc202792b59ee3c97a05432808db970c3270e970836100610ea510a74
     name: provider
     type: application
     urls:
@@ -1005,9 +1045,9 @@ entries:
     version: 12.0.0-rc8
   - apiVersion: v2
     appVersion: 0.7.0-rc5
-    created: "2025-07-01T21:26:24.038606333Z"
+    created: "2025-07-01T22:55:18.239237752Z"
     description: Installs an Akash provider (required)
-    digest: 0d5adc1fc202792b59ee3c97a05432808db970c3270e970836100610ea510a74
+    digest: cc12ea540ad9da88db4c11c01a046034d5463b4ebb3f02b77022e9076f59c9fa
     name: provider
     type: application
     urls:
@@ -1239,4 +1279,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.5.0/provider-proxy-0.5.0.tgz
     version: 0.5.0
-generated: "2025-08-29T13:35:46.112534113Z"
+generated: "2025-08-29T19:25:19.616231838Z"
