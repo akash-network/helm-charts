@@ -1,0 +1,51 @@
+# Example provider.yaml with Let's Encrypt configuration
+# This file shows how to configure the Akash provider with automatic SSL/TLS certificate management
+#
+# Usage: helm install akash-provider akash/provider -f provider.yaml
+#
+# Note: If no storage class is specified in attributes, the chart will use 'local-path' 
+# storage class by default. Ensure the Rancher Local Path Provisioner is installed:
+# kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.32/deploy/local-path-storage.yaml
+
+# Standard provider configuration
+from: akash1<your-provider-address>
+key: LS0tLS1CRU<your-key>
+keysecret: QUtB<your-key-secret>
+domain: your-provider-domain.com
+node: http://<rpc-address>:26657
+withdrawalperiod: 12h
+
+# Provider attributes
+attributes:
+  - key: region
+    value: us-west
+  - key: host
+    value: akash
+  - key: tier
+    value: community
+  - key: organization
+    value: mycompany
+  # Storage capabilities - Let's Encrypt PVC will use beta2 storage class
+  # If not specified, will default to 'local-path' storage class
+  - key: capabilities/storage/1/class
+    value: beta2
+  - key: capabilities/storage/1/persistent
+    value: true
+# Let's Encrypt configuration
+letsEncrypt:
+  enabled: true
+  acme:
+    email: "admin@your-provider-domain.com"
+    caDirUrl: "https://acme-v02.api.letsencrypt.org/directory"
+    # Test/Staging CA (uncomment to use staging environment for testing):
+    # caDirUrl: "https://acme-staging-v02.api.letsencrypt.org/directory"
+  dns:
+    providers: ["cf"]  # Choose your DNS provider: ["cf"] for Cloudflare, ["gcloud"] for Google Cloud
+  providers:
+    cloudflare:
+      enabled: true
+      apiToken: "your-cloudflare-api-token"
+    # googleCloud:
+    #   enabled: true
+    #   serviceAccount:
+    #     file: "gcp-service-account.json"  # Path to your service account JSON file 

@@ -1,0 +1,19 @@
+{{- if .Values.letsEncrypt.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "provider.fullname" . }}-letsencrypt-storage
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "provider.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.letsEncrypt.storage.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.letsEncrypt.storage.size }}
+  {{- $storageClass := include "provider.storageClass" . | trim }}
+  {{- if $storageClass }}
+  storageClassName: {{ $storageClass }}
+  {{- end }}
+{{- end }}

@@ -61,3 +61,29 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Extract storage class from provider attributes
+Looks for capabilities/storage/[*]/class where persistent = true
+Falls back to the Helm chart's storage class
+*/}}
+{{- define "provider.storageClass" -}}
+{{- $storageClass := "" -}}
+{{- if .Values.attributes -}}
+  {{- range .Values.attributes -}}
+    {{- if and (hasPrefix "capabilities/storage/" .key) (hasSuffix "/persistent" .key) (eq (toString .value) "true") -}}
+      {{- $classKey := printf "%s/class" (trimSuffix "/persistent" .key) -}}
+      {{- range $.Values.attributes -}}
+        {{- if eq .key $classKey -}}
+          {{- $storageClass = .value -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if $storageClass -}}
+  {{- $storageClass -}}
+{{- else -}}
+  {{- .Values.letsEncrypt.storage.storageClass | default (printf "%s-local-storage" (include "provider.fullname" .)) -}}
+{{- end -}}
+{{- end }}
