@@ -36,8 +36,6 @@ spec:
           env:
             - name: PORT
               value: "3000"
-            - name: OTEL_RESOURCE_ATTRIBUTES
-              value: "namespace={{ .Release.Namespace }}"
             - name: OTEL_SERVICE_NAME
               value: {{ .Chart.Name }}-{{ .Values.chain }}
             - name: NETWORK
