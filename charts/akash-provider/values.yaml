@@ -183,7 +183,7 @@ letsEncrypt:
   # Storage configuration for certificates and account data
   storage:
     # Storage size for certificate data (default: 1Gi)
-    size: "1Gi" 
+    size: "1Gi"
     # Storage class to use (default: use cluster default)
     storageClass: ""
     # Access mode for the PVC (default: ReadWriteOnce)
