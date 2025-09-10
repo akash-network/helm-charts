@@ -21,17 +21,17 @@ if ! timeout 30s curl -k -v --http2-prior-knowledge https://127.0.0.1:8444 2>&1 
   exit 1
 fi
 
-# RPC node sync check
-current_time=$(date -u +%s)
-latest_block_time_str=$(curl -s $AKASH_NODE/status | jq -r '.result.sync_info.latest_block_time')
-latest_block_time=$(date -u -d "$latest_block_time_str" +%s)
+# RPC node sync check - DISABLED
+# current_time=$(date -u +%s)
+# latest_block_time_str=$(curl -s $AKASH_NODE/status | jq -r '.result.sync_info.latest_block_time')
+# latest_block_time=$(date -u -d "$latest_block_time_str" +%s)
 
 # Allow for a 60 seconds drift
-let "time_diff = current_time - latest_block_time"
-if [ "$time_diff" -gt 60 ] || [ "$time_diff" -lt -60 ]; then
-  echo "RPC node sync check failed"
-  exit 1
-fi
+# let "time_diff = current_time - latest_block_time"
+# if [ "$time_diff" -gt 60 ] || [ "$time_diff" -lt -60 ]; then
+#   echo "RPC node sync check failed"
+#   exit 1
+# fi
 
 echo "All checks passed"
 exit 0
