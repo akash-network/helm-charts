@@ -1,11 +1,15 @@
-name: Release Charts
+name: Release Dev Charts
+
 on:
   push:
     branches:
-      - main
+      - devel
   workflow_dispatch:
+
 jobs:
   release:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,6 +23,8 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.7.0
+        uses: andy108369/chart-releaser-action@v1.7.0-andy.1
+        with:
+          config: cr.yaml
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

@@ -1,0 +1,6 @@
+owner: akash-network
+git-repo: helm-charts
+skip-existing: true
+# NOTE: the pages-branch & pages-index-path are only supported by andy108369/chart-releaser-action@v1.7.0-andy.1
+pages-branch: gh-pages
+pages-index-path: dev/index.yaml
