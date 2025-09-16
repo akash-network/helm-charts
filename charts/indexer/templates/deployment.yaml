@@ -21,9 +21,6 @@ spec:
         - name: {{ .Chart.Name }}-{{ .Values.chain }}
           image: ghcr.io/akash-network/indexer:{{ .Values.appVersion }}
           imagePullPolicy: "Always"
-          command:
-            - node
-            - dist/server.js
           ports:
             - containerPort: 3000
               name: api-port
