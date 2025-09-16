@@ -4147,6 +4147,16 @@ entries:
   indexer:
   - apiVersion: v2
     appVersion: 1.12.0
+    created: "2025-09-16T13:17:01.373805003Z"
+    description: Akash Indexer Helm Chart
+    digest: 785678d2a768f9891fb5bffd10da28f156a5467adf67554179f892b169c8f302
+    name: indexer
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/indexer-0.1.2/indexer-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.12.0
     created: "2025-06-02T17:43:39.296179526Z"
     description: Akash Indexer Helm Chart
     digest: bbc88a9628dcb4352cb5f3baaf2ca91c8da60898487e70a6a8872655c7c325ff
@@ -7343,4 +7353,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.1.0/provider-proxy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-09-10T15:37:58.342154195Z"
+generated: "2025-09-16T13:17:01.375686263Z"
