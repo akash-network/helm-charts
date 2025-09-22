@@ -15,6 +15,23 @@ domain: your-provider-domain.com
 node: http://<rpc-address>:26657
 withdrawalperiod: 12h
 
+# Let's Encrypt configuration (HTTP challenge is default)
+letsEncrypt:
+  enabled: true
+  # Email will be auto-detected from the 'email' field above
+  # HTTP challenge port (default: 5002)
+  acme:
+    httpChallengePort: 5002
+  # Optional: DNS providers for DNS challenge
+  providers:
+    cloudflare:
+      enabled: false
+      apiToken: "your-cloudflare-api-token"
+    googleCloud:
+      enabled: false
+      serviceAccount:
+        content: "your-google-cloud-service-account-json"
+
 # Provider attributes
 attributes:
   - key: region
@@ -31,21 +48,3 @@ attributes:
     value: beta2
   - key: capabilities/storage/1/persistent
     value: true
-# Let's Encrypt configuration
-letsEncrypt:
-  enabled: true
-  acme:
-    email: "admin@your-provider-domain.com"
-    caDirUrl: "https://acme-v02.api.letsencrypt.org/directory"
-    # Test/Staging CA (uncomment to use staging environment for testing):
-    # caDirUrl: "https://acme-staging-v02.api.letsencrypt.org/directory"
-  dns:
-    providers: ["cf"]  # Choose your DNS provider: ["cf"] for Cloudflare, ["gcloud"] for Google Cloud
-  providers:
-    cloudflare:
-      enabled: true
-      apiToken: "your-cloudflare-api-token"
-    # googleCloud:
-    #   enabled: true
-    #   serviceAccount:
-    #     file: "gcp-service-account.json"  # Path to your service account JSON file 

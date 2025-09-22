@@ -7,22 +7,24 @@ metadata:
   labels:
     {{- include "provider.labels" . | nindent 4 }}
 data:
-  # Let's Encrypt configuration extracted from provider.yaml
+  # Let's Encrypt configuration for HTTP challenge (default)
   # Environment variables use AP_ prefix (cosmos-sdk convention)
   AP_CERT_ISSUER_ENABLED: "true"
   {{- if .Values.letsEncrypt.acme.email }}
   AP_CERT_ISSUER_EMAIL: {{ .Values.letsEncrypt.acme.email | quote }}
+  {{- else if .Values.email }}
+  AP_CERT_ISSUER_EMAIL: {{ .Values.email | quote }}
   {{- end }}
   {{- if .Values.letsEncrypt.acme.caDirUrl }}
   AP_CERT_ISSUER_CA_DIR_URL: {{ .Values.letsEncrypt.acme.caDirUrl | quote }}
   {{- end }}
-  {{- if and .Values.letsEncrypt.acme.externalAccountBinding .Values.letsEncrypt.acme.externalAccountBinding.kid }}
-  AP_CERT_ISSUER_KID: {{ .Values.letsEncrypt.acme.externalAccountBinding.kid | quote }}
+  {{- if .Values.letsEncrypt.acme.httpChallengePort }}
+  AP_CERT_ISSUER_HTTP_CHALLENGE_PORT: {{ .Values.letsEncrypt.acme.httpChallengePort | quote }}
   {{- end }}
-  {{- if and .Values.letsEncrypt.acme.externalAccountBinding .Values.letsEncrypt.acme.externalAccountBinding.hmac }}
-  AP_CERT_ISSUER_HMAC: {{ .Values.letsEncrypt.acme.externalAccountBinding.hmac | quote }}
+  {{- if .Values.letsEncrypt.providers.cloudflare.enabled }}
+  AP_CERT_ISSUER_DNS_PROVIDERS: "cloudflare"
+  {{- else if .Values.letsEncrypt.providers.googleCloud.enabled }}
+  AP_CERT_ISSUER_DNS_PROVIDERS: "googleCloud"
   {{- end }}
-  {{- if .Values.letsEncrypt.dns.providers }}
-  AP_CERT_ISSUER_DNS_PROVIDERS: {{ join "," .Values.letsEncrypt.dns.providers | quote }}
-  {{- end }}
+  # HTTP challenge is default, DNS providers are optional
 {{- end }}
