@@ -1,0 +1,26 @@
+{{- if .Values.letsEncrypt.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "provider.fullname" . }}-letsencrypt-challenge
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "provider.labels" . | nindent 4 }}
+  annotations:
+    # Let's Encrypt HTTP challenge ingress
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: {{ .Values.ingress.className | default "nginx" }}
+  rules:
+  - host: provider.{{ .Values.domain }}
+    http:
+      paths:
+      - path: /.well-known/acme-challenge
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ include "provider.fullname" . }}
+            port:
+              number: {{ .Values.letsEncrypt.acme.httpChallengePort }}
+{{- end }}

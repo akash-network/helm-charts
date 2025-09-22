@@ -290,14 +290,10 @@ spec:
               mountPath: /config
             - name: home
               mountPath: "{{ .Values.home }}"
-            {{- if .Values.letsEncrypt.enabled }}
-            - name: letsencrypt-storage
-              mountPath: /root/.certissuer
             {{- if and .Values.letsEncrypt.providers.googleCloud (index .Values.letsEncrypt.providers.googleCloud "enabled" | default false) }}
             - name: gcp-service-account
               mountPath: /etc/gcp
               readOnly: true
-            {{- end }}
             {{- end }}
       volumes:
         - name: scripts
@@ -314,10 +310,6 @@ spec:
         - name: home
           persistentVolumeClaim:
             claimName: {{ include "provider.fullname" . }}-home
-        {{- if .Values.letsEncrypt.enabled }}
-        - name: letsencrypt-storage
-          persistentVolumeClaim:
-            claimName: {{ include "provider.fullname" . }}-letsencrypt-storage
         {{- if and .Values.letsEncrypt.providers.googleCloud (index .Values.letsEncrypt.providers.googleCloud "enabled" | default false) }}
         - name: gcp-service-account
           secret:
@@ -325,7 +317,6 @@ spec:
             items:
               - key: service-account.json
                 path: service-account.json
-        {{- end }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

@@ -31,21 +31,3 @@ attributes:
     value: beta2
   - key: capabilities/storage/1/persistent
     value: true
-# Let's Encrypt configuration
-letsEncrypt:
-  enabled: true
-  acme:
-    email: "admin@your-provider-domain.com"
-    caDirUrl: "https://acme-v02.api.letsencrypt.org/directory"
-    # Test/Staging CA (uncomment to use staging environment for testing):
-    # caDirUrl: "https://acme-staging-v02.api.letsencrypt.org/directory"
-  dns:
-    providers: ["cf"]  # Choose your DNS provider: ["cf"] for Cloudflare, ["gcloud"] for Google Cloud
-  providers:
-    cloudflare:
-      enabled: true
-      apiToken: "your-cloudflare-api-token"
-    # googleCloud:
-    #   enabled: true
-    #   serviceAccount:
-    #     file: "gcp-service-account.json"  # Path to your service account JSON file 
