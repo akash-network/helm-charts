@@ -15,7 +15,7 @@ spec:
   - host: provider.{{ .Values.domain }}
     http:
       paths:
-      - path: /.well-known/acme-challenge/
+      - path: /
         pathType: Prefix
         backend:
           service:
