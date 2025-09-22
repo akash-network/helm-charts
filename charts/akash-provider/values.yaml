@@ -169,7 +169,7 @@ affinity: {}
 
 # Let's Encrypt Certificate Issuer Configuration
 # This section allows you to configure automatic SSL/TLS certificate management
-# for your provider's REST and gRPC gateways using Let's Encrypt.
+# for your provider's REST and gRPC gateways using Let's Encrypt HTTP challenge.
 #
 # The Helm chart will automatically detect Let's Encrypt configuration from your provider.yaml file
 # when you use: helm install akash-provider akash/provider -f provider.yaml
@@ -179,15 +179,34 @@ affinity: {}
 letsEncrypt:
   # Enable Let's Encrypt certificate issuer
   # This will be automatically set to true if letsEncrypt configuration is found in provider.yaml
-  enabled: false
-  # Storage configuration for certificates and account data
-  storage:
-    # Storage size for certificate data (default: 1Gi)
-    size: "1Gi"
-    # Storage class to use (default: use cluster default)
-    storageClass: ""
-    # Access mode for the PVC (default: ReadWriteOnce)
-    accessMode: "ReadWriteOnce"
+  enabled: true
+  # ACME configuration for HTTP challenge (default)
+  acme:
+    # Email for Let's Encrypt registration (auto-detected from provider.yaml if not set)
+    email: ""
+    # CA directory URL (optional, defaults to Let's Encrypt production)
+    caDirUrl: ""
+    # HTTP challenge port (required for HTTP challenge)
+    # Make sure this port matches the one configured on nginx side
+    httpChallengePort: 5002
+  # Let's Encrypt certificates will be stored in the main home PVC at /root/.akash
+  
+  # DNS providers for DNS challenge (optional - HTTP challenge is default)
+  providers:
+    cloudflare:
+      enabled: false
+      apiToken: ""
+    googleCloud:
+      enabled: false
+      serviceAccount:
+        content: ""
+
+# Ingress configuration for Let's Encrypt HTTP challenge
+ingress:
+  # Ingress class name (default: akash-ingress-class)
+  className: "akash-ingress-class"
+  # Additional annotations for the ingress
+  annotations: {}
 # Storage configuration
 storage:
   # Home directory persistent volume claim
