@@ -23,7 +23,7 @@ spec:
   {{- if .Values.letsEncrypt.enabled }}
   - name: http-challenge
     protocol: TCP
-    port: {{ .Values.letsEncrypt.acme.httpChallengePort }}
+    port: 80
     targetPort: {{ .Values.letsEncrypt.acme.httpChallengePort }}
   {{- end }}
   selector:

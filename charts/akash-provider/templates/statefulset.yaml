@@ -267,6 +267,11 @@ spec:
             - name: grpc
               containerPort: 8444
               protocol: TCP
+            {{- if .Values.letsEncrypt.enabled }}
+            - name: http-challenge
+              containerPort: {{ .Values.letsEncrypt.acme.httpChallengePort }}
+              protocol: TCP
+            {{- end }}
 
           livenessProbe:
             exec:
