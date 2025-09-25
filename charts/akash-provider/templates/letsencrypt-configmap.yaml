@@ -21,6 +21,10 @@ data:
   {{- if .Values.letsEncrypt.acme.httpChallengePort }}
   AP_CERT_ISSUER_HTTP_CHALLENGE_PORT: {{ .Values.letsEncrypt.acme.httpChallengePort | quote }}
   {{- end }}
-  # HTTP challenge configuration - no DNS providers needed
-  # Ensure no CF or GCLOUD keys are set for proper HTTP challenge testing
+  {{- if .Values.letsEncrypt.providers.cloudflare.enabled }}
+  AP_CERT_ISSUER_DNS_PROVIDERS: "cloudflare"
+  {{- else if .Values.letsEncrypt.providers.googleCloud.enabled }}
+  AP_CERT_ISSUER_DNS_PROVIDERS: "googleCloud"
+  {{- end }}
+  # HTTP challenge is default, DNS providers are optional
 {{- end }}

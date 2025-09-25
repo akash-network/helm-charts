@@ -190,6 +190,16 @@ letsEncrypt:
     # Make sure this port matches the one configured on nginx side
     httpChallengePort: 5002
   # Let's Encrypt certificates will be stored in the main home PVC at /root/.akash
+  
+  # DNS providers for DNS challenge (optional - HTTP challenge is default)
+  providers:
+    cloudflare:
+      enabled: false
+      apiToken: ""
+    googleCloud:
+      enabled: false
+      serviceAccount:
+        content: ""
 
 # Ingress configuration for Let's Encrypt HTTP challenge
 ingress:
