@@ -19,7 +19,7 @@ type bc || exit 1
 # Build provider-services run command with optional certificate issuer flags
 PROVIDER_CMD="provider-services run"
 
-# Add certificate issuer flags if enabled (HTTP challenge only)
+# Add certificate issuer flags if enabled (HTTP challenge default, DNS providers optional)
 if [[ "${AP_CERT_ISSUER_ENABLED}" == "true" ]]; then
     PROVIDER_CMD="${PROVIDER_CMD} --cert-issuer-enabled=true"
     
@@ -29,6 +29,10 @@ if [[ "${AP_CERT_ISSUER_ENABLED}" == "true" ]]; then
     
     if [[ -n "${AP_CERT_ISSUER_CA_DIR_URL}" ]]; then
         PROVIDER_CMD="${PROVIDER_CMD} --cert-issuer-ca-dir-url=${AP_CERT_ISSUER_CA_DIR_URL}"
+    fi
+    
+    if [[ -n "${AP_CERT_ISSUER_DNS_PROVIDERS}" ]]; then
+        PROVIDER_CMD="${PROVIDER_CMD} --cert-issuer-dns-providers=${AP_CERT_ISSUER_DNS_PROVIDERS}"
     fi
     
     if [[ -n "${AP_CERT_ISSUER_HTTP_CHALLENGE_PORT}" ]]; then
@@ -41,6 +45,7 @@ echo "=== Provider Command Debug ==="
 echo "AP_CERT_ISSUER_ENABLED: ${AP_CERT_ISSUER_ENABLED}"
 echo "AP_CERT_ISSUER_EMAIL: ${AP_CERT_ISSUER_EMAIL}"
 echo "AP_CERT_ISSUER_CA_DIR_URL: ${AP_CERT_ISSUER_CA_DIR_URL}"
+echo "AP_CERT_ISSUER_DNS_PROVIDERS: ${AP_CERT_ISSUER_DNS_PROVIDERS}"
 echo "AP_CERT_ISSUER_HTTP_CHALLENGE_PORT: ${AP_CERT_ISSUER_HTTP_CHALLENGE_PORT}"
 echo "Final command: ${PROVIDER_CMD}"
 echo "=============================="
