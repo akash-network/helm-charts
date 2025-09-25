@@ -188,7 +188,7 @@ letsEncrypt:
     caDirUrl: ""
     # HTTP challenge port (required for HTTP challenge)
     # Make sure this port matches the one configured on nginx side
-    httpChallengePort: 8080
+    httpChallengePort: 5002
   # Let's Encrypt certificates will be stored in the main home PVC at /root/.akash
 
 # Ingress configuration for Let's Encrypt HTTP challenge

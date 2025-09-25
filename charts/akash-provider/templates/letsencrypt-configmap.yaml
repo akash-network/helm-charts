@@ -12,6 +12,8 @@ data:
   AP_CERT_ISSUER_ENABLED: "true"
   {{- if .Values.letsEncrypt.acme.email }}
   AP_CERT_ISSUER_EMAIL: {{ .Values.letsEncrypt.acme.email | quote }}
+  {{- else if .Values.email }}
+  AP_CERT_ISSUER_EMAIL: {{ .Values.email | quote }}
   {{- end }}
   {{- if .Values.letsEncrypt.acme.caDirUrl }}
   AP_CERT_ISSUER_CA_DIR_URL: {{ .Values.letsEncrypt.acme.caDirUrl | quote }}
