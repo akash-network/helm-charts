@@ -179,7 +179,7 @@ affinity: {}
 letsEncrypt:
   # Enable Let's Encrypt certificate issuer
   # This will be automatically set to true if letsEncrypt configuration is found in provider.yaml
-  enabled: false
+  enabled: true
   # ACME configuration for HTTP challenge
   acme:
     # Email for Let's Encrypt registration (required)
