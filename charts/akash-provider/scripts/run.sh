@@ -17,7 +17,7 @@ type bc || exit 1
 /scripts/refresh_provider_cert.sh
 
 # Build provider-services run command with optional certificate issuer flags
-PROVIDER_CMD="provider-services run"
+PROVIDER_CMD="/usr/bin/provider-services run"
 
 # Add certificate issuer flags if enabled (HTTP challenge default, DNS providers optional)
 if [[ "${AP_CERT_ISSUER_ENABLED}" == "true" ]]; then
