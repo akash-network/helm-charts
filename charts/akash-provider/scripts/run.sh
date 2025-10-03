@@ -17,7 +17,7 @@ type bc || exit 1
 /scripts/refresh_provider_cert.sh
 
 # Build provider-services run command with optional certificate issuer flags
-PROVIDER_CMD="provider-services run"
+PROVIDER_CMD="/usr/bin/provider-services run"
 
 # Add certificate issuer flags if enabled (HTTP challenge default, DNS providers optional)
 if [[ "${AP_CERT_ISSUER_ENABLED}" == "true" ]]; then
@@ -51,4 +51,17 @@ echo "Final command: ${PROVIDER_CMD}"
 echo "=============================="
 
 # Start provider-services and monitor its output
-${PROVIDER_CMD}
+runcmd=${PROVIDER_CMD}
+
+run_debug=${AKASH_DEBUG:-false}
+dlv_port=${AKASH_DEBUG_DELVE_PORT:-2345}
+
+if [[ $run_debug == "true" ]]; then
+    if command /go/bin/dlv; then
+        runcmd="/go/bin/dlv --listen=:${dlv_port} --headless=true --api-version=2 --log exec -- ${PROVIDER_CMD}"
+    else
+        echo "AKASH_DEBUG is set, but no dlv is present in the image. check if docker image has debug suffix"
+    fi
+fi
+
+${runcmd}

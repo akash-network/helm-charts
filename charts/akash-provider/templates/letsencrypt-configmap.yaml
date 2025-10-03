@@ -7,7 +7,7 @@ metadata:
   labels:
     {{- include "provider.labels" . | nindent 4 }}
 data:
-  # Let's Encrypt configuration for HTTP challenge (default)
+  # Let's Encrypt configuration for HTTP challenge
   # Environment variables use AP_ prefix (cosmos-sdk convention)
   AP_CERT_ISSUER_ENABLED: "true"
   {{- if .Values.letsEncrypt.acme.email }}

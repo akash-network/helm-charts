@@ -247,14 +247,14 @@ spec:
               value: {{ (.Values.monitor | default dict).healthcheckPeriod | default "10s" | quote }}
             - name: AKASH_MONITOR_HEALTHCHECK_PERIOD_JITTER
               value: {{ (.Values.monitor | default dict).healthcheckPeriodJitter | default "5s" | quote }}
-            {{- if and .Values.letsEncrypt.providers.cloudflare .Values.letsEncrypt.providers.cloudflare.enabled }}
+            {{- if and .Values.letsEncrypt.providers.cloudflare (index .Values.letsEncrypt.providers.cloudflare "enabled" | default false) }}
             - name: CF_DNS_API_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: {{ include "provider.fullname" . }}-cloudflare-dns
                   key: CF_DNS_API_TOKEN
             {{- end }}
-            {{- if and .Values.letsEncrypt.providers.googleCloud .Values.letsEncrypt.providers.googleCloud.enabled }}
+            {{- if and .Values.letsEncrypt.providers.googleCloud (index .Values.letsEncrypt.providers.googleCloud "enabled" | default false) }}
             - name: GCE_SERVICE_ACCOUNT_FILE
               value: "/etc/gcp/service-account.json"
             {{- end }}
@@ -295,14 +295,10 @@ spec:
               mountPath: /config
             - name: home
               mountPath: "{{ .Values.home }}"
-            {{- if .Values.letsEncrypt.enabled }}
-            - name: letsencrypt-storage
-              mountPath: /root/.certissuer
-            {{- if and .Values.letsEncrypt.providers.googleCloud .Values.letsEncrypt.providers.googleCloud.enabled }}
+            {{- if and .Values.letsEncrypt.providers.googleCloud (index .Values.letsEncrypt.providers.googleCloud "enabled" | default false) }}
             - name: gcp-service-account
               mountPath: /etc/gcp
               readOnly: true
-            {{- end }}
             {{- end }}
       volumes:
         - name: scripts
@@ -319,18 +315,13 @@ spec:
         - name: home
           persistentVolumeClaim:
             claimName: {{ include "provider.fullname" . }}-home
-        {{- if .Values.letsEncrypt.enabled }}
-        - name: letsencrypt-storage
-          persistentVolumeClaim:
-            claimName: {{ include "provider.fullname" . }}-letsencrypt-storage
-        {{- if and .Values.letsEncrypt.providers.googleCloud .Values.letsEncrypt.providers.googleCloud.enabled }}
+        {{- if and .Values.letsEncrypt.providers.googleCloud (index .Values.letsEncrypt.providers.googleCloud "enabled" | default false) }}
         - name: gcp-service-account
           secret:
             secretName: {{ include "provider.fullname" . }}-gcp-dns
             items:
               - key: service-account.json
                 path: service-account.json
-        {{- end }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
