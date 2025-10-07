@@ -185,7 +185,7 @@ letsEncrypt:
     # Email for Let's Encrypt registration (required)
     email: ""
     # CA directory URL (optional, defaults to Let's Encrypt production)
-    caDirUrl: ""
+    caDirUrl: "https://acme-v02.api.letsencrypt.org/directory"
     # HTTP challenge port (required for HTTP challenge)
     # Make sure this port matches the one configured on nginx side
     httpChallengePort: 5002
