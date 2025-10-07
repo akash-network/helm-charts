@@ -20,6 +20,12 @@ spec:
     protocol: TCP
     port: 8444
     targetPort: grpc
+  {{- if .Values.letsEncrypt.enabled }}
+  - name: http-challenge
+    protocol: TCP
+    port: 80
+    targetPort: {{ .Values.letsEncrypt.acme.httpChallengePort }}
+  {{- end }}
   selector:
     app: {{ include "provider.fullname" . }}
     {{- include "provider.selectorLabels" . | nindent 4 }}
