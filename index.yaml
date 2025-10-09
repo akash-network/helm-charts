@@ -4264,6 +4264,17 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/console-web-0.1.0/console-web-0.1.0.tgz
     version: 0.1.0
+  console-web-testnet:
+  - apiVersion: v2
+    appVersion: 2.66.1
+    created: "2025-10-09T18:41:42.898918082Z"
+    description: Akash Console-Web Helm Chart
+    digest: e8438a29b8e16b30c964dfa3411d14e29bdb88efac71efa84d20751e0635cd75
+    name: console-web-testnet
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/console-web-testnet-0.4.0/console-web-testnet-0.4.0.tgz
+    version: 0.4.0
   indexer:
   - apiVersion: v2
     appVersion: 1.12.0
@@ -7503,4 +7514,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.1.0/provider-proxy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-07T16:49:34.827348314Z"
+generated: "2025-10-09T18:41:42.899970438Z"
