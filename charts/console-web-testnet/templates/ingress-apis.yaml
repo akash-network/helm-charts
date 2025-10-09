@@ -33,6 +33,13 @@ spec:
                 name: console-api-sandbox-service
                 port:
                   name: api-port
+          - path: /api-testnet(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: console-api-testnet-service
+                port:
+                  name: api-port
           - path: /provider-proxy(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
