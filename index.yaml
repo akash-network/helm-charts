@@ -4367,6 +4367,17 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/notifications-1.0.0/notifications-1.0.0.tgz
     version: 1.0.0
+  notifications-testnet:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-10-10T16:18:07.731307467Z"
+    description: Akash Console Notification Services
+    digest: eae756b749ad2422e1655c6940e7cda699881e549622f981f097a0adc8fc36f2
+    name: notifications-testnet
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/notifications-testnet-1.1.1/notifications-testnet-1.1.1.tgz
+    version: 1.1.1
   provider:
   - apiVersion: v2
     appVersion: 0.8.4
@@ -7524,4 +7535,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.1.0/provider-proxy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-09T18:55:05.734799995Z"
+generated: "2025-10-10T16:18:07.732496296Z"
