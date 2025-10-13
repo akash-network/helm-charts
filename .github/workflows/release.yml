@@ -23,7 +23,7 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - name: Run chart-releaser
-        uses: andy108369/chart-releaser-action@v1.7.0-andy.1
+        uses: helm/chart-releaser-action@v1.6.0
         with:
           config: cr.yaml
         env:
