@@ -194,7 +194,6 @@ letsEncrypt:
     # Storage class for Let's Encrypt certificates
     # If not specified, will use the provider's storage class or default to local storage
     storageClass: ""
-  
   # DNS providers for DNS challenge (optional - HTTP challenge is default)
   providers:
     cloudflare:
