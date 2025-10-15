@@ -25,4 +25,4 @@ version: 12.2.2-rc0
 # It is recommended to use it with quotes.
 #
 # Refs https://github.com/akash-network/provider/releases
-appVersion: 0.10.0-rc13
+appVersion: 0.10.0-rc14
