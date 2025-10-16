@@ -3,6 +3,16 @@ entries:
   akash-hostname-operator:
   - apiVersion: v2
     appVersion: 0.8.1-rc0
+    created: "2025-10-16T01:43:06.182890399Z"
+    description: An operator to map Ingress objects to Akash deployments (required)
+    digest: 12a1473740afbb76cc0d4a4fb10a9adaa2aa605c8201143a39fda741fea8c5c8
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-12.2.0-rc0/akash-hostname-operator-12.2.0-rc0.tgz
+    version: 12.2.0-rc0
+  - apiVersion: v2
+    appVersion: 0.8.1-rc0
     created: "2025-09-10T09:45:46.46548925Z"
     description: An operator to map Ingress objects to Akash deployments (required)
     digest: f2d2bcc1b2efdbf4e1f2e67e9ffd93fd06bae7cd7e954b08765dbc92ab4cb10d
@@ -227,6 +237,16 @@ entries:
     created: "2025-09-10T09:45:46.63766875Z"
     description: An operator required for persistent storage (required)
     digest: 9cb42af86237d4d07438926e328147bf8fc147bee1f84f694a09d81388299e96
+    name: akash-inventory-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-12.2.0-rc0/akash-inventory-operator-12.2.0-rc0.tgz
+    version: 12.2.0-rc0
+  - apiVersion: v2
+    appVersion: 0.8.1-rc0
+    created: "2025-10-16T01:43:06.441874123Z"
+    description: An operator required for persistent storage (required)
+    digest: 66b108fb151f69ad48fed9e8954162a10db8add4a84857759a4b9741f81fedaa
     name: akash-inventory-operator
     type: application
     urls:
@@ -834,7 +854,28 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/console-web-0.3.1/console-web-0.3.1.tgz
     version: 0.3.1
+  console-web-testnet:
+  - apiVersion: v2
+    appVersion: 2.66.1
+    created: "2025-10-16T01:43:06.659748292Z"
+    description: Akash Console-Web Helm Chart
+    digest: 0d0b4f0591b47ec8519fefd5501ffc213e9237af5f59955cbb277d1ee58b9535
+    name: console-web-testnet
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/console-web-testnet-0.5.0/console-web-testnet-0.5.0.tgz
+    version: 0.5.0
   indexer:
+  - apiVersion: v2
+    appVersion: 1.12.0
+    created: "2025-10-16T01:43:06.87449239Z"
+    description: Akash Indexer Helm Chart
+    digest: 977e8fc54abb46bb35ff452ee4a3be34c0eef831360cd806a65e345a8c8930c3
+    name: indexer
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/indexer-0.1.2/indexer-0.1.2.tgz
+    version: 0.1.2
   - apiVersion: v2
     appVersion: 1.12.0
     created: "2025-08-18T14:11:56.137844219Z"
@@ -866,12 +907,33 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/notifications-1.1.1/notifications-1.1.1.tgz
     version: 1.1.1
+  notifications-testnet:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-10-16T01:43:07.096307838Z"
+    description: Akash Console Notification Services
+    digest: a09062736cb6fbcb3cf27e77d3abc6b50bb828a6c992e8034e6f44c1aa16b098
+    name: notifications-testnet
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/notifications-testnet-1.1.1/notifications-testnet-1.1.1.tgz
+    version: 1.1.1
   provider:
   - apiVersion: v2
     appVersion: 0.8.5-rc3
     created: "2025-10-14T22:47:17.036461467Z"
     description: Installs an Akash provider (required)
     digest: 8eac4e92fb983c6821cc34aabc5ef6d7501c4ef46918856e5057bef1827c883f
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-12.2.1-rc3/provider-12.2.1-rc3.tgz
+    version: 12.2.1-rc3
+  - apiVersion: v2
+    appVersion: 0.8.5-rc3
+    created: "2025-10-16T01:43:07.309140025Z"
+    description: Installs an Akash provider (required)
+    digest: 2cb8e3ddb3e3ecb05e2b52d69e10032953d1198dc5f2d82811afa843e6447d6d
     name: provider
     type: application
     urls:
@@ -1603,4 +1665,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.5.0/provider-proxy-0.5.0.tgz
     version: 0.5.0
-generated: "2025-10-14T22:47:17.037019742Z"
+generated: "2025-10-16T01:43:07.309886853Z"
