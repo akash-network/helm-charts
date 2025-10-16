@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Chart.Name }}
+  annotations:
+    secrets.doppler.com/reload: 'true'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: ghcr.io/akash-network/deploy-web:{{ .Values.appVersion }}{{ if eq .Release.Namespace "staging" }}-beta{{ end }}
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 3000
+              name: api-port
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "3000"
+          resources:
+            limits:
+              cpu: "1"
+              ephemeral-storage: "2Gi"
+              memory: "1Gi"
+            requests:
+              cpu: "0.5"
+              ephemeral-storage: "1Gi"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /api/healthz
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          envFrom:
+            - secretRef:
+                name: {{ .Chart.Name }}-secret

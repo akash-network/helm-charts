@@ -15,6 +15,24 @@ domain: your-provider-domain.com
 node: http://<rpc-address>:26657
 withdrawalperiod: 12h
 
+# Let's Encrypt configuration (HTTP challenge is default)
+letsEncrypt:
+  enabled: true
+  # Email will be auto-detected from the 'email' field above
+  # HTTP challenge port (default: 5002)
+  acme:
+    httpChallengePort: 5002
+  # Optional: DNS providers for DNS challenge
+  providers:
+    cloudflare:
+      enabled: false
+      apiToken: "your-cloudflare-api-token"
+    googleCloud:
+      enabled: false
+      serviceAccount:
+        content: "your-google-cloud-service-account-json"
+
+>>>>>>> main-to-devel
 # Provider attributes
 attributes:
   - key: region
