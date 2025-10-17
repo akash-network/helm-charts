@@ -22,6 +22,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-12.2.0-rc0/akash-hostname-operator-12.2.0-rc0.tgz
     version: 12.2.0-rc0
   - apiVersion: v2
+    appVersion: 0.8.1-rc0
+    created: "2025-10-17T16:46:07.935510216Z"
+    description: An operator to map Ingress objects to Akash deployments (required)
+    digest: f2d9a6f6ffc0537d3964a6e1cc60ea8be5f4c4fafc5b9d187459cc43f9f17417
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-12.2.0-rc0/akash-hostname-operator-12.2.0-rc0.tgz
+    version: 12.2.0-rc0
+  - apiVersion: v2
     appVersion: 0.10.0-rc9
     created: "2025-09-02T14:18:27.315859485Z"
     description: An operator to map Ingress objects to Akash deployments (required)
@@ -247,6 +257,16 @@ entries:
     created: "2025-10-16T01:43:06.441874123Z"
     description: An operator required for persistent storage (required)
     digest: 66b108fb151f69ad48fed9e8954162a10db8add4a84857759a4b9741f81fedaa
+    name: akash-inventory-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-12.2.0-rc0/akash-inventory-operator-12.2.0-rc0.tgz
+    version: 12.2.0-rc0
+  - apiVersion: v2
+    appVersion: 0.8.1-rc0
+    created: "2025-10-17T16:46:08.152733183Z"
+    description: An operator required for persistent storage (required)
+    digest: b317215e3737ef89e6017b5f16e8cb3ede9b656eb4676e806c3b9dc66f783267
     name: akash-inventory-operator
     type: application
     urls:
@@ -705,6 +725,16 @@ entries:
     version: 11.5.8-rc3
   akash-node:
   - apiVersion: v2
+    appVersion: 1.0.0-rc52
+    created: "2025-10-17T16:46:08.408873059Z"
+    description: Installs an Akash RPC node (required)
+    digest: 70209235ecde074b047902a8f19adcc6cc180a4b3f2f62296eb44a5ac55004f6
+    name: akash-node
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-node-13.0.0-rc2/akash-node-13.0.0-rc2.tgz
+    version: 13.0.0-rc2
+  - apiVersion: v2
     appVersion: 1.0.0-rc45
     created: "2025-10-13T20:29:40.686090253Z"
     description: Installs an Akash RPC node (required)
@@ -934,6 +964,16 @@ entries:
     created: "2025-10-16T01:43:07.309140025Z"
     description: Installs an Akash provider (required)
     digest: 2cb8e3ddb3e3ecb05e2b52d69e10032953d1198dc5f2d82811afa843e6447d6d
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-12.2.1-rc3/provider-12.2.1-rc3.tgz
+    version: 12.2.1-rc3
+  - apiVersion: v2
+    appVersion: 0.8.5-rc3
+    created: "2025-10-17T16:46:09.494353433Z"
+    description: Installs an Akash provider (required)
+    digest: be3a91459e99aa94b2336c46a05de9d3cd6f22b2372afcf90a42c6989c3afdc4
     name: provider
     type: application
     urls:
@@ -1665,4 +1705,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.5.0/provider-proxy-0.5.0.tgz
     version: 0.5.0
-generated: "2025-10-16T01:43:07.309886853Z"
+generated: "2025-10-17T16:46:09.495737557Z"
