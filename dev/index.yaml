@@ -755,6 +755,16 @@ entries:
     version: 11.5.8-rc3
   akash-node:
   - apiVersion: v2
+    appVersion: 1.0.0-rc58
+    created: "2025-10-21T13:24:07.987485967Z"
+    description: Installs an Akash RPC node (required)
+    digest: 4d746d8de68f89f9f0598afaceb08528c862265549eac17edbfdf7074b6c301c
+    name: akash-node
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-node-13.0.0-rc3/akash-node-13.0.0-rc3.tgz
+    version: 13.0.0-rc3
+  - apiVersion: v2
     appVersion: 1.0.0-rc52
     created: "2025-10-17T16:46:08.408873059Z"
     description: Installs an Akash RPC node (required)
@@ -1745,4 +1755,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.5.0/provider-proxy-0.5.0.tgz
     version: 0.5.0
-generated: "2025-10-17T17:10:26.757386469Z"
+generated: "2025-10-21T13:24:07.987958548Z"
