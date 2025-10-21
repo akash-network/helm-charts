@@ -30,7 +30,7 @@ akash_node:
   minimum_gas_prices: 0.025uakt
   net: https://raw.githubusercontent.com/akash-network/net/main/testnet-7
   # Get the peers from https://polkachu.com/live_peers/akash, https://github.com/akash-network/net/blob/main/mainnet/peer-nodes.txt
-  peers: 4e7f68b97884353c841469eb29b1a3c391546408@rpc.dev.akash.pub:30656
+  peers: f87e9a5330f84b373fbbb1ac7a1df50ca6a5a969@rpc.dev.akash.pub:30656
   pruning: "nothing"
   iavl_disable_fastnode: "true"
 
