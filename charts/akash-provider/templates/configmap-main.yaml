@@ -36,6 +36,7 @@ data:
   AKASH_GAS_PRICES: "{{ .Values.gasprices }}"
   AKASH_GAS: "{{ .Values.gas }}"
   AKASH_GAS_ADJUSTMENT: "{{ .Values.gasadjustment }}"
+  AKASH_MINIMUM_GAS_PRICES: "0.0025uakt"
   # AKASH_CLUSTER_PUBLIC_HOSTNAME need to stay as this makes to
   # 'akash provider lease-status` under the forwarded_ports (nodePorts).
   # This is NOT used for connecting to K8s cluster itself (6443/tcp).
