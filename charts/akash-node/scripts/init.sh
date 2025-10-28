@@ -11,7 +11,7 @@ type jq || exit 1
 #Check if Home data exists, if not create it.
 if [ ! -d "$AKASH_HOME/data" ]
 then
-/bin/akash init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
+/bin/akash genesis init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
 cd "$AKASH_HOME/data" || exit
 curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME/config/genesis.json"
 if [ "$AKASH_STATESYNC_ENABLE" == true ]; then
