@@ -26,5 +26,5 @@ data:
   AKASH_GAS_PRICES: "{{ .Values.gasprices }}"
   AKASH_GAS: "{{ .Values.gas }}"
   AKASH_GAS_ADJUSTMENT: "{{ .Values.gasadjustment }}"
-  AKASH_MINIMUM_GAS_PRICES: "0.0025uakt"
+  AP_MINIMUM_GAS_PRICES: "0.0025uakt"
   AKASH_LOG_LEVEL: "info"
