@@ -1,4 +1,6 @@
-{{- if gt (len .Values.hostNames) 0 }}
+{{- $hostNames := default (list) .Values.hostNames }}
+
+{{- if gt (len $hostNames) 0 }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -13,7 +15,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    {{- range .Values.hostNames }}
+    {{- range $hostNames }}
     - host: {{ . }}
       http:
         paths:
@@ -27,7 +29,7 @@ spec:
     {{- end }}
   tls:
     - hosts:
-        {{- range .Values.hostNames }}
+        {{- range $hostNames }}
         - {{ . }}
         {{- end }}
       secretName: {{ .Chart.Name }}-{{ .Release.Namespace }}-akash-network-tls

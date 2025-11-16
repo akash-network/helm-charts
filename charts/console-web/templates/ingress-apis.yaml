@@ -33,7 +33,7 @@ spec:
                 name: console-api-sandbox-service
                 port:
                   name: api-port
-          - path: /provider-proxy-mainnet(/|$)(.*)
+          - path: /provider-proxy(?:-mainnet)?(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
               service:
