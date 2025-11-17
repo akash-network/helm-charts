@@ -4236,6 +4236,16 @@ entries:
   console-web:
   - apiVersion: v2
     appVersion: 2.66.1
+    created: "2025-11-17T06:43:03.192813606Z"
+    description: Akash Console-Web Helm Chart
+    digest: d2ba6b145b0cf7bbb4be72df79b0cd1ae3c8a4015778ffc498a6ea084fa2702d
+    name: console-web
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/console-web-0.5.0/console-web-0.5.0.tgz
+    version: 0.5.0
+  - apiVersion: v2
+    appVersion: 2.66.1
     created: "2025-05-28T14:11:57.20038896Z"
     description: Akash Console-Web Helm Chart
     digest: ab45caddc9cf45ac4f193b1fd04bcb1afc82d1c1506ead49d9841eb26407d0aa
@@ -4305,6 +4315,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/console-web-0.1.0/console-web-0.1.0.tgz
     version: 0.1.0
   console-web-testnet:
+  - apiVersion: v2
+    appVersion: 2.66.1
+    created: "2025-11-17T06:43:03.315072194Z"
+    description: Akash Console-Web Helm Chart
+    digest: bb7c13455ff5f2105210c233be896c796cf20ba8c8d02d7024caff0b142be3e9
+    name: console-web-testnet
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/console-web-testnet-0.6.0/console-web-testnet-0.6.0.tgz
+    version: 0.6.0
   - apiVersion: v2
     appVersion: 2.66.1
     created: "2025-10-09T18:55:05.733598128Z"
@@ -7545,6 +7565,20 @@ entries:
   provider-proxy:
   - apiVersion: v2
     appVersion: 1.13.3
+    created: "2025-11-17T06:43:03.472639551Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.1.1
+    description: Akash Provider Proxy Helm Chart
+    digest: b09fc13c49466a7fd65048a4ca6ac621633e79e1ff83d22c50f0adf31c05585c
+    name: provider-proxy
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.6.0/provider-proxy-0.6.0.tgz
+    version: 0.6.0
+  - apiVersion: v2
+    appVersion: 1.13.3
     created: "2025-07-30T18:50:29.865231373Z"
     dependencies:
     - name: nodejs-app
@@ -7615,4 +7649,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.1.0/provider-proxy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-28T17:38:14.451871529Z"
+generated: "2025-11-17T06:43:03.475887698Z"
