@@ -33,14 +33,21 @@ spec:
                 name: console-api-sandbox-service
                 port:
                   name: api-port
-          - path: /provider-proxy(/|$)(.*)
+          - path: /provider-proxy(?:-mainnet)?(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: provider-proxy-service
+                name: provider-proxy-mainnet-service
+                port:
+                  name: api-port
+          - path: /provider-proxy-sandbox(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: provider-proxy-sandbox-service
                 port:
                   name: api-port
   tls:
     - hosts:
         - {{ .Values.hostName }}
-      secretName: {{ .Chart.Name }}-{{ .Release.Namespace }}-akash-network-tls 
+      secretName: {{ .Chart.Name }}-{{ .Release.Namespace }}-akash-network-tls
