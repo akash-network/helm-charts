@@ -40,6 +40,8 @@ spec:
               value: {{ .Chart.Name }}-{{ .Values.chain }}
             - name: NETWORK
               value: {{ .Values.chain }}
+            - name: DEPLOYMENT_ENV
+              value: {{ .Values.deploymentEnv }}
             - name: INTERFACE
               value: "rest"
             - name: POSTGRES_BACKGROUND_JOBS_SCHEMA
