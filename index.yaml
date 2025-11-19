@@ -4077,6 +4077,20 @@ entries:
   console-api:
   - apiVersion: v2
     appVersion: 2.108.0
+    created: "2025-11-19T16:19:21.052991171Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.1.1
+    description: Akash Console-API Helm Chart
+    digest: a0c131ebe260f601f700616bda305023584e28878fc90c3acb901ab863574a78
+    name: console-api
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/console-api-0.7.4/console-api-0.7.4.tgz
+    version: 0.7.4
+  - apiVersion: v2
+    appVersion: 2.108.0
     created: "2025-08-29T03:45:32.949988937Z"
     dependencies:
     - name: nodejs-app
@@ -7649,4 +7663,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.1.0/provider-proxy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-11-17T06:43:03.475887698Z"
+generated: "2025-11-19T16:19:21.054173091Z"
