@@ -4,3 +4,11 @@ metadata:
   name: {{ .Chart.Name }}-{{ .Values.chain }}-config
 data:
 {{ include "app.env" . | indent 2 }}
+  - name: PORT
+    value: "3000"
+  - name: NETWORK
+    value: {{ .Values.chain }}
+  - name: DEPLOYMENT_ENV
+    value: {{ .Values.deploymentEnv }}
+  - name: POSTGRES_BACKGROUND_JOBS_SCHEMA
+    value: pgboss_{{ .Values.chain }}

@@ -1,1 +1,4 @@
 appVersion: "1.0.0"
+
+deploymentEnv: staging
+chain: sandbox
