@@ -3,3 +3,4 @@ hostNames:
 
 chain: mainnet
 nodePort: 30000
+deploymentEnv: staging

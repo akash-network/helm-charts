@@ -35,6 +35,8 @@ spec:
               value: "3000"
             - name: NETWORK
               value: {{ .Values.chain }}
+            - name: DEPLOYMENT_ENV
+              value: {{ .Values.deploymentEnv }}
           resources:
             limits:
               cpu: "4"
