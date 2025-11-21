@@ -33,6 +33,10 @@ spec:
                 name: {{ .Chart.Name }}-{{ .Values.chain }}-secret
             - configMapRef:
                 name: {{ .Chart.Name }}-{{ .Values.chain }}-config
+{{- range .Values.additionalSecrets }}
+            - secretRef:
+                name: {{ . }}
+{{- end }}
           env:
             - name: PORT
               value: "3000"

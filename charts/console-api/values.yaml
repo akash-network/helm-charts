@@ -3,3 +3,7 @@ hostNames:
 
 backgroundJobs:
   replicas: 1
+
+
+additionalSecrets:
+  - wallet-mnemonics-secret
