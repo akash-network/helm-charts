@@ -1,7 +1,10 @@
+{{- $hostNames := default (list) .Values.hostNames }}
+
+{{- if gt (len $hostNames) 0 }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Chart.Name }}-ingress
+  name: {{ .Chart.Name }}-{{ .Values.chain }}-ingress
   namespace: {{ .Release.Namespace }}
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 100m
@@ -12,17 +15,22 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: {{ .Values.hostName }}
+    {{- range $hostNames }}
+    - host: {{ . }}
       http:
         paths:
           - backend:
               service:
-                name: {{ .Chart.Name }}-service
+                name: {{ $.Chart.Name }}-{{ $.Values.chain }}-service
                 port:
                   name: api-port
             path: /
             pathType: Prefix
+    {{- end }}
   tls:
     - hosts:
-        - {{ .Values.hostName }}
+        {{- range $hostNames }}
+        - {{ . }}
+        {{- end }}
       secretName: {{ .Chart.Name }}-{{ .Release.Namespace }}-akash-network-tls
+{{- end }}

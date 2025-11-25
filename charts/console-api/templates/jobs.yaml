@@ -32,7 +32,11 @@ spec:
               envFrom:
                 - secretRef:
                     name: {{ $.Chart.Name }}-{{ $.Values.chain }}-secret
+                - configMapRef:
+                    name: {{ $.Chart.Name }}-{{ $.Values.chain }}-config
               env:
                 - name: POSTGRES_BACKGROUND_JOBS_SCHEMA
                   value: pgboss_{{ $.Values.chain }}
+                - name: NETWORK
+                  value: {{ $.Values.chain }}
 {{- end }}

@@ -1,2 +1,3 @@
 appVersion: "1.4.3"
-hostName: console-beta-provider-proxy.akash.network
+hostNames: []
+chain: sandbox

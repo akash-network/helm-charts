@@ -32,7 +32,6 @@ letsEncrypt:
       serviceAccount:
         content: "your-google-cloud-service-account-json"
 
->>>>>>> main-to-devel
 # Provider attributes
 attributes:
   - key: region
