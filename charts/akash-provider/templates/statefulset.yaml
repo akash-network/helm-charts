@@ -259,6 +259,26 @@ spec:
               value: "/etc/gcp/service-account.json"
             {{- end }}
           {{- end }}
+            - name: AP_INGRESS_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "provider.fullname" . }}-main
+                  key: AP_INGRESS_MODE
+            - name: AP_GATEWAY_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "provider.fullname" . }}-main
+                  key: AP_GATEWAY_NAME
+            - name: AP_GATEWAY_NAMESPACE
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "provider.fullname" . }}-main
+                  key: AP_GATEWAY_NAMESPACE
+            - name: AP_GATEWAY_IMPLEMENTATION
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "provider.fullname" . }}-main
+                  key: AP_GATEWAY_IMPLEMENTATION
 
           ports:
             - name: api
