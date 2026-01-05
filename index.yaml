@@ -7787,4 +7787,15 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.1.0/provider-proxy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-12-05T16:06:51.472128299Z"
+  stats-web:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-01-05T16:08:37.699147261Z"
+    description: Akash Stats Web Helm Chart
+    digest: 4f4caa04f6eec45722db4fb0f8a021a6e007fbcfdf13965762e5f8e1b92f05fc
+    name: stats-web
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/stats-web-0.1.0/stats-web-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-01-05T16:08:37.700265291Z"
