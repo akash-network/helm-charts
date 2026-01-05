@@ -46,6 +46,17 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts: {}
 
+# Gateway API configuration
+gatewayApi:
+  # Enable Gateway API resources (HTTPRoute only - Gateway must be created separately)
+  enabled: false
+  # Name of existing Gateway to reference (required when enabled is true)
+  gatewayName: ""
+  # Namespace of the Gateway (defaults to release namespace if not specified)
+  gatewayNamespace: ""
+  # Gateway implementation (e.g. "nginx")
+  implementation: "nginx"
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
