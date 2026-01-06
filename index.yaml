@@ -7790,6 +7790,16 @@ entries:
   stats-web:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2026-01-06T14:52:22.978408525Z"
+    description: Akash Stats Web Helm Chart
+    digest: ecfe3b5dbb2fb63c18b2fbcb3ea4fccf3b4e6aeb9719601be9f228aa36c4ff4a
+    name: stats-web
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/stats-web-0.1.1/stats-web-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2026-01-05T16:08:37.699147261Z"
     description: Akash Stats Web Helm Chart
     digest: 4f4caa04f6eec45722db4fb0f8a021a6e007fbcfdf13965762e5f8e1b92f05fc
@@ -7798,4 +7808,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/stats-web-0.1.0/stats-web-0.1.0.tgz
     version: 0.1.0
-generated: "2026-01-05T16:08:37.700265291Z"
+generated: "2026-01-06T14:52:22.980443148Z"
