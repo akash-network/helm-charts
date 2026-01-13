@@ -29,11 +29,18 @@ spec:
             - containerPort: 3000
               name: api-port
               protocol: TCP
+          envFrom:
+            - secretRef:
+                name: {{ $.Chart.Name }}-secret
+            - configMapRef:
+                name: {{ $.Chart.Name }}-config
           env:
             - name: PORT
               value: "3000"
             - name: INTERFACE
               value: "{{ $interface }}"
+            - name: OTEL_SERVICE_NAME
+              value: {{ $.Chart.Name }}-{{ $interface }}
           resources:
             limits:
               cpu: "500m"
@@ -55,7 +62,4 @@ spec:
               port: 3000
             initialDelaySeconds: 5
             periodSeconds: 10
-          envFrom:
-            - secretRef:
-                name: {{ $.Chart.Name }}-secret
 {{- end }}
