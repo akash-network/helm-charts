@@ -7,3 +7,6 @@ data:
   NODE_OPTIONS: >-
     --no-network-family-autoselection
     --enable-source-maps
+  DEPLOYMENT_ENV: {{ .Values.deploymentEnv }}
+  PORT: "3000"
+  OTEL_SERVICE_NAME: {{ .Chart.Name }}
