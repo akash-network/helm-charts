@@ -34,6 +34,10 @@ spec:
               value: "3000"
             - name: INTERFACE
               value: "{{ $interface }}"
+            - name: DEPLOYMENT_ENV
+              value: {{ $.Values.deploymentEnv }}
+            - name: NETWORK
+              value: {{ $.Values.chain }}
           resources:
             limits:
               cpu: "500m"

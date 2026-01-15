@@ -28,6 +28,8 @@ spec:
           env:
             - name: PORT
               value: "3000"
+            - name: DEPLOYMENT_ENV
+              value: {{ .Values.deploymentEnv }}
           resources:
             limits:
               cpu: "1"

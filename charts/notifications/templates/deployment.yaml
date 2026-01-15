@@ -41,6 +41,8 @@ spec:
               value: "{{ $interface }}"
             - name: OTEL_SERVICE_NAME
               value: {{ $.Chart.Name }}-{{ $interface }}
+            - name: DEPLOYMENT_ENV
+              value: {{ $.Values.deploymentEnv }}
           resources:
             limits:
               cpu: "500m"

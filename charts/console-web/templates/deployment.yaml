@@ -35,6 +35,8 @@ spec:
               value: "3000"
             - name: OTEL_SERVICE_NAME
               value: {{ .Chart.Name }}
+            - name: DEPLOYMENT_ENV
+              value: {{ .Values.deploymentEnv }}
           resources:
             limits:
               cpu: "1"

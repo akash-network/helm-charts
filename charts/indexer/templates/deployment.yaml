@@ -26,15 +26,10 @@ spec:
               name: api-port
               protocol: TCP
           envFrom:
-            - configMapRef:
-                name: {{ .Chart.Name }}-{{ .Values.chain }}-config
             - secretRef:
                 name: {{ .Chart.Name }}-{{ .Values.chain }}-secret
-          env:
-            - name: PORT
-              value: "3000"
-            - name: OTEL_SERVICE_NAME
-              value: {{ .Chart.Name }}-{{ .Values.chain }}
+            - configMapRef:
+                name: {{ .Chart.Name }}-{{ .Values.chain }}-config
           resources:
             limits:
               cpu: "4"

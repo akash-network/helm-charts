@@ -34,16 +34,10 @@ spec:
             - configMapRef:
                 name: {{ .Chart.Name }}-{{ .Values.chain }}-config
           env:
-            - name: PORT
-              value: "3000"
             - name: OTEL_SERVICE_NAME
               value: {{ .Chart.Name }}-{{ .Values.chain }}
-            - name: NETWORK
-              value: {{ .Values.chain }}
             - name: INTERFACE
               value: "rest"
-            - name: POSTGRES_BACKGROUND_JOBS_SCHEMA
-              value: pgboss_{{ .Values.chain }}
           resources:
             limits:
               cpu: "4"
