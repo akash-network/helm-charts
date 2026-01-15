@@ -4,9 +4,6 @@ metadata:
   name: {{ .Chart.Name }}-{{ .Values.chain }}-config
 data:
 {{ include "app.env" . | indent 2 }}
-  - name: PORT
-    value: "3000"
-  - name: NETWORK
-    value: {{ .Values.chain }}
-  - name: DEPLOYMENT_ENV
-    value: {{ .Values.deploymentEnv }}
+  PORT: "3000"
+  NETWORK: {{ .Values.chain }}
+  DEPLOYMENT_ENV: {{ .Values.deploymentEnv }}
