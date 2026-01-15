@@ -3,4 +3,4 @@ dependencies:
   repository: file://../nodejs-app
   version: 0.1.2
 digest: sha256:5d3ec83c9aa44ffdaf01e8e281ce6fed43c7dc9fd04dff4bb64a12b64ca5e0cb
-generated: "2026-01-13T14:39:59.248365+01:00"
+generated: "2026-01-13T14:40:13.03318+01:00"
