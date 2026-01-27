@@ -4,7 +4,5 @@ metadata:
   name: {{ .Chart.Name }}-{{ .Values.chain }}-config
 data:
 {{ include "app.env" . | indent 2 }}
-  PORT: "3000"
   OTEL_SERVICE_NAME: {{ .Chart.Name }}-{{ .Values.chain }}
-  DEPLOYMENT_ENV: {{ .Values.deploymentEnv }}
   NETWORK: {{ .Values.chain }}
