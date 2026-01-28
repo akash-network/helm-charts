@@ -1,4 +1,6 @@
 {{- define "app.env" -}}
+DEPLOYMENT_ENV: {{ .Values.deploymentEnv }}
+PORT: "3000"
 OTEL_RESOURCE_ATTRIBUTES: >-
   namespace={{ .Release.Namespace }},
   service.version={{ .Values.appVersion }}
@@ -8,5 +10,8 @@ OTEL_NODE_RESOURCE_DETECTORS: "env,host,container,process"
 NODE_OPTIONS: >-
   --no-network-family-autoselection
   --enable-source-maps
+  --stack-trace-limit=25
+{{- if ((.Values.nodeOptions).enabledOTEL) }}
   --require @opentelemetry/auto-instrumentations-node/register
+{{- end }}
 {{- end }}

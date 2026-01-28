@@ -4,9 +4,4 @@ metadata:
   name: {{ .Chart.Name }}-config
 data:
 {{ include "app.env" . | indent 2 }}
-  NODE_OPTIONS: >-
-    --no-network-family-autoselection
-    --enable-source-maps
-  DEPLOYMENT_ENV: {{ .Values.deploymentEnv }}
-  PORT: "3000"
   OTEL_SERVICE_NAME: {{ .Chart.Name }}

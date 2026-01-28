@@ -6,3 +6,6 @@ chain: sandbox
 
 backgroundJobs:
   replicas: 1
+
+nodeOptions:
+  enabledOTEL: false
