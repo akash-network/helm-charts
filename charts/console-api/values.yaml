@@ -4,8 +4,29 @@ hostNames:
 deploymentEnv: staging
 chain: sandbox
 
+replicas: 2
+
+resources:
+  limits:
+    cpu: "4"
+    ephemeral-storage: "2Gi"
+    memory: "8Gi"
+  requests:
+    cpu: "2"
+    ephemeral-storage: "1Gi"
+    memory: "8Gi"
+
 backgroundJobs:
   replicas: 1
+  resources:
+    limits:
+      cpu: "0.5"
+      ephemeral-storage: "1Gi"
+      memory: "1Gi"
+    requests:
+      cpu: "0.5"
+      ephemeral-storage: "1Gi"
+      memory: "1Gi"
 
 nodeOptions:
   enabledOTEL: false

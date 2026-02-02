@@ -8,7 +8,7 @@ metadata:
   annotations:
     secrets.doppler.com/reload: 'true'
 spec:
-  replicas: 1
+  replicas: {{ .Values.backgroundJobs.replicas | default 1 }}
   selector:
     matchLabels:
       app: {{ .Chart.Name }}-{{ .Values.chain }}-bg-jobs
@@ -39,14 +39,7 @@ spec:
             - name: INTERFACE
               value: "background-jobs"
           resources:
-            limits:
-              cpu: "0.5"
-              ephemeral-storage: "1Gi"
-              memory: "1Gi"
-            requests:
-              cpu: "0.5"
-              ephemeral-storage: "1Gi"
-              memory: "1Gi"
+            {{- toYaml .Values.backgroundJobs.resources | nindent 12 }}
           readinessProbe:
             httpGet:
               path: /v1/healthz/readiness
