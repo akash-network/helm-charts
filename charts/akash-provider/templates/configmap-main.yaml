@@ -74,3 +74,9 @@ data:
   AKASH_MONITOR_HEALTHCHECK_PERIOD: {{ (.Values.monitor | default dict).healthcheckPeriod | default "10s" | quote }}
   AKASH_MONITOR_HEALTHCHECK_PERIOD_JITTER: {{ (.Values.monitor | default dict).healthcheckPeriodJitter | default "5s" | quote }}
 
+  # Gateway API config
+  AP_INGRESS_MODE: {{ if .Values.gatewayApi.enabled }}{{ "gateway-api" | quote }}{{ else }}{{ "ingress" | quote }}{{ end }}
+  AP_GATEWAY_NAME: {{ .Values.gatewayApi.gatewayName | default "" | quote }}
+  AP_GATEWAY_NAMESPACE: {{ .Values.gatewayApi.gatewayNamespace | default .Release.Namespace | quote }}
+  AP_GATEWAY_IMPLEMENTATION: {{ .Values.gatewayApi.implementation | default "nginx" | quote }}
+

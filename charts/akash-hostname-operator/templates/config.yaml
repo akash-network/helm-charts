@@ -11,3 +11,7 @@ data:
   retry-delay: "3s"
   ignore-list-age-limit: "2613600s"
   event-failure-limit: "3"
+  ingress-mode: {{ if .Values.gatewayApi.enabled }}{{ "gateway-api" | quote }}{{ else }}{{ "ingress" | quote }}{{ end }}
+  gateway-name: {{ .Values.gatewayApi.gatewayName | default "" | quote }}
+  gateway-namespace: {{ .Values.gatewayApi.gatewayNamespace | default .Release.Namespace | quote }}
+  gateway-implementation: {{ .Values.gatewayApi.implementation | default "nginx" | quote }}
