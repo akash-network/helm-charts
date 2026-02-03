@@ -17,7 +17,7 @@ spec:
     - "console-proxy{{ if eq .Release.Namespace "staging" }}-beta{{ end }}.akash.network"
     secretName: console-web-staging-akash-network-tls
   rules:
-  - host: "console-proxy.akash.network"
+  - host: "console-proxy{{ if eq .Release.Namespace "staging" }}-beta{{ end }}.akash.network"
     http:
       paths:
       - path: /collect
