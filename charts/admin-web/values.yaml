@@ -3,4 +3,4 @@ hostName: console-admin.akash.network
 image:
   repository: ghcr.io/ovrclk/console-private/admin-web
 imagePullSecrets:
-  - ghcr-credentials
+  - ghcr-creds-console-private
