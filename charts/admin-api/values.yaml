@@ -1,2 +1,6 @@
 appVersion: "1.0.0"
 hostName: console-admin-api.akash.network
+image:
+  repository: ghcr.io/ovrclk/console-private/admin-api
+imagePullSecrets:
+  - ghcr-credentials
