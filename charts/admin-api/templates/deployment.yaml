@@ -17,9 +17,13 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
+      imagePullSecrets:
+        {{- range .Values.imagePullSecrets }}
+        - name: {{ . }}
+        {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          image: ghcr.io/akash-network/admin-api:{{ .Values.appVersion }}
+          image: {{ .Values.image.repository }}:{{ .Values.appVersion }}
           imagePullPolicy: "Always"
           command:
             - node
