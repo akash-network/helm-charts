@@ -3,6 +3,16 @@ entries:
   admin-api:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2026-02-10T15:18:38.253886782Z"
+    description: Akash Admin API Helm Chart
+    digest: 85ed477c00145b154ba48f6d0a9bbed9ddb1f8d76f0a55143443a3a37f4283c7
+    name: admin-api
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/admin-api-0.2.0/admin-api-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2026-02-09T23:07:45.117328754Z"
     description: Akash Admin API Helm Chart
     digest: 52194b1ae7c31c6d58a63e857494cc5013c3ec318f404292fdf4898c545cb69d
@@ -12,6 +22,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/admin-api-0.1.0/admin-api-0.1.0.tgz
     version: 0.1.0
   admin-web:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-02-10T15:18:38.48903768Z"
+    description: Akash Admin Web Helm Chart
+    digest: a2a68d041cd0d28c763b6b520f9f46dd3cb97a529e9a5153d67b20f60f849c9b
+    name: admin-web
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/admin-web-0.2.0/admin-web-0.2.0.tgz
+    version: 0.2.0
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2026-02-09T23:07:45.338898972Z"
@@ -8326,4 +8346,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-02-09T23:07:45.340293928Z"
+generated: "2026-02-10T15:18:38.490306186Z"
