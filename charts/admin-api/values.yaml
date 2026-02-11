@@ -1,5 +1,6 @@
 appVersion: "1.0.0"
-hostName: console-admin-api.akash.network
+service:
+  nodePort: 30081
 image:
   repository: ghcr.io/ovrclk/console-private/admin-api
 imagePullSecrets:

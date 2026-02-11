@@ -10,5 +10,6 @@ spec:
     - protocol: TCP
       port: 3000
       targetPort: api-port
+      nodePort: {{ .Values.service.nodePort }}
       name: api-port
-  type: ClusterIP
+  type: NodePort
