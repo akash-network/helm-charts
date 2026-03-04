@@ -2137,6 +2137,16 @@ entries:
     version: 0.9.0
   akash-node:
   - apiVersion: v2
+    appVersion: 1.2.1
+    created: "2026-03-04T20:33:12.302173912Z"
+    description: Installs an Akash RPC node (required)
+    digest: de07c02a8b807bb2a762b80e08b58535d70b1a5270770865c1151ab28de3dd02
+    name: akash-node
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-node-16.0.1/akash-node-16.0.1.tgz
+    version: 16.0.1
+  - apiVersion: v2
     appVersion: 1.2.0
     created: "2026-03-04T16:41:40.948661871Z"
     description: Installs an Akash RPC node (required)
@@ -8503,4 +8513,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-03-04T16:41:40.949990543Z"
+generated: "2026-03-04T20:33:12.304266735Z"
