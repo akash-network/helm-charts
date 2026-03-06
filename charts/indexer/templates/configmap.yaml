@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-{{ .Values.chain }}-config
+data:
+{{ include "app.env" . | indent 2 }}
+  OTEL_SERVICE_NAME: {{ .Chart.Name }}-{{ .Values.chain }}
+  NETWORK: {{ .Values.chain }}

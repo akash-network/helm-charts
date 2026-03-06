@@ -4,3 +4,4 @@ metadata:
   name: {{ .Chart.Name }}-{{ .Values.chain }}-config
 data:
 {{ include "app.env" . | indent 2 }}
+  NETWORK: {{ .Values.chain }}

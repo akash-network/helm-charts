@@ -30,11 +30,6 @@ spec:
                 name: {{ .Chart.Name }}-{{ .Values.chain }}-secret
             - configMapRef:
                 name: {{ .Chart.Name }}-{{ .Values.chain }}-config
-          env:
-            - name: PORT
-              value: "3000"
-            - name: NETWORK
-              value: {{ .Values.chain }}
           resources:
             limits:
               cpu: "4"
