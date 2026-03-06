@@ -23,7 +23,7 @@ spec:
 ---
 {{- end }}
 {{- if .Values.gatewayApi.enabled }}
-apiVersion: gateway.networking.k8s.io/v1alpha3
+apiVersion: gateway.networking.k8s.io/v1alpha2
 kind: TLSRoute
 metadata:
   name: {{ include "provider.fullname" . }}-api
