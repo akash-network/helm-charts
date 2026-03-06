@@ -7,9 +7,6 @@ metadata:
   labels:
     {{- include "akash-hostname-operator.labels" . | nindent 4 }}
 spec:
-  timeouts:
-    request: 60s
-    backendRequest: 60s
   parentRefs:
   - name: {{ required "gatewayApi.gatewayName is required when gatewayApi.enabled is true" .Values.gatewayApi.gatewayName }}
     namespace: {{ .Values.gatewayApi.gatewayNamespace | default .Release.Namespace }}

@@ -1,10 +1,10 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: akash-provider-gateway
+  name: akash-gateway
   namespace: akash-services
   labels:
-    app.kubernetes.io/name: akash-provider-gateway
+    app.kubernetes.io/name: akash-gateway
     app.kubernetes.io/component: gateway
 spec:
   gatewayClassName: akash-ingress-class
@@ -17,15 +17,15 @@ spec:
       namespaces:
         from: All
   # HTTPS listener on port 443 - terminates TLS and forwards to HTTP backends
-  # Requires a TLS Secret named 'akash-provider-gateway-tls' in the same namespace
-  # Create with: kubectl create secret tls akash-provider-gateway-tls --cert=path/to/cert.crt --key=path/to/key.key -n akash-services
+  # Requires a TLS Secret named 'akash-gateway-tls' in the same namespace
+  # Create with: kubectl create secret tls akash-gateway-tls --cert=path/to/cert.crt --key=path/to/key.key -n akash-services
   - name: https
     protocol: HTTPS
     port: 443
     tls:
       mode: Terminate
       certificateRefs:
-      - name: akash-provider-gateway-tls
+      - name: akash-gateway-tls
         kind: Secret
         group: ""
     allowedRoutes:
@@ -36,7 +36,7 @@ spec:
   - name: tls-passthrough
     protocol: TLS
     port: 8443
-    hostname: provider.akashtestprovider.xyz
+    hostname: "*.example.com"
     tls:
       mode: Passthrough
     allowedRoutes:
