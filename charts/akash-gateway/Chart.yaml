@@ -1,0 +1,9 @@
+apiVersion: v2
+name: akash-gateway
+description: Gateway API Gateway and TCPRoutes for Akash (install after Gateway API CRDs and NGINX Gateway Fabric)
+
+type: application
+
+version: 0.1.0
+
+appVersion: "1.0"
