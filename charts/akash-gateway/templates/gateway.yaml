@@ -1,0 +1,23 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: {{ .Values.gateway.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "akash-gateway.labels" . | nindent 4 }}
+    app.kubernetes.io/component: gateway
+spec:
+  gatewayClassName: {{ .Values.gateway.gatewayClassName }}
+  listeners:
+    {{- range .Values.gateway.listeners }}
+    - name: {{ .name }}
+      port: {{ .port }}
+      protocol: {{ .protocol }}
+      allowedRoutes:
+        namespaces:
+          from: All
+        {{- if .allowedRoutes.kinds }}
+        kinds:
+          {{- toYaml .allowedRoutes.kinds | nindent 10 }}
+        {{- end }}
+    {{- end }}
