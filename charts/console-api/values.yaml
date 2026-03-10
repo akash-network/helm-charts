@@ -20,11 +20,11 @@ backgroundJobs:
   replicas: 1
   resources:
     limits:
-      cpu: "1"
+      cpu: "0.5"
       ephemeral-storage: "1Gi"
       memory: "1Gi"
     requests:
-      cpu: "1"
+      cpu: "0.5"
       ephemeral-storage: "1Gi"
       memory: "1Gi"
 
