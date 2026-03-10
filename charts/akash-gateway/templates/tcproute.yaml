@@ -1,0 +1,26 @@
+{{- if .Values.tcpRoutes }}
+{{- range $i, $route := .Values.tcpRoutes }}
+{{- if $i }}
+---
+{{- end }}
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: {{ $route.name }}
+  namespace: {{ $route.namespace | default $.Release.Namespace }}
+  labels:
+    {{- include "akash-gateway.labels" $ | nindent 4 }}
+spec:
+  parentRefs:
+    - name: {{ $.Values.gateway.name }}
+      namespace: {{ $.Release.Namespace }}
+      sectionName: {{ $route.listenerName }}
+  rules:
+    - backendRefs:
+        - name: {{ $route.backendRef.name }}
+          port: {{ $route.backendRef.port }}
+          {{- if $route.backendRef.namespace }}
+          namespace: {{ $route.backendRef.namespace }}
+          {{- end }}
+{{- end }}
+{{- end }}
