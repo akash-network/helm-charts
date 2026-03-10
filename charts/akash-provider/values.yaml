@@ -204,22 +204,27 @@ letsEncrypt:
       serviceAccount:
         content: ""
 
-# Ingress configuration for Let's Encrypt HTTP challenge
+# When gatewayApi.enabled is true (default), Let's Encrypt uses Gateway API: an HTTPRoute
+# routes provider.{{ domain }}:80 to the provider for the HTTP-01 challenge.
+# The ingress block below is only used when gatewayApi.enabled is false (Ingress mode).
+
+# Ingress configuration (only for Let's Encrypt when gatewayApi.enabled is false)
 ingress:
   # Ingress class name (default: akash-ingress-class)
   className: "akash-ingress-class"
   # Additional annotations for the ingress
   annotations: {}
 
-# Gateway API configuration
+# Gateway API configuration (default: enabled; set enabled: false to use Ingress)
 gatewayApi:
-  # Enable Gateway API resources (HTTPRoute and TLSRoute - Gateway must be created separately)
-  enabled: false
-  # Name of existing Gateway to reference (required when enabled is true)
-  gatewayName: ""
-  # Namespace of the Gateway (defaults to release namespace if not specified)
-  gatewayNamespace: ""
-  # Gateway implementation (e.g. "nginx")
+  # Enable Gateway API resources (HTTPRoute and TLSRoute). Gateway must exist before install.
+  # Migration: install CRDs, then NGINX Gateway Fabric (or other implementation), then create Gateway.
+  enabled: true
+  # Name of existing Gateway to reference (e.g. akash-gateway from your gateway.yaml)
+  gatewayName: "akash-gateway"
+  # Namespace of the Gateway (default: akash-gateway; set to "" to use release namespace)
+  gatewayNamespace: "akash-gateway"
+  # Gateway implementation (e.g. "nginx" for NGINX Gateway Fabric)
   implementation: "nginx"
 
 # Storage configuration
