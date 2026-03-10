@@ -8,25 +8,25 @@ replicas: 2
 
 resources:
   limits:
+    cpu: "8"
+    ephemeral-storage: "4Gi"
+    memory: "16Gi"
+  requests:
     cpu: "4"
     ephemeral-storage: "2Gi"
-    memory: "8Gi"
-  requests:
-    cpu: "2"
-    ephemeral-storage: "1Gi"
-    memory: "8Gi"
+    memory: "16Gi"
 
 backgroundJobs:
   replicas: 1
   resources:
     limits:
-      cpu: "0.5"
-      ephemeral-storage: "1Gi"
-      memory: "1Gi"
+      cpu: "1"
+      ephemeral-storage: "2Gi"
+      memory: "2Gi"
     requests:
-      cpu: "0.5"
-      ephemeral-storage: "1Gi"
-      memory: "1Gi"
+      cpu: "1"
+      ephemeral-storage: "2Gi"
+      memory: "2Gi"
 
 stats:
   replicas: 1
