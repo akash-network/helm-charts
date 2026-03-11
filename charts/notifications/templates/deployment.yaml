@@ -56,7 +56,7 @@ spec:
             httpGet:
               path: /healthz/readiness
               port: 3000
-            initialDelaySeconds: 20
+            initialDelaySeconds: 35
             periodSeconds: 10
             timeoutSeconds: 10
             failureThreshold: 3
@@ -64,7 +64,7 @@ spec:
             httpGet:
               path: /healthz/liveness
               port: 3000
-            initialDelaySeconds: 20
+            initialDelaySeconds: 35
             periodSeconds: 10
             timeoutSeconds: 10
             failureThreshold: 9
