@@ -8,11 +8,11 @@ replicas: 2
 
 resources:
   limits:
-    cpu: "4"
+    cpu: "8"
     ephemeral-storage: "2Gi"
     memory: "8Gi"
   requests:
-    cpu: "2"
+    cpu: "4"
     ephemeral-storage: "1Gi"
     memory: "8Gi"
 

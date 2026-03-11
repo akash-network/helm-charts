@@ -55,4 +55,4 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 10
             timeoutSeconds: 10
-            failureThreshold: 3
+            failureThreshold: 9
