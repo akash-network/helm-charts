@@ -20,4 +20,4 @@ spec:
     backendRefs:
     - name: {{ include "provider.fullname" . }}
       port: 80
-
+{{- end }}
