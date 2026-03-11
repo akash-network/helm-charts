@@ -13,6 +13,13 @@ spec:
     - name: {{ .name }}
       port: {{ .port }}
       protocol: {{ .protocol }}
+      {{- if .hostname }}
+      hostname: {{ .hostname | quote }}
+      {{- end }}
+      {{- if .tls }}
+      tls:
+        {{- toYaml .tls | nindent 8 }}
+      {{- end }}
       allowedRoutes:
         namespaces:
           from: All
@@ -20,4 +27,18 @@ spec:
         kinds:
           {{- toYaml .allowedRoutes.kinds | nindent 10 }}
         {{- end }}
+    {{- end }}
+    {{- if .Values.gateway.https.domain }}
+    - name: https
+      port: 443
+      protocol: HTTPS
+      hostname: {{ printf "*.ingress.%s" .Values.gateway.https.domain | quote }}
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: {{ printf "wildcard-%s-tls" (replace "." "-" .Values.gateway.https.domain) }}
+      allowedRoutes:
+        namespaces:
+          from: All
     {{- end }}

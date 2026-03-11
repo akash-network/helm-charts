@@ -44,6 +44,11 @@ gateway:
           - group: gateway.networking.k8s.io
             kind: TCPRoute
 
+  # Optional: enable HTTPS with a wildcard cert. Set domain only (e.g. example.com).
+  # Hostname becomes *.ingress.<domain>; secret name becomes wildcard-<domain-with-dashes>-tls.
+  https:
+    domain: ""  # e.g. "example.com" -> one flag: --set "gateway.https.domain=example.com"
+
 # TCPRoutes - attach to Gateway TCP listeners and route to backends.
 # Use namespace to create the route in a different namespace (e.g. akash-services).
 tcpRoutes:
