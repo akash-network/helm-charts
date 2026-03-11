@@ -5112,6 +5112,20 @@ entries:
   notifications:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2026-03-11T09:01:26.772383757Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.4.0
+    description: Akash Console Notification Services
+    digest: 2170a961d24d6528dfbb413ac5bade5859fa0b4bc02ec71a210bbfbf382948cc
+    name: notifications
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/notifications-1.2.3/notifications-1.2.3.tgz
+    version: 1.2.3
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2026-03-11T04:42:31.239926167Z"
     dependencies:
     - name: nodejs-app
@@ -8738,4 +8752,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-03-11T04:42:31.615469798Z"
+generated: "2026-03-11T09:01:26.773792991Z"
