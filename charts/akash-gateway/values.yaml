@@ -62,3 +62,11 @@ tcpRoutes:
       name: akash-provider
       port: 8444
       namespace: akash-services
+
+  - name: akash-provider-5002
+    namespace: akash-services
+    listenerName: tcp-5002
+    backendRef:
+      name: akash-provider
+      port: 5002
+      namespace: akash-services
