@@ -31,14 +31,7 @@ spec:
             - configMapRef:
                 name: {{ .Chart.Name }}-{{ .Values.chain }}-config
           resources:
-            limits:
-              cpu: "4"
-              ephemeral-storage: "2Gi"
-              memory: "8Gi"
-            requests:
-              cpu: "2"
-              ephemeral-storage: "1Gi"
-              memory: "8Gi"
+            {{- toYaml .Values.resources | nindent 12 }}
           readinessProbe:
             httpGet:
               path: /status
