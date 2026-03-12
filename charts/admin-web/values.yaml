@@ -5,3 +5,13 @@ image:
   repository: ghcr.io/ovrclk/console-private/admin-web
 imagePullSecrets:
   - ghcr-creds-console-private
+
+resources:
+  limits:
+    cpu: 500m
+    ephemeral-storage: 2Gi
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    ephemeral-storage: 1Gi
+    memory: 128Mi
