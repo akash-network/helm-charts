@@ -38,14 +38,7 @@ spec:
             - name: DEPLOYMENT_ENV
               value: {{ .Values.deploymentEnv }}
           resources:
-            limits:
-              cpu: "1"
-              ephemeral-storage: "2Gi"
-              memory: "1Gi"
-            requests:
-              cpu: "0.5"
-              ephemeral-storage: "1Gi"
-              memory: "512Mi"
+            {{- toYaml .Values.resources | nindent 12 }}
           livenessProbe:
             httpGet:
               path: /api/healthz
