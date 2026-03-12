@@ -9,6 +9,8 @@ spec:
   schedule: {{ .schedule | quote }}
   jobTemplate:
     spec:
+      failedJobsHistoryLimit: 10
+      successfulJobsHistoryLimit: 0
       template:
         metadata:
           labels:
