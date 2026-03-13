@@ -2,3 +2,13 @@ appVersion: "1.0.0"
 
 deploymentEnv: staging
 chain: sandbox
+
+resources:
+  limits:
+    cpu: 500m
+    ephemeral-storage: 1Gi
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    ephemeral-storage: 512Mi
+    memory: 256Mi

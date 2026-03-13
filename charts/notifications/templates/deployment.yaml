@@ -44,14 +44,7 @@ spec:
             - name: DEPLOYMENT_ENV
               value: {{ $.Values.deploymentEnv }}
           resources:
-            limits:
-              cpu: "500m"
-              ephemeral-storage: "1Gi"
-              memory: "512Mi"
-            requests:
-              cpu: "100m"
-              ephemeral-storage: "512Mi"
-              memory: "256Mi"
+            {{- toYaml $.Values.resources | nindent 12 }}
           readinessProbe:
             httpGet:
               path: /healthz/readiness
