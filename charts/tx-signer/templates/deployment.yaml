@@ -34,14 +34,7 @@ spec:
             - name: OTEL_SERVICE_NAME
               value: {{ .Chart.Name }}-{{ .Values.chain }}
           resources:
-            limits:
-              cpu: "1"
-              ephemeral-storage: "1Gi"
-              memory: "2Gi"
-            requests:
-              cpu: "1"
-              ephemeral-storage: "1Gi"
-              memory: "2Gi"
+            {{- toYaml .Values.resources | nindent 12 }}
           readinessProbe:
             httpGet:
               path: /v1/healthz/readiness
