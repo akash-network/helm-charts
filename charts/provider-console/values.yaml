@@ -1,3 +1,13 @@
 appVersion: "1.4.2"
 stagingHostName: provider-console-beta.akash.network
 prodHostName: provider-console.akash.network
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 2Gi
+    ephemeral-storage: 2Gi
+  requests:
+    cpu: 50m
+    memory: 256Mi
+    ephemeral-storage: 2Gi
