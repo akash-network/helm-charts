@@ -1,2 +1,12 @@
 appVersion: "1.0.0"
 hostName: stats.akash.network
+
+resources:
+  limits:
+    cpu: 1
+    ephemeral-storage: 2Gi
+    memory: 1Gi
+  requests:
+    cpu: 200m
+    ephemeral-storage: 1Gi
+    memory: 512Mi
