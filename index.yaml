@@ -8449,6 +8449,16 @@ entries:
   provider-console:
   - apiVersion: v2
     appVersion: 1.4.2
+    created: "2026-03-18T20:33:15.136870553Z"
+    description: A Helm chart for Akash Network Provider-Console
+    digest: 9d1d68eac3a9e7114b3ae765d5132d603692f2ea44b5bc7cab055c2d63587888
+    name: provider-console
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-console-0.3.1/provider-console-0.3.1.tgz
+    version: 0.3.1
+  - apiVersion: v2
+    appVersion: 1.4.2
     created: "2025-03-19T16:06:38.84314882Z"
     description: A Helm chart for Akash Network Provider-Console
     digest: 9a7763f21503a2433e48714ca7da0e25824ddd24e0a40ebfa6b30170efcc002f
@@ -8870,4 +8880,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-03-18T20:11:40.903694224Z"
+generated: "2026-03-18T20:33:15.139836855Z"
