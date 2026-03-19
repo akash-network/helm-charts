@@ -8,37 +8,51 @@ replicas: 2
 
 resources:
   limits:
-    cpu: "8"
-    ephemeral-storage: "2Gi"
-    memory: "8Gi"
+    cpu: 2
+    ephemeral-storage: 2Gi
+    memory: 4Gi
   requests:
-    cpu: "4"
-    ephemeral-storage: "1Gi"
-    memory: "8Gi"
+    cpu: 250m
+    ephemeral-storage: 1Gi
+    memory: 1Gi
 
 backgroundJobs:
   replicas: 1
   resources:
     limits:
-      cpu: "0.5"
-      ephemeral-storage: "1Gi"
-      memory: "1Gi"
+      cpu: 500m
+      ephemeral-storage: 1Gi
+      memory: 1Gi
     requests:
-      cpu: "0.5"
-      ephemeral-storage: "1Gi"
-      memory: "1Gi"
+      cpu: 50m
+      ephemeral-storage: 1Gi
+      memory: 512Mi
 
 stats:
   replicas: 1
   resources:
     limits:
-      cpu: "0.5"
-      ephemeral-storage: "1Gi"
-      memory: "1Gi"
+      cpu: 500m
+      ephemeral-storage: 1gi
+      memory: 1Gi
     requests:
-      cpu: "0.5"
-      ephemeral-storage: "1Gi"
-      memory: "1Gi"
+      cpu: 100m
+      ephemeral-storage: 1Gi
+      memory: 512Mi
 
 nodeOptions:
   enabledOTEL: false
+
+jobDefaults:
+  failedJobsHistoryLimit: 10
+  successfulJobsHistoryLimit: 0
+  restartPolicy: Never
+  resources:
+    limits:
+      cpu: 500m
+      ephemeral-storage: 2Gi
+      memory: 1Gi
+    requests:
+      cpu: 50m
+      ephemeral-storage: 1Gi
+      memory: 256Mi
