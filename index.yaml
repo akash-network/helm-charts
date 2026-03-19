@@ -4349,6 +4349,20 @@ entries:
   console-api:
   - apiVersion: v2
     appVersion: 2.108.0
+    created: "2026-03-19T15:33:02.855756847Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.4.0
+    description: Akash Console-API Helm Chart
+    digest: 02ea786c684362d654cf2a200556027512ca098285c7af65e5de698566d85b2c
+    name: console-api
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/console-api-0.10.3/console-api-0.10.3.tgz
+    version: 0.10.3
+  - apiVersion: v2
+    appVersion: 2.108.0
     created: "2026-03-19T15:07:59.454810185Z"
     dependencies:
     - name: nodejs-app
@@ -8922,4 +8936,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-03-19T15:07:59.45782544Z"
+generated: "2026-03-19T15:33:02.859048994Z"
