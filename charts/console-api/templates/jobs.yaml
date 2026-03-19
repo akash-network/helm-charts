@@ -8,10 +8,10 @@ metadata:
   namespace: {{ $.Release.Namespace }}
 spec:
   schedule: {{ .schedule | quote }}
+  failedJobsHistoryLimit: {{ $job.failedJobsHistoryLimit }}
+  successfulJobsHistoryLimit: {{ $job.successfulJobsHistoryLimit }}
   jobTemplate:
     spec:
-      failedJobsHistoryLimit: {{ $job.failedJobsHistoryLimit }}
-      successfulJobsHistoryLimit: {{ $job.successfulJobsHistoryLimit }}
       template:
         metadata:
           labels:
