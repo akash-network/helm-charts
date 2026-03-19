@@ -33,7 +33,7 @@ stats:
   resources:
     limits:
       cpu: 500m
-      ephemeral-storage: 1gi
+      ephemeral-storage: 1Gi
       memory: 1Gi
     requests:
       cpu: 100m
