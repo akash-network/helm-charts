@@ -26,4 +26,4 @@ version: 17.0.0
 # Refs
 # https://github.com/akash-network/node/releases
 # https://github.com/akash-network/net/blob/main/mainnet/version.txt
-appVersion: 2.0.0
+appVersion: 2.0.1
