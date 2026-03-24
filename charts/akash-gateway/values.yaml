@@ -1,0 +1,77 @@
+# Default values for akash-gateway.
+# Install after: Gateway API CRDs and a Gateway implementation (e.g. NGINX Gateway Fabric).
+# Install in akash-gateway namespace: helm install akash-gateway . -n akash-gateway --create-namespace
+
+# Gateway resource
+gateway:
+  name: akash-gateway
+  gatewayClassName: nginx
+  listeners:
+    - name: http
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: All
+
+    - name: tcp-8443
+      port: 8443
+      protocol: TCP
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: TCPRoute
+
+    - name: tcp-8444
+      port: 8444
+      protocol: TCP
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: TCPRoute
+
+    - name: tcp-5002
+      port: 5002
+      protocol: TCP
+      allowedRoutes:
+        namespaces:
+          from: All
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: TCPRoute
+
+  # Optional: enable HTTPS with a wildcard cert. Set domain only (e.g. example.com).
+  # Hostname becomes *.ingress.<domain>; secret name becomes wildcard-<domain-with-dashes>-tls.
+  https:
+    domain: ""  # e.g. "example.com" -> one flag: --set "gateway.https.domain=example.com"
+
+# TCPRoutes - attach to Gateway TCP listeners and route to backends.
+# Use namespace to create the route in a different namespace (e.g. akash-services).
+tcpRoutes:
+  - name: akash-provider-8443
+    namespace: akash-services
+    listenerName: tcp-8443
+    backendRef:
+      name: akash-provider
+      port: 8443
+      namespace: akash-services
+
+  - name: akash-provider-8444
+    namespace: akash-services
+    listenerName: tcp-8444
+    backendRef:
+      name: akash-provider
+      port: 8444
+      namespace: akash-services
+
+  - name: akash-provider-5002
+    namespace: akash-services
+    listenerName: tcp-5002
+    backendRef:
+      name: akash-provider
+      port: 5002
+      namespace: akash-services
