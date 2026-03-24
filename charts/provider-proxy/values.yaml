@@ -2,3 +2,13 @@ appVersion: "1.4.3"
 hostNames: []
 chain: sandbox
 deploymentEnv: staging
+
+resources:
+  limits:
+    cpu: 1
+    ephemeral-storage: 2Gi
+    memory: 2Gi
+  requests:
+    cpu: 100m
+    ephemeral-storage: 1Gi
+    memory: 512Mi
