@@ -112,7 +112,28 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/admin-web-0.1.0/admin-web-0.1.0.tgz
     version: 0.1.0
+  akash-gateway:
+  - apiVersion: v2
+    created: "2026-03-24T20:18:10.229409812Z"
+    description: Gateway API Gateway and TCPRoutes for Akash (install after Gateway
+      API CRDs and NGINX Gateway Fabric)
+    digest: 05b669148043a45772cc6f3f05bdeb087399f1c74e19f5e8650c29573ca7c435
+    name: akash-gateway
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-gateway-1.0.0/akash-gateway-1.0.0.tgz
+    version: 1.0.0
   akash-hostname-operator:
+  - apiVersion: v2
+    appVersion: 0.12.0-rc0
+    created: "2026-03-24T20:18:10.42717866Z"
+    description: An operator to map Ingress objects to Akash deployments (required)
+    digest: 2c60c4f621621fdea4ca127c4c7f57d205a8c328e6f308a4f5c976f6be542405
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-15.1.0-rc0/akash-hostname-operator-15.1.0-rc0.tgz
+    version: 15.1.0-rc0
   - apiVersion: v2
     appVersion: 0.11.1
     created: "2026-03-23T17:07:11.532607995Z"
@@ -885,6 +906,16 @@ entries:
     version: 0.21.0
   akash-inventory-operator:
   - apiVersion: v2
+    appVersion: 0.12.0-rc0
+    created: "2026-03-24T20:18:10.628640362Z"
+    description: An operator required for persistent storage (required)
+    digest: 8d7d2cce57670cd4caee837071886d2a946ef3a30c3617ed4c5363945184eabe
+    name: akash-inventory-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-15.1.0-rc0/akash-inventory-operator-15.1.0-rc0.tgz
+    version: 15.1.0-rc0
+  - apiVersion: v2
     appVersion: 0.11.1
     created: "2026-03-23T17:07:11.703836348Z"
     description: An operator required for persistent storage (required)
@@ -1575,6 +1606,16 @@ entries:
     - https://github.com/ovrclk/helm-charts/releases/download/akash-inventory-operator-0.15.0/akash-inventory-operator-0.15.0.tgz
     version: 0.15.0
   akash-ip-operator:
+  - apiVersion: v2
+    appVersion: 0.12.0-rc0
+    created: "2026-03-24T20:18:10.79307712Z"
+    description: An operator required for ip marketplace (optional)
+    digest: b657b040b60d7f0e1bdb0fd4c6098db1f09a7099f15c044d2cae021cd28c1806
+    name: akash-ip-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-ip-operator-15.1.0-rc0/akash-ip-operator-15.1.0-rc0.tgz
+    version: 15.1.0-rc0
   - apiVersion: v2
     appVersion: 0.11.1
     created: "2026-03-23T17:07:11.920461393Z"
@@ -5463,6 +5504,16 @@ entries:
     version: 1.1.1
   provider:
   - apiVersion: v2
+    appVersion: 0.12.0-rc0
+    created: "2026-03-24T20:18:10.980775349Z"
+    description: Installs an Akash provider (required)
+    digest: 3fe88ff8c8ac6f8e33bf126f7318b695b0c222dc9470415c052971f12326d7fe
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-15.1.0-rc0/provider-15.1.0-rc0.tgz
+    version: 15.1.0-rc0
+  - apiVersion: v2
     appVersion: 0.11.1
     created: "2026-03-23T17:07:12.079947136Z"
     description: Installs an Akash provider (required)
@@ -9026,4 +9077,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-03-23T17:07:12.084502939Z"
+generated: "2026-03-24T20:18:10.985351846Z"
