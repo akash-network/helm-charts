@@ -1,4 +1,5 @@
 {{- range .Values.jobs }}
+{{- $job := mergeOverwrite (deepCopy $.Values.jobDefaults) . }}
 ---
 apiVersion: batch/v1
 kind: CronJob
@@ -7,6 +8,8 @@ metadata:
   namespace: {{ $.Release.Namespace }}
 spec:
   schedule: {{ .schedule | quote }}
+  failedJobsHistoryLimit: {{ $job.failedJobsHistoryLimit }}
+  successfulJobsHistoryLimit: {{ $job.successfulJobsHistoryLimit }}
   jobTemplate:
     spec:
       template:
@@ -14,21 +17,14 @@ spec:
           labels:
             job: {{ $.Chart.Name }}-{{ $.Values.chain }}-{{ .name }}
         spec:
-          restartPolicy: Never
+          restartPolicy: {{ $job.restartPolicy }}
           containers:
             - name: {{ $.Chart.Name }}-{{ $.Values.chain }}
               image: ghcr.io/akash-network/console-api:{{ $.Values.appVersion }}
               imagePullPolicy: "Always"
               command: {{ .command | toJson }}
               resources:
-                limits:
-                  cpu: "1"
-                  ephemeral-storage: "2Gi"
-                  memory: "1Gi"
-                requests:
-                  cpu: "0.5"
-                  ephemeral-storage: "1Gi"
-                  memory: "512Mi"
+                {{- toYaml $job.resources | nindent 16 }}
               envFrom:
                 - secretRef:
                     name: {{ $.Chart.Name }}-{{ $.Values.chain }}-secret

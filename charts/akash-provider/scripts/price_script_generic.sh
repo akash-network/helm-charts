@@ -251,6 +251,18 @@ if [[ $hasPrice = true ]]; then
       printf "%.*f" "$precision" "$total_cost_uakt"
       ;;
 
+    # ACT: assume $1 = 1 ACT (1 USD = 1e6 uact)
+    "uact")
+      rate_per_block_usd_normalized=$(bc -l <<<"(${rate_per_block_usd}*1000000)" | awk -v precision="$precision" '{printf "%.*f", precision, $0}')
+      if bc <<< "$rate_per_block_usd_normalized > $amount" | grep -qw 1; then
+        printf "requested rate is too low. min expected %.*f%s" "$precision" "$rate_per_block_usd_normalized" "$denom" >&2
+        exit 1
+      fi
+
+      # tell the provider uact/block rate
+      printf "%.*f" "$precision" "$rate_per_block_usd_normalized"
+      ;;
+
     # sandbox: Axelar USDC (uausdc) ibc/12C6...
     # mainnet: Axelar USDC (uusdc) ibc/170C...
     "ibc/12C6A0C374171B595A0A9E18B83FA09D295FB1F2D8C6DAA3AC28683471752D84" | \

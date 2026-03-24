@@ -3,3 +3,14 @@ hostNames:
 
 chain: mainnet
 nodePort: 30000
+deploymentEnv: staging
+
+resources:
+  limits:
+    cpu: 2
+    ephemeral-storage: 2Gi
+    memory: 2Gi
+  requests:
+    cpu: 100m
+    ephemeral-storage: 1Gi
+    memory: 1Gi

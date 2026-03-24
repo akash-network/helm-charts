@@ -1,2 +1,4 @@
 appVersion: "2.46.0"
 hostName: console-beta.akash.network
+deploymentEnv: staging
+chain: testnet

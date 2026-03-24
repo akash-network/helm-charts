@@ -1,0 +1,44 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: {{ .Values.gateway.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "akash-gateway.labels" . | nindent 4 }}
+    app.kubernetes.io/component: gateway
+spec:
+  gatewayClassName: {{ .Values.gateway.gatewayClassName }}
+  listeners:
+    {{- range .Values.gateway.listeners }}
+    - name: {{ .name }}
+      port: {{ .port }}
+      protocol: {{ .protocol }}
+      {{- if .hostname }}
+      hostname: {{ .hostname | quote }}
+      {{- end }}
+      {{- if .tls }}
+      tls:
+        {{- toYaml .tls | nindent 8 }}
+      {{- end }}
+      allowedRoutes:
+        namespaces:
+          from: All
+        {{- if .allowedRoutes.kinds }}
+        kinds:
+          {{- toYaml .allowedRoutes.kinds | nindent 10 }}
+        {{- end }}
+    {{- end }}
+    {{- if .Values.gateway.https.domain }}
+    - name: https
+      port: 443
+      protocol: HTTPS
+      hostname: {{ printf "*.ingress.%s" .Values.gateway.https.domain | quote }}
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: {{ printf "wildcard-%s-tls" (replace "." "-" .Values.gateway.https.domain) }}
+      allowedRoutes:
+        namespaces:
+          from: All
+    {{- end }}

@@ -29,33 +29,36 @@ spec:
             - containerPort: 3000
               name: api-port
               protocol: TCP
+          envFrom:
+            - secretRef:
+                name: {{ $.Chart.Name }}-secret
+            - configMapRef:
+                name: {{ $.Chart.Name }}-config
           env:
             - name: PORT
               value: "3000"
             - name: INTERFACE
               value: "{{ $interface }}"
+            - name: OTEL_SERVICE_NAME
+              value: {{ $.Chart.Name }}-{{ $interface }}
+            - name: DEPLOYMENT_ENV
+              value: {{ $.Values.deploymentEnv }}
           resources:
-            limits:
-              cpu: "500m"
-              ephemeral-storage: "1Gi"
-              memory: "512Mi"
-            requests:
-              cpu: "100m"
-              ephemeral-storage: "512Mi"
-              memory: "256Mi"
+            {{- toYaml $.Values.resources | nindent 12 }}
           readinessProbe:
             httpGet:
               path: /healthz/readiness
               port: 3000
-            initialDelaySeconds: 5
+            initialDelaySeconds: 35
             periodSeconds: 10
+            timeoutSeconds: 10
+            failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /healthz/liveness
               port: 3000
-            initialDelaySeconds: 5
+            initialDelaySeconds: 35
             periodSeconds: 10
-          envFrom:
-            - secretRef:
-                name: {{ $.Chart.Name }}-secret
+            timeoutSeconds: 10
+            failureThreshold: 9
 {{- end }}

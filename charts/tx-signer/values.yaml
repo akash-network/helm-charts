@@ -1,0 +1,15 @@
+appVersion: "0.1.0"
+deploymentEnv: staging
+chain: sandbox
+nodeOptions:
+  enabledOTEL: false
+
+resources:
+  limits:
+    cpu: 500m
+    ephemeral-storage: 1Gi
+    memory: 1Gi
+  requests:
+    cpu: 50m
+    ephemeral-storage: 1Gi
+    memory: 256Mi

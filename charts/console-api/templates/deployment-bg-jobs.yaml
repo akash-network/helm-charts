@@ -8,7 +8,7 @@ metadata:
   annotations:
     secrets.doppler.com/reload: 'true'
 spec:
-  replicas: 1
+  replicas: {{ .Values.backgroundJobs.replicas | default 1 }}
   selector:
     matchLabels:
       app: {{ .Chart.Name }}-{{ .Values.chain }}-bg-jobs
@@ -21,9 +21,6 @@ spec:
         - name: {{ .Chart.Name }}-{{ .Values.chain }}-bg-jobs
           image: ghcr.io/akash-network/console-api:{{ .Values.appVersion }}
           imagePullPolicy: "Always"
-          command:
-            - node
-            - dist/server.js
           ports:
             - containerPort: 3000
               name: api-port
@@ -34,32 +31,19 @@ spec:
             - configMapRef:
                 name: {{ .Chart.Name }}-{{ .Values.chain }}-config
           env:
-            - name: PORT
-              value: "3000"
             - name: OTEL_SERVICE_NAME
               value: {{ .Chart.Name }}-{{ .Values.chain }}-bg-jobs
-            - name: NETWORK
-              value: {{ .Values.chain }}
             - name: INTERFACE
               value: "background-jobs"
-            - name: POSTGRES_BACKGROUND_JOBS_SCHEMA
-              value: pgboss_{{ .Values.chain }}
           resources:
-            limits:
-              cpu: "0.5"
-              ephemeral-storage: "1Gi"
-              memory: "1Gi"
-            requests:
-              cpu: "0.5"
-              ephemeral-storage: "1Gi"
-              memory: "1Gi"
+            {{- toYaml .Values.backgroundJobs.resources | nindent 12 }}
           readinessProbe:
             httpGet:
               path: /v1/healthz/readiness
               port: 3000
             initialDelaySeconds: 5
             periodSeconds: 10
-            timeoutSeconds: 5
+            timeoutSeconds: 10
             failureThreshold: 3
           livenessProbe:
             httpGet:
@@ -67,5 +51,5 @@ spec:
               port: 3000
             initialDelaySeconds: 5
             periodSeconds: 10
-            timeoutSeconds: 5
+            timeoutSeconds: 10
             failureThreshold: 3

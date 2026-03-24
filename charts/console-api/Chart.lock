@@ -1,6 +1,6 @@
 dependencies:
 - name: nodejs-app
   repository: file://../nodejs-app
-  version: 0.1.1
-digest: sha256:7d5177f8b768103a89646a16575d598973b0d602af0657e4e12332a6ba04a6c3
-generated: "2025-06-19T07:35:07.315362+03:00"
+  version: 0.4.0
+digest: sha256:77e852aa4a325dfe22f94e708918c4168bd6d97a06a538af0f0b04f05dbeb950
+generated: "2026-03-10T19:40:09.248221+01:00"
