@@ -49,7 +49,7 @@ ingress:
 # Gateway API configuration (default: enabled to align with akash-provider; set enabled: false for Ingress)
 gatewayApi:
   # Enable Gateway API resources (HTTPRoute only - Gateway must be created separately)
-  enabled: true
+  enabled: false
   # Name of existing Gateway to reference (e.g. akash-gateway)
   gatewayName: "akash-gateway"
   # Namespace of the Gateway (default: akash-gateway; set to "" to use release namespace)
