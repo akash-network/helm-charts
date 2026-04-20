@@ -13,7 +13,8 @@ if [ ! -d "$AKASH_HOME/data" ]
 then
 /bin/akash genesis init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
 cd "$AKASH_HOME/data" || exit
-curl -s "$AKASH_NET/genesis.json" > "$AKASH_HOME/config/genesis.json"
+GENESIS_URL=$(curl -sSf "$AKASH_META_URL" | jq -r '.codebase.genesis.genesis_url')
+curl -sSf "$GENESIS_URL" > "$AKASH_HOME/config/genesis.json"
 if [ "$AKASH_STATESYNC_ENABLE" == true ]; then
   echo "state-sync is enabled, figure the right trust height & derive its hash"
 

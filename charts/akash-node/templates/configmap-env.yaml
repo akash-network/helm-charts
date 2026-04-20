@@ -8,7 +8,7 @@ metadata:
     {{- include "akash-node.labels" . | nindent 4 }}
 data:
   AKASH_MONIKER: "{{ .Values.akash_node.moniker }}-1"
-  AKASH_NET: "{{ .Values.akash_node.net }}"
+  AKASH_META_URL: "{{ if .Values.akash_node.meta_url }}{{ .Values.akash_node.meta_url }}{{ else }}{{ printf "%s/meta.json" .Values.akash_node.net }}{{ end }}"
   AKASH_HOME: "{{ .Values.home }}"
   AKASH_CHAIN_ID: "{{ .Values.akash_node.chainid }}"
   AKASH_KEYRING_BACKEND: "{{ .Values.keyring_backend }}"

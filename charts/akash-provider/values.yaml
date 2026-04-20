@@ -9,9 +9,13 @@ image:
 from:
 key:
 keysecret:
+# Network identity: use .chain_id from the network's meta.json (e.g. mainnet:
+# https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json ).
 chainid: akashnet-2
 domain:
 home: "/root/.akash"
+# Tendermint RPC base URL passed as AKASH_NODE. Use any entry from .apis.rpc[].address
+# in the same meta.json (below default is one community RPC; override as needed).
 node: "https://akash-rpc.polkachu.com:443"
 keyringbackend: "test"
 
