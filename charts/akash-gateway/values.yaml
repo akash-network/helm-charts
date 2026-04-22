@@ -1,6 +1,17 @@
 # Default values for akash-gateway.
 # Install after: Gateway API CRDs and a Gateway implementation (e.g. NGINX Gateway Fabric).
 # Install in akash-gateway namespace: helm install akash-gateway . -n akash-gateway --create-namespace
+#
+# Setting your domain: use a values file (recommended) so it matches the rest of your stack, e.g.
+#   helm install akash-gateway ./charts/akash-gateway -f provider.yaml -n akash-gateway
+# The same `provider.yaml` you use for akash-provider is safe: only keys this chart uses are
+# applied; everything else (images, gas, etc.) is ignored. akash-provider already defines
+# top-level `domain` — with no gateway-specific override, the HTTPS wildcard uses
+#   *.ingress.<domain>
+
+# Resolves the ingress base for *.ingress.<domain> unless gateway.https.domain is set.
+# Same key name and meaning as charts/akash-provider/values.yaml `domain`.
+domain: ""
 
 # Gateway resource
 gateway:
@@ -44,10 +55,19 @@ gateway:
           - group: gateway.networking.k8s.io
             kind: TCPRoute
 
-  # Optional: enable HTTPS with a wildcard cert. Set domain only (e.g. example.com).
-  # Hostname becomes *.ingress.<domain>; secret name becomes wildcard-<domain-with-dashes>-tls.
+  # TLS (HTTPS) listeners: enabled by default. Two listeners on 443 (wildcard + catch-all for custom domains).
+  # Wildcard host is *.ingress.<domain> (e.g. domain "provider.url" -> "*.ingress.provider.url").
+  # Create secrets in the install namespace: wildcard-ingress-tls (true wildcard cert) and
+  # akash-default-tls (e.g. self-signed; see post-install notes for openssl/kubectl).
   https:
-    domain: ""  # e.g. "example.com" -> one flag: --set "gateway.https.domain=example.com"
+    enabled: true
+    # If set, used as the base for the wildcard host *.ingress.<this> (overrides top-level `domain`).
+    # Leave empty to use `domain` from this file (e.g. from -f provider.yaml) or the chart default.
+    domain: ""
+    # Optional: full host for https-wildcard (overrides the *.ingress.<domain> build).
+    wildcardHostname: ""
+    wildcardCertificateSecret: wildcard-ingress-tls
+    defaultCertificateSecret: akash-default-tls
 
 # TCPRoutes - attach to Gateway TCP listeners and route to backends.
 # Use namespace to create the route in a different namespace (e.g. akash-services).

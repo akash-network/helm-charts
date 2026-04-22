@@ -34,3 +34,22 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- define "akash-gateway.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
+
+{{/*
+  Ingress base for the https-wildcard host: explicit gateway.https.domain, else top-level domain
+  (same as akash-provider), else a placeholder.
+*/}}
+{{- define "akash-gateway.ingressBaseDomain" -}}
+{{- .Values.gateway.https.domain | default .Values.domain | default "example.com" -}}
+{{- end -}}
+
+{{/*
+  Host for https-wildcard: full wildcardHostname, or *.ingress.<ingressBaseDomain>.
+*/}}
+{{- define "akash-gateway.wildcardListenerHostname" -}}
+{{- if .Values.gateway.https.wildcardHostname -}}
+{{- .Values.gateway.https.wildcardHostname -}}
+{{- else -}}
+{{- printf "*.ingress.%s" (include "akash-gateway.ingressBaseDomain" .) -}}
+{{- end -}}
+{{- end -}}

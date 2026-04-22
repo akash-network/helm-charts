@@ -23,21 +23,32 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-        {{- if .allowedRoutes.kinds }}
+        {{- if and .allowedRoutes .allowedRoutes.kinds }}
         kinds:
           {{- toYaml .allowedRoutes.kinds | nindent 10 }}
         {{- end }}
     {{- end }}
-    {{- if .Values.gateway.https.domain }}
-    - name: https
+    {{- if .Values.gateway.https.enabled }}
+    - name: https-wildcard
       port: 443
       protocol: HTTPS
-      hostname: {{ printf "*.ingress.%s" .Values.gateway.https.domain | quote }}
+      hostname: {{ include "akash-gateway.wildcardListenerHostname" . | quote }}
       tls:
         mode: Terminate
         certificateRefs:
           - kind: Secret
-            name: {{ printf "wildcard-%s-tls" (replace "." "-" .Values.gateway.https.domain) }}
+            name: {{ .Values.gateway.https.wildcardCertificateSecret | quote }}
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https-custom
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: {{ .Values.gateway.https.defaultCertificateSecret | quote }}
       allowedRoutes:
         namespaces:
           from: All
