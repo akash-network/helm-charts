@@ -22,7 +22,7 @@ spec:
         app: {{ $.Chart.Name }}-{{ $interface }}
     spec:
       containers:
-        - name: {{ $.Chart.Name }}
+        - name: {{ $.Chart.Name }}-{{ $interface }}
           image: "ghcr.io/akash-network/notifications:{{ $.Values.appVersion }}"
           imagePullPolicy: "Always"
           ports:
