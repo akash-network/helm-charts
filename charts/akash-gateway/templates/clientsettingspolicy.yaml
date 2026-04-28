@@ -1,0 +1,14 @@
+apiVersion: gateway.nginx.org/v1alpha1
+kind: ClientSettingsPolicy
+metadata:
+  name: global-client-settings
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "akash-gateway.labels" . | nindent 4 }}
+spec:
+  targetRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: {{ .Values.gateway.name }}
+  body:
+    maxSize: {{ .Values.clientSettings.maxBodySize | quote }}
