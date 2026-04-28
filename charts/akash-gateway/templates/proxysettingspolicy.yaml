@@ -1,0 +1,18 @@
+apiVersion: gateway.nginx.org/v1alpha1
+kind: ProxySettingsPolicy
+metadata:
+  name: global-proxy-settings
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "akash-gateway.labels" . | nindent 4 }}
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: {{ .Values.gateway.name }}
+  buffering:
+    bufferSize: {{ .Values.proxySettings.bufferSize | quote }}
+    buffers:
+      number: {{ .Values.proxySettings.buffersNumber }}
+      size: {{ .Values.proxySettings.buffersSize | quote }}
+    busyBuffersSize: {{ .Values.proxySettings.busyBuffersSize | quote }}
