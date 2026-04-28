@@ -114,6 +114,16 @@ entries:
     version: 0.1.0
   akash-gateway:
   - apiVersion: v2
+    created: "2026-04-28T22:30:44.227976727Z"
+    description: Gateway API Gateway and TCPRoutes for Akash (install after Gateway
+      API CRDs and NGINX Gateway Fabric)
+    digest: 03253870c31629af314ffdc6761ea721edb05f0d0346617e52cf7933b09355dd
+    name: akash-gateway
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-gateway-1.2.0/akash-gateway-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
     created: "2026-04-22T20:50:25.747840503Z"
     description: Gateway API Gateway and TCPRoutes for Akash (install after Gateway
       API CRDs and NGINX Gateway Fabric)
@@ -9241,4 +9251,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-04-24T10:00:28.278227279Z"
+generated: "2026-04-28T22:30:44.230944755Z"
