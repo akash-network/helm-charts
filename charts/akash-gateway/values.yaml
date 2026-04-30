@@ -45,16 +45,6 @@ gateway:
           - group: gateway.networking.k8s.io
             kind: TCPRoute
 
-    - name: tcp-5002
-      port: 5002
-      protocol: TCP
-      allowedRoutes:
-        namespaces:
-          from: All
-        kinds:
-          - group: gateway.networking.k8s.io
-            kind: TCPRoute
-
   # TLS (HTTPS) listeners: enabled by default. Two listeners on 443 (wildcard + catch-all for custom domains).
   # Wildcard host is *.ingress.<domain> (e.g. domain "provider.url" -> "*.ingress.provider.url").
   # Create secrets in the install namespace: wildcard-ingress-tls (true wildcard cert) and
@@ -86,14 +76,6 @@ tcpRoutes:
     backendRef:
       name: akash-provider
       port: 8444
-      namespace: akash-services
-
-  - name: akash-provider-5002
-    namespace: akash-services
-    listenerName: tcp-5002
-    backendRef:
-      name: akash-provider
-      port: 5002
       namespace: akash-services
 
 # NGINX proxy buffer settings (equivalent to ingress-nginx ConfigMap settings)
