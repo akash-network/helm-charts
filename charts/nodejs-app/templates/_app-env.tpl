@@ -12,10 +12,8 @@ OTEL_SERVICE_NAME: {{ .Chart.Name | quote }}
 OTEL_RESOURCE_ATTRIBUTES: >-
   namespace={{ .Release.Namespace }},
   service.version={{ .Values.appVersion }}
-OTEL_NODE_RESOURCE_DETECTORS: "env,host,container,process"
 {{- if ((.Values.otel).enabled) }}
 OTEL_LOGS_EXPORTER: none
-OTEL_NODE_DISABLED_INSTRUMENTATIONS: dns, aws-lambda, amqplib, kafkajs, cassandra-driver, mongodb, mongoose, mysql, mysql2, redis, redis-4, ioredis, memcached, knex, tedious, socket.io, express, koa, hapi, fastify, restify, router, connect, nestjs-core, aws-sdk,bunyan,cucumber,dataloader,generic-pool,graphql,grpc,winston,lru-memoizer
 OTEL_METRICS_EXPORTER: otlp
 OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: {{ $otelCollectorBaseUrl }}/v1/traces
 OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: {{ $otelCollectorBaseUrl }}/v1/metrics
