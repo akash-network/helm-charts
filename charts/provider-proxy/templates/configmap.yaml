@@ -5,3 +5,4 @@ metadata:
 data:
 {{ include "app.env" . | indent 2 }}
   NETWORK: {{ .Values.chain }}
+  OTEL_SERVICE_NAME: {{ .Chart.Name }}-{{ .Values.chain }}
