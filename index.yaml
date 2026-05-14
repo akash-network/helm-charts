@@ -4600,6 +4600,20 @@ entries:
   console-api:
   - apiVersion: v2
     appVersion: 2.108.0
+    created: "2026-05-14T19:19:24.831345246Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.4.1
+    description: Akash Console-API Helm Chart
+    digest: 046f4b9cf4ec838c24c9bfe237a4f97f854e60a3ff63055b668cc434da7ffae2
+    name: console-api
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/console-api-0.10.4/console-api-0.10.4.tgz
+    version: 0.10.4
+  - apiVersion: v2
+    appVersion: 2.108.0
     created: "2026-03-19T15:33:02.855756847Z"
     dependencies:
     - name: nodejs-app
@@ -4983,6 +4997,20 @@ entries:
   console-web:
   - apiVersion: v2
     appVersion: 2.66.1
+    created: "2026-05-14T19:19:25.057710881Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.4.1
+    description: Akash Console-Web Helm Chart
+    digest: 5258d2e184def643af1055d49854e7f64ced28d088c471ef0657a3cc719dddb4
+    name: console-web
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/console-web-0.7.8/console-web-0.7.8.tgz
+    version: 0.7.8
+  - apiVersion: v2
+    appVersion: 2.66.1
     created: "2026-03-18T19:41:59.037676591Z"
     dependencies:
     - name: nodejs-app
@@ -5273,6 +5301,20 @@ entries:
   indexer:
   - apiVersion: v2
     appVersion: 1.12.0
+    created: "2026-05-14T19:19:25.283978728Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.4.1
+    description: Akash Indexer Helm Chart
+    digest: 001cdfd39534192005682c2d69467a8fa2946d1369b0d04316ffcbefe1fdf11e
+    name: indexer
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/indexer-0.2.4/indexer-0.2.4.tgz
+    version: 0.2.4
+  - apiVersion: v2
+    appVersion: 1.12.0
     created: "2026-03-19T14:13:03.697166163Z"
     dependencies:
     - name: nodejs-app
@@ -5411,6 +5453,15 @@ entries:
     version: 0.0.1
   nodejs-app:
   - apiVersion: v2
+    created: "2026-05-14T19:19:25.541846678Z"
+    description: A Helm chart for Nodejs based server applications
+    digest: 17a8141a1da4fb3649c7cb514a6cfd13189d837896fbfda2b4b58aeeed7ce36f
+    name: nodejs-app
+    type: library
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/nodejs-app-0.4.1/nodejs-app-0.4.1.tgz
+    version: 0.4.1
+  - apiVersion: v2
     created: "2026-03-11T04:42:31.106504005Z"
     description: A Helm chart for Nodejs based server applications
     digest: d77d19074c8aa15875a4118dafda658d014e214d0128e62bfd3e31164b47cd8c
@@ -5465,6 +5516,20 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/nodejs-app-0.1.1/nodejs-app-0.1.1.tgz
     version: 0.1.1
   notifications:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-05-14T19:19:25.786178043Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.4.1
+    description: Akash Console Notification Services
+    digest: b7d553d6804dd1d46e947326a483e9543c8b929136bf6225d2c382d252d88c16
+    name: notifications
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/notifications-1.3.1/notifications-1.3.1.tgz
+    version: 1.3.1
   - apiVersion: v2
     appVersion: 1.0.0
     created: "2026-04-24T10:00:28.274898833Z"
@@ -8903,6 +8968,20 @@ entries:
   provider-proxy:
   - apiVersion: v2
     appVersion: 1.13.3
+    created: "2026-05-14T19:19:26.003960219Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.4.1
+    description: Akash Provider Proxy Helm Chart
+    digest: 7844c00ab10f3316b0c75e3d2ab7d7c40e92813781343139efe8042a5083f1c5
+    name: provider-proxy
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.7.4/provider-proxy-0.7.4.tgz
+    version: 0.7.4
+  - apiVersion: v2
+    appVersion: 1.13.3
     created: "2026-03-18T20:11:40.900404172Z"
     dependencies:
     - name: nodejs-app
@@ -9088,6 +9167,20 @@ entries:
   stats-web:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2026-05-14T19:19:26.213959134Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.4.1
+    description: Akash Stats Web Helm Chart
+    digest: 51948cfd44286d12ee54ce46b41e2118ce3000cd0406ddbfdfcff633704659f7
+    name: stats-web
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/stats-web-0.2.4/stats-web-0.2.4.tgz
+    version: 0.2.4
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2026-03-18T19:13:34.981926263Z"
     dependencies:
     - name: nodejs-app
@@ -9207,6 +9300,20 @@ entries:
   tx-signer:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2026-05-14T19:19:26.438738361Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.4.1
+    description: Akash TX Signer Helm Chart
+    digest: 5a24b714da610cd23e3537eec87b8508d61759f0b41cd7a7d2045a162c4c7e78
+    name: tx-signer
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.5/tx-signer-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2026-03-18T14:58:38.168321625Z"
     dependencies:
     - name: nodejs-app
@@ -9261,4 +9368,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-04-30T13:02:59.950794784Z"
+generated: "2026-05-14T19:19:26.440325851Z"
