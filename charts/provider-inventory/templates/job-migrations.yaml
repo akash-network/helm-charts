@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Chart.Name }}-{{ .Values.chain }}-migrations
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Chart.Name }}-{{ .Values.chain }}-migrations
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: {{ .Values.migrations.backoffLimit | default 1 }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-{{ .Values.chain }}-migrations
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: {{ .Chart.Name }}-{{ .Values.chain }}-migrations
+          image: ghcr.io/akash-network/console-provider-inventory:{{ .Values.appVersion }}
+          imagePullPolicy: "Always"
+          command: {{ .Values.migrations.command | toJson }}
+          envFrom:
+            - secretRef:
+                name: {{ .Chart.Name }}-{{ .Values.chain }}-secret
+            - secretRef:
+                name: {{ .Chart.Name }}-{{ .Values.chain }}-migrations-secret
+          env:
+            - name: NETWORK
+              value: {{ .Values.chain | quote }}
+            - name: DEPLOYMENT_ENV
+              value: {{ .Values.deploymentEnv | quote }}
+            - name: NODE_OPTIONS
+              value: >-
+                --enable-source-maps
+                --stack-trace-limit=25
+          resources:
+            {{- toYaml .Values.migrations.resources | nindent 12 }}
