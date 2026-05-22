@@ -1,0 +1,45 @@
+appVersion: "0.1.0"
+
+deploymentEnv: staging
+chain: sandbox
+
+replicas: 1
+
+resources:
+  limits:
+    cpu: 1
+    ephemeral-storage: 200Mi
+    memory: 2Gi
+  requests:
+    cpu: 1
+    ephemeral-storage: 100Mi
+    memory: 1Gi
+
+providersSync:
+  replicas: 1
+  resources:
+    limits:
+      cpu: 1
+      ephemeral-storage: 200Mi
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      ephemeral-storage: 100Mi
+      memory: 512Mi
+
+migrations:
+  command: ["npm", "run", "migration:exec"]
+  backoffLimit: 1
+  # dopplerConfig: ""  # defaults to "{Release.Namespace}-migrations"
+  resources:
+    limits:
+      cpu: 500m
+      ephemeral-storage: 100Mi
+      memory: 512Mi
+    requests:
+      cpu: 200m
+      ephemeral-storage: 50Mi
+      memory: 256Mi
+
+otel:
+  enabled: true
