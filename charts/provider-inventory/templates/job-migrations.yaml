@@ -24,8 +24,6 @@ spec:
           command: {{ .Values.migrations.command | toJson }}
           envFrom:
             - secretRef:
-                name: {{ .Chart.Name }}-{{ .Values.chain }}-secret
-            - secretRef:
                 name: {{ .Chart.Name }}-{{ .Values.chain }}-migrations-secret
           env:
             - name: NETWORK
