@@ -21,11 +21,11 @@ providersSync:
     limits:
       cpu: 1
       ephemeral-storage: 200Mi
-      memory: 1Gi
+      memory: 3Gi
     requests:
-      cpu: 500m
+      cpu: 1
       ephemeral-storage: 100Mi
-      memory: 512Mi
+      memory: 1Gi
 
 migrations:
   command: ["npm", "run", "migration:exec"]
