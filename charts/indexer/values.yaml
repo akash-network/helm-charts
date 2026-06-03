@@ -5,6 +5,9 @@ chain: mainnet
 nodePort: 30000
 deploymentEnv: staging
 
+otel:
+  enabled: true
+
 resources:
   limits:
     cpu: 2

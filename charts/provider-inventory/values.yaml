@@ -5,6 +5,15 @@ chain: sandbox
 
 replicas: 1
 
+otel:
+  enabled: true
+
+service:
+  type: ClusterIP  # or NodePort
+# When type is NodePort, optionally pin the node port (30000-32767).
+# Omit to let Kubernetes auto-assign one.
+# nodePort: 30123
+
 resources:
   limits:
     cpu: 1
@@ -40,6 +49,3 @@ migrations:
       cpu: 200m
       ephemeral-storage: 50Mi
       memory: 256Mi
-
-otel:
-  enabled: true
