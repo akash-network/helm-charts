@@ -4,6 +4,9 @@ hostNames:
 deploymentEnv: staging
 chain: sandbox
 
+otel:
+  enabled: true
+
 replicas: 2
 
 resources:

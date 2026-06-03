@@ -3,6 +3,9 @@ hostNames: []
 chain: sandbox
 deploymentEnv: staging
 
+otel:
+  enabled: true
+
 resources:
   limits:
     cpu: 1

@@ -1,8 +1,9 @@
 appVersion: "0.1.0"
 deploymentEnv: staging
 chain: sandbox
-nodeOptions:
-  enabledOTEL: false
+
+otel:
+  enabled: true
 
 resources:
   limits:

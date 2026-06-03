@@ -11,4 +11,7 @@ spec:
       port: 3000
       targetPort: api-port
       name: api-port
-  type: ClusterIP
+      {{- if and (eq .Values.service.type "NodePort") .Values.service.nodePort }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}
+  type: {{ .Values.service.type | default "ClusterIP" }}
