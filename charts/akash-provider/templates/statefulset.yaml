@@ -231,6 +231,10 @@ spec:
               value: "none"
             - name: AKASH_WITHDRAWAL_PERIOD
               value: "{{ .Values.withdrawalperiod }}"
+            {{- if .Values.reclamationWindow }}
+            - name: AKASH_RECLAMATION_WINDOW
+              value: {{ .Values.reclamationWindow | quote }}
+            {{- end }}
             - name: AKASH_MINIMUM_BALANCE
               value: "{{ .Values.minimumbalance }}"
             - name: AKASH_BID_DEPOSIT
