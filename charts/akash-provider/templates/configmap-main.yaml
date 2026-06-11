@@ -63,6 +63,9 @@ data:
   
   # Financial config
   AKASH_WITHDRAWAL_PERIOD: "{{ .Values.withdrawalperiod }}"
+  {{- if .Values.reclamationWindow }}
+  AKASH_RECLAMATION_WINDOW: {{ .Values.reclamationWindow | quote }}
+  {{- end }}
   AKASH_MINIMUM_BALANCE: "{{ .Values.minimumbalance }}"
   AKASH_BID_DEPOSIT: "{{ .Values.bidmindeposit }}"
   AKASH_TX_BROADCAST_TIMEOUT: "{{ .Values.tx_broadcast_timeout }}"

@@ -91,6 +91,8 @@ bidpriceipscale: "60"
 # here is an example for beta2 StorageClass:
 bidpricestoragescale: "0.00016,beta2=0.00016"
 withdrawalperiod: "1h"
+# Go duration string (e.g. "24h", "720h"). Empty/unset means no reclamation offered (provider default 0).
+reclamationWindow: ""
 minimumbalance: "10000000"
 
 deploymentnetworkpoliciesenabled: "false"
