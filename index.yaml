@@ -9060,6 +9060,20 @@ entries:
   provider-inventory:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2026-06-17T11:51:58.49093738Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.4.1
+    description: Akash Provider-Inventory Helm Chart
+    digest: 7042d25ad677fb150c6b5c7e95f08f2fe617c8cbe0e2bcdcf8a4c727b11ca8eb
+    name: provider-inventory
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-inventory-0.1.5/provider-inventory-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2026-06-16T20:49:27.470843954Z"
     dependencies:
     - name: nodejs-app
@@ -9559,4 +9573,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-06-16T20:49:27.472302102Z"
+generated: "2026-06-17T11:51:58.492410208Z"
