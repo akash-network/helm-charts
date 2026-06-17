@@ -20,7 +20,7 @@ resources:
     ephemeral-storage: 200Mi
     memory: 2Gi
   requests:
-    cpu: 1
+    cpu: 200m
     ephemeral-storage: 100Mi
     memory: 1Gi
 
@@ -32,7 +32,7 @@ providersSync:
       ephemeral-storage: 200Mi
       memory: 3Gi
     requests:
-      cpu: 1
+      cpu: 500m
       ephemeral-storage: 100Mi
       memory: 1Gi
 
@@ -42,10 +42,10 @@ migrations:
   # dopplerConfig: ""  # defaults to "{Release.Namespace}-migrations"
   resources:
     limits:
-      cpu: 500m
+      cpu: 200m
       ephemeral-storage: 100Mi
       memory: 512Mi
     requests:
-      cpu: 200m
+      cpu: 100m
       ephemeral-storage: 50Mi
       memory: 256Mi
