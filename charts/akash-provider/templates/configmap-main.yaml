@@ -82,4 +82,8 @@ data:
   AP_GATEWAY_NAME: {{ .Values.gatewayApi.gatewayName | default "" | quote }}
   AP_GATEWAY_NAMESPACE: {{ .Values.gatewayApi.gatewayNamespace | default .Release.Namespace | quote }}
   AP_GATEWAY_IMPLEMENTATION: {{ .Values.gatewayApi.implementation | default "nginx" | quote }}
+  {{- if .Values.attestation.enabled }}
+  # Confidential Compute (TEE) attestation sidecar image
+  AKASH_ATTESTATION_SIDECAR_IMAGE: "{{ .Values.attestation.sidecarImage.repository }}:{{ .Values.attestation.sidecarImage.tag | default .Chart.AppVersion }}"
+  {{- end }}
 

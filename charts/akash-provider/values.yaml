@@ -38,6 +38,12 @@ keyringbackend: "test"
 #     value: beta2
 #   - key: capabilities/storage/2/persistent
 #     value: true
+#   # Confidential Compute (TEE) attributes. Requires attestation.enabled below
+#   # and TDX/SGX-capable hosts. See the "attestation" block for the sidecar image.
+#   - key: tee/platform
+#     value: tdx
+#   - key: tee/type
+#     value: cpu-gpu
 
 # Your provider contact details we submit to the chain
 email:
@@ -101,6 +107,18 @@ cluster_node_port_quantity: "2500"
 ipoperator: false
 
 debug: "false"
+
+# Attestation / Confidential Compute (TEE) configuration.
+# When enabled, the provider advertises confidential compute capability and
+# exposes the attestation sidecar image via AKASH_ATTESTATION_SIDECAR_IMAGE so
+# the provider can launch the sidecar for TEE workloads.
+attestation:
+  enabled: false
+  sidecarImage:
+    repository: ghcr.io/akash-network/provider-attestation-sidecar
+    # Defaults to .Chart.AppVersion when empty, keeping the sidecar in sync
+    # with the provider image tag.
+    tag: ""
 
 #  monitor
 ##
