@@ -38,6 +38,12 @@ keyringbackend: "test"
 #     value: beta2
 #   - key: capabilities/storage/2/persistent
 #     value: true
+#   # Confidential Compute (TEE) attributes. Requires attestation.enabled below
+#   # and TDX/SGX-capable hosts. See the "attestation" block for the sidecar image.
+#   - key: tee/platform
+#     value: tdx
+#   - key: tee/type
+#     value: cpu-gpu
 
 # Your provider contact details we submit to the chain
 email:
@@ -106,7 +112,6 @@ debug: "false"
 # When enabled, the provider advertises confidential compute capability and
 # exposes the attestation sidecar image via AKASH_ATTESTATION_SIDECAR_IMAGE so
 # the provider can launch the sidecar for TEE workloads.
-# Requires TDX/SGX-capable hosts and a matching runtime class on the cluster.
 attestation:
   enabled: false
   sidecarImage:
