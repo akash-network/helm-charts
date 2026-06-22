@@ -102,6 +102,19 @@ ipoperator: false
 
 debug: "false"
 
+# Attestation / Confidential Compute (TEE) configuration.
+# When enabled, the provider advertises confidential compute capability and
+# exposes the attestation sidecar image via AKASH_ATTESTATION_SIDECAR_IMAGE so
+# the provider can launch the sidecar for TEE workloads.
+# Requires TDX/SGX-capable hosts and a matching runtime class on the cluster.
+attestation:
+  enabled: false
+  sidecarImage:
+    repository: ghcr.io/akash-network/provider-attestation-sidecar
+    # Defaults to .Chart.AppVersion when empty, keeping the sidecar in sync
+    # with the provider image tag.
+    tag: ""
+
 #  monitor
 ##
 
