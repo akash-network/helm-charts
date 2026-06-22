@@ -112,6 +112,7 @@ debug: "false"
 # When enabled, the provider advertises confidential compute capability and
 # exposes the attestation sidecar image via AKASH_ATTESTATION_SIDECAR_IMAGE so
 # the provider can launch the sidecar for TEE workloads.
+# Requires TDX/SGX-capable hosts and a matching runtime class on the cluster.
 attestation:
   enabled: false
   sidecarImage:
