@@ -5806,6 +5806,16 @@ entries:
   provider:
   - apiVersion: v2
     appVersion: 0.16.0-rc1
+    created: "2026-06-23T16:45:39.163379262Z"
+    description: Installs an Akash provider (required)
+    digest: bb5c067eea50adecd6c19b1366397a655c132bfe11a5967a5a19f3dfcd1af298
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-19.0.0-rc2/provider-19.0.0-rc2.tgz
+    version: 19.0.0-rc2
+  - apiVersion: v2
+    appVersion: 0.16.0-rc1
     created: "2026-06-22T17:21:53.236868541Z"
     description: Installs an Akash provider (required)
     digest: 50b4178d9dabba55945fbdeb3aa6a0116bdde3e56135f055aa67bd49346b91a0
@@ -9597,4 +9607,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-06-22T17:21:53.240824301Z"
+generated: "2026-06-23T16:45:39.168027281Z"
