@@ -114,6 +114,10 @@ debug: "false"
 # the provider can launch the sidecar for TEE workloads.
 attestation:
   enabled: false
+  # webhookEnabled is an alias for enabled, kept for backwards compatibility
+  # with provider.yaml files that use the webhookEnabled key.
+  webhookEnabled: false
+  webhookPort: 9443
   sidecarImage:
     repository: ghcr.io/akash-network/provider-attestation-sidecar
     # Defaults to .Chart.AppVersion when empty, keeping the sidecar in sync
