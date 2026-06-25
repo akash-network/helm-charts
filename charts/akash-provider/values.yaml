@@ -149,8 +149,8 @@ attestation:
 # Example for 48 hours: maxRetries = 172800 / (4 + 7.5) = 172800 / 11.5 ≈ 15026
 
 monitor:
-  maxRetries: 626                    # Maximum retry attempts before closing a lease - Retry for about 2h
-  retryPeriod: 4s                    # Time interval between retries
+  maxRetries: 2304                   # Maximum retry attempts before closing a lease - Retry for about 24h
+  retryPeriod: 30s                   # Time interval between retries
   retryPeriodJitter: 15s             # Jitter for retry period
   healthcheckPeriod: 10s             # Health check period
   healthcheckPeriodJitter: 5s        # Jitter for health check period
