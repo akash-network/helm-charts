@@ -18,11 +18,11 @@ resources:
   limits:
     cpu: 1
     ephemeral-storage: 200Mi
-    memory: 2Gi
+    memory: 1Gi
   requests:
     cpu: 200m
     ephemeral-storage: 100Mi
-    memory: 1Gi
+    memory: 512Mi
 
 providersSync:
   replicas: 1
@@ -30,11 +30,11 @@ providersSync:
     limits:
       cpu: 1
       ephemeral-storage: 200Mi
-      memory: 3Gi
+      memory: 1Gi
     requests:
       cpu: 500m
       ephemeral-storage: 100Mi
-      memory: 1Gi
+      memory: 256Mi
 
 migrations:
   command: ["npm", "run", "migration:exec"]
@@ -44,8 +44,8 @@ migrations:
     limits:
       cpu: 200m
       ephemeral-storage: 100Mi
-      memory: 512Mi
-    requests:
-      cpu: 100m
-      ephemeral-storage: 50Mi
       memory: 256Mi
+    requests:
+      cpu: 50m
+      ephemeral-storage: 50Mi
+      memory: 100Mi
