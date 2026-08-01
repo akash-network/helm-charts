@@ -124,6 +124,22 @@ attestation:
     # with the provider image tag.
     tag: ""
 
+# Public configuration used to construct measured Kata initdata for workloads
+# with sealed environment values or tenant-signed persistent-volume keyRefs.
+# This must never contain a volume DEK, a tenant signing key, or a KBS
+# administrator credential.
+confidentialCompute:
+  initdata:
+    enabled: false
+    # HTTPS KBS origin, with no path, query, credentials, or fragment.
+    kbsURL: ""
+    # Public KBS certificate chain containing one to five PEM certificates.
+    kbsCertificate: ""
+    # Content-addressed kbs:/// image-security-policy resource URI.
+    imageSecurityPolicyURI: ""
+    # Kata agent policy measured into each confidential guest.
+    agentPolicy: ""
+
 #  monitor
 ##
 

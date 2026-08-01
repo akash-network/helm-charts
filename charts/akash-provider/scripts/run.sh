@@ -19,6 +19,15 @@ type bc || exit 1
 # Build provider-services run command with optional certificate issuer flags
 PROVIDER_CMD="/usr/bin/provider-services run"
 
+# These are public, operator-controlled inputs. Tenant key material remains a
+# sealed SDL value and is never mounted into the Provider pod.
+if [[ -n "${AP_CC_KBS_URL:-}" ]]; then
+    PROVIDER_CMD="${PROVIDER_CMD} --cc-kbs-url=${AP_CC_KBS_URL}"
+    PROVIDER_CMD="${PROVIDER_CMD} --cc-kbs-cert-file=${AP_CC_KBS_CERT_FILE}"
+    PROVIDER_CMD="${PROVIDER_CMD} --cc-image-security-policy-uri=${AP_CC_IMAGE_SECURITY_POLICY_URI}"
+    PROVIDER_CMD="${PROVIDER_CMD} --cc-agent-policy-file=${AP_CC_AGENT_POLICY_FILE}"
+fi
+
 # Add certificate issuer flags if enabled (HTTP challenge default, DNS providers optional)
 if [[ "${AP_CERT_ISSUER_ENABLED}" == "true" ]]; then
     PROVIDER_CMD="${PROVIDER_CMD} --cert-issuer-enabled=true"
