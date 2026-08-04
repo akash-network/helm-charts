@@ -129,6 +129,9 @@ attestation:
 # This must never contain a volume DEK, a tenant signing key, or a KBS
 # administrator credential.
 confidentialCompute:
+  # Block storage classes qualified by the operator for confidential
+  # persistent storage. An empty list disables the feature.
+  persistentStorageClasses: []
   initdata:
     enabled: false
     # HTTPS KBS origin, with no path, query, credentials, or fragment.

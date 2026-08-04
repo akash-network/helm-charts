@@ -1,3 +1,6 @@
+{{- if and (not .Values.confidentialCompute.initdata.enabled) .Values.confidentialCompute.persistentStorageClasses }}
+{{- fail "confidentialCompute.initdata must be enabled when persistentStorageClasses is non-empty" }}
+{{- end }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -94,4 +97,8 @@ data:
   AP_CC_KBS_CERT_FILE: "/etc/akash/cc-initdata/kbs-ca.pem"
   AP_CC_IMAGE_SECURITY_POLICY_URI: {{ required "confidentialCompute.initdata.imageSecurityPolicyURI is required when initdata is enabled" .Values.confidentialCompute.initdata.imageSecurityPolicyURI | quote }}
   AP_CC_AGENT_POLICY_FILE: "/etc/akash/cc-initdata/agent-policy.rego"
+  {{- end }}
+  {{- with .Values.confidentialCompute.persistentStorageClasses }}
+  # Space-delimited for Viper's string-slice environment parsing.
+  AP_CC_PERSISTENT_STORAGE_CLASSES: {{ join " " . | quote }}
   {{- end }}
