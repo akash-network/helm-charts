@@ -46,7 +46,7 @@ spec:
         - name: init
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ include "provider.image" . | quote }}
           args: ["/bin/bash", "/scripts/init.sh"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
@@ -70,7 +70,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ include "provider.image" . | quote }}
           args: ["/bin/bash", "/scripts/run.sh"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:

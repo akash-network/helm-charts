@@ -88,4 +88,7 @@ data:
   AKASH_ATTESTATION_SIDECAR_IMAGE: "{{ .Values.attestation.sidecarImage.repository }}:{{ .Values.attestation.sidecarImage.tag | default .Chart.AppVersion }}"
   AKASH_ATTESTATION_WEBHOOK_PORT: "{{ .Values.attestation.webhookPort | default 9443 }}"
   {{- end }}
-
+  {{- with .Values.confidentialCompute.persistentStorageClasses }}
+  # Space-delimited for Viper's string-slice environment parsing.
+  AP_CC_PERSISTENT_STORAGE_CLASSES: {{ join " " . | quote }}
+  {{- end }}

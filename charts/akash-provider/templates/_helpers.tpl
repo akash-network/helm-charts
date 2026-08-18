@@ -7,6 +7,21 @@ Expand the name of the chart.
 {{- end }}
 
 {{/*
+Use an immutable reference when the operator supplies a digest. A malformed
+digest must stop rendering instead of silently falling back to a tag.
+*/}}
+{{- define "provider.image" -}}
+{{- with .Values.image.digest -}}
+{{- if not (regexMatch "^sha256:[0-9a-f]{64}$" .) -}}
+{{- fail "image.digest must be a lowercase SHA-256 digest" -}}
+{{- end -}}
+{{- printf "%s@%s" $.Values.image.repository . -}}
+{{- else -}}
+{{- printf "%s:%s" .Values.image.repository (.Values.image.tag | default .Chart.AppVersion) -}}
+{{- end -}}
+{{- end }}
+
+{{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.

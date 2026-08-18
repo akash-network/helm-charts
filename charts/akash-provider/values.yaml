@@ -5,6 +5,8 @@
 image:
   repository: ghcr.io/akash-network/provider
   pullPolicy: IfNotPresent
+  # A digest pins the image even when a tag or Chart appVersion changes.
+  digest: ""
 
 from:
 key:
@@ -123,6 +125,11 @@ attestation:
     # Defaults to .Chart.AppVersion when empty, keeping the sidecar in sync
     # with the provider image tag.
     tag: ""
+
+confidentialCompute:
+  # Block storage classes qualified by the operator for confidential
+  # persistent storage. An empty list disables the feature.
+  persistentStorageClasses: []
 
 #  monitor
 ##
