@@ -8,10 +8,16 @@ metadata:
   namespace: {{ $.Release.Namespace }}
 spec:
   schedule: {{ .schedule | quote }}
+  {{- with $job.concurrencyPolicy }}
+  concurrencyPolicy: {{ . }}
+  {{- end }}
   failedJobsHistoryLimit: {{ $job.failedJobsHistoryLimit }}
   successfulJobsHistoryLimit: {{ $job.successfulJobsHistoryLimit }}
   jobTemplate:
     spec:
+      {{- with $job.activeDeadlineSeconds }}
+      activeDeadlineSeconds: {{ . }}
+      {{- end }}
       template:
         metadata:
           labels:
