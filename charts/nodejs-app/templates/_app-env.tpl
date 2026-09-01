@@ -8,6 +8,9 @@ NODE_OPTIONS: >-
   --no-network-family-autoselection
   --enable-source-maps
   --stack-trace-limit=25
+  {{- with .Values.extraNodeOptions }}
+  {{ . }}
+  {{- end }}
 OTEL_SERVICE_NAME: {{ .Chart.Name | quote }}
 OTEL_RESOURCE_ATTRIBUTES: >-
   namespace={{ .Release.Namespace }},
