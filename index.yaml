@@ -156,6 +156,16 @@ entries:
   akash-hostname-operator:
   - apiVersion: v2
     appVersion: 0.16.2
+    created: "2026-09-01T16:45:29.246843815Z"
+    description: An operator to map Ingress objects to Akash deployments (required)
+    digest: 362d50b9444368cc0d783140bdd97a3dcb2d7305bc33a5bda8b6e86f1f1b8584
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-19.0.3/akash-hostname-operator-19.0.3.tgz
+    version: 19.0.3
+  - apiVersion: v2
+    appVersion: 0.16.2
     created: "2026-08-06T15:31:52.711190586Z"
     description: An operator to map Ingress objects to Akash deployments (required)
     digest: babfd36e0b0f37cd6581c797fac0b6256c1c8572cf072c57ab25ee5737be80b4
@@ -9795,4 +9805,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-08-23T15:52:56.520623917Z"
+generated: "2026-09-01T16:45:29.250181631Z"
