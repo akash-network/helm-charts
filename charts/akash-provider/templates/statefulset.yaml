@@ -31,6 +31,9 @@ spec:
     metadata:
       annotations:
         checksum/cm-scripts: {{ include (print $.Template.BasePath "/configmap-scripts.yaml") . | sha256sum }}
+        {{- if .Values.confidentialCompute.initdata.enabled }}
+        checksum/cm-cc-initdata: {{ include (print $.Template.BasePath "/configmap-cc-initdata.yaml") . | sha256sum }}
+        {{- end }}
       labels:
         app: {{ include "provider.fullname" . }}
         {{- include "provider.selectorLabels" . | nindent 8 }}
@@ -319,6 +322,11 @@ spec:
               mountPath: /config
             - name: home
               mountPath: "{{ .Values.home }}"
+            {{- if .Values.confidentialCompute.initdata.enabled }}
+            - name: cc-initdata
+              mountPath: /etc/akash/cc-initdata
+              readOnly: true
+            {{- end }}
             {{- if and .Values.letsEncrypt.providers.googleCloud (index .Values.letsEncrypt.providers.googleCloud "enabled" | default false) }}
             - name: gcp-service-account
               mountPath: /etc/gcp
@@ -339,6 +347,11 @@ spec:
         - name: home
           persistentVolumeClaim:
             claimName: {{ include "provider.fullname" . }}-home
+        {{- if .Values.confidentialCompute.initdata.enabled }}
+        - name: cc-initdata
+          configMap:
+            name: {{ include "provider.fullname" . }}-cc-initdata
+        {{- end }}
         {{- if and .Values.letsEncrypt.providers.googleCloud (index .Values.letsEncrypt.providers.googleCloud "enabled" | default false) }}
         - name: gcp-service-account
           secret:

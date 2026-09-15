@@ -18,6 +18,16 @@ type bc || exit 1
 
 # Build provider-services run command with optional certificate issuer flags
 PROVIDER_CMD="/usr/bin/provider-services run"
+CC_ARGS=()
+
+# These are public, operator-controlled inputs. Tenant key material remains a
+# sealed SDL value and is never mounted into the Provider pod.
+if [[ -n "${AP_CC_KBS_URL:-}" ]]; then
+    CC_ARGS+=("--cc-kbs-url=${AP_CC_KBS_URL}")
+    CC_ARGS+=("--cc-kbs-cert-file=${AP_CC_KBS_CERT_FILE}")
+    CC_ARGS+=("--cc-image-security-policy-uri=${AP_CC_IMAGE_SECURITY_POLICY_URI}")
+    CC_ARGS+=("--cc-agent-policy-file=${AP_CC_AGENT_POLICY_FILE}")
+fi
 
 # Add certificate issuer flags if enabled (HTTP challenge default, DNS providers optional)
 if [[ "${AP_CERT_ISSUER_ENABLED}" == "true" ]]; then
@@ -47,7 +57,9 @@ echo "AP_CERT_ISSUER_EMAIL: ${AP_CERT_ISSUER_EMAIL}"
 echo "AP_CERT_ISSUER_CA_DIR_URL: ${AP_CERT_ISSUER_CA_DIR_URL}"
 echo "AP_CERT_ISSUER_DNS_PROVIDERS: ${AP_CERT_ISSUER_DNS_PROVIDERS}"
 echo "AP_CERT_ISSUER_HTTP_CHALLENGE_PORT: ${AP_CERT_ISSUER_HTTP_CHALLENGE_PORT}"
-echo "Final command: ${PROVIDER_CMD}"
+printf 'Final command: %s' "${PROVIDER_CMD}"
+printf ' %q' "${CC_ARGS[@]}"
+printf '\n'
 echo "=============================="
 
 # Start provider-services and monitor its output
@@ -64,4 +76,4 @@ if [[ $run_debug == "true" ]]; then
     fi
 fi
 
-${runcmd}
+${runcmd} "${CC_ARGS[@]}"
