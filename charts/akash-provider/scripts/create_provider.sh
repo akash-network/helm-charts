@@ -8,7 +8,7 @@ set -x
 ##
 
 cat <<EOT > provider.yaml
-host: https://provider.{{ .Values.domain }}:8443
+host: https://provider.{{ .Values.domain }}:{{ .Values.gatewayPort | default 8443 }}
 attributes:
 {{- range $key, $val := .Values.attributes }}
   - key: {{ $val.key }}

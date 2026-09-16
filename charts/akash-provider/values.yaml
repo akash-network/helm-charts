@@ -13,6 +13,11 @@ keysecret:
 # https://raw.githubusercontent.com/akash-network/net/main/mainnet/meta.json ).
 chainid: akashnet-2
 domain:
+# Port advertised in the on-chain provider record (create_provider.sh) as
+# https://provider.<domain>:<gatewayPort>, and where bidders/clients connect.
+# Only change this if that port is actually reachable at that address -
+# changing it here does not by itself move where the gateway listens.
+gatewayPort: 8443
 home: "/root/.akash"
 # Tendermint RPC base URL passed as AKASH_NODE. Use any entry from .apis.rpc[].address
 # in the same meta.json (below default is one community RPC; override as needed).
@@ -256,3 +261,17 @@ storage:
     size: "10Gi"
     # Access mode for the PVC
     accessMode: "ReadWriteOnce"
+
+# Externally-provisioned TLS certificate (e.g. managed by cert-manager),
+# consumed in place of the built-in letsEncrypt cert issuer above.
+# Opt-in: disabled by default, preserving current behavior unchanged.
+# Mutually exclusive with letsEncrypt.enabled - set that to false when
+# enabling this.
+externalCert:
+  enabled: false
+  # Name of a pre-existing Secret (in this release's namespace) containing
+  # the cert/key pair for provider.<domain>. Not created or renewed by this
+  # chart - e.g. a cert-manager Certificate owns it end to end.
+  secretName: ""
+  certKey: tls.crt
+  keyKey: tls.key

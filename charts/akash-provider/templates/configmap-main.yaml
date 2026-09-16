@@ -82,6 +82,12 @@ data:
   AP_GATEWAY_NAME: {{ .Values.gatewayApi.gatewayName | default "" | quote }}
   AP_GATEWAY_NAMESPACE: {{ .Values.gatewayApi.gatewayNamespace | default .Release.Namespace | quote }}
   AP_GATEWAY_IMPLEMENTATION: {{ .Values.gatewayApi.implementation | default "nginx" | quote }}
+  {{- if .Values.externalCert.enabled }}
+  # Externally-provisioned TLS cert/key (see statefulset.yaml volume mount),
+  # used instead of the built-in letsEncrypt cert issuer.
+  AP_GATEWAY_TLS_CERT: {{ printf "/etc/tls-external/%s" .Values.externalCert.certKey | quote }}
+  AP_GATEWAY_TLS_KEY: {{ printf "/etc/tls-external/%s" .Values.externalCert.keyKey | quote }}
+  {{- end }}
   {{- if or .Values.attestation.enabled .Values.attestation.webhookEnabled }}
   # Confidential Compute (TEE) attestation
   AKASH_ATTESTATION_WEBHOOK_ENABLED: "true"

@@ -1,3 +1,9 @@
+{{- if and .Values.externalCert.enabled .Values.letsEncrypt.enabled }}
+{{ fail "externalCert.enabled and letsEncrypt.enabled are mutually exclusive - set letsEncrypt.enabled: false when using externalCert" }}
+{{- end }}
+{{- if and .Values.externalCert.enabled (not .Values.externalCert.secretName) }}
+{{ fail "externalCert.secretName is required when externalCert.enabled is true" }}
+{{- end }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -324,6 +330,11 @@ spec:
               mountPath: /etc/gcp
               readOnly: true
             {{- end }}
+            {{- if .Values.externalCert.enabled }}
+            - name: external-tls
+              mountPath: /etc/tls-external
+              readOnly: true
+            {{- end }}
       volumes:
         - name: scripts
           configMap:
@@ -346,6 +357,11 @@ spec:
             items:
               - key: service-account.json
                 path: service-account.json
+        {{- end }}
+        {{- if .Values.externalCert.enabled }}
+        - name: external-tls
+          secret:
+            secretName: {{ .Values.externalCert.secretName }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

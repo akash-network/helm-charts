@@ -40,6 +40,16 @@ if [[ "${AP_CERT_ISSUER_ENABLED}" == "true" ]]; then
     fi
 fi
 
+# Externally-provisioned cert/key (e.g. cert-manager), used instead of the
+# built-in cert issuer above - mutually exclusive with AP_CERT_ISSUER_ENABLED.
+if [[ -n "${AP_GATEWAY_TLS_CERT}" ]]; then
+    PROVIDER_CMD="${PROVIDER_CMD} --gateway-tls-cert=${AP_GATEWAY_TLS_CERT}"
+fi
+
+if [[ -n "${AP_GATEWAY_TLS_KEY}" ]]; then
+    PROVIDER_CMD="${PROVIDER_CMD} --gateway-tls-key=${AP_GATEWAY_TLS_KEY}"
+fi
+
 # Debug: Print the final command to see all flags
 echo "=== Provider Command Debug ==="
 echo "AP_CERT_ISSUER_ENABLED: ${AP_CERT_ISSUER_ENABLED}"
