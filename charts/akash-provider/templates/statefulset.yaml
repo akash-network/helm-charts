@@ -92,7 +92,6 @@ spec:
             - configMapRef:
                 name: {{ include "provider.fullname" . }}-letsencrypt
             {{- end }}
-          {{- if .Values.letsEncrypt.enabled }}
           env:
             - name: AKASH_DEBUG
               value: "{{ $.Values.debug }}"
@@ -268,7 +267,6 @@ spec:
             - name: GCE_SERVICE_ACCOUNT_FILE
               value: "/etc/gcp/service-account.json"
             {{- end }}
-          {{- end }}
             - name: AP_INGRESS_MODE
               valueFrom:
                 configMapKeyRef:
