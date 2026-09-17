@@ -39,12 +39,27 @@ spec:
               cpu: "0.5"
               ephemeral-storage: "1Gi"
               memory: "512Mi"
+          startupProbe:
+            httpGet:
+              path: /api/healthz
+              port: 3000
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 24 # 120s boot budget before the liveness probe takes over
+          readinessProbe:
+            httpGet:
+              path: /api/healthz
+              port: 3000
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
           livenessProbe:
             httpGet:
               path: /api/healthz
               port: 3000
-            initialDelaySeconds: 5
             periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
           envFrom:
             - secretRef:
                 name: {{ .Chart.Name }}-secret
