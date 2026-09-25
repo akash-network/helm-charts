@@ -9450,6 +9450,20 @@ entries:
   provider-proxy:
   - apiVersion: v2
     appVersion: 1.13.3
+    created: "2026-09-25T17:54:34.678677953Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.4.2
+    description: Akash Provider Proxy Helm Chart
+    digest: 801df8e01b2d3000800180534156b288ad2d5e5fa7d94bcbfe1bf4d203498db1
+    name: provider-proxy
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-proxy-0.7.7/provider-proxy-0.7.7.tgz
+    version: 0.7.7
+  - apiVersion: v2
+    appVersion: 1.13.3
     created: "2026-06-03T12:03:16.445907969Z"
     dependencies:
     - name: nodejs-app
@@ -9892,4 +9906,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-09-17T16:59:51.204907579Z"
+generated: "2026-09-25T17:54:34.68182173Z"
