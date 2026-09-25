@@ -2,6 +2,7 @@ appVersion: "1.4.3"
 hostNames: []
 chain: sandbox
 deploymentEnv: staging
+replicas: 1
 
 otel:
   enabled: true
