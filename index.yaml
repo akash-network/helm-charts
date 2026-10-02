@@ -9691,6 +9691,20 @@ entries:
   stats-web:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2026-10-02T17:19:21.112405284Z"
+    dependencies:
+    - name: nodejs-app
+      repository: file://../nodejs-app
+      version: 0.4.2
+    description: Akash Stats Web Helm Chart
+    digest: 6101ca6f087759b3f908de249dd8363faa1c60b2e8a4141b29beedb985c9e9b5
+    name: stats-web
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/stats-web-0.2.5/stats-web-0.2.5.tgz
+    version: 0.2.5
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2026-05-14T19:19:26.213959134Z"
     dependencies:
     - name: nodejs-app
@@ -9906,4 +9920,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-09-25T17:54:34.68182173Z"
+generated: "2026-10-02T17:19:21.11490695Z"
