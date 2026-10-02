@@ -1,5 +1,6 @@
 appVersion: "1.0.0"
 hostName: stats.akash.network
+replicas: 1
 
 resources:
   limits:
