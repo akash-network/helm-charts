@@ -40,6 +40,13 @@ spec:
               value: "rest"
           resources:
             {{- toYaml .Values.stats.resources | nindent 12 }}
+          startupProbe:
+            httpGet:
+              path: /v1/healthz/liveness
+              port: 3000
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 24 # 120s boot budget before the liveness probe takes over
           readinessProbe:
             httpGet:
               path: /v1/healthz/readiness
