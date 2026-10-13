@@ -22,7 +22,9 @@ data:
   AKASH_BROADCAST_MODE: "block"
   AKASH_VERSION: "{{ .Values.image.tag | default .Chart.AppVersion }}"
   AKASH_YES: "true"
-  AKASH_LOG_LEVEL: "info"
+
+  # Logging config (see logging: in values.yaml)
+  {{- include "provider.loggingEnv" . | nindent 2 }}
   
   # Akash IP operator config
   AKASH_IP_OPERATOR: "{{ .Values.ipoperator }}"

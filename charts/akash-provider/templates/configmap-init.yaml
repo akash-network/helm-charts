@@ -27,7 +27,8 @@ data:
   AKASH_GAS: "{{ .Values.gas }}"
   AKASH_GAS_ADJUSTMENT: "{{ .Values.gasadjustment }}"
   AP_MINIMUM_GAS_PRICES: "0.0025uakt"
-  AKASH_LOG_LEVEL: "info"
+  # Logging config (see logging: in values.yaml)
+  {{- include "provider.loggingEnv" . | nindent 2 }}
   {{- if .Values.attestation.enabled }}
   # Confidential Compute (TEE) attestation sidecar image
   AKASH_ATTESTATION_SIDECAR_IMAGE: "{{ .Values.attestation.sidecarImage.repository }}:{{ .Values.attestation.sidecarImage.tag | default .Chart.AppVersion }}"

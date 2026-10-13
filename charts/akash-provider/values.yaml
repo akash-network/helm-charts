@@ -108,6 +108,22 @@ ipoperator: false
 
 debug: "false"
 
+# Logging configuration, applied to the init and provider containers as AP_LOG_* env vars.
+# The provider also propagates it to the attestation sidecars it injects.
+# Refs https://github.com/akash-network/provider/blob/main/_docs/logging.md
+logging:
+  # trace|debug|info|warn|error|fatal|panic, or a per-module filter,
+  # e.g. "bidengine-order:debug,deployment-manager:debug,*:info"
+  level: info
+  # plain|json. json is recommended in Kubernetes (always uncolored).
+  format: json
+  # ANSI colors (plain format only)
+  color: false
+  # "off"|rfc3339|rfc3339nano|kitchen (quote "off", unquoted off is a YAML boolean)
+  timestamp: rfc3339
+  # Attach stack traces to error entries
+  trace: false
+
 # Attestation / Confidential Compute (TEE) configuration.
 # When enabled, the provider advertises confidential compute capability and
 # exposes the attestation sidecar image via AKASH_ATTESTATION_SIDECAR_IMAGE so

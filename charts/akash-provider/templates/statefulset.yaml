@@ -121,8 +121,6 @@ spec:
               value: "{{ .Values.image.tag | default .Chart.AppVersion }}"
             - name: AKASH_YES
               value: "true"
-            - name: AKASH_LOG_LEVEL
-              value: "info"
 
             ##
             # akash-provider ip operator config
