@@ -78,6 +78,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            {{- include "akash-hostname-operator.loggingEnv" . | nindent 12 }}
             - name: AP_INGRESS_MODE
               valueFrom:
                 configMapKeyRef:
