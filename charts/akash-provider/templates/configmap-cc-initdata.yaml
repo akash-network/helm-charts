@@ -1,0 +1,17 @@
+{{- if .Values.confidentialCompute.initdata.enabled }}
+{{- $certificate := required "confidentialCompute.initdata.kbsCertificate is required when initdata is enabled" .Values.confidentialCompute.initdata.kbsCertificate }}
+{{- $agentPolicy := required "confidentialCompute.initdata.agentPolicy is required when initdata is enabled" .Values.confidentialCompute.initdata.agentPolicy }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "provider.fullname" . }}-cc-initdata
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ include "provider.fullname" . }}
+    {{- include "provider.labels" . | nindent 4 }}
+data:
+  kbs-ca.pem: |
+    {{- $certificate | nindent 4 }}
+  agent-policy.rego: |
+    {{- $agentPolicy | nindent 4 }}
+{{- end }}
