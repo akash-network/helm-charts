@@ -8,8 +8,11 @@
 set -euo pipefail
 shopt -s inherit_errexit
 
+# log_step <title>: prints a step header, e.g. "==> [identity]".
 log_step() { echo "==> [$1]" >&2; }
+# log_info <text...>: prints an INFO line.
 log_info() { echo "INFO  $*" >&2; }
+# log_warn <text...>: prints a WARN line.
 log_warn() { echo "WARN  $*" >&2; }
 
 # fail <what went wrong> <what was found> <what to do>: prints an ERROR block and exits 1.

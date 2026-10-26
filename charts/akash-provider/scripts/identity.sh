@@ -11,6 +11,7 @@ source /scripts/lib.sh
 
 KEYSTORE_DIR="$AKT_HOME/keyring-$AKT_KEYRING_BACKEND"
 
+# check_from_format: stops if .Values.from is empty or cannot be used as a key name (spaces, "/").
 check_from_format() {
   if [[ -z "${AKT_FROM// }" ]]; then
     fail ".Values.from is empty" ".Values.from=\"\"" "set .Values.from to the provider address or a key name"
@@ -37,6 +38,8 @@ secret_address() {
   echo "$address"
 }
 
+# check_from <address of the Secret key>: compares .Values.from with that address. Logs how from is
+# used (the address itself, or a key name); stops if from has the form of another address.
 check_from() {
   local secret=$1
   if [[ "$AKT_FROM" == "$secret" ]]; then
@@ -56,6 +59,8 @@ volume_addresses() {
   akt context keys list -o json | jq -r '[.[].address] | unique | join(" ")'
 }
 
+# import_key: imports the key from the keys Secret into the keystore on the volume, under the name
+# given by .Values.from. Stops if the import fails.
 import_key() {
   if ! cat "$AKASH_BOOT_KEYS/key-pass.txt" | { cat; echo; } |
     akt context keys import "$AKT_FROM" "$AKASH_BOOT_KEYS/key.txt" >/dev/null 2>&1; then

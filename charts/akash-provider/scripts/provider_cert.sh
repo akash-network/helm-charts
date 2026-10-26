@@ -36,6 +36,8 @@ cert_state() {
   echo "ok $serial $expiry"
 }
 
+# ensure_cert <address>: links $AKT_HOME/<address>.pem to the certificate file, keeps the certificate
+# when it is valid, otherwise logs the reason, generates a new one and publishes it on chain.
 ensure_cert() {
   local address=$1 out state detail extra reason
   ln -sfn "$CERT_FILE" "$AKT_HOME/$address.pem"
