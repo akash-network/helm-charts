@@ -1,34 +1,27 @@
 #!/bin/bash
 # Filename: wait_for_rpc.sh
+#
+# Waits until the RPC node ($AKASH_NODE) answers and is synced, then checks that its latest block
+# is not far from the local clock. Gives up after WAIT_FOR_RPC_TIMEOUT seconds (default 600).
 
-set -x
+source /scripts/lib.sh
 
-# Abort early if essential image dependencies are not present:
-type curl || exit 1
-type jq || exit 1
-type nc || exit 1
-test -e /etc/ssl/certs/ca-certificates.crt || exit 1
+timeout_s=${WAIT_FOR_RPC_TIMEOUT:-600}
+deadline=$(( $(date +%s) + timeout_s ))
 
-solo_ip=$(echo $AKASH_NODE | cut -d":" -f2 | cut -d"/" -f3)
-port=$(echo $AKASH_NODE | cut -d":" -f3 | cut -d"/" -f1)
-if [[ $AKASH_NODE != "http://akash-node-1:26657" ]]; then
-  nc -z -v -w5 $solo_ip $port
+until [[ "$(curl -s --max-time 10 "$AKASH_NODE/status" | jq -r '.result.sync_info.catching_up' 2>/dev/null)" == "false" ]]; do
+  if (( $(date +%s) >= deadline )); then
+    fail "RPC node not ready after ${timeout_s}s" "$AKASH_NODE does not answer or is still catching up" \
+      "check .Values.node and that the node is reachable and synced"
+  fi
+  log_info "waiting for RPC node $AKASH_NODE (not reachable or still catching up)"
+  sleep 3
+done
+
+block_time=$(curl -s --max-time 10 "$AKASH_NODE/status" | jq -r '.result.sync_info.latest_block_time')
+diff_s=$(( $(date +%s) - $(date +%s --date "$block_time") ))
+if (( diff_s > 30 || diff_s < -30 )); then
+  fail "RPC node and local clock differ by ${diff_s}s" "latest block at $block_time on $AKASH_NODE" \
+    "synchronize the system time and/or check the RPC node"
 fi
-until [[ $(curl -s $AKASH_NODE/status | jq -r .result.sync_info.catching_up) == "false" ]]; do sleep 15; echo "Akash node not ready. Retrying";  done
-
-# Check Akash RPC node isn't running behind too much and abort if it does.
-DATE_AKASH=$(curl -s $AKASH_NODE/status | jq -r '.result.sync_info.latest_block_time')
-TS_AKASH=$(date +%s --date "$DATE_AKASH")
-TS=$(date +%s)
-DIFF=$(echo "$TS - $TS_AKASH" | bc)
-if [[ "$DIFF" -gt 30 ]]; then
-  echo "Akash RPC $AKASH_NODE is running $DIFF seconds behind."
-  echo "ACTION: Make sure your system time in synchronized and/or check your Akash RPC node."
-  exit 1
-elif [[ "$DIFF" -lt -30 ]]; then
-  echo "Akash RPC $AKASH_NODE is running $DIFF seconds ahead."
-  echo "ACTION: Make sure your system time in synchronized and/or check your Akash RPC node."
-  exit 1
-else
-  echo "Last block Akash RPC $AKASH_NODE seen was $DIFF seconds ago => OK"
-fi
+log_info "RPC node ready: $AKASH_NODE (latest block ${diff_s}s ago)"

@@ -1,0 +1,3 @@
+# charts/akash-hostname-operator for the provider e2e (ingress mode, like the provider).
+gatewayApi:
+  enabled: false

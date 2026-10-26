@@ -4,14 +4,20 @@ metadata:
   name: {{ include "provider.fullname" . }}-script
   namespace: {{ .Release.Namespace }}
 data:
-  init.sh: |
-{{ tpl (.Files.Get "scripts/init.sh") . | indent 4 }}
+  lib.sh: |
+{{ tpl (.Files.Get "scripts/lib.sh") . | indent 4 }}
+  akt_context.sh: |
+{{ tpl (.Files.Get "scripts/akt_context.sh") . | indent 4 }}
+  identity.sh: |
+{{ tpl (.Files.Get "scripts/identity.sh") . | indent 4 }}
   wait_for_rpc.sh: |
 {{ tpl (.Files.Get "scripts/wait_for_rpc.sh") . | indent 4 }}
-  create_provider.sh: |
-{{ tpl (.Files.Get "scripts/create_provider.sh") . | indent 4 }}
-  refresh_provider_cert.sh: |
-{{ tpl (.Files.Get "scripts/refresh_provider_cert.sh") . | indent 4 }}
+  provider_record.sh: |
+{{ tpl (.Files.Get "scripts/provider_record.sh") . | indent 4 }}
+  provider_cert.sh: |
+{{ tpl (.Files.Get "scripts/provider_cert.sh") . | indent 4 }}
+  init.sh: |
+{{ tpl (.Files.Get "scripts/init.sh") . | indent 4 }}
   run.sh: |
 {{ tpl (.Files.Get "scripts/run.sh") . | indent 4 }}
   liveness_checks.sh: |

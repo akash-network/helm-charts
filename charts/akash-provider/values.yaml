@@ -19,6 +19,13 @@ home: "/root/.akash"
 node: "https://akash-rpc.polkachu.com:443"
 keyringbackend: "test"
 
+# What to do when the volume already holds the key of a different provider than the key in
+# key/keysecret:
+#   true:  start as the new provider (registers it on chain); the previous provider stays registered
+#          on chain, its keystore is moved to a backup directory on the volume; logged as a warning.
+#   false: stop the init container with an error; the provider does not start.
+allowIdentityChange: true
+
 #  Providers should set these based on their configuration,
 #  these cannot be generic, hence commented.
 # attributes:
@@ -101,7 +108,7 @@ withdrawalperiod: "1h"
 reclamationWindow: ""
 minimumbalance: "10000000"
 
-deploymentnetworkpoliciesenabled: "false"
+deploymentnetworkpoliciesenabled: "true"
 cluster_node_port_quantity: "2500"
 
 ipoperator: false

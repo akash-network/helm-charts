@@ -87,28 +87,3 @@ Falls back to the Helm chart's storage class
   {{- .Values.letsEncrypt.storage.storageClass | default (printf "%s-local-storage" (include "provider.fullname" .)) -}}
 {{- end -}}
 {{- end }}
-
-{{/*
-Logging configuration as AP_LOG_* environment variables (ConfigMap data form).
-Refs https://github.com/akash-network/provider/blob/main/_docs/logging.md
-An unquoted `timestamp: off` is parsed by YAML as boolean false, so it (and "") is mapped to "off".
-*/}}
-{{- define "provider.loggingEnv" -}}
-{{- $l := .Values.logging | default dict -}}
-{{- $format := $l.format | default "json" | toString | lower -}}
-{{- if not (has $format (list "plain" "json")) -}}
-{{- fail (printf "logging.format %q is invalid: allowed values plain|json" $format) -}}
-{{- end -}}
-{{- $timestamp := "rfc3339" -}}
-{{- if hasKey $l "timestamp" -}}
-{{- $timestamp = ternary "off" ($l.timestamp | toString | lower) (or (kindIs "bool" $l.timestamp) (empty $l.timestamp)) -}}
-{{- end -}}
-{{- if not (has $timestamp (list "off" "rfc3339" "rfc3339nano" "kitchen")) -}}
-{{- fail (printf "logging.timestamp %q is invalid: allowed values off|rfc3339|rfc3339nano|kitchen" $timestamp) -}}
-{{- end -}}
-AP_LOG_LEVEL: {{ $l.level | default "info" | quote }}
-AP_LOG_FORMAT: {{ $format | quote }}
-AP_LOG_COLOR: {{ $l.color | default false | toString | quote }}
-AP_LOG_TIMESTAMP: {{ $timestamp | quote }}
-AP_TRACE: {{ $l.trace | default false | toString | quote }}
-{{- end }}
