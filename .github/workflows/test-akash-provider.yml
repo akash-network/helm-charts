@@ -4,6 +4,10 @@ name: Test akash-provider charts
 # kind cluster + localnet chain (charts/akash-node), then the functional bats suite in test/akash-provider.
 # The upgrade suite (make test-upgrade, released chart → this branch) is run locally only.
 on:
+  # TEMPORARY: run on pushes to the work branch until the PR exists. Revert before review.
+  push:
+    branches:
+      - logging
   pull_request:
     paths:
       - charts/akash-provider/**
