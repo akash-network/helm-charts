@@ -61,11 +61,17 @@ chain_query() {
 # send_tx <cmd...>: broadcasts a transaction (block mode) and logs its height and hash.
 # Stops the script if the CLI fails or the chain rejects the transaction.
 send_tx() {
-  local out code
+  local out err code
   echo "+ $*" >&2
-  if ! out=$("$@" -o json 2>&1); then
-    fail "transaction failed" "$(echo "$out" | tail -1 | cut -c1-300)" "see the error above; nothing was changed on chain"
+  # stderr is kept apart from the JSON on stdout: notices there (e.g. a gas estimate) must not
+  # break the parsing of an included transaction. It is shown in the log either way.
+  err=$(mktemp)
+  if ! out=$("$@" -o json 2>"$err"); then
+    cat "$err" >&2
+    fail "transaction failed" "$(tail -1 "$err" | cut -c1-300)" "see the error above; nothing was changed on chain"
   fi
+  cat "$err" >&2
+  rm -f "$err"
   code=$(jq -r '.code // 0' <<<"$out" 2>/dev/null || echo "?")
   if [[ "$code" != "0" ]]; then
     fail "transaction rejected by the chain" "code $code: $(jq -r '.raw_log // empty' <<<"$out" | cut -c1-300)" "see the error above"
