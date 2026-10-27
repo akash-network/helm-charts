@@ -115,7 +115,7 @@ ipoperator: false
 
 debug: "false"
 
-# Logging configuration, applied to the init and provider containers as AP_LOG_* env vars.
+# Logging configuration of the provider daemon, applied to the provider container as AP_LOG_* env vars.
 # The provider also propagates it to the attestation sidecars it injects.
 # Refs https://github.com/akash-network/provider/blob/main/_docs/logging.md
 logging:
