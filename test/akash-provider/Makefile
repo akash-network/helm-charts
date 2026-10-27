@@ -49,6 +49,7 @@ CRD_URL      := https://raw.githubusercontent.com/akash-network/provider/v$(PROV
 OS           := $(shell uname -s | tr '[:upper:]' '[:lower:]')
 ARCH         := $(shell uname -m | sed -e 's/x86_64/amd64/' -e 's/aarch64/arm64/')
 KIND_URL     := https://github.com/kubernetes-sigs/kind/releases/download/$(KIND_VERSION)/kind-$(OS)-$(ARCH)
+KIND_SHA256  := $(KIND_SHA256_$(OS)_$(ARCH))
 
 BATS_DIR     := $(CACHE)/bats-core-$(BATS_VERSION:v%=%)
 BATS         := $(BATS_DIR)/bin/bats
@@ -62,8 +63,9 @@ help:
 
 $(KIND):
 	mkdir -p $(BIN)
+	@test -n "$(KIND_SHA256)" || { echo "no pinned kind checksum for $(OS)-$(ARCH): add KIND_SHA256_$(OS)_$(ARCH) to versions.env" >&2; exit 1; }
 	curl -fsSL -o $@.tmp $(KIND_URL)
-	echo "$$(curl -fsSL $(KIND_URL).sha256sum | awk '{print $$1}')  $@.tmp" | shasum -a 256 -c -
+	echo "$(KIND_SHA256)  $@.tmp" | shasum -a 256 -c -
 	chmod +x $@.tmp
 	mv $@.tmp $@
 

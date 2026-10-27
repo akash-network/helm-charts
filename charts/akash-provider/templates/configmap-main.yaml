@@ -1,5 +1,5 @@
 {{- /*
-Environment of the main container: run.sh, refresh_provider_cert.sh, the daemon
+Environment of the main container: run.sh and the scripts it sources, the daemon
 (provider-services run, which maps AP_* / AKASH_* to its flags) and the price script
 it spawns (the script inherits the whole environment). Loaded only by the main
 container; the init container reads configmap-init.yaml. Keys marked MIRRORED are
@@ -20,6 +20,17 @@ An unquoted `timestamp: off` is parsed by YAML as boolean false, so it (and "") 
 {{- fail (printf "logging.timestamp %q is invalid: allowed values off|rfc3339|rfc3339nano|kitchen" $logTimestamp) }}
 {{- end }}
 {{- $monitor := .Values.monitor | default dict }}
+{{- /* Tenant network policies: deploymentNetworkPoliciesEnabled, true when unset (also on upgrades with
+--reuse-values, which do not bring new defaults). The 19.0.x setting deploymentnetworkpoliciesenabled
+was never applied and is ignored on purpose: honoring it would let its old default "false" silently
+turn tenant network policies off on upgrade. */}}
+{{- $netpol := "true" }}
+{{- if and (hasKey .Values "deploymentNetworkPoliciesEnabled") (not (kindIs "invalid" .Values.deploymentNetworkPoliciesEnabled)) }}
+{{- $netpol = .Values.deploymentNetworkPoliciesEnabled | toString | lower }}
+{{- end }}
+{{- if not (has $netpol (list "true" "false")) }}
+{{- fail (printf "deploymentNetworkPoliciesEnabled %q is invalid: allowed values true|false" $netpol) }}
+{{- end }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -67,12 +78,12 @@ data:
   AKASH_DEPLOYMENT_INGRESS_DOMAIN: "ingress.{{ .Values.domain }}"
   AKASH_DEPLOYMENT_INGRESS_STATIC_HOSTS: "true"
   AKASH_DEPLOYMENT_BLOCKED_HOSTNAMES: ""
-  AKASH_DEPLOYMENT_NETWORK_POLICIES_ENABLED: "{{ .Values.deploymentnetworkpoliciesenabled }}"
+  AKASH_DEPLOYMENT_NETWORK_POLICIES_ENABLED: {{ $netpol | quote }}
   AKASH_DEPLOYMENT_RUNTIME_CLASS: "none"
   AP_INGRESS_MODE: {{ ternary "gateway-api" "ingress" (.Values.gatewayApi.enabled | default false) | quote }}
   AP_GATEWAY_NAME: {{ .Values.gatewayApi.gatewayName | default "" | quote }}
   AP_GATEWAY_NAMESPACE: {{ .Values.gatewayApi.gatewayNamespace | default .Release.Namespace | quote }}
-  AP_GATEWAY_IMPLEMENTATION: {{ .Values.gatewayApi.implementation | default "nginx" | quote }}
+  AP_GATEWAY_PROVIDER: {{ .Values.gatewayApi.gatewayProvider | default "nginx" | quote }}
 
   # Daemon: bidding
   AKASH_BID_PRICE_STRATEGY: "{{ ternary "scale" "shellScript" (empty .Values.bidpricescript) }}"
@@ -108,8 +119,6 @@ data:
   AKASH_MONITOR_MAX_RETRIES: {{ ternary $monitor.maxRetries 40 (hasKey $monitor "maxRetries") | toString | quote }}
   AKASH_MONITOR_RETRY_PERIOD: {{ $monitor.retryPeriod | default "4s" | quote }}
   AKASH_MONITOR_RETRY_PERIOD_JITTER: {{ $monitor.retryPeriodJitter | default "15s" | quote }}
-  AKASH_MONITOR_HEALTHCHECK_PERIOD: {{ $monitor.healthcheckPeriod | default "10s" | quote }}
-  AKASH_MONITOR_HEALTHCHECK_PERIOD_JITTER: {{ $monitor.healthcheckPeriodJitter | default "5s" | quote }}
 
   # Daemon: logging (see logging: in values.yaml)
   AP_LOG_LEVEL: {{ $log.level | default "info" | quote }}

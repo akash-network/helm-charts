@@ -49,7 +49,7 @@ valid_serials() {
 
 # --- provider certificate on the kind node (hostPath /root/.akash/k8s-config = /config)
 
-# Serial (decimal) of /config/provider.pem, as refresh_provider_cert.sh computes it.
+# Serial (decimal) of /config/provider.pem, as provider_cert.sh (cert_serial) computes it.
 local_serial() {
   local hex
   hex=$(prov openssl x509 -serial -noout -in "$CERT_PATH" | cut -d= -f2)

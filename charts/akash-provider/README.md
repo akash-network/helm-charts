@@ -104,8 +104,6 @@ Setting `bidpricescript` switches pricing from the scale factors above to the sc
 | `monitor.maxRetries` | `2304` | `AKASH_MONITOR_MAX_RETRIES` | Failed status checks of a deployment before its lease is closed. Total retry time ≈ `maxRetries × (retryPeriod + retryPeriodJitter/2)`; the default is about 24 hours. |
 | `monitor.retryPeriod` | `30s` | `AKASH_MONITOR_RETRY_PERIOD` | Time between status checks. |
 | `monitor.retryPeriodJitter` | `15s` | `AKASH_MONITOR_RETRY_PERIOD_JITTER` | Random spread added to `retryPeriod`. |
-| `monitor.healthcheckPeriod` | `10s` | `AKASH_MONITOR_HEALTHCHECK_PERIOD` | **No effect**: the provider does not read this variable. |
-| `monitor.healthcheckPeriodJitter` | `5s` | `AKASH_MONITOR_HEALTHCHECK_PERIOD_JITTER` | **No effect**: the provider does not read this variable. |
 
 ### Cluster and deployments
 
@@ -114,7 +112,7 @@ Setting `bidpricescript` switches pricing from the scale factors above to the sc
 | `domain` | (not set, required) | `AKASH_CLUSTER_PUBLIC_HOSTNAME` (`provider.<domain>`), `AKASH_DEPLOYMENT_INGRESS_DOMAIN` (`ingress.<domain>`) | Provider domain. Also used for the provider record (`https://provider.<domain>:8443`) and the provider certificate (`provider.<domain>`). |
 | `cluster_node_port_quantity` | `2500` | `AKASH_CLUSTER_NODE_PORT_QUANTITY` | How many nodePorts the provider may hand out. |
 | `ipoperator` | `false` | `AKASH_IP_OPERATOR` | Use the IP operator for leased IPs. |
-| `deploymentnetworkpoliciesenabled` | `"true"` | `AKASH_DEPLOYMENT_NETWORK_POLICIES_ENABLED` | Network policies that isolate tenant namespaces. |
+| `deploymentNetworkPoliciesEnabled` | `true` | `AKASH_DEPLOYMENT_NETWORK_POLICIES_ENABLED` | Network policies that isolate tenant namespaces (`true`/`false`; `true` when unset). Replaces `deploymentnetworkpoliciesenabled`, which 19.0.x never applied and which is ignored, so an old `"false"` cannot silently turn the policies off. |
 
 ### Tenant traffic: Gateway API or Ingress
 
@@ -123,9 +121,8 @@ Setting `bidpricescript` switches pricing from the scale factors above to the sc
 | `gatewayApi.enabled` | `true` | `AP_INGRESS_MODE` (`gateway-api` / `ingress`) | Route tenant traffic through Gateway API; `false` uses NGINX Ingress. The Gateway must exist before install. |
 | `gatewayApi.gatewayName` | `akash-gateway` | `AP_GATEWAY_NAME` | Gateway the tenant routes (and the Let's Encrypt challenge route) attach to. |
 | `gatewayApi.gatewayNamespace` | `akash-gateway` | `AP_GATEWAY_NAMESPACE` | Namespace of that Gateway; `""` means the release namespace. |
-| `gatewayApi.implementation` | `nginx` | `AP_GATEWAY_IMPLEMENTATION` | **No effect**: the provider does not read this variable. |
+| `gatewayApi.gatewayProvider` | `nginx` | `AP_GATEWAY_PROVIDER` | How the provider builds routes for your Gateway implementation (`--gateway-provider`). Only `nginx` (NGINX Gateway Fabric) is supported; another value stops the provider at startup in Gateway API mode. Replaces `gatewayApi.implementation`, which never had an effect and is ignored. |
 | `ingress.className` | `akash-ingress-class` | – | Ingress class of the Let's Encrypt challenge Ingress (only with `gatewayApi.enabled: false`). |
-| `ingress.annotations` | `{}` | – | **No effect**: not used by any template. |
 
 ### Let's Encrypt (TLS for tenant hostnames)
 
@@ -188,7 +185,6 @@ Setting `bidpricescript` switches pricing from the scale factors above to the sc
 | `affinity` | `{}` | – | Affinity. |
 | `storage.home.size` | `10Gi` | – | Size of the provider's volume. |
 | `storage.home.accessMode` | `ReadWriteOnce` | – | Access mode of the provider's volume. |
-| `autoscaling.*` | `enabled: false`, ... | – | **No effect**: not used by any template (the provider runs as a single StatefulSet pod). |
 
 ## Fixed environment variables
 

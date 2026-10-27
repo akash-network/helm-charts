@@ -29,6 +29,14 @@ run() {
   "$@"
 }
 
+# akt_error <file>: the last line akt wrote to stderr (saved in <file>), without the passphrase prompt
+# it prints on the same line; for the "found" line of fail.
+akt_error() {
+  local line
+  line=$(sed 's/^Enter passphrase to decrypt the key: //' "$1" 2>/dev/null | sed '/^[[:space:]]*$/d' | tail -1)
+  echo "${line:-akt printed no error}"
+}
+
 # is_address <text>: true if the text has the form of an account address: "akash1" followed by 38
 # bech32 characters. The checksum is not verified.
 is_address() {

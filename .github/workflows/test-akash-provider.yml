@@ -9,6 +9,7 @@ on:
       - charts/akash-provider/**
       - charts/akash-inventory-operator/**
       - charts/akash-hostname-operator/**
+      - charts/akash-node/**
       - test/akash-provider/**
       - .github/workflows/test-akash-provider.yml
   workflow_dispatch:

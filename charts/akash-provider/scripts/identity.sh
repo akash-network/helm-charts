@@ -22,19 +22,20 @@ check_from_format() {
 }
 
 # secret_address: address of the key in the keys Secret. The key is decrypted into a temporary
-# keystore under /tmp, which is removed again; the volume is not touched.
+# keystore under /tmp, which is removed again on every path; the volume is not touched.
+# Called as $(secret_address), so the EXIT trap belongs to that subshell only.
 secret_address() {
   local dir address
   dir=$(mktemp -d)
+  # shellcheck disable=SC2064 # expand now: $dir is gone when the subshell exits
+  trap "rm -rf '$dir' '$dir.err'" EXIT
   if ! cat "$AKASH_BOOT_KEYS/key-pass.txt" | { cat; echo; } |
     akt context keys import secret "$AKASH_BOOT_KEYS/key.txt" --keyring-dir "$dir" --keyring-backend test >/dev/null 2>"$dir.err"; then
-    local reason
-    reason=$(sed 's/^Enter passphrase to decrypt the key: //' "$dir.err" | tail -1)
-    rm -rf "$dir" "$dir.err"
-    fail "cannot read the key from .Values.key" "$reason" "check .Values.key and .Values.keysecret"
+    fail "cannot read the key from .Values.key" "$(akt_error "$dir.err")" "check .Values.key and .Values.keysecret"
   fi
-  address=$(akt context keys show secret -a --keyring-dir "$dir" --keyring-backend test)
-  rm -rf "$dir" "$dir.err"
+  if ! address=$(akt context keys show secret -a --keyring-dir "$dir" --keyring-backend test 2>"$dir.err"); then
+    fail "cannot read the address of the key in .Values.key" "$(akt_error "$dir.err")" "check .Values.key"
+  fi
   echo "$address"
 }
 
@@ -62,10 +63,15 @@ volume_addresses() {
 # import_key: imports the key from the keys Secret into the keystore on the volume, under the name
 # given by .Values.from. Stops if the import fails.
 import_key() {
+  local err reason
+  err=$(mktemp)
   if ! cat "$AKASH_BOOT_KEYS/key-pass.txt" | { cat; echo; } |
-    akt context keys import "$AKT_FROM" "$AKASH_BOOT_KEYS/key.txt" >/dev/null 2>&1; then
-    fail "cannot import the key from .Values.key into $KEYSTORE_DIR" "import failed" "check the volume"
+    akt context keys import "$AKT_FROM" "$AKASH_BOOT_KEYS/key.txt" >/dev/null 2>"$err"; then
+    reason=$(akt_error "$err")
+    rm -f "$err"
+    fail "cannot import the key from .Values.key into $KEYSTORE_DIR" "$reason" "check the volume (free space, permissions)"
   fi
+  rm -f "$err"
   log_info "key from .Values.key imported into $KEYSTORE_DIR (key name \"$AKT_FROM\" from .Values.from)"
 }
 

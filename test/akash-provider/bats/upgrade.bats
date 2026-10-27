@@ -110,6 +110,8 @@ deploy() {
   wait_healthy
   echo "# values after --reuse-values from the released release:" \
     "ALLOW_IDENTITY_CHANGE=\"$(kubectl -n "$PROVIDER_NS" get cm akash-provider-init -o jsonpath='{.data.ALLOW_IDENTITY_CHANGE}')\"" \
-    "AKASH_DEPLOYMENT_NETWORK_POLICIES_ENABLED=\"$(kubectl -n "$PROVIDER_NS" get cm akash-provider-main -o jsonpath='{.data.AKASH_DEPLOYMENT_NETWORK_POLICIES_ENABLED}')\"" \
     "deploymentnetworkpoliciesenabled in release values: $(helm get values akash-provider -n "$PROVIDER_NS" -a -o json | jq -c .deploymentnetworkpoliciesenabled)" >&3
+  # the stored 19.0.x default deploymentnetworkpoliciesenabled="false" must not turn tenant network policies off
+  expect_eq "$(kubectl -n "$PROVIDER_NS" get cm akash-provider-main -o jsonpath='{.data.AKASH_DEPLOYMENT_NETWORK_POLICIES_ENABLED}')" \
+    "true" "tenant network policies after --reuse-values"
 }

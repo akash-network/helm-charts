@@ -20,7 +20,7 @@ cert_serial() {
 # cert_state <address>: prints one of
 #   ok <serial> <expiry> | missing | unreadable | other-owner <owner> | not-on-chain <serial> | expiring <expiry>
 cert_state() {
-  local address=$1 owner serial expiry json
+  local address=$1 owner serial expiry json rc
   if [[ ! -s "$CERT_FILE" ]]; then echo "missing"; return; fi
   if ! openssl x509 -noout -in "$CERT_FILE" >/dev/null 2>&1; then echo "unreadable"; return; fi
 
@@ -28,7 +28,14 @@ cert_state() {
   if [[ "$owner" != "$address" ]]; then echo "other-owner $owner"; return; fi
 
   serial=$(cert_serial)
-  json=$(chain_query akt query cert list "$address" valid --serial "$serial" -o json)
+  # "not found" (3) and an empty list both mean: this serial is not valid on chain.
+  # Any other failure was already reported by chain_query.
+  if json=$(chain_query akt query cert list "$address" valid --serial "$serial" -o json); then rc=0; else rc=$?; fi
+  case $rc in
+    0) ;;
+    3) echo "not-on-chain $serial"; return ;;
+    *) exit 1 ;;
+  esac
   if [[ "$(jq '.certificates | length' <<<"$json")" == "0" ]]; then echo "not-on-chain $serial"; return; fi
 
   expiry=$(date -u -d "$(openssl x509 -noout -enddate -in "$CERT_FILE" | cut -d= -f2)" +%Y-%m-%d)

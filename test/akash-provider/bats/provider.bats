@@ -1,5 +1,5 @@
 #!/usr/bin/env bats
-# akash-provider chart scripts (init.sh, create_provider.sh, refresh_provider_cert.sh, run.sh)
+# akash-provider chart scripts (init.sh, run.sh and the scripts they source)
 # against a localnet chain in kind. Tests run in order and share one provider install:
 # `make test` resets the chain and the provider first, test 01 installs it.
 #
@@ -333,4 +333,58 @@ YAML
   [[ -n "$(provider_json)" ]] || { echo "old provider record gone" >&2; false; }
   run kubectl -n "$PROVIDER_NS" logs "$PROVIDER_POD" -c provider
   grep -q "starting: /usr/bin/provider-services run --from $new" <<<"$output" || { echo "daemon not started as the new provider" >&2; false; }
+}
+
+@test "18 tenant network policies: on unless deploymentNetworkPoliciesEnabled is false; the 19.0.x key is ignored" {
+  netpol() {
+    helm template akash-provider "$CHARTS/akash-provider" --set from="$(addr)" --set key=eA== --set keysecret=eA== \
+      --set domain=x.test "$@" --show-only templates/configmap-main.yaml |
+      sed -n 's/^  AKASH_DEPLOYMENT_NETWORK_POLICIES_ENABLED: //p'
+  }
+  expect_eq "$(netpol)" '"true"' "default"
+  expect_eq "$(netpol --set-string deploymentnetworkpoliciesenabled=false)" '"true"' "19.0.x key \"false\" is ignored"
+  expect_eq "$(netpol --set deploymentNetworkPoliciesEnabled=null)" '"true"' "new key missing"
+  # as after --reuse-values from 19.0.x: old key "false" stored, new key missing
+  expect_eq "$(netpol --set-string deploymentnetworkpoliciesenabled=false --set deploymentNetworkPoliciesEnabled=null)" \
+    '"true"' "19.0.x key \"false\" with the new key missing"
+  expect_eq "$(netpol --set deploymentNetworkPoliciesEnabled=false)" '"false"' "new key false"
+  expect_eq "$(netpol --set-string deploymentNetworkPoliciesEnabled=false)" '"false"' "new key \"false\""
+  # helm itself, not netpol: netpol's pipe would hide helm's exit status
+  run helm template akash-provider "$CHARTS/akash-provider" --set from="$(addr)" --set key=eA== --set keysecret=eA== \
+    --set domain=x.test --set-string deploymentNetworkPoliciesEnabled=maybe --show-only templates/configmap-main.yaml
+  [[ "$status" -ne 0 ]] || { echo "invalid value was accepted" >&2; false; }
+  grep -q 'deploymentNetworkPoliciesEnabled "maybe" is invalid' <<<"$output" || { echo "no clear error: $output" >&2; false; }
+}
+
+@test "19 gateway provider: gatewayApi.gatewayProvider reaches AP_GATEWAY_PROVIDER in the provider and hostname operator" {
+  provider_env() {
+    helm template akash-provider "$CHARTS/akash-provider" --set from="$(addr)" --set key=eA== --set keysecret=eA== \
+      --set domain=x.test "$@" --show-only templates/configmap-main.yaml |
+      sed -n 's/^  AP_GATEWAY_PROVIDER: //p'
+  }
+  operator_cm() {
+    helm template akash-hostname-operator "$CHARTS/akash-hostname-operator" "$@" --show-only templates/config.yaml |
+      sed -n 's/^  gateway-provider: //p'
+  }
+  expect_eq "$(provider_env)" '"nginx"' "provider default"
+  expect_eq "$(provider_env --set gatewayApi.gatewayProvider=other)" '"other"' "provider setting"
+  expect_eq "$(provider_env --set gatewayApi.gatewayProvider=null)" '"nginx"' "provider, key missing"
+  expect_eq "$(operator_cm)" '"nginx"' "hostname operator default"
+  expect_eq "$(operator_cm --set gatewayApi.gatewayProvider=other)" '"other"' "hostname operator setting"
+  helm template akash-hostname-operator "$CHARTS/akash-hostname-operator" --show-only templates/deployment.yaml |
+    grep -A4 'name: AP_GATEWAY_PROVIDER' | grep -q 'key: gateway-provider' ||
+    { echo "hostname operator does not pass gateway-provider as AP_GATEWAY_PROVIDER" >&2; false; }
+}
+
+@test "20 settings removed in 19.1.0 render nothing, even when still in the release values" {
+  run helm template akash-provider "$CHARTS/akash-provider" --set from="$(addr)" --set key=eA== --set keysecret=eA== \
+    --set domain=x.test --set monitor.healthcheckPeriod=10s --set monitor.healthcheckPeriodJitter=5s \
+    --set-string deploymentnetworkpoliciesenabled=false --set gatewayApi.implementation=nginx \
+    --show-only templates/configmap-main.yaml
+  [[ "$status" -eq 0 ]] || { echo "$output" >&2; false; }
+  local v
+  for v in AKASH_MONITOR_HEALTHCHECK_PERIOD AKASH_MONITOR_HEALTHCHECK_PERIOD_JITTER \
+    DEPLOYMENT_NETWORK_POLICIES_ENABLED AP_GATEWAY_IMPLEMENTATION; do
+    ! grep -qE "^  $v:" <<<"$output" || { echo "$v is still rendered" >&2; false; }
+  done
 }

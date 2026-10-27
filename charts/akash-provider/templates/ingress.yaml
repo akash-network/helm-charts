@@ -6,9 +6,6 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "provider.labels" . | nindent 4 }}
-  annotations:
-    # Let's Encrypt HTTP challenge ingress
-    # Remove nginx-specific annotations for akash-ingress-class
 spec:
   ingressClassName: {{ .Values.ingress.className | default "nginx" }}
   rules:

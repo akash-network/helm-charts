@@ -54,8 +54,9 @@ gatewayApi:
   gatewayName: "akash-gateway"
   # Namespace of the Gateway (default: akash-gateway; set to "" to use release namespace)
   gatewayNamespace: "akash-gateway"
-  # Gateway implementation (e.g. "nginx")
-  implementation: "nginx"
+  # Gateway provider: how routes are built for your Gateway implementation (--gateway-provider).
+  # Supported: "nginx" (NGINX Gateway Fabric).
+  gatewayProvider: "nginx"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
