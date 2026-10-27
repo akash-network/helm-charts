@@ -13,19 +13,18 @@ if [ ! -d "$AKASH_HOME/data" ]
 then
 /bin/akash genesis init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
 cd "$AKASH_HOME/data" || exit
-{{- $localnet := .Values.localnet | default dict }}
-{{- if $localnet.enabled }}
-# localnet: create a new single-validator chain instead of joining a network.
+if [ "${LOCALNET_ENABLED:-false}" == true ]; then
+# localnet (.Values.localnet): create a new single-validator chain instead of joining a network.
 # Keys go to the node's test keyring so they can be exported later.
-{{- range $name, $coins := $localnet.accounts }}
-/bin/akash keys add {{ $name }} || exit 1
-/bin/akash genesis add-account {{ $name }} {{ $coins }} || exit 1
-{{- end }}
-/bin/akash genesis gentx validator {{ $localnet.validator_stake }} --min-self-delegation 1 --chain-id "$AKASH_CHAIN_ID" || exit 1
+for account in $LOCALNET_ACCOUNTS; do
+  /bin/akash keys add "${account%%=*}" || exit 1
+  /bin/akash genesis add-account "${account%%=*}" "${account#*=}" || exit 1
+done
+/bin/akash genesis gentx validator "$LOCALNET_VALIDATOR_STAKE" --min-self-delegation 1 --chain-id "$AKASH_CHAIN_ID" || exit 1
 /bin/akash genesis collect || exit 1
 /bin/akash genesis validate || exit 1
-sed -i 's/^timeout_commit = .*/timeout_commit = "{{ $localnet.timeout_commit }}"/' "$AKASH_HOME/config/config.toml"
-{{- else }}
+sed -i "s/^timeout_commit = .*/timeout_commit = \"$LOCALNET_TIMEOUT_COMMIT\"/" "$AKASH_HOME/config/config.toml"
+else
 GENESIS_URL=$(curl -sSf "$AKASH_META_URL" | jq -r '.codebase.genesis.genesis_url')
 curl -sSf "$GENESIS_URL" > "$AKASH_HOME/config/genesis.json"
 if [ "$AKASH_STATESYNC_ENABLE" == true ]; then
@@ -103,7 +102,7 @@ else
 
   fi
 fi
-{{- end }}
+fi
 else
   echo "Found Akash data folder!"
   cd "$AKASH_HOME/data" || exit

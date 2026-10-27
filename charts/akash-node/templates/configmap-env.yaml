@@ -14,6 +14,11 @@ data:
   AKASH_CHAIN_ID: "{{ .Values.akash_node.chainid }}"
   AKASH_KEYRING_BACKEND: "{{ .Values.keyring_backend }}"
 {{- if $localnet.enabled }}
+  # localnet, read by init.sh (no AKASH_ prefix: not flags of the akash binary)
+  LOCALNET_ENABLED: "true"
+  LOCALNET_ACCOUNTS: "{{ range $name, $coins := $localnet.accounts }}{{ $name }}={{ $coins }} {{ end }}"
+  LOCALNET_VALIDATOR_STAKE: "{{ $localnet.validator_stake }}"
+  LOCALNET_TIMEOUT_COMMIT: "{{ $localnet.timeout_commit }}"
   AKASH_P2P_PERSISTENT_PEERS: ""
 {{- else if .Values.state_sync.enabled }}
   AKASH_P2P_PERSISTENT_PEERS: "{{ .Values.akash_node.peers }},{{ .Values.state_sync.node_id }}"
