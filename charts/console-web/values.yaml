@@ -1,6 +1,9 @@
 appVersion: "2.46.0"
 hostName: console-beta.akash.network
 
+apiRoutes:
+  sandbox: true
+
 resources:
   limits:
     cpu: 1

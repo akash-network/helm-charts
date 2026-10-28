@@ -26,6 +26,7 @@ spec:
                 name: console-api-mainnet-service
                 port:
                   name: api-port
+          {{- if .Values.apiRoutes.sandbox }}
           - path: /api-sandbox(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
@@ -33,6 +34,7 @@ spec:
                 name: console-api-sandbox-service
                 port:
                   name: api-port
+          {{- end }}
           - path: /provider-proxy(?:-mainnet)?(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
@@ -40,6 +42,7 @@ spec:
                 name: provider-proxy-mainnet-service
                 port:
                   name: api-port
+          {{- if .Values.apiRoutes.sandbox }}
           - path: /provider-proxy-sandbox(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
@@ -47,6 +50,7 @@ spec:
                 name: provider-proxy-sandbox-service
                 port:
                   name: api-port
+          {{- end }}
   tls:
     - hosts:
         - {{ .Values.hostName }}
