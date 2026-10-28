@@ -78,6 +78,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            {{- include "akash-hostname-operator.loggingEnv" . | nindent 12 }}
             - name: AP_INGRESS_MODE
               valueFrom:
                 configMapKeyRef:
@@ -93,11 +94,11 @@ spec:
                 configMapKeyRef:
                   name: operator-hostname
                   key: gateway-namespace
-            - name: AP_GATEWAY_IMPLEMENTATION
+            - name: AP_GATEWAY_PROVIDER
               valueFrom:
                 configMapKeyRef:
                   name: operator-hostname
-                  key: gateway-implementation
+                  key: gateway-provider
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

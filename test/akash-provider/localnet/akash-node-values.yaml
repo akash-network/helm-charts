@@ -1,0 +1,9 @@
+# charts/akash-node as a single-validator local chain for the provider e2e.
+akash_node:
+  moniker: localnet
+  chainid: localnet-1
+localnet:
+  enabled: true
+  accounts:
+    validator: 100000000000000uakt,100000000000000uact
+    provider: 100000000000uakt,100000000000uact

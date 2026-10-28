@@ -19,6 +19,13 @@ home: "/root/.akash"
 node: "https://akash-rpc.polkachu.com:443"
 keyringbackend: "test"
 
+# What to do when the volume already holds the key of a different provider than the key in
+# key/keysecret:
+#   true:  start as the new provider (registers it on chain); the previous provider stays registered
+#          on chain, its keystore is moved to a backup directory on the volume; logged as a warning.
+#   false: stop the init container with an error; the provider does not start.
+allowIdentityChange: true
+
 #  Providers should set these based on their configuration,
 #  these cannot be generic, hence commented.
 # attributes:
@@ -101,12 +108,30 @@ withdrawalperiod: "1h"
 reclamationWindow: ""
 minimumbalance: "10000000"
 
-deploymentnetworkpoliciesenabled: "false"
+# Network policies that isolate tenant namespaces (true|false).
+# Replaces deploymentnetworkpoliciesenabled, which 19.0.x never applied and which is now ignored.
+deploymentNetworkPoliciesEnabled: true
 cluster_node_port_quantity: "2500"
 
 ipoperator: false
 
 debug: "false"
+
+# Logging configuration of the provider daemon, applied to the provider container as AP_LOG_* env vars.
+# The provider also propagates it to the attestation sidecars it injects.
+# Refs https://github.com/akash-network/provider/blob/main/_docs/logging.md
+logging:
+  # trace|debug|info|warn|error|fatal|panic, or a per-module filter,
+  # e.g. "bidengine-order:debug,deployment-manager:debug,*:info"
+  level: info
+  # plain|json. json is recommended in Kubernetes (always uncolored).
+  format: json
+  # ANSI colors (plain format only)
+  color: false
+  # "off"|rfc3339|rfc3339nano|kitchen (quote "off", unquoted off is a YAML boolean)
+  timestamp: rfc3339
+  # Attach stack traces to error entries
+  trace: false
 
 # Attestation / Confidential Compute (TEE) configuration.
 # When enabled, the provider advertises confidential compute capability and
@@ -127,7 +152,9 @@ attestation:
 #  monitor
 ##
 
-# These monitor settings control the retry behavior for deployment checks and health monitoring.
+# These monitor settings control the retry behavior for deployment checks.
+# (Periodic health checks after a deployment is up, and their healthcheckPeriod settings, were removed
+# in provider 0.16.0: they could close stable leases.)
 #
 # If a user deployment cannot start for any reason - such as an issue with the deployment itself,
 # a provider issue (e.g., a lost node due to disk or networking failure), or scheduled maintenance -
@@ -152,8 +179,6 @@ monitor:
   maxRetries: 2304                   # Maximum retry attempts before closing a lease - Retry for about 24h
   retryPeriod: 30s                   # Time interval between retries
   retryPeriodJitter: 15s             # Jitter for retry period
-  healthcheckPeriod: 10s             # Health check period
-  healthcheckPeriodJitter: 5s        # Jitter for health check period
 
 # Percentage of CPU overcommit
 overcommit_pct_cpu: 0
@@ -182,12 +207,6 @@ resources:
   requests:
     cpu: 1000m
     memory: 2048Mi
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
 
 nodeSelector: {}
 
@@ -233,8 +252,6 @@ letsEncrypt:
 ingress:
   # Ingress class name (default: akash-ingress-class)
   className: "akash-ingress-class"
-  # Additional annotations for the ingress
-  annotations: {}
 
 # Gateway API configuration (default: enabled; set enabled: false to use Ingress)
 gatewayApi:
@@ -245,8 +262,9 @@ gatewayApi:
   gatewayName: "akash-gateway"
   # Namespace of the Gateway (default: akash-gateway; set to "" to use release namespace)
   gatewayNamespace: "akash-gateway"
-  # Gateway implementation (e.g. "nginx" for NGINX Gateway Fabric)
-  implementation: "nginx"
+  # Gateway provider: how routes are built for your Gateway implementation (--gateway-provider).
+  # Supported: "nginx" (NGINX Gateway Fabric).
+  gatewayProvider: "nginx"
 
 # Storage configuration
 storage:

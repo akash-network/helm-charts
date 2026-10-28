@@ -7,26 +7,26 @@ jobs:
     name: Shellcheck
     runs-on: [self-hosted, akash]
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - name: Run ShellCheck
-      uses: ludeeus/action-shellcheck@2.0.0
+      uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38 # 2.0.0
       with:
         severity: error
   lint-helm:
     runs-on: [self-hosted, akash]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
 
       - name: Set up Helm
-        uses: azure/setup-helm@v4.3.0
+        uses: azure/setup-helm@b9e51907a09c216f16ebe8536097933489208112 # v4.3.0
         with:
           version: v3.17.2
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.7.0
+        uses: helm/chart-testing-action@0d28d3144d3a25ea2cc349d6e59901c4ff469b3b # v2.7.0
 
       - name: Run chart-testing (list-changed)
         id: list-changed

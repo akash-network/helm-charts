@@ -21,3 +21,19 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Logging configuration, applied to the operator container as AP_LOG_* env vars.
+# The operator passes it on to the hardware discovery pods it starts on each node.
+# Refs https://github.com/akash-network/provider/blob/main/_docs/logging.md
+logging:
+  # trace|debug|info|warn|error|fatal|panic, or a per-module filter,
+  # e.g. "operator-inventory.nodes:debug,*:info"
+  level: info
+  # plain|json. json is recommended in Kubernetes (always uncolored).
+  format: json
+  # ANSI colors (plain format only)
+  color: false
+  # "off"|rfc3339|rfc3339nano|kitchen (quote "off", unquoted off is a YAML boolean)
+  timestamp: rfc3339
+  # Attach stack traces to error entries
+  trace: false

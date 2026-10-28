@@ -37,6 +37,19 @@ akash_node:
   pruning: "nothing"
   iavl_disable_fastnode: "true"
 
+# Single-validator local network, for testing only (e.g. kind e2e).
+# On first start the node creates its own genesis for akash_node.chainid instead
+# of joining a network. Home is an emptyDir unless local/ceph storage is enabled,
+# so a recreated pod starts a new chain with new keys.
+localnet:
+  enabled: false
+  # Keys created in the node's test keyring and funded in genesis (name: coins).
+  # A key named "validator" is required: it signs the genesis validator.
+  accounts:
+    validator: 100000000000000uakt,100000000000000uact
+  validator_stake: 10000000000uakt
+  timeout_commit: 1s
+
 # If your node gets connection troubles to Polkachu,
 # make sure to get through the trouble-shooting section at
 # https://www.polkachu.com/state_sync/akash
