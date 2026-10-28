@@ -165,6 +165,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-19.1.0/akash-hostname-operator-19.1.0.tgz
     version: 19.1.0
   - apiVersion: v2
+    appVersion: 0.16.6-rc0
+    created: "2026-10-28T22:26:12.213947224Z"
+    description: An operator to map Ingress objects to Akash deployments (required)
+    digest: c368895f10b0dece016081a48c905b12090d9299ee75e818b41ca37d41145c5b
+    name: akash-hostname-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-hostname-operator-19.1.0-rc9/akash-hostname-operator-19.1.0-rc9.tgz
+    version: 19.1.0-rc9
+  - apiVersion: v2
     appVersion: 0.16.5
     created: "2026-10-27T09:37:57.849802628Z"
     description: An operator to map Ingress objects to Akash deployments (required)
@@ -1136,6 +1146,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-19.1.0/akash-inventory-operator-19.1.0.tgz
     version: 19.1.0
   - apiVersion: v2
+    appVersion: 0.16.6-rc0
+    created: "2026-10-28T22:26:12.445150526Z"
+    description: An operator required for persistent storage (required)
+    digest: 4289bcf67041d4053f7d7c3ba15bb7332c6b0a51964984ff77ac933d03dfadf1
+    name: akash-inventory-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-inventory-operator-19.1.0-rc9/akash-inventory-operator-19.1.0-rc9.tgz
+    version: 19.1.0-rc9
+  - apiVersion: v2
     appVersion: 0.16.5
     created: "2026-10-27T09:37:58.056850484Z"
     description: An operator required for persistent storage (required)
@@ -2017,6 +2037,16 @@ entries:
     - https://github.com/akash-network/helm-charts/releases/download/akash-ip-operator-19.1.0/akash-ip-operator-19.1.0.tgz
     version: 19.1.0
   - apiVersion: v2
+    appVersion: 0.16.6-rc0
+    created: "2026-10-28T22:26:12.652209567Z"
+    description: An operator required for ip marketplace (optional)
+    digest: 5024633c783fe362d6ad3f0b9e2b1eaef07393b38c484586209fefea6a872402
+    name: akash-ip-operator
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-ip-operator-19.1.0-rc9/akash-ip-operator-19.1.0-rc9.tgz
+    version: 19.1.0-rc9
+  - apiVersion: v2
     appVersion: 0.16.5
     created: "2026-10-27T09:37:58.248560118Z"
     description: An operator required for ip marketplace (optional)
@@ -2867,6 +2897,16 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/akash-node-18.1.0/akash-node-18.1.0.tgz
     version: 18.1.0
+  - apiVersion: v2
+    appVersion: 2.1.0
+    created: "2026-10-28T22:26:12.897708466Z"
+    description: Installs an Akash RPC node (required)
+    digest: a1418855093974ebf1d8adfbec116543ca1c8bd20d087db67a39e2d4bb0f0c67
+    name: akash-node
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/akash-node-18.1.0-rc4/akash-node-18.1.0-rc4.tgz
+    version: 18.1.0-rc4
   - apiVersion: v2
     appVersion: 2.1.0
     created: "2026-10-27T09:37:58.429314795Z"
@@ -6303,6 +6343,16 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/provider-19.1.0/provider-19.1.0.tgz
     version: 19.1.0
+  - apiVersion: v2
+    appVersion: 0.16.6-rc0
+    created: "2026-10-28T22:26:13.111207666Z"
+    description: Installs an Akash provider (required)
+    digest: 6a1528640adb457b48c4b4b6512a2dda3b732ef41af09edc9bc5dd9fa36faaa3
+    name: provider
+    type: application
+    urls:
+    - https://github.com/akash-network/helm-charts/releases/download/provider-19.1.0-rc9/provider-19.1.0-rc9.tgz
+    version: 19.1.0-rc9
   - apiVersion: v2
     appVersion: 0.16.5
     created: "2026-10-27T09:37:58.726910063Z"
@@ -10288,4 +10338,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-10-28T15:10:10.589694965Z"
+generated: "2026-10-28T22:26:13.113343098Z"
