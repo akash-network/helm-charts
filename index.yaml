@@ -155,10 +155,10 @@ entries:
     version: 1.0.0
   akash-hostname-operator:
   - apiVersion: v2
-    appVersion: 0.16.5
-    created: "2026-10-27T09:36:59.923451793Z"
+    appVersion: 0.16.7
+    created: "2026-11-02T13:11:52.90897-06:00"
     description: An operator to map Ingress objects to Akash deployments (required)
-    digest: 80c4317279a0706cfc774293dd46155accc6d5da3c20a40979269cdc2bcf319b
+    digest: 78df4a05f160e1c252d174702baa697b25b595e8e7b164bc88ec4c9d2afe9c31
     name: akash-hostname-operator
     type: application
     urls:
@@ -1146,10 +1146,10 @@ entries:
     version: 0.21.0
   akash-inventory-operator:
   - apiVersion: v2
-    appVersion: 0.16.5
-    created: "2026-10-27T09:37:00.105326223Z"
+    appVersion: 0.16.7
+    created: "2026-11-02T13:11:53.255902-06:00"
     description: An operator required for persistent storage (required)
-    digest: 9ceb2dd63965bd446f7a4e1572b90578fb1a787c6fc6b23a988475d56a9664cd
+    digest: 5b27006cc1c5f02422ecf6940f3db3d0be0f7a5db12650614ad6ee9574afacfe
     name: akash-inventory-operator
     type: application
     urls:
@@ -2047,10 +2047,10 @@ entries:
     version: 0.15.0
   akash-ip-operator:
   - apiVersion: v2
-    appVersion: 0.16.5
-    created: "2026-10-27T09:37:00.286691968Z"
+    appVersion: 0.16.7
+    created: "2026-11-02T13:11:53.378782-06:00"
     description: An operator required for ip marketplace (optional)
-    digest: ab286acf783abef2a2147e06cea496d0ab82fd24674576391227953e11742ca1
+    digest: 3eb6db01b8468f34e95188281cc8bcd32bd5e83b3ae072b0f2134bc50b037e4e
     name: akash-ip-operator
     type: application
     urls:
@@ -2919,9 +2919,9 @@ entries:
   akash-node:
   - apiVersion: v2
     appVersion: 2.1.0
-    created: "2026-10-27T09:37:00.454963838Z"
+    created: "2026-11-02T13:11:53.509185-06:00"
     description: Installs an Akash RPC node (required)
-    digest: 0eb98b086341f5b9fd5da8925efac623e16423d4d9653db11235a9222d60342e
+    digest: 6bdd23f126da93410b5dfef0c65c3fd2f981792891802253471a0f8da06f51d2
     name: akash-node
     type: application
     urls:
@@ -6364,10 +6364,10 @@ entries:
     version: 1.1.1
   provider:
   - apiVersion: v2
-    appVersion: 0.16.5
-    created: "2026-10-27T09:37:00.637043072Z"
+    appVersion: 0.16.7
+    created: "2026-11-02T13:11:53.63084-06:00"
     description: Installs an Akash provider (required)
-    digest: 9e38435a38ea535ca34ff4416b011af29371b8508f092e907c8109ab248b16ba
+    digest: e36d5e759dba739b59372b390591c7a93de8b8af6a2acba06abb3411756ff5a1
     name: provider
     type: application
     urls:
@@ -10378,4 +10378,4 @@ entries:
     urls:
     - https://github.com/akash-network/helm-charts/releases/download/tx-signer-0.1.1/tx-signer-0.1.1.tgz
     version: 0.1.1
-generated: "2026-11-01T21:05:06.828700879Z"
+generated: "2026-11-02T13:11:53.630134-06:00"
