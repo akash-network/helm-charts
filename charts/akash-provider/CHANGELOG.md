@@ -1,9 +1,9 @@
 # akash-provider chart: release notes
 
-## 19.1.0 (provider 0.16.5)
+## 19.1.0 (provider 0.16.7)
 
 Also in this release: `akash-inventory-operator`, `akash-hostname-operator` and `akash-ip-operator`
-19.1.0 (provider 0.16.5, new `logging` settings), `akash-node` 18.1.0.
+19.1.0 (provider 0.16.7, new `logging` settings), `akash-node` 18.1.0.
 
 Upgrading from 19.0.x? Read **Breaking and potentially breaking changes** and **Before you upgrade**
 first.
