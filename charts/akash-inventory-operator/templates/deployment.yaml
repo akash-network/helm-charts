@@ -51,6 +51,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            {{- include "akash-inventory-operator.loggingEnv" . | nindent 12 }}
           resources:
             limits:
               cpu: 2000m

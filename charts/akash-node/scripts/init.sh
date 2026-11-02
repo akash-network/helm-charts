@@ -13,6 +13,18 @@ if [ ! -d "$AKASH_HOME/data" ]
 then
 /bin/akash genesis init --chain-id "$AKASH_CHAIN_ID" "$AKASH_MONIKER"
 cd "$AKASH_HOME/data" || exit
+if [ "${LOCALNET_ENABLED:-false}" == true ]; then
+# localnet (.Values.localnet): create a new single-validator chain instead of joining a network.
+# Keys go to the node's test keyring so they can be exported later.
+for account in $LOCALNET_ACCOUNTS; do
+  /bin/akash keys add "${account%%=*}" || exit 1
+  /bin/akash genesis add-account "${account%%=*}" "${account#*=}" || exit 1
+done
+/bin/akash genesis gentx validator "$LOCALNET_VALIDATOR_STAKE" --min-self-delegation 1 --chain-id "$AKASH_CHAIN_ID" || exit 1
+/bin/akash genesis collect || exit 1
+/bin/akash genesis validate || exit 1
+sed -i "s/^timeout_commit = .*/timeout_commit = \"$LOCALNET_TIMEOUT_COMMIT\"/" "$AKASH_HOME/config/config.toml"
+else
 GENESIS_URL=$(curl -sSf "$AKASH_META_URL" | jq -r '.codebase.genesis.genesis_url')
 curl -sSf "$GENESIS_URL" > "$AKASH_HOME/config/genesis.json"
 if [ "$AKASH_STATESYNC_ENABLE" == true ]; then
@@ -89,6 +101,7 @@ else
     esac
 
   fi
+fi
 fi
 else
   echo "Found Akash data folder!"

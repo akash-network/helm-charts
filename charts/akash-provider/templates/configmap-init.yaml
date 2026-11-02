@@ -1,4 +1,9 @@
-
+{{- /*
+Environment of the init container: init.sh and the scripts it sources or runs (akt_context.sh,
+identity.sh, wait_for_rpc.sh, provider_record.sh, provider_cert.sh). Loaded only by the init
+container; the main container reads configmap-main.yaml. Keys marked MIRRORED are also in configmap-main.yaml
+and must render the same value there.
+*/ -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -8,27 +13,21 @@ metadata:
     app: {{ include "provider.fullname" . }}
     {{- include "provider.labels" . | nindent 4 }}
 data:
-  # Debug config
-  AKASH_DEBUG: "{{ $.Values.debug }}"
-  AP_YES: "true"
-  
-  # Boot config
+  # init.sh: key file and passphrase from the keys Secret
   AKASH_BOOT_KEYS: "/boot-keys"
-  
-  # Cosmos-SDK client config
-  AKASH_HOME: "{{ .Values.home }}"
-  AKASH_FROM: "{{ .Values.from }}"
+
+  # Chain endpoint, read by the scripts (MIRRORED)
   AKASH_NODE: "{{ .Values.node }}"
   AKASH_CHAIN_ID: "{{ .Values.chainid }}"
-  AKASH_KEYRING_BACKEND: "{{ .Values.keyringbackend }}"
-  AKASH_BROADCAST_MODE: "block"
-  AKASH_YES: "true"
-  AKASH_GAS_PRICES: "{{ .Values.gasprices }}"
-  AKASH_GAS: "{{ .Values.gas }}"
-  AKASH_GAS_ADJUSTMENT: "{{ .Values.gasadjustment }}"
-  AP_MINIMUM_GAS_PRICES: "0.0025uakt"
-  AKASH_LOG_LEVEL: "info"
-  {{- if .Values.attestation.enabled }}
-  # Confidential Compute (TEE) attestation sidecar image
-  AKASH_ATTESTATION_SIDECAR_IMAGE: "{{ .Values.attestation.sidecarImage.repository }}:{{ .Values.attestation.sidecarImage.tag | default .Chart.AppVersion }}"
-  {{- end }}
+
+  # akt: client settings of the scripts' CLI calls (MIRRORED)
+  AKT_HOME: "{{ .Values.home }}"
+  AKT_FROM: "{{ .Values.from }}"
+  AKT_KEYRING_BACKEND: "{{ .Values.keyringbackend }}"
+  AKT_GAS: "{{ .Values.gas }}"
+  AKT_GAS_PRICES: "{{ .Values.gasprices }}"
+  AKT_GAS_ADJUSTMENT: "{{ .Values.gasadjustment }}"
+  AKT_BROADCAST_MODE: "block"
+
+  # identity.sh: what to do when the volume holds another provider's key
+  ALLOW_IDENTITY_CHANGE: "{{ .Values.allowIdentityChange }}"

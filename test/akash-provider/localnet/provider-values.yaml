@@ -1,0 +1,18 @@
+# charts/akash-provider against the localnet chain (localnet/akash-node-values.yaml).
+# from, key and keysecret are set by the Makefile from the exported provider key.
+chainid: localnet-1
+node: http://akash-node-1.akash-localnet:26657
+domain: localnet.test
+keyringbackend: test
+email: e2e@localnet.test
+website: https://localnet.test
+attributes:
+- key: region
+  value: localnet
+- key: host
+  value: akash
+# No ACME or Gateway API in kind: avoids Let's Encrypt calls and Gateway CRDs.
+letsEncrypt:
+  enabled: false
+gatewayApi:
+  enabled: false

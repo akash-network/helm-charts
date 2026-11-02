@@ -84,3 +84,4 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            {{- include "akash-ip-operator.loggingEnv" . | nindent 12 }}

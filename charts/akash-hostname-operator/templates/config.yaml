@@ -14,4 +14,4 @@ data:
   ingress-mode: {{ if .Values.gatewayApi.enabled }}{{ "gateway-api" | quote }}{{ else }}{{ "ingress" | quote }}{{ end }}
   gateway-name: {{ .Values.gatewayApi.gatewayName | default "" | quote }}
   gateway-namespace: {{ .Values.gatewayApi.gatewayNamespace | default .Release.Namespace | quote }}
-  gateway-implementation: {{ .Values.gatewayApi.implementation | default "nginx" | quote }}
+  gateway-provider: {{ .Values.gatewayApi.gatewayProvider | default "nginx" | quote }}

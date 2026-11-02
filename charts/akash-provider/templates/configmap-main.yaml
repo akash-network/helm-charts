@@ -1,3 +1,36 @@
+{{- /*
+Environment of the main container: run.sh and the scripts it sources, the daemon
+(provider-services run, which maps AP_* / AKASH_* to its flags) and the price script
+it spawns (the script inherits the whole environment). Loaded only by the main
+container; the init container reads configmap-init.yaml. Keys marked MIRRORED are
+also in configmap-init.yaml and must render the same value there.
+*/ -}}
+{{- /* logging: in values.yaml, refs https://github.com/akash-network/provider/blob/main/_docs/logging.md
+An unquoted `timestamp: off` is parsed by YAML as boolean false, so it (and "") is mapped to "off". */}}
+{{- $log := .Values.logging | default dict }}
+{{- $logFormat := $log.format | default "json" | toString | lower }}
+{{- if not (has $logFormat (list "plain" "json")) }}
+{{- fail (printf "logging.format %q is invalid: allowed values plain|json" $logFormat) }}
+{{- end }}
+{{- $logTimestamp := "rfc3339" }}
+{{- if hasKey $log "timestamp" }}
+{{- $logTimestamp = ternary "off" ($log.timestamp | toString | lower) (or (kindIs "bool" $log.timestamp) (empty $log.timestamp)) }}
+{{- end }}
+{{- if not (has $logTimestamp (list "off" "rfc3339" "rfc3339nano" "kitchen")) }}
+{{- fail (printf "logging.timestamp %q is invalid: allowed values off|rfc3339|rfc3339nano|kitchen" $logTimestamp) }}
+{{- end }}
+{{- $monitor := .Values.monitor | default dict }}
+{{- /* Tenant network policies: deploymentNetworkPoliciesEnabled, true when unset (also on upgrades with
+--reuse-values, which do not bring new defaults). The 19.0.x setting deploymentnetworkpoliciesenabled
+was never applied and is ignored on purpose: honoring it would let its old default "false" silently
+turn tenant network policies off on upgrade. */}}
+{{- $netpol := "true" }}
+{{- if and (hasKey .Values "deploymentNetworkPoliciesEnabled") (not (kindIs "invalid" .Values.deploymentNetworkPoliciesEnabled)) }}
+{{- $netpol = .Values.deploymentNetworkPoliciesEnabled | toString | lower }}
+{{- end }}
+{{- if not (has $netpol (list "true" "false")) }}
+{{- fail (printf "deploymentNetworkPoliciesEnabled %q is invalid: allowed values true|false" $netpol) }}
+{{- end }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -7,85 +40,156 @@ metadata:
     app: {{ include "provider.fullname" . }}
     {{- include "provider.labels" . | nindent 4 }}
 data:
-  # Debug config
-  AKASH_DEBUG: "{{ $.Values.debug }}"
-  
-  # Boot config
-  AKASH_BOOT_KEYS: "/boot-keys"
-  
-  # Cosmos-SDK client config
-  AKASH_HOME: "{{ .Values.home }}"
-  AKASH_FROM: "{{ .Values.from }}"
+  # Chain endpoint, read by the scripts and the daemon (MIRRORED)
   AKASH_NODE: "{{ .Values.node }}"
   AKASH_CHAIN_ID: "{{ .Values.chainid }}"
+
+  # akt: client settings of the scripts' CLI calls (MIRRORED)
+  AKT_HOME: "{{ .Values.home }}"
+  AKT_FROM: "{{ .Values.from }}"
+  AKT_KEYRING_BACKEND: "{{ .Values.keyringbackend }}"
+  AKT_GAS: "{{ .Values.gas }}"
+  AKT_GAS_PRICES: "{{ .Values.gasprices }}"
+  AKT_GAS_ADJUSTMENT: "{{ .Values.gasadjustment }}"
+  AKT_BROADCAST_MODE: "block"
+
+  # run.sh: start the daemon under dlv
+  AKASH_DEBUG: "{{ .Values.debug }}"
+
+  # Daemon: client settings for its own transactions (same values as AKT_* above)
+  AKASH_HOME: "{{ .Values.home }}"
+  AKASH_FROM: "{{ .Values.from }}"
   AKASH_KEYRING_BACKEND: "{{ .Values.keyringbackend }}"
+  AKASH_GAS: "{{ .Values.gas }}"
+  AKASH_GAS_PRICES: "{{ .Values.gasprices }}"
+  AKASH_GAS_ADJUSTMENT: "{{ .Values.gasadjustment }}"
   AKASH_BROADCAST_MODE: "block"
-  AKASH_VERSION: "{{ .Values.image.tag | default .Chart.AppVersion }}"
   AKASH_YES: "true"
-  AKASH_LOG_LEVEL: "info"
-  
-  # Akash IP operator config
+
+  # Daemon: cluster
+  AKASH_CLUSTER_K8S: "true"
+  # Shown by `lease-status` under forwarded_ports (nodePorts); not used to reach
+  # the Kubernetes API (the daemon uses the in-cluster config for that).
+  AKASH_CLUSTER_PUBLIC_HOSTNAME: "provider.{{ .Values.domain }}"
+  AKASH_CLUSTER_NODE_PORT_QUANTITY: "{{ .Values.cluster_node_port_quantity }}"
   AKASH_IP_OPERATOR: "{{ .Values.ipoperator }}"
-  
-  # Akash provider config
+
+  # Daemon: deployments and ingress
   AKASH_DEPLOYMENT_INGRESS_DOMAIN: "ingress.{{ .Values.domain }}"
-  DEPLOYMENT_NETWORK_POLICIES_ENABLED: "{{ .Values.deploymentnetworkpoliciesenabled }}"
   AKASH_DEPLOYMENT_INGRESS_STATIC_HOSTS: "true"
   AKASH_DEPLOYMENT_BLOCKED_HOSTNAMES: ""
-  AKASH_CLUSTER_NODE_PORT_QUANTITY: "{{ .Values.cluster_node_port_quantity }}"
-  AKASH_GAS_PRICES: "{{ .Values.gasprices }}"
-  AKASH_GAS: "{{ .Values.gas }}"
-  AKASH_GAS_ADJUSTMENT: "{{ .Values.gasadjustment }}"
-  AP_MINIMUM_GAS_PRICES: "0.0025uakt"
-  # AKASH_CLUSTER_PUBLIC_HOSTNAME need to stay as this makes to
-  # 'akash provider lease-status` under the forwarded_ports (nodePorts).
-  # This is NOT used for connecting to K8s cluster itself (6443/tcp).
-  # akash-provider uses kubeconfig to connect to K8s cluster.
-  AKASH_CLUSTER_PUBLIC_HOSTNAME: "provider.{{ .Values.domain }}"
+  AKASH_DEPLOYMENT_NETWORK_POLICIES_ENABLED: {{ $netpol | quote }}
+  AKASH_DEPLOYMENT_RUNTIME_CLASS: "none"
+  AP_INGRESS_MODE: {{ ternary "gateway-api" "ingress" (.Values.gatewayApi.enabled | default false) | quote }}
+  AP_GATEWAY_NAME: {{ .Values.gatewayApi.gatewayName | default "" | quote }}
+  AP_GATEWAY_NAMESPACE: {{ .Values.gatewayApi.gatewayNamespace | default .Release.Namespace | quote }}
+  AP_GATEWAY_PROVIDER: {{ .Values.gatewayApi.gatewayProvider | default "nginx" | quote }}
+
+  # Daemon: bidding
   AKASH_BID_PRICE_STRATEGY: "{{ ternary "scale" "shellScript" (empty .Values.bidpricescript) }}"
-  
-  # Bid pricing config
   AKASH_BID_PRICE_CPU_SCALE: "{{ .Values.bidpricecpuscale }}"
   AKASH_BID_PRICE_MEMORY_SCALE: "{{ .Values.bidpricememoryscale }}"
-  AKASH_BID_PRICE_ENDPOINT_SCALE: "{{ .Values.bidpricendpointscale }}"
+  AKASH_BID_PRICE_ENDPOINT_SCALE: "{{ .Values.bidpriceendpointscale }}"
   AKASH_BID_PRICE_STORAGE_SCALE: "{{ .Values.bidpricestoragescale }}"
   AKASH_BID_PRICE_IP_SCALE: "{{ .Values.bidpriceipscale }}"
-  
-  # Overcommit percentages
+  AKASH_BID_DEPOSIT: "{{ .Values.bidmindeposit }}"
   AKASH_OVERCOMMIT_PCT_CPU: "{{ .Values.overcommit_pct_cpu }}"
   AKASH_OVERCOMMIT_PCT_MEM: "{{ .Values.overcommit_pct_mem }}"
   AKASH_OVERCOMMIT_PCT_STORAGE: "{{ .Values.overcommit_pct_storage }}"
-  
-  # Cluster config
-  AKASH_CLUSTER_K8S: "true"
-  KUBE_CONFIG: "{{ .Values.home }}/.kube/config"
-  AKASH_DEPLOYMENT_RUNTIME_CLASS: "none"
-  
-  # Financial config
+  {{- if .Values.bid_timeout }}
+  AKASH_BID_TIMEOUT: "{{ .Values.bid_timeout }}"
+  {{- end }}
+  {{- if .Values.manifest_timeout }}
+  AKASH_MANIFEST_TIMEOUT: "{{ .Values.manifest_timeout }}"
+  {{- end }}
+  {{- if .Values.authpem }}
+  AKASH_AUTH_PEM: "{{ .Values.authpem }}"
+  {{- end }}
+
+  # Daemon: escrow and lease monitoring
   AKASH_WITHDRAWAL_PERIOD: "{{ .Values.withdrawalperiod }}"
   {{- if .Values.reclamationWindow }}
   AKASH_RECLAMATION_WINDOW: {{ .Values.reclamationWindow | quote }}
   {{- end }}
   AKASH_MINIMUM_BALANCE: "{{ .Values.minimumbalance }}"
-  AKASH_BID_DEPOSIT: "{{ .Values.bidmindeposit }}"
   AKASH_TX_BROADCAST_TIMEOUT: "{{ .Values.tx_broadcast_timeout }}"
-  
-  # Monitor config
-  AKASH_MONITOR_MAX_RETRIES: {{ if (hasKey (.Values.monitor | default dict) "maxRetries") }}{{ (.Values.monitor | default dict).maxRetries | quote }}{{ else }}"40"{{ end }}
-  AKASH_MONITOR_RETRY_PERIOD: {{ (.Values.monitor | default dict).retryPeriod | default "4s" | quote }}
-  AKASH_MONITOR_RETRY_PERIOD_JITTER: {{ (.Values.monitor | default dict).retryPeriodJitter | default "15s" | quote }}
-  AKASH_MONITOR_HEALTHCHECK_PERIOD: {{ (.Values.monitor | default dict).healthcheckPeriod | default "10s" | quote }}
-  AKASH_MONITOR_HEALTHCHECK_PERIOD_JITTER: {{ (.Values.monitor | default dict).healthcheckPeriodJitter | default "5s" | quote }}
+  {{- if .Values.lease_funds_monitor_interval }}
+  AKASH_LEASE_FUNDS_MONITOR_INTERVAL: "{{ .Values.lease_funds_monitor_interval }}"
+  {{- end }}
+  AKASH_MONITOR_MAX_RETRIES: {{ ternary $monitor.maxRetries 40 (hasKey $monitor "maxRetries") | toString | quote }}
+  AKASH_MONITOR_RETRY_PERIOD: {{ $monitor.retryPeriod | default "4s" | quote }}
+  AKASH_MONITOR_RETRY_PERIOD_JITTER: {{ $monitor.retryPeriodJitter | default "15s" | quote }}
 
-  # Gateway API config
-  AP_INGRESS_MODE: {{ if .Values.gatewayApi.enabled }}{{ "gateway-api" | quote }}{{ else }}{{ "ingress" | quote }}{{ end }}
-  AP_GATEWAY_NAME: {{ .Values.gatewayApi.gatewayName | default "" | quote }}
-  AP_GATEWAY_NAMESPACE: {{ .Values.gatewayApi.gatewayNamespace | default .Release.Namespace | quote }}
-  AP_GATEWAY_IMPLEMENTATION: {{ .Values.gatewayApi.implementation | default "nginx" | quote }}
+  # Daemon: logging (see logging: in values.yaml)
+  AP_LOG_LEVEL: {{ $log.level | default "info" | quote }}
+  AP_LOG_FORMAT: {{ $logFormat | quote }}
+  AP_LOG_COLOR: {{ $log.color | default false | toString | quote }}
+  AP_LOG_TIMESTAMP: {{ $logTimestamp | quote }}
+  AP_TRACE: {{ $log.trace | default false | toString | quote }}
   {{- if or .Values.attestation.enabled .Values.attestation.webhookEnabled }}
-  # Confidential Compute (TEE) attestation
+
+  # Daemon: confidential compute (TEE) attestation
   AKASH_ATTESTATION_WEBHOOK_ENABLED: "true"
   AKASH_ATTESTATION_SIDECAR_IMAGE: "{{ .Values.attestation.sidecarImage.repository }}:{{ .Values.attestation.sidecarImage.tag | default .Chart.AppVersion }}"
   AKASH_ATTESTATION_WEBHOOK_PORT: "{{ .Values.attestation.webhookPort | default 9443 }}"
   {{- end }}
+  {{- if .Values.bidpricescript }}
 
+  # Price script (scripts/price_script.sh, spawned by the daemon per bid)
+  AKASH_BID_PRICE_SCRIPT_PATH: "/scripts/price_script.sh"
+  {{- end }}
+  {{- if .Values.whitelist_url }}
+  WHITELIST_URL: "{{ .Values.whitelist_url }}"
+  {{- end }}
+  {{- if .Values.debug_bid_script }}
+  DEBUG_BID_SCRIPT: "{{ .Values.debug_bid_script }}"
+  {{- end }}
+  {{- if .Values.price_target_cpu }}
+  PRICE_TARGET_CPU: "{{ .Values.price_target_cpu }}"
+  {{- end }}
+  {{- if .Values.price_target_memory }}
+  PRICE_TARGET_MEMORY: "{{ .Values.price_target_memory }}"
+  {{- end }}
+  {{- if .Values.price_target_hd_ephemeral }}
+  PRICE_TARGET_HD_EPHEMERAL: "{{ .Values.price_target_hd_ephemeral }}"
+  {{- end }}
+  {{- if .Values.price_target_hd_pers_hdd }}
+  PRICE_TARGET_HD_PERS_HDD: "{{ .Values.price_target_hd_pers_hdd }}"
+  {{- end }}
+  {{- if .Values.price_target_hd_pers_ssd }}
+  PRICE_TARGET_HD_PERS_SSD: "{{ .Values.price_target_hd_pers_ssd }}"
+  {{- end }}
+  {{- if .Values.price_target_hd_pers_nvme }}
+  PRICE_TARGET_HD_PERS_NVME: "{{ .Values.price_target_hd_pers_nvme }}"
+  {{- end }}
+  {{- if .Values.price_target_endpoint }}
+  PRICE_TARGET_ENDPOINT: "{{ .Values.price_target_endpoint }}"
+  {{- end }}
+  {{- if .Values.price_target_ip }}
+  PRICE_TARGET_IP: "{{ .Values.price_target_ip }}"
+  {{- end }}
+  {{- if .Values.price_target_gpu_mappings }}
+  PRICE_TARGET_GPU_MAPPINGS: "{{ .Values.price_target_gpu_mappings }}"
+  {{- end }}
+  {{- if .Values.letsEncrypt.enabled }}
+
+  # Daemon: certificate issuer (run.sh turns these into --cert-issuer-* flags)
+  AP_CERT_ISSUER_ENABLED: "true"
+  {{- with (.Values.letsEncrypt.acme.email | default .Values.email) }}
+  AP_CERT_ISSUER_EMAIL: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.letsEncrypt.acme.caDirUrl }}
+  AP_CERT_ISSUER_CA_DIR_URL: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.letsEncrypt.acme.httpChallengePort }}
+  AP_CERT_ISSUER_HTTP_CHALLENGE_PORT: {{ . | quote }}
+  {{- end }}
+  {{- if .Values.letsEncrypt.providers.cloudflare.enabled }}
+  AP_CERT_ISSUER_DNS_PROVIDERS: "cloudflare"
+  {{- else if .Values.letsEncrypt.providers.googleCloud.enabled }}
+  AP_CERT_ISSUER_DNS_PROVIDERS: "googleCloud"
+  {{- end }}
+  {{- if and .Values.letsEncrypt.providers.googleCloud (index .Values.letsEncrypt.providers.googleCloud "enabled" | default false) }}
+  GCE_SERVICE_ACCOUNT_FILE: "/etc/gcp/service-account.json"
+  {{- end }}
+  {{- end }}
