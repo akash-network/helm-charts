@@ -59,3 +59,22 @@ jobDefaults:
       cpu: 50m
       ephemeral-storage: 1Gi
       memory: 256Mi
+
+# Transaction-mode pooler in front of the database. Needs a PGBOUNCER_USERLIST key in the release's Doppler secret, one `"user" "password"` line per database user.
+pgbouncer:
+  enabled: false
+  replicas: 2
+  image: edoburu/pgbouncer:v1.26.1-p0
+  upstream:
+    host: cloudsql-proxy-console-api
+    port: 5432
+  # Server connections per database and user, on each replica.
+  defaultPoolSize: 20
+  maxClientConn: 2000
+  resources:
+    limits:
+      cpu: 1
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi

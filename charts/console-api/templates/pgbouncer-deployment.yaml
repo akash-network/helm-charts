@@ -1,0 +1,68 @@
+{{- if .Values.pgbouncer.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-{{ .Values.chain }}-pgbouncer
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Chart.Name }}-{{ .Values.chain }}-pgbouncer
+  annotations:
+    secrets.doppler.com/reload: 'true'
+spec:
+  replicas: {{ .Values.pgbouncer.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}-{{ .Values.chain }}-pgbouncer
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-{{ .Values.chain }}-pgbouncer
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/pgbouncer-configmap.yaml") . | sha256sum }}
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    app: {{ .Chart.Name }}-{{ .Values.chain }}-pgbouncer
+      containers:
+        - name: pgbouncer
+          image: {{ .Values.pgbouncer.image }}
+          command: ["/usr/bin/pgbouncer", "/etc/pgbouncer/conf/pgbouncer.ini"]
+          ports:
+            - containerPort: 5432
+              name: pgbouncer
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /etc/pgbouncer/conf
+              readOnly: true
+            - name: userlist
+              mountPath: /etc/pgbouncer/auth
+              readOnly: true
+          resources:
+            {{- toYaml .Values.pgbouncer.resources | nindent 12 }}
+          readinessProbe:
+            tcpSocket:
+              port: pgbouncer
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: pgbouncer
+            periodSeconds: 10
+            failureThreshold: 6
+      volumes:
+        - name: config
+          configMap:
+            name: {{ .Chart.Name }}-{{ .Values.chain }}-pgbouncer-config
+        - name: userlist
+          secret:
+            secretName: {{ .Chart.Name }}-{{ .Values.chain }}-secret
+            items:
+              - key: PGBOUNCER_USERLIST
+                path: userlist.txt
+{{- end }}

@@ -1,0 +1,12 @@
+{{- if .Values.pgbouncer.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Chart.Name }}-{{ .Values.chain }}-pgbouncer
+  namespace: {{ .Release.Namespace }}
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}-{{ .Values.chain }}-pgbouncer
+{{- end }}
