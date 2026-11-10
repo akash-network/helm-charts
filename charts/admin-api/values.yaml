@@ -15,3 +15,21 @@ resources:
     cpu: 50m
     ephemeral-storage: 1Gi
     memory: 128Mi
+
+jobs: []
+
+jobDefaults:
+  concurrencyPolicy: Forbid
+  activeDeadlineSeconds: 900
+  failedJobsHistoryLimit: 10
+  successfulJobsHistoryLimit: 0
+  restartPolicy: Never
+  resources:
+    limits:
+      cpu: 500m
+      ephemeral-storage: 2Gi
+      memory: 512Mi
+    requests:
+      cpu: 50m
+      ephemeral-storage: 1Gi
+      memory: 128Mi

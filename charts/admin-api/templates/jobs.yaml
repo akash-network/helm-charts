@@ -1,0 +1,41 @@
+{{- range .Values.jobs }}
+{{- $job := mergeOverwrite (deepCopy $.Values.jobDefaults) . }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ $.Chart.Name }}-{{ .name }}
+  namespace: {{ $.Release.Namespace }}
+spec:
+  schedule: {{ .schedule | quote }}
+  {{- with $job.concurrencyPolicy }}
+  concurrencyPolicy: {{ . }}
+  {{- end }}
+  failedJobsHistoryLimit: {{ $job.failedJobsHistoryLimit }}
+  successfulJobsHistoryLimit: {{ $job.successfulJobsHistoryLimit }}
+  jobTemplate:
+    spec:
+      {{- with $job.activeDeadlineSeconds }}
+      activeDeadlineSeconds: {{ . }}
+      {{- end }}
+      template:
+        metadata:
+          labels:
+            job: {{ $.Chart.Name }}-{{ .name }}
+        spec:
+          restartPolicy: {{ $job.restartPolicy }}
+          imagePullSecrets:
+            {{- range $.Values.imagePullSecrets }}
+            - name: {{ . }}
+            {{- end }}
+          containers:
+            - name: {{ $.Chart.Name }}-{{ .name }}
+              image: {{ $.Values.image.repository }}:{{ $.Values.appVersion }}
+              imagePullPolicy: "Always"
+              command: {{ .command | toJson }}
+              resources:
+                {{- toYaml $job.resources | nindent 16 }}
+              envFrom:
+                - secretRef:
+                    name: {{ $.Chart.Name }}-secret
+{{- end }}
